@@ -22,7 +22,7 @@
   "main": "dist/extension.js",
   "files": [
     "dist",
-    "language-configuration.json",
+    "language.json",
     "syntaxes",
     "package.json",
     "LICENSE.md",
