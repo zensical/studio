@@ -20,59 +20,63 @@
  * IN THE SOFTWARE.
  */
 
+import * as vscode from "vscode";
 import type { ExtensionContext } from "vscode";
-import type { LanguageClient } from "vscode-languageclient/node";
-
-import { registerCommands } from "./commands";
-import { createLanguageClient } from "./extension/client";
-import { Context } from "./extension/context";
-import { getStudio } from "./extension/studio";
-
-/* ----------------------------------------------------------------------------
- * State
- * ------------------------------------------------------------------------- */
-
-/**
- * Language client.
- */
-let client: LanguageClient | undefined;
+import type { Location, Position } from "vscode-languageserver-types";
 
 /* ----------------------------------------------------------------------------
  * Functions
  * ------------------------------------------------------------------------- */
 
 /**
- * Activate extension.
+ * Register commands for the extension.
  *
- * @param extension - Extension context
+ * @param context - The extension context
  */
-export async function activate(extension: ExtensionContext): Promise<void> {
-  const context = new Context(extension);
-  const studio = await getStudio(context);
-  if (typeof studio === "undefined") {
-    return;
-  }
+export function registerCommands(context: ExtensionContext): void {
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "zensical.showReferences",
+      async (uri: string, position: Position, locations: Location[]) => {
+        await vscode.commands.executeCommand(
+          "editor.action.showReferences",
+          vscode.Uri.parse(uri),
+          toPosition(position),
+          locations.map(toLocation),
+        );
+      },
+    ),
+  );
+}
 
-  // Register commands
-  registerCommands(extension);
+/* ----------------------------------------------------------------------------
+ * Helper functions
+ * ------------------------------------------------------------------------- */
 
-  // Create and start the language client
-  context.log("Starting Zensical Studio");
-  try {
-    client = createLanguageClient(context, studio);
-    client.start();
-  } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    context.log(`Failed to start Zensical Studio: ${message}`);
-  }
+/**
+ * Convert an LSP location to a Visual Studio Code Location.
+ *
+ * @param location - LSP location
+ *
+ * @returns Visual Studio Code Location
+ */
+function toLocation(location: Location): vscode.Location {
+  return new vscode.Location(
+    vscode.Uri.parse(location.uri),
+    new vscode.Range(
+      toPosition(location.range.start),
+      toPosition(location.range.end),
+    ),
+  );
 }
 
 /**
- * Deactivate extension.
+ * Convert an LSP position to a Visual Studio Code Position.
+ *
+ * @param position - LSP position
+ *
+ * @returns Visual Studio Code Position
  */
-export async function deactivate(): Promise<void> {
-  if (typeof client !== "undefined") {
-    await client.stop();
-    client = undefined;
-  }
+function toPosition(position: Position): vscode.Position {
+  return new vscode.Position(position.line, position.character);
 }
