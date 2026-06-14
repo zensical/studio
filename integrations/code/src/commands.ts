@@ -54,11 +54,11 @@ export function registerCommands(context: ExtensionContext): void {
  * ------------------------------------------------------------------------- */
 
 /**
- * Convert an LSP location to a Visual Studio Code Location.
+ * Convert an LSP location to a location.
  *
  * @param location - LSP location
  *
- * @returns Visual Studio Code Location
+ * @returns Location
  */
 function toLocation(location: Location): vscode.Location {
   return new vscode.Location(
@@ -71,11 +71,11 @@ function toLocation(location: Location): vscode.Location {
 }
 
 /**
- * Convert an LSP position to a Visual Studio Code Position.
+ * Convert an LSP position to a position.
  *
  * @param position - LSP position
  *
- * @returns Visual Studio Code Position
+ * @returns Position
  */
 function toPosition(position: Position): vscode.Position {
   return new vscode.Position(position.line, position.character);
