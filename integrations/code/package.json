@@ -58,6 +58,7 @@
   "contributes": {
     "configurationDefaults": {
       "[python-markdown]": {
+        "editor.colorDecorators": false,
         "editor.insertSpaces": true,
         "editor.tabSize": 4,
         "editor.wordBasedSuggestions": "off"
