@@ -4,7 +4,8 @@
   "homepage": "https://zensical.org/studio/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/zensical/studio.git"
+    "url": "https://github.com/zensical/studio.git",
+    "directory": "grammars/textmate/python-markdown"
   },
   "author": {
     "name": "Zensical",
