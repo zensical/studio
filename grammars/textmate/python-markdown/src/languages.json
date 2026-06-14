@@ -1,0 +1,493 @@
+[
+  {
+    "language": "abap",
+    "scope": "source.abap",
+    "aliases": ["abap"]
+  },
+  {
+    "language": "apache",
+    "scope": "source.apacheconf",
+    "aliases": ["apacheconf", "aconf", "apache"]
+  },
+  {
+    "language": "applescript",
+    "scope": "source.applescript",
+    "aliases": ["applescript"]
+  },
+  {
+    "language": "arduino",
+    "scope": "source.arduino",
+    "aliases": ["arduino"]
+  },
+  {
+    "language": "awk",
+    "scope": "source.awk",
+    "aliases": ["awk", "gawk", "mawk", "nawk"]
+  },
+  {
+    "language": "bat",
+    "scope": "source.batchfile",
+    "aliases": ["bat", "batch", "dosbatch", "winbatch"]
+  },
+  {
+    "language": "bibtex",
+    "scope": "text.bibtex",
+    "aliases": ["bibtex", "bib"]
+  },
+  {
+    "language": "c",
+    "scope": "source.c",
+    "aliases": ["c"]
+  },
+  {
+    "language": "clojure",
+    "scope": "source.clojure",
+    "aliases": ["clj", "cljs", "clojure", "clojurescript"]
+  },
+  {
+    "language": "cmake",
+    "scope": "source.cmake",
+    "aliases": ["cmake"]
+  },
+  {
+    "language": "cobol",
+    "scope": "source.cobol",
+    "aliases": ["cobol"]
+  },
+  {
+    "language": "coffeescript",
+    "scope": "source.coffee",
+    "aliases": ["coffee", "coffeescript"]
+  },
+  {
+    "language": "cpp",
+    "scope": "source.cpp",
+    "aliases": ["cpp", "c++"]
+  },
+  {
+    "language": "csharp",
+    "scope": "source.cs",
+    "aliases": ["cs", "csharp", "c#"]
+  },
+  {
+    "language": "css",
+    "scope": "source.css",
+    "aliases": ["css"]
+  },
+  {
+    "language": "cython",
+    "scope": "source.cython",
+    "aliases": ["cython", "pyx", "pyrex"]
+  },
+  {
+    "language": "d",
+    "scope": "source.d",
+    "aliases": ["d"]
+  },
+  {
+    "language": "dart",
+    "scope": "source.dart",
+    "aliases": ["dart"]
+  },
+  {
+    "language": "diff",
+    "scope": "source.diff",
+    "aliases": ["diff"]
+  },
+  {
+    "language": "dockerfile",
+    "scope": "source.dockerfile",
+    "aliases": ["dockerfile", "Dockerfile", "docker"]
+  },
+  {
+    "language": "dot",
+    "scope": "source.dot",
+    "aliases": ["graphviz", "dot"]
+  },
+  {
+    "language": "elixir",
+    "scope": "source.elixir",
+    "aliases": ["elixir", "ex", "exs"]
+  },
+  {
+    "language": "erlang",
+    "scope": "source.erlang",
+    "aliases": ["erlang"]
+  },
+  {
+    "language": "fortran",
+    "scope": "source.fortran",
+    "aliases": ["fortran", "f90"]
+  },
+  {
+    "language": "fsharp",
+    "scope": "source.fsharp",
+    "aliases": ["fsharp", "f#"]
+  },
+  {
+    "language": "gleam",
+    "scope": "source.gleam",
+    "aliases": ["gleam"]
+  },
+  {
+    "language": "glsl",
+    "scope": "source.glsl",
+    "aliases": ["glsl"]
+  },
+  {
+    "language": "gnuplot",
+    "scope": "source.gnuplot",
+    "aliases": ["gnuplot"]
+  },
+  {
+    "language": "go",
+    "scope": "source.go",
+    "aliases": ["go", "golang"]
+  },
+  {
+    "language": "graphql",
+    "scope": "source.graphql",
+    "aliases": ["graphql"]
+  },
+  {
+    "language": "groovy",
+    "scope": "source.groovy",
+    "aliases": ["groovy"]
+  },
+  {
+    "language": "handlebars",
+    "scope": "text.html.handlebars",
+    "aliases": ["handlebars"]
+  },
+  {
+    "language": "html",
+    "scope": "text.html.basic",
+    "aliases": ["html"]
+  },
+  {
+    "language": "http",
+    "scope": "source.http",
+    "aliases": ["http"]
+  },
+  {
+    "language": "ini",
+    "scope": "source.ini",
+    "aliases": ["ini", "cfg"]
+  },
+  {
+    "language": "java",
+    "scope": "source.java",
+    "aliases": ["java"]
+  },
+  {
+    "language": "javascript",
+    "scope": "source.js",
+    "aliases": ["javascript", "js", "jsx", "react"]
+  },
+  {
+    "language": "json",
+    "scope": "source.json",
+    "aliases": ["json", "jsonld", "json-ld"]
+  },
+  {
+    "language": "json5",
+    "scope": "source.json",
+    "aliases": ["json5"]
+  },
+  {
+    "language": "jsonnet",
+    "scope": "source.jsonnet",
+    "aliases": ["jsonnet"]
+  },
+  {
+    "language": "julia",
+    "scope": "source.julia",
+    "aliases": ["julia", "jl"]
+  },
+  {
+    "language": "kotlin",
+    "scope": "source.kotlin",
+    "aliases": ["kotlin"]
+  },
+  {
+    "language": "latex",
+    "scope": "text.tex.latex",
+    "aliases": ["latex", "tex"]
+  },
+  {
+    "language": "less",
+    "scope": "source.css.less",
+    "aliases": ["less"]
+  },
+  {
+    "language": "lua",
+    "scope": "source.lua",
+    "aliases": ["lua"]
+  },
+  {
+    "language": "makefile",
+    "scope": "source.makefile",
+    "aliases": ["Makefile", "makefile", "make"]
+  },
+  {
+    "language": "matlab",
+    "scope": "source.matlab",
+    "aliases": ["matlab"]
+  },
+  {
+    "language": "meson",
+    "scope": "source.meson",
+    "aliases": ["meson", "meson.build"]
+  },
+  {
+    "language": "nginx",
+    "scope": "source.nginx",
+    "aliases": ["nginx"]
+  },
+  {
+    "language": "nim",
+    "scope": "source.nim",
+    "aliases": ["nimrod", "nim"]
+  },
+  {
+    "language": "nix",
+    "scope": "source.nix",
+    "aliases": ["nixos", "nix"]
+  },
+  {
+    "language": "objective-c",
+    "scope": "source.objc",
+    "aliases": ["objectivec", "objective-c", "objc", "obj-c"]
+  },
+  {
+    "language": "ocaml",
+    "scope": "source.ocaml",
+    "aliases": ["ocaml"]
+  },
+  {
+    "language": "org",
+    "scope": "text.org",
+    "aliases": ["org", "orgmode", "org-mode"]
+  },
+  {
+    "language": "perl",
+    "scope": "source.perl",
+    "aliases": ["perl", "pl", "PL", "vcl"]
+  },
+  {
+    "language": "php",
+    "scope": "source.php",
+    "aliases": ["php", "php3", "php4", "php5"]
+  },
+  {
+    "language": "powershell",
+    "scope": "source.powershell",
+    "aliases": ["powershell", "ps1", "psm1", "pwsh", "posh"]
+  },
+  {
+    "language": "prolog",
+    "scope": "source.prolog",
+    "aliases": ["prolog"]
+  },
+  {
+    "language": "promql",
+    "scope": "source.promql",
+    "aliases": ["promql"]
+  },
+  {
+    "language": "properties",
+    "scope": "source.ini",
+    "aliases": ["properties", "jproperties"]
+  },
+  {
+    "language": "pug",
+    "scope": "text.pug",
+    "aliases": ["jade", "pug"]
+  },
+  {
+    "language": "puppet",
+    "scope": "source.puppet",
+    "aliases": ["puppet"]
+  },
+  {
+    "language": "python",
+    "scope": "source.python",
+    "aliases": ["python", "py", "py3", "python3"]
+  },
+  {
+    "language": "qml",
+    "scope": "source.qml",
+    "aliases": ["qml", "qbs"]
+  },
+  {
+    "language": "r",
+    "scope": "source.r",
+    "aliases": ["R", "r", "s", "S"]
+  },
+  {
+    "language": "racket",
+    "scope": "source.racket",
+    "aliases": ["racket", "rkt"]
+  },
+  {
+    "language": "restructuredtext",
+    "scope": "source.rst",
+    "aliases": ["restructuredtext", "rst"]
+  },
+  {
+    "language": "robotframework",
+    "scope": "source.robotframework",
+    "aliases": ["robotframework"]
+  },
+  {
+    "language": "ruby",
+    "scope": "source.ruby",
+    "aliases": ["ruby", "rb"]
+  },
+  {
+    "language": "rust",
+    "scope": "source.rust",
+    "aliases": ["rust", "rs"]
+  },
+  {
+    "language": "sass",
+    "scope": "source.sass",
+    "aliases": ["sass"]
+  },
+  {
+    "language": "scala",
+    "scope": "source.scala",
+    "aliases": ["scala"]
+  },
+  {
+    "language": "scheme",
+    "scope": "source.scheme",
+    "aliases": ["scheme", "scm"]
+  },
+  {
+    "language": "scss",
+    "scope": "source.css.scss",
+    "aliases": ["scss"]
+  },
+  {
+    "language": "shellscript",
+    "scope": "source.shell",
+    "aliases": [
+      "shell",
+      "sh",
+      "bash",
+      "zsh",
+      "ksh",
+      "openrc",
+      "fish",
+      "fishshell",
+      "tcsh",
+      "csh"
+    ]
+  },
+  {
+    "language": "smalltalk",
+    "scope": "source.smalltalk",
+    "aliases": ["smalltalk", "st"]
+  },
+  {
+    "language": "solidity",
+    "scope": "source.solidity",
+    "aliases": ["solidity"]
+  },
+  {
+    "language": "sparql",
+    "scope": "source.sparql",
+    "aliases": ["sparql"]
+  },
+  {
+    "language": "sql",
+    "scope": "source.sql",
+    "aliases": ["sql"]
+  },
+  {
+    "language": "swift",
+    "scope": "source.swift",
+    "aliases": ["swift"]
+  },
+  {
+    "language": "tcl",
+    "scope": "source.tcl",
+    "aliases": ["tcl"]
+  },
+  {
+    "language": "terraform",
+    "scope": "source.hcl.terraform",
+    "aliases": ["terraform", "tf", "hcl"]
+  },
+  {
+    "language": "toml",
+    "scope": "source.toml",
+    "aliases": ["toml"]
+  },
+  {
+    "language": "tsx",
+    "scope": "source.tsx",
+    "aliases": ["tsx"]
+  },
+  {
+    "language": "twig",
+    "scope": "source.twig",
+    "aliases": ["twig"]
+  },
+  {
+    "language": "typescript",
+    "scope": "source.ts",
+    "aliases": ["typescript", "ts"]
+  },
+  {
+    "language": "vbnet",
+    "scope": "source.asp.vb.net",
+    "aliases": ["vb.net", "vbnet", "visual-basic", "visualbasic"]
+  },
+  {
+    "language": "verilog",
+    "scope": "source.verilog",
+    "aliases": ["verilog", "v"]
+  },
+  {
+    "language": "vhdl",
+    "scope": "source.vhdl",
+    "aliases": ["vhdl"]
+  },
+  {
+    "language": "vim",
+    "scope": "source.viml",
+    "aliases": ["vim"]
+  },
+  {
+    "language": "wast",
+    "scope": "text.wat",
+    "aliases": ["wast", "wat"]
+  },
+  {
+    "language": "wgsl",
+    "scope": "source.wgsl",
+    "aliases": ["wgsl"]
+  },
+  {
+    "language": "xml",
+    "scope": "text.xml",
+    "aliases": ["xml", "jsp"]
+  },
+  {
+    "language": "xslt",
+    "scope": "text.xml.xsl",
+    "aliases": ["xslt"]
+  },
+  {
+    "language": "yaml",
+    "scope": "source.yaml",
+    "aliases": ["yaml"]
+  },
+  {
+    "language": "zig",
+    "scope": "source.zig",
+    "aliases": ["zig"]
+  }
+]

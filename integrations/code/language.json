@@ -1,0 +1,133 @@
+{
+  "comments": {
+    "blockComment": ["<!--", "-->"]
+  },
+  "brackets": [
+    ["{", "}"],
+    ["[", "]"],
+    ["(", ")"],
+    ["<", ">"]
+  ],
+  "autoCloseBefore": ";:.,=}])>",
+  "autoClosingPairs": [
+    {
+      "open": "{",
+      "close": "}"
+    },
+    {
+      "open": "[",
+      "close": "]"
+    },
+    {
+      "open": "(",
+      "close": ")"
+    },
+    {
+      "open": "\"",
+      "close": "\""
+    },
+    {
+      "open": "'",
+      "close": "'"
+    },
+    {
+      "open": "`",
+      "close": "`"
+    },
+    {
+      "open": "<",
+      "close": ">"
+    },
+    {
+      "open": "{%",
+      "close": "%}"
+    },
+    {
+      "open": "{#",
+      "close": "#}"
+    }
+  ],
+  "surroundingPairs": [
+    ["{", "}"],
+    ["[", "]"],
+    ["(", ")"],
+    ["<", ">"],
+    ["\"", "\""],
+    ["`", "`"],
+    ["'", "'"],
+    ["*", "*"],
+    ["_", "_"]
+  ],
+  "onEnterRules": [
+    {
+      "beforeText": "^\\s*>\\s?.*$",
+      "action": {
+        "indent": "none",
+        "appendText": "> "
+      }
+    },
+    {
+      "beforeText": "^\\s*-\\s+\\[[ xX]\\]\\s+.*$",
+      "action": {
+        "indent": "none",
+        "appendText": "- [ ] "
+      }
+    },
+    {
+      "beforeText": "^\\s*-\\s+.*$",
+      "action": {
+        "indent": "none",
+        "appendText": "- "
+      }
+    },
+    {
+      "beforeText": "^\\s*\\*\\s+.*$",
+      "action": {
+        "indent": "none",
+        "appendText": "* "
+      }
+    },
+    {
+      "beforeText": "^\\s*\\+\\s+.*$",
+      "action": {
+        "indent": "none",
+        "appendText": "+ "
+      }
+    },
+    {
+      "beforeText": "^\\s*\\d+\\.\\s+.*$",
+      "action": {
+        "indent": "none",
+        "appendText": "1. "
+      }
+    },
+    {
+      "beforeText": "^\\s*!{3}\\s+.*$",
+      "action": {
+        "indent": "indent"
+      }
+    },
+    {
+      "beforeText": "^\\s*\\?{3}\\+?\\s+.*$",
+      "action": {
+        "indent": "indent"
+      }
+    },
+    {
+      "beforeText": "^\\s*={3}(?:\\+|!)?\\s+\".*\"\\s*$",
+      "action": {
+        "indent": "indent"
+      }
+    }
+  ],
+  "indentationRules": {
+    "increaseIndentPattern": "^\\s*(?:!{3}\\s+.*|\\?{3}\\+?\\s+.*|={3}(?:\\+|!)?\\s+\".*\"\\s*)$"
+  },
+  "folding": {
+    "offSide": true,
+    "markers": {
+      "start": "^\\s*<!--\\s*#?region\\b.*-->",
+      "end": "^\\s*<!--\\s*#?endregion\\b.*-->"
+    }
+  }
+}

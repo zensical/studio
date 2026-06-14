@@ -1,0 +1,27 @@
+{
+  "name": "python-markdown",
+  "desription": "TextMate grammar for Python Markdown",
+  "homepage": "https://zensical.org/studio/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zensical/studio.git"
+  },
+  "author": {
+    "name": "Zensical",
+    "email": "contributors@zensical.org"
+  },
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsx scripts/grammar.ts",
+    "start": "tsx scripts/grammar.ts watch"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^25.9.1",
+    "js-yaml": "^4.2.0",
+    "tsx": "^4.20.6",
+    "typescript": "^6.0.3"
+  }
+}
