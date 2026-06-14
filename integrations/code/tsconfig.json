@@ -1,13 +1,19 @@
 {
   "compilerOptions": {
     "esModuleInterop": true,
-    "module": "commonjs",
-    "target": "es2022",
     "lib": ["es2022"],
+    "module": "commonjs",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "rootDir": "src",
     "outDir": "dist",
     "skipLibCheck": true,
     "strict": true,
+    "target": "es2022",
   },
   "include": ["src"],
 }
