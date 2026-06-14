@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "publisher": "zensical",
   "displayName": "Zensical Studio",
-  "description": "Visual Studio Code integration for Zensical Studio",
+  "description": "Zensical Studio for Visual Studio Code",
   "categories": [
     "Programming Languages"
   ],
@@ -12,6 +12,10 @@
     "type": "git",
     "url": "https://github.com/zensical/studio.git",
     "directory": "integrations/code"
+  },
+  "bugs": {
+    "url": "https://github.com/zensical/studio/issues",
+    "email": "contributors@zensical.org"
   },
   "author": {
     "name": "Zensical",
@@ -46,8 +50,7 @@
     "typescript": "^6.0.3"
   },
   "allowScripts": {
-    "esbuild@0.28.1": true,
-    "keytar@7.9.0": true
+    "esbuild@0.28.1": true
   },
   "engines": {
     "vscode": "^1.100.0"

@@ -1,17 +1,6 @@
 {
   "name": "python-markdown",
-  "desription": "TextMate grammar for Python Markdown",
-  "homepage": "https://zensical.org/studio/",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/zensical/studio.git",
-    "directory": "grammars/textmate/python-markdown"
-  },
-  "author": {
-    "name": "Zensical",
-    "email": "contributors@zensical.org"
-  },
-  "license": "MIT",
+  "description": "TextMate grammar for Python Markdown",
   "private": true,
   "type": "module",
   "scripts": {
