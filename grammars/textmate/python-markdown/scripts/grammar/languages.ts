@@ -29,11 +29,11 @@ import * as fs from "node:fs/promises";
 /**
  * Embedded language.
  */
-export type EmbeddedLanguage = {
+export interface EmbeddedLanguage {
   language: string;
   scope: string;
   aliases: string[];
-};
+}
 
 /* ----------------------------------------------------------------------------
  * Functions
