@@ -24,14 +24,6 @@
   "license": "MIT",
   "private": true,
   "main": "dist/extension.js",
-  "files": [
-    "dist",
-    "language.json",
-    "syntaxes",
-    "package.json",
-    "LICENSE.md",
-    "README.md"
-  ],
   "scripts": {
     "build": "esbuild src/extension.ts --bundle --platform=node --format=cjs --outfile=dist/extension.js --external:vscode",
     "vsix": "npm run build && vsce package"

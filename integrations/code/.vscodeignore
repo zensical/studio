@@ -25,6 +25,17 @@
 # TypeScript
 # -----------------------------------------------------------------------------
 
+# Dependencies
+node_modules
+package-lock.json
+
+# Sources
+src
+
+# Configuration
+.vscode
+.gitignore
+tsconfig.json
+
 # Artifacts
-dist
 *.vsix
