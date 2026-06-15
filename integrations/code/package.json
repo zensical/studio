@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "publisher": "zensical",
   "displayName": "Zensical Studio",
-  "description": "Zensical Studio for Visual Studio Code",
+  "description": "Refactor documentation like code",
+  "icon": "assets/icon.png",
   "categories": [
     "Programming Languages"
   ],
