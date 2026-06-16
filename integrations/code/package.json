@@ -66,9 +66,6 @@
         "aliases": [
           "Python Markdown"
         ],
-        "extensions": [
-          ".md"
-        ],
         "configuration": "./language.json"
       }
     ],
