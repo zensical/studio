@@ -51,7 +51,7 @@
 
 __Zensical Studio is in Public Beta and free to use.__
 
-Install [Zensical Studio in Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=zensical.studio) and use the editor you already know for writing, validating, and navigating your documentation. We'll add support for other editors in the near future, including Cursor and Zed.
+Install [Zensical Studio in Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=zensical.zensical-studio) and use the editor you already know for writing, validating, and navigating your documentation. We'll add support for other editors in the near future, including Cursor and Zed.
 
 Zensical Studio brings native support for Python Markdown - including accurate syntax highlighting, navigation, refactoring, and validation. To activate Python Markdown support, create `.vscode/settings.json` in your documentation project and add the following:
 
