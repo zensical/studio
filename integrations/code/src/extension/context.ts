@@ -36,9 +36,9 @@ import type {
  */
 export class Context {
   /** Output channel */
-  public readonly output: OutputChannel;
+  private readonly output: OutputChannel;
   /** Extension context */
-  protected readonly context: ExtensionContext;
+  private readonly context: ExtensionContext;
 
   /**
    * Create context.
