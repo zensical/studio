@@ -102,7 +102,7 @@ jobs:
         uses: actions/attest@v4
         with:
           show-summary: false
-          subject-path: integrations/code/*
+          subject-path: integrations/code/*.vsix
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v7
