@@ -10864,7 +10864,54 @@
           }
         },
         {
-          "match": "(\\[)((?<square>[^\\[\\]\\\\]|\\\\.|\\[\\g<square>*+\\])*+)(\\])(\\()(?<url>(?:\\\\.|[^()\\r\\n\"'\\\\]|\\r\\n|\\r|\\n|\\(\\g<url>*\\))*?)(?:[ \\t]+(?:((\")([^\"\\r\\n]*)(\")?)|((')([^'\\r\\n]*)(')?)))?[ \\t]*(\\))?",
+          "match": "(\\[)((?<square>[^\\[\\]\\\\]|\\\\.|\\[\\g<square>*+\\])*+)(\\])(\\()(?<url>(?:\\\\.|[^()\\r\\n\"'\\\\]|\\r\\n|\\r|\\n|\\(\\g<url>*\\))*)[ \\t]+(?:((\")([^\"\\r\\n]*)(\")?)|((')([^'\\r\\n]*)(')?))[ \\t]*(\\))?",
+          "name": "meta.link.inline.markdown",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.link.begin.markdown"
+            },
+            "2": {
+              "name": "string.other.link.title.markdown",
+              "patterns": [
+                {
+                  "include": "#inline_flow"
+                }
+              ]
+            },
+            "4": {
+              "name": "punctuation.definition.link.end.markdown"
+            },
+            "5": {
+              "name": "punctuation.definition.link.begin.markdown"
+            },
+            "6": {
+              "name": "markup.underline.link.markdown"
+            },
+            "8": {
+              "name": "punctuation.definition.string.begin.markdown"
+            },
+            "9": {
+              "name": "string.quoted.link.title.markdown"
+            },
+            "10": {
+              "name": "punctuation.definition.string.end.markdown"
+            },
+            "12": {
+              "name": "punctuation.definition.string.begin.markdown"
+            },
+            "13": {
+              "name": "string.quoted.link.title.markdown"
+            },
+            "14": {
+              "name": "punctuation.definition.string.end.markdown"
+            },
+            "15": {
+              "name": "punctuation.definition.link.end.markdown"
+            }
+          }
+        },
+        {
+          "match": "(\\[)((?<square>[^\\[\\]\\\\]|\\\\.|\\[\\g<square>*+\\])*+)(\\])(\\()(?<url>(?:\\\\.|[^()\\r\\n\"'\\\\]|\\r\\n|\\r|\\n|\\(\\g<url>*\\))*)(?:[ \\t]+(?:((\")([^\"\\r\\n]*)(\")?)|((')([^'\\r\\n]*)(')?)))?[ \\t]*(\\))?",
           "name": "meta.link.inline.markdown",
           "captures": {
             "1": {
@@ -10915,7 +10962,7 @@
     "link_reference": {
       "patterns": [
         {
-          "match": "(?<!\\\\)(\\[)([^\\]\\r\\n]*)(\\])(\\[)([^\\]\\r\\n]*)(\\])(?:(\\{)([^}\\r\\n]*)(\\}))?",
+          "match": "(?<!\\\\)(\\[)((?<square>[^\\[\\]\\\\\\r\\n]|\\\\.|\\[\\g<square>*+\\])*+)(\\])([ \\t]?)(\\[)((?:\\\\.|[^\\]\\s\\r\\n])|(?:\\\\.|[^\\]\\s\\r\\n])(?:\\\\.|[^\\]\\r\\n])*?[^\\]\\s\\r\\n])(\\])(?:(\\{)([^}\\r\\n]*)(\\}))?",
           "name": "meta.link.reference.markdown",
           "captures": {
             "1": {
@@ -10932,19 +10979,19 @@
             "3": {
               "name": "punctuation.definition.link.end.markdown"
             },
-            "4": {
+            "5": {
               "name": "punctuation.definition.link.begin.markdown"
             },
-            "5": {
+            "6": {
               "name": "constant.other.reference.link.markdown"
             },
-            "6": {
+            "7": {
               "name": "punctuation.definition.link.end.markdown"
             },
-            "7": {
+            "8": {
               "name": "punctuation.definition.attribute-list.begin.markdown"
             },
-            "8": {
+            "9": {
               "name": "meta.attribute-list.trailing.inline.markdown",
               "patterns": [
                 {
@@ -10952,13 +10999,13 @@
                 }
               ]
             },
-            "9": {
+            "10": {
               "name": "punctuation.definition.attribute-list.end.markdown"
             }
           }
         },
         {
-          "match": "(?<!\\\\)(\\[)([^\\]\\r\\n]*)(\\])(\\[)([^\\]\\r\\n]*)(\\])?",
+          "match": "(?<!\\\\)(\\[)((?<square>[^\\[\\]\\\\\\r\\n]|\\\\.|\\[\\g<square>*+\\])++)(\\])(\\[)(\\])(?:(\\{)([^}\\r\\n]*)(\\}))?",
           "name": "meta.link.reference.markdown",
           "captures": {
             "1": {
@@ -10979,15 +11026,52 @@
               "name": "punctuation.definition.link.begin.markdown"
             },
             "5": {
-              "name": "constant.other.reference.link.markdown"
+              "name": "punctuation.definition.link.end.markdown"
             },
             "6": {
-              "name": "punctuation.definition.link.end.markdown"
+              "name": "punctuation.definition.attribute-list.begin.markdown"
+            },
+            "7": {
+              "name": "meta.attribute-list.trailing.inline.markdown",
+              "patterns": [
+                {
+                  "include": "#attribute"
+                }
+              ]
+            },
+            "8": {
+              "name": "punctuation.definition.attribute-list.end.markdown"
             }
           }
         },
         {
-          "match": "(?<!\\\\)(\\[)([^\\]\\r\\n]*)(\\])(?!\\()(?:(\\{)([^}\\r\\n]*)(\\}))?",
+          "match": "(?<!\\\\)(\\[)((?<square>[^\\[\\]\\\\\\r\\n]|\\\\.|\\[\\g<square>*+\\])*+)(\\])([ \\t]?)(\\[)((?:\\\\.|[^\\]\\r\\n])*)$",
+          "name": "meta.link.reference.markdown",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.link.begin.markdown"
+            },
+            "2": {
+              "name": "string.other.link.title.markdown",
+              "patterns": [
+                {
+                  "include": "#inline_flow"
+                }
+              ]
+            },
+            "3": {
+              "name": "punctuation.definition.link.end.markdown"
+            },
+            "5": {
+              "name": "punctuation.definition.link.begin.markdown"
+            },
+            "6": {
+              "name": "constant.other.reference.link.markdown"
+            }
+          }
+        },
+        {
+          "match": "(?<!\\\\)(\\[)((?<square>[^\\[\\]\\\\\\r\\n]|\\\\.|\\[\\g<square>*+\\])++)(\\])(?!\\()(?:(\\{)([^}\\r\\n]*)(\\}))?",
           "name": "meta.link.reference.markdown",
           "captures": {
             "1": {
