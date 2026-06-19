@@ -938,7 +938,7 @@ repository:
   autolink:
     patterns:
       - match: >-
-          (<)(?:((?:https?|ftp):\/\/[^<>\s]+)|((?:mailto:)?[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}))(\>)(?:(\{)([^}\r\n]*)(\}))?
+          (<)(?:((?i:(?:https?|ftp):\/\/[^<>\s]+))|((?i:(?:mailto:)?[^<>\s]+@[^<>\s]+)))(\>)(?:(\{)([^}\r\n]*)(\}))?
         name: meta.link.autolink.markdown
         captures:
           1: { name: punctuation.definition.link.begin.markdown }
