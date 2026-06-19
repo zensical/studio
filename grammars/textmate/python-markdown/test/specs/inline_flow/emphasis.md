@@ -98,6 +98,18 @@ _Text\_Text_
 __Text\__Text__
 ```
 
+### accept_nested_asterisk_with_escaped_marker
+
+``` md
+***a\*b***
+```
+
+### accept_strong_asterisk_with_escaped_marker_text
+
+``` md
+**a \* b**
+```
+
 ### accept_line_ending_lf
 
 ``` md
@@ -174,6 +186,24 @@ Text**Strong**Text
 Text__Strong__Text
 ```
 
+### accept_punctuation_before
+
+``` md
+(*text*)
+```
+
+### accept_strong_punctuation_after
+
+``` md
+**text**,
+```
+
+### accept_underscore_punctuation_after
+
+``` md
+_text_.
+```
+
 ## child
 
 ### accept_inline_code
@@ -222,6 +252,18 @@ Text__Strong__Text
 
 ``` md
 **<https://example.com>**
+```
+
+### accept_link_with_strong_text
+
+``` md
+[**text**](href)
+```
+
+### accept_strong_inline_code_with_marker_text
+
+``` md
+**`code * here`**
 ```
 
 ## nesting
