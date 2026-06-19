@@ -411,17 +411,86 @@ repository:
     patterns:
       - include: "#escape"
       - include: "#inline_code"
-      - include: "#image_reference"
       - include: "#image"
+      - include: "#image_reference"
       - include: "#footnote"
-      - include: "#link_reference"
       - include: "#link"
+      - include: "#link_reference"
       - include: "#autolink"
 
   escape:
     patterns:
       - match: \\.
         name: constant.character.escape.markdown
+
+  inline_code:
+    patterns:
+      # @each languages
+      # - include: "#inline_code_{{language}}"
+      # @end
+      - include: "#inline_code_markdown"
+      - include: "#inline_code_raw"
+
+  # @each languages
+  # inline_code_{{language}}:
+  #   patterns:
+  #     - name: markup.inline.raw.string.markdown
+  #       begin: (`+)((?:\:{3,}|#!))(?i:({{aliases}}))([ \t\r\n]+)
+  #       beginCaptures:
+  #         1: { name: punctuation.definition.raw.markdown }
+  #         2: { name: punctuation.definition.inline-highlight.markdown }
+  #         3: { name: entity.name.language.inline-highlight.markdown }
+  #       contentName: meta.embedded.inline.{{language}}
+  #       end: (\1)(?:(\{)([^}\r\n]*)(\}))?
+  #       endCaptures:
+  #         1: { name: punctuation.definition.raw.markdown }
+  #         2: { name: punctuation.definition.attribute-list.begin.markdown }
+  #         3:
+  #           name: meta.attribute-list.trailing.inline.markdown
+  #           patterns:
+  #             - include: "#attribute"
+  #         4: { name: punctuation.definition.attribute-list.end.markdown }
+  #       patterns:
+  #         - include: "{{scope}}"
+  # @end
+
+  inline_code_markdown:
+    patterns:
+      - name: markup.inline.raw.string.markdown
+        begin: (`+)((?:\:{3,}|#!))(?i:(markdown|md))([ \t\r\n]+)
+        beginCaptures:
+          1: { name: punctuation.definition.raw.markdown }
+          2: { name: punctuation.definition.inline-highlight.markdown }
+          3: { name: entity.name.language.inline-highlight.markdown }
+        contentName: meta.embedded.inline.markdown
+        end: (\1)(?:(\{)([^}\r\n]*)(\}))?
+        endCaptures:
+          1: { name: punctuation.definition.raw.markdown }
+          2: { name: punctuation.definition.attribute-list.begin.markdown }
+          3:
+            name: meta.attribute-list.trailing.inline.markdown
+            patterns:
+              - include: "#attribute"
+          4: { name: punctuation.definition.attribute-list.end.markdown }
+        patterns:
+          - include: "#inline_flow"
+
+  inline_code_raw:
+    patterns:
+      - name: markup.inline.raw.string.markdown
+        begin: (`+)
+        beginCaptures:
+          1: { name: punctuation.definition.raw.markdown }
+        end: (\1)(?:(\{)([^}\r\n]*)(\}))?
+        endCaptures:
+          1: { name: punctuation.definition.raw.markdown }
+          2: { name: punctuation.definition.attribute-list.begin.markdown }
+          3:
+            name: meta.attribute-list.trailing.inline.markdown
+            patterns:
+              - include: "#attribute"
+          4: { name: punctuation.definition.attribute-list.end.markdown }
+
 
   image:
     patterns:
@@ -636,74 +705,6 @@ repository:
         end: (\])(?:(\{)([^}\r\n]*)(\}))?
         endCaptures:
           1: { name: punctuation.definition.footnote.end.markdown }
-          2: { name: punctuation.definition.attribute-list.begin.markdown }
-          3:
-            name: meta.attribute-list.trailing.inline.markdown
-            patterns:
-              - include: "#attribute"
-          4: { name: punctuation.definition.attribute-list.end.markdown }
-
-  inline_code:
-    patterns:
-      # @each languages
-      # - include: "#inline_code_{{language}}"
-      # @end
-      - include: "#inline_code_markdown"
-      - include: "#inline_code_raw"
-
-  # @each languages
-  # inline_code_{{language}}:
-  #   patterns:
-  #     - name: markup.inline.raw.string.markdown
-  #       begin: (`+)((?:\:{3,}|#!))(?i:({{aliases}}))([ \t\r\n]+)
-  #       beginCaptures:
-  #         1: { name: punctuation.definition.raw.markdown }
-  #         2: { name: punctuation.definition.inline-highlight.markdown }
-  #         3: { name: entity.name.language.inline-highlight.markdown }
-  #       contentName: meta.embedded.inline.{{language}}
-  #       end: (\1)(?:(\{)([^}\r\n]*)(\}))?
-  #       endCaptures:
-  #         1: { name: punctuation.definition.raw.markdown }
-  #         2: { name: punctuation.definition.attribute-list.begin.markdown }
-  #         3:
-  #           name: meta.attribute-list.trailing.inline.markdown
-  #           patterns:
-  #             - include: "#attribute"
-  #         4: { name: punctuation.definition.attribute-list.end.markdown }
-  #       patterns:
-  #         - include: "{{scope}}"
-  # @end
-
-  inline_code_markdown:
-    patterns:
-      - name: markup.inline.raw.string.markdown
-        begin: (`+)((?:\:{3,}|#!))(?i:(markdown|md))([ \t\r\n]+)
-        beginCaptures:
-          1: { name: punctuation.definition.raw.markdown }
-          2: { name: punctuation.definition.inline-highlight.markdown }
-          3: { name: entity.name.language.inline-highlight.markdown }
-        contentName: meta.embedded.inline.markdown
-        end: (\1)(?:(\{)([^}\r\n]*)(\}))?
-        endCaptures:
-          1: { name: punctuation.definition.raw.markdown }
-          2: { name: punctuation.definition.attribute-list.begin.markdown }
-          3:
-            name: meta.attribute-list.trailing.inline.markdown
-            patterns:
-              - include: "#attribute"
-          4: { name: punctuation.definition.attribute-list.end.markdown }
-        patterns:
-          - include: "#inline_flow"
-
-  inline_code_raw:
-    patterns:
-      - name: markup.inline.raw.string.markdown
-        begin: (`+)
-        beginCaptures:
-          1: { name: punctuation.definition.raw.markdown }
-        end: (\1)(?:(\{)([^}\r\n]*)(\}))?
-        endCaptures:
-          1: { name: punctuation.definition.raw.markdown }
           2: { name: punctuation.definition.attribute-list.begin.markdown }
           3:
             name: meta.attribute-list.trailing.inline.markdown

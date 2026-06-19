@@ -5392,19 +5392,19 @@
           "include": "#inline_code"
         },
         {
-          "include": "#image_reference"
+          "include": "#image"
         },
         {
-          "include": "#image"
+          "include": "#image_reference"
         },
         {
           "include": "#footnote"
         },
         {
-          "include": "#link_reference"
+          "include": "#link"
         },
         {
-          "include": "#link"
+          "include": "#link_reference"
         },
         {
           "include": "#autolink"
@@ -5416,549 +5416,6 @@
         {
           "match": "\\\\.",
           "name": "constant.character.escape.markdown"
-        }
-      ]
-    },
-    "image": {
-      "patterns": [
-        {
-          "match": "(\\!)(\\[)((?<square>[^\\[\\]\\\\]|\\\\.|\\[\\g<square>*+\\])*+)(\\])(\\()([ \\t]*)(<)([^>\\r\\n]*)(>)(?:[ \\t]+(?:((\")([^\"\\r\\n]*)(\"))|((')([^'\\r\\n]*)('))))?[ \\t]*(\\))(?:(\\{)([^}\\r\\n]*)(\\}))?",
-          "name": "meta.image.inline.markdown",
-          "captures": {
-            "1": {
-              "name": "punctuation.definition.image.begin.markdown"
-            },
-            "2": {
-              "name": "punctuation.definition.link.description.begin.markdown"
-            },
-            "3": {
-              "name": "string.other.link.description.markdown"
-            },
-            "5": {
-              "name": "punctuation.definition.link.description.end.markdown"
-            },
-            "6": {
-              "name": "punctuation.definition.link.begin.markdown"
-            },
-            "8": {
-              "name": "punctuation.definition.link.begin.angle.markdown"
-            },
-            "9": {
-              "name": "markup.underline.link.image.markdown"
-            },
-            "10": {
-              "name": "punctuation.definition.link.end.angle.markdown"
-            },
-            "12": {
-              "name": "punctuation.definition.string.begin.markdown"
-            },
-            "13": {
-              "name": "string.quoted.link.title.markdown"
-            },
-            "14": {
-              "name": "punctuation.definition.string.end.markdown"
-            },
-            "16": {
-              "name": "punctuation.definition.string.begin.markdown"
-            },
-            "17": {
-              "name": "string.quoted.link.title.markdown"
-            },
-            "18": {
-              "name": "punctuation.definition.string.end.markdown"
-            },
-            "19": {
-              "name": "punctuation.definition.link.end.markdown"
-            },
-            "20": {
-              "name": "punctuation.definition.attribute-list.begin.markdown"
-            },
-            "21": {
-              "name": "meta.attribute-list.trailing.inline.markdown",
-              "patterns": [
-                {
-                  "include": "#attribute"
-                }
-              ]
-            },
-            "22": {
-              "name": "punctuation.definition.attribute-list.end.markdown"
-            }
-          }
-        },
-        {
-          "match": "(\\!)(\\[)((?<square>[^\\[\\]\\\\]|\\\\.|\\[\\g<square>*+\\])*+)(\\])(\\()([ \\t]*)(?:((\")([^\"\\r\\n]*)(\"))|((')([^'\\r\\n]*)(')))[ \\t]*(\\))(?:(\\{)([^}\\r\\n]*)(\\}))?",
-          "name": "meta.image.inline.markdown",
-          "captures": {
-            "1": {
-              "name": "punctuation.definition.image.begin.markdown"
-            },
-            "2": {
-              "name": "punctuation.definition.link.description.begin.markdown"
-            },
-            "3": {
-              "name": "string.other.link.description.markdown"
-            },
-            "5": {
-              "name": "punctuation.definition.link.description.end.markdown"
-            },
-            "6": {
-              "name": "punctuation.definition.link.begin.markdown"
-            },
-            "9": {
-              "name": "punctuation.definition.string.begin.markdown"
-            },
-            "10": {
-              "name": "string.quoted.link.title.markdown"
-            },
-            "11": {
-              "name": "punctuation.definition.string.end.markdown"
-            },
-            "13": {
-              "name": "punctuation.definition.string.begin.markdown"
-            },
-            "14": {
-              "name": "string.quoted.link.title.markdown"
-            },
-            "15": {
-              "name": "punctuation.definition.string.end.markdown"
-            },
-            "16": {
-              "name": "punctuation.definition.link.end.markdown"
-            },
-            "17": {
-              "name": "punctuation.definition.attribute-list.begin.markdown"
-            },
-            "18": {
-              "name": "meta.attribute-list.trailing.inline.markdown",
-              "patterns": [
-                {
-                  "include": "#attribute"
-                }
-              ]
-            },
-            "19": {
-              "name": "punctuation.definition.attribute-list.end.markdown"
-            }
-          }
-        },
-        {
-          "match": "(\\!)(\\[)((?<square>[^\\[\\]\\\\]|\\\\.|\\[\\g<square>*+\\])*+)(\\])(\\()([ \\t]*)(?:((\")([^\"\\r\\n]*)(\")?)|((')([^'\\r\\n]*)(')?))[ \\t]*(\\))?",
-          "name": "meta.image.inline.markdown",
-          "captures": {
-            "1": {
-              "name": "punctuation.definition.image.begin.markdown"
-            },
-            "2": {
-              "name": "punctuation.definition.link.description.begin.markdown"
-            },
-            "3": {
-              "name": "string.other.link.description.markdown"
-            },
-            "5": {
-              "name": "punctuation.definition.link.description.end.markdown"
-            },
-            "6": {
-              "name": "punctuation.definition.link.begin.markdown"
-            },
-            "9": {
-              "name": "punctuation.definition.string.begin.markdown"
-            },
-            "10": {
-              "name": "string.quoted.link.title.markdown"
-            },
-            "11": {
-              "name": "punctuation.definition.string.end.markdown"
-            },
-            "13": {
-              "name": "punctuation.definition.string.begin.markdown"
-            },
-            "14": {
-              "name": "string.quoted.link.title.markdown"
-            },
-            "15": {
-              "name": "punctuation.definition.string.end.markdown"
-            },
-            "16": {
-              "name": "punctuation.definition.link.end.markdown"
-            }
-          }
-        },
-        {
-          "match": "(\\!)(\\[)((?<square>[^\\[\\]\\\\]|\\\\.|\\[\\g<square>*+\\])*+)(\\])(\\()([ \\t]*)(<)([^>\\r\\n]*)(>)?(?:[ \\t]+(?:((\")([^\"\\r\\n]*)(\")?)|((')([^'\\r\\n]*)(')?)))?[ \\t]*(\\))?",
-          "name": "meta.image.inline.markdown",
-          "captures": {
-            "1": {
-              "name": "punctuation.definition.image.begin.markdown"
-            },
-            "2": {
-              "name": "punctuation.definition.link.description.begin.markdown"
-            },
-            "3": {
-              "name": "string.other.link.description.markdown"
-            },
-            "5": {
-              "name": "punctuation.definition.link.description.end.markdown"
-            },
-            "6": {
-              "name": "punctuation.definition.link.begin.markdown"
-            },
-            "8": {
-              "name": "punctuation.definition.link.begin.angle.markdown"
-            },
-            "9": {
-              "name": "markup.underline.link.image.markdown"
-            },
-            "10": {
-              "name": "punctuation.definition.link.end.angle.markdown"
-            },
-            "12": {
-              "name": "punctuation.definition.string.begin.markdown"
-            },
-            "13": {
-              "name": "string.quoted.link.title.markdown"
-            },
-            "14": {
-              "name": "punctuation.definition.string.end.markdown"
-            },
-            "16": {
-              "name": "punctuation.definition.string.begin.markdown"
-            },
-            "17": {
-              "name": "string.quoted.link.title.markdown"
-            },
-            "18": {
-              "name": "punctuation.definition.string.end.markdown"
-            },
-            "19": {
-              "name": "punctuation.definition.link.end.markdown"
-            }
-          }
-        },
-        {
-          "match": "(\\!)(\\[)((?<square>[^\\[\\]\\\\]|\\\\.|\\[\\g<square>*+\\])*+)(\\])(\\()(?<url>(?:\\\\.|[^()\\r\\n\"'\\\\]|\\r\\n|\\r|\\n|\\(\\g<url>*\\))*?)(?:[ \\t]+(?:((\")([^\"\\r\\n]*)(\"))|((')([^'\\r\\n]*)('))))?[ \\t]*(\\))(?:(\\{)([^}\\r\\n]*)(\\}))?",
-          "name": "meta.image.inline.markdown",
-          "captures": {
-            "1": {
-              "name": "punctuation.definition.image.begin.markdown"
-            },
-            "2": {
-              "name": "punctuation.definition.link.description.begin.markdown"
-            },
-            "3": {
-              "name": "string.other.link.description.markdown"
-            },
-            "5": {
-              "name": "punctuation.definition.link.description.end.markdown"
-            },
-            "6": {
-              "name": "punctuation.definition.link.begin.markdown"
-            },
-            "7": {
-              "name": "markup.underline.link.image.markdown"
-            },
-            "9": {
-              "name": "punctuation.definition.string.begin.markdown"
-            },
-            "10": {
-              "name": "string.quoted.link.title.markdown"
-            },
-            "11": {
-              "name": "punctuation.definition.string.end.markdown"
-            },
-            "13": {
-              "name": "punctuation.definition.string.begin.markdown"
-            },
-            "14": {
-              "name": "string.quoted.link.title.markdown"
-            },
-            "15": {
-              "name": "punctuation.definition.string.end.markdown"
-            },
-            "16": {
-              "name": "punctuation.definition.link.end.markdown"
-            },
-            "17": {
-              "name": "punctuation.definition.attribute-list.begin.markdown"
-            },
-            "18": {
-              "name": "meta.attribute-list.trailing.inline.markdown",
-              "patterns": [
-                {
-                  "include": "#attribute"
-                }
-              ]
-            },
-            "19": {
-              "name": "punctuation.definition.attribute-list.end.markdown"
-            }
-          }
-        },
-        {
-          "match": "(\\!)(\\[)((?<square>[^\\[\\]\\\\]|\\\\.|\\[\\g<square>*+\\])*+)(\\])(\\()(?<url>(?:\\\\.|[^()\\r\\n\"'\\\\]|\\r\\n|\\r|\\n|\\(\\g<url>*\\))*)[ \\t]+(?:((\")([^\"\\r\\n]*)(\")?)|((')([^'\\r\\n]*)(')?))[ \\t]*(\\))?",
-          "name": "meta.image.inline.markdown",
-          "captures": {
-            "1": {
-              "name": "punctuation.definition.image.begin.markdown"
-            },
-            "2": {
-              "name": "punctuation.definition.link.description.begin.markdown"
-            },
-            "3": {
-              "name": "string.other.link.description.markdown"
-            },
-            "5": {
-              "name": "punctuation.definition.link.description.end.markdown"
-            },
-            "6": {
-              "name": "punctuation.definition.link.begin.markdown"
-            },
-            "7": {
-              "name": "markup.underline.link.image.markdown"
-            },
-            "9": {
-              "name": "punctuation.definition.string.begin.markdown"
-            },
-            "10": {
-              "name": "string.quoted.link.title.markdown"
-            },
-            "11": {
-              "name": "punctuation.definition.string.end.markdown"
-            },
-            "13": {
-              "name": "punctuation.definition.string.begin.markdown"
-            },
-            "14": {
-              "name": "string.quoted.link.title.markdown"
-            },
-            "15": {
-              "name": "punctuation.definition.string.end.markdown"
-            },
-            "16": {
-              "name": "punctuation.definition.link.end.markdown"
-            }
-          }
-        },
-        {
-          "match": "(\\!)(\\[)((?<square>[^\\[\\]\\\\]|\\\\.|\\[\\g<square>*+\\])*+)(\\])(\\()(?<url>(?:\\\\.|[^()\\r\\n\"'\\\\]|\\r\\n|\\r|\\n)*)(?:[ \\t]+(?:((\")([^\"\\r\\n]*)(\")?)|((')([^'\\r\\n]*)(')?)))?[ \\t]*(\\))?",
-          "name": "meta.image.inline.markdown",
-          "captures": {
-            "1": {
-              "name": "punctuation.definition.image.begin.markdown"
-            },
-            "2": {
-              "name": "punctuation.definition.link.description.begin.markdown"
-            },
-            "3": {
-              "name": "string.other.link.description.markdown"
-            },
-            "5": {
-              "name": "punctuation.definition.link.description.end.markdown"
-            },
-            "6": {
-              "name": "punctuation.definition.link.begin.markdown"
-            },
-            "7": {
-              "name": "markup.underline.link.image.markdown"
-            },
-            "9": {
-              "name": "punctuation.definition.string.begin.markdown"
-            },
-            "10": {
-              "name": "string.quoted.link.title.markdown"
-            },
-            "11": {
-              "name": "punctuation.definition.string.end.markdown"
-            },
-            "13": {
-              "name": "punctuation.definition.string.begin.markdown"
-            },
-            "14": {
-              "name": "string.quoted.link.title.markdown"
-            },
-            "15": {
-              "name": "punctuation.definition.string.end.markdown"
-            },
-            "16": {
-              "name": "punctuation.definition.link.end.markdown"
-            }
-          }
-        }
-      ]
-    },
-    "image_reference": {
-      "patterns": [
-        {
-          "match": "(?<!\\\\)(\\!)(\\[)((?<square>[^\\[\\]\\\\\\r\\n]|\\\\.|\\[\\g<square>*+\\])*+)(\\])([ \\t]?)(\\[)((?:\\\\.|[^\\]\\s\\r\\n])|(?:\\\\.|[^\\]\\s\\r\\n])(?:\\\\.|[^\\]\\r\\n])*?[^\\]\\s\\r\\n])(\\])(?:(\\{)([^}\\r\\n]*)(\\}))?",
-          "name": "meta.image.reference.markdown",
-          "captures": {
-            "1": {
-              "name": "punctuation.definition.image.begin.markdown"
-            },
-            "2": {
-              "name": "punctuation.definition.link.description.begin.markdown"
-            },
-            "3": {
-              "name": "string.other.link.description.markdown"
-            },
-            "5": {
-              "name": "punctuation.definition.link.description.end.markdown"
-            },
-            "7": {
-              "name": "punctuation.definition.link.begin.markdown"
-            },
-            "8": {
-              "name": "constant.other.reference.link.markdown"
-            },
-            "9": {
-              "name": "punctuation.definition.link.end.markdown"
-            },
-            "10": {
-              "name": "punctuation.definition.attribute-list.begin.markdown"
-            },
-            "11": {
-              "name": "meta.attribute-list.trailing.inline.markdown",
-              "patterns": [
-                {
-                  "include": "#attribute"
-                }
-              ]
-            },
-            "12": {
-              "name": "punctuation.definition.attribute-list.end.markdown"
-            }
-          }
-        },
-        {
-          "match": "(?<!\\\\)(\\!)(\\[)((?<square>[^\\[\\]\\\\\\r\\n]|\\\\.|\\[\\g<square>*+\\])++)(\\])(\\[)(\\])(?:(\\{)([^}\\r\\n]*)(\\}))?",
-          "name": "meta.image.reference.markdown",
-          "captures": {
-            "1": {
-              "name": "punctuation.definition.image.begin.markdown"
-            },
-            "2": {
-              "name": "punctuation.definition.link.description.begin.markdown"
-            },
-            "3": {
-              "name": "string.other.link.description.markdown"
-            },
-            "5": {
-              "name": "punctuation.definition.link.description.end.markdown"
-            },
-            "6": {
-              "name": "punctuation.definition.link.begin.markdown"
-            },
-            "7": {
-              "name": "punctuation.definition.link.end.markdown"
-            },
-            "8": {
-              "name": "punctuation.definition.attribute-list.begin.markdown"
-            },
-            "9": {
-              "name": "meta.attribute-list.trailing.inline.markdown",
-              "patterns": [
-                {
-                  "include": "#attribute"
-                }
-              ]
-            },
-            "10": {
-              "name": "punctuation.definition.attribute-list.end.markdown"
-            }
-          }
-        },
-        {
-          "match": "(?<!\\\\)(\\!)(\\[)((?<square>[^\\[\\]\\\\\\r\\n]|\\\\.|\\[\\g<square>*+\\])*+)(\\])([ \\t]?)(\\[)((?:\\\\.|[^\\]\\r\\n])*)$",
-          "name": "meta.image.reference.markdown",
-          "captures": {
-            "1": {
-              "name": "punctuation.definition.image.begin.markdown"
-            },
-            "2": {
-              "name": "punctuation.definition.link.description.begin.markdown"
-            },
-            "3": {
-              "name": "string.other.link.description.markdown"
-            },
-            "5": {
-              "name": "punctuation.definition.link.description.end.markdown"
-            },
-            "7": {
-              "name": "punctuation.definition.link.begin.markdown"
-            },
-            "8": {
-              "name": "constant.other.reference.link.markdown"
-            }
-          }
-        },
-        {
-          "match": "(?<!\\\\)(\\!)(\\[)((?<square>[^\\[\\]\\\\\\r\\n]|\\\\.|\\[\\g<square>*+\\])++)(\\])(?!\\()(?:(\\{)([^}\\r\\n]*)(\\}))?",
-          "name": "meta.image.reference.markdown",
-          "captures": {
-            "1": {
-              "name": "punctuation.definition.image.begin.markdown"
-            },
-            "2": {
-              "name": "punctuation.definition.link.description.begin.markdown"
-            },
-            "3": {
-              "name": "string.other.link.description.markdown"
-            },
-            "5": {
-              "name": "punctuation.definition.link.description.end.markdown"
-            },
-            "6": {
-              "name": "punctuation.definition.attribute-list.begin.markdown"
-            },
-            "7": {
-              "name": "meta.attribute-list.trailing.inline.markdown",
-              "patterns": [
-                {
-                  "include": "#attribute"
-                }
-              ]
-            },
-            "8": {
-              "name": "punctuation.definition.attribute-list.end.markdown"
-            }
-          }
-        }
-      ]
-    },
-    "footnote": {
-      "patterns": [
-        {
-          "name": "meta.footnote-definition.markdown",
-          "begin": "(\\[)(\\^)",
-          "beginCaptures": {
-            "1": {
-              "name": "punctuation.definition.footnote.begin.markdown"
-            },
-            "2": {
-              "name": "keyword.control.footnote.markdown"
-            }
-          },
-          "contentName": "entity.name.label.footnote.markdown",
-          "end": "(\\])(?:(\\{)([^}\\r\\n]*)(\\}))?",
-          "endCaptures": {
-            "1": {
-              "name": "punctuation.definition.footnote.end.markdown"
-            },
-            "2": {
-              "name": "punctuation.definition.attribute-list.begin.markdown"
-            },
-            "3": {
-              "name": "meta.attribute-list.trailing.inline.markdown",
-              "patterns": [
-                {
-                  "include": "#attribute"
-                }
-              ]
-            },
-            "4": {
-              "name": "punctuation.definition.attribute-list.end.markdown"
-            }
-          }
         }
       ]
     },
@@ -10639,6 +10096,549 @@
           "endCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
+            },
+            "2": {
+              "name": "punctuation.definition.attribute-list.begin.markdown"
+            },
+            "3": {
+              "name": "meta.attribute-list.trailing.inline.markdown",
+              "patterns": [
+                {
+                  "include": "#attribute"
+                }
+              ]
+            },
+            "4": {
+              "name": "punctuation.definition.attribute-list.end.markdown"
+            }
+          }
+        }
+      ]
+    },
+    "image": {
+      "patterns": [
+        {
+          "match": "(\\!)(\\[)((?<square>[^\\[\\]\\\\]|\\\\.|\\[\\g<square>*+\\])*+)(\\])(\\()([ \\t]*)(<)([^>\\r\\n]*)(>)(?:[ \\t]+(?:((\")([^\"\\r\\n]*)(\"))|((')([^'\\r\\n]*)('))))?[ \\t]*(\\))(?:(\\{)([^}\\r\\n]*)(\\}))?",
+          "name": "meta.image.inline.markdown",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.image.begin.markdown"
+            },
+            "2": {
+              "name": "punctuation.definition.link.description.begin.markdown"
+            },
+            "3": {
+              "name": "string.other.link.description.markdown"
+            },
+            "5": {
+              "name": "punctuation.definition.link.description.end.markdown"
+            },
+            "6": {
+              "name": "punctuation.definition.link.begin.markdown"
+            },
+            "8": {
+              "name": "punctuation.definition.link.begin.angle.markdown"
+            },
+            "9": {
+              "name": "markup.underline.link.image.markdown"
+            },
+            "10": {
+              "name": "punctuation.definition.link.end.angle.markdown"
+            },
+            "12": {
+              "name": "punctuation.definition.string.begin.markdown"
+            },
+            "13": {
+              "name": "string.quoted.link.title.markdown"
+            },
+            "14": {
+              "name": "punctuation.definition.string.end.markdown"
+            },
+            "16": {
+              "name": "punctuation.definition.string.begin.markdown"
+            },
+            "17": {
+              "name": "string.quoted.link.title.markdown"
+            },
+            "18": {
+              "name": "punctuation.definition.string.end.markdown"
+            },
+            "19": {
+              "name": "punctuation.definition.link.end.markdown"
+            },
+            "20": {
+              "name": "punctuation.definition.attribute-list.begin.markdown"
+            },
+            "21": {
+              "name": "meta.attribute-list.trailing.inline.markdown",
+              "patterns": [
+                {
+                  "include": "#attribute"
+                }
+              ]
+            },
+            "22": {
+              "name": "punctuation.definition.attribute-list.end.markdown"
+            }
+          }
+        },
+        {
+          "match": "(\\!)(\\[)((?<square>[^\\[\\]\\\\]|\\\\.|\\[\\g<square>*+\\])*+)(\\])(\\()([ \\t]*)(?:((\")([^\"\\r\\n]*)(\"))|((')([^'\\r\\n]*)(')))[ \\t]*(\\))(?:(\\{)([^}\\r\\n]*)(\\}))?",
+          "name": "meta.image.inline.markdown",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.image.begin.markdown"
+            },
+            "2": {
+              "name": "punctuation.definition.link.description.begin.markdown"
+            },
+            "3": {
+              "name": "string.other.link.description.markdown"
+            },
+            "5": {
+              "name": "punctuation.definition.link.description.end.markdown"
+            },
+            "6": {
+              "name": "punctuation.definition.link.begin.markdown"
+            },
+            "9": {
+              "name": "punctuation.definition.string.begin.markdown"
+            },
+            "10": {
+              "name": "string.quoted.link.title.markdown"
+            },
+            "11": {
+              "name": "punctuation.definition.string.end.markdown"
+            },
+            "13": {
+              "name": "punctuation.definition.string.begin.markdown"
+            },
+            "14": {
+              "name": "string.quoted.link.title.markdown"
+            },
+            "15": {
+              "name": "punctuation.definition.string.end.markdown"
+            },
+            "16": {
+              "name": "punctuation.definition.link.end.markdown"
+            },
+            "17": {
+              "name": "punctuation.definition.attribute-list.begin.markdown"
+            },
+            "18": {
+              "name": "meta.attribute-list.trailing.inline.markdown",
+              "patterns": [
+                {
+                  "include": "#attribute"
+                }
+              ]
+            },
+            "19": {
+              "name": "punctuation.definition.attribute-list.end.markdown"
+            }
+          }
+        },
+        {
+          "match": "(\\!)(\\[)((?<square>[^\\[\\]\\\\]|\\\\.|\\[\\g<square>*+\\])*+)(\\])(\\()([ \\t]*)(?:((\")([^\"\\r\\n]*)(\")?)|((')([^'\\r\\n]*)(')?))[ \\t]*(\\))?",
+          "name": "meta.image.inline.markdown",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.image.begin.markdown"
+            },
+            "2": {
+              "name": "punctuation.definition.link.description.begin.markdown"
+            },
+            "3": {
+              "name": "string.other.link.description.markdown"
+            },
+            "5": {
+              "name": "punctuation.definition.link.description.end.markdown"
+            },
+            "6": {
+              "name": "punctuation.definition.link.begin.markdown"
+            },
+            "9": {
+              "name": "punctuation.definition.string.begin.markdown"
+            },
+            "10": {
+              "name": "string.quoted.link.title.markdown"
+            },
+            "11": {
+              "name": "punctuation.definition.string.end.markdown"
+            },
+            "13": {
+              "name": "punctuation.definition.string.begin.markdown"
+            },
+            "14": {
+              "name": "string.quoted.link.title.markdown"
+            },
+            "15": {
+              "name": "punctuation.definition.string.end.markdown"
+            },
+            "16": {
+              "name": "punctuation.definition.link.end.markdown"
+            }
+          }
+        },
+        {
+          "match": "(\\!)(\\[)((?<square>[^\\[\\]\\\\]|\\\\.|\\[\\g<square>*+\\])*+)(\\])(\\()([ \\t]*)(<)([^>\\r\\n]*)(>)?(?:[ \\t]+(?:((\")([^\"\\r\\n]*)(\")?)|((')([^'\\r\\n]*)(')?)))?[ \\t]*(\\))?",
+          "name": "meta.image.inline.markdown",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.image.begin.markdown"
+            },
+            "2": {
+              "name": "punctuation.definition.link.description.begin.markdown"
+            },
+            "3": {
+              "name": "string.other.link.description.markdown"
+            },
+            "5": {
+              "name": "punctuation.definition.link.description.end.markdown"
+            },
+            "6": {
+              "name": "punctuation.definition.link.begin.markdown"
+            },
+            "8": {
+              "name": "punctuation.definition.link.begin.angle.markdown"
+            },
+            "9": {
+              "name": "markup.underline.link.image.markdown"
+            },
+            "10": {
+              "name": "punctuation.definition.link.end.angle.markdown"
+            },
+            "12": {
+              "name": "punctuation.definition.string.begin.markdown"
+            },
+            "13": {
+              "name": "string.quoted.link.title.markdown"
+            },
+            "14": {
+              "name": "punctuation.definition.string.end.markdown"
+            },
+            "16": {
+              "name": "punctuation.definition.string.begin.markdown"
+            },
+            "17": {
+              "name": "string.quoted.link.title.markdown"
+            },
+            "18": {
+              "name": "punctuation.definition.string.end.markdown"
+            },
+            "19": {
+              "name": "punctuation.definition.link.end.markdown"
+            }
+          }
+        },
+        {
+          "match": "(\\!)(\\[)((?<square>[^\\[\\]\\\\]|\\\\.|\\[\\g<square>*+\\])*+)(\\])(\\()(?<url>(?:\\\\.|[^()\\r\\n\"'\\\\]|\\r\\n|\\r|\\n|\\(\\g<url>*\\))*?)(?:[ \\t]+(?:((\")([^\"\\r\\n]*)(\"))|((')([^'\\r\\n]*)('))))?[ \\t]*(\\))(?:(\\{)([^}\\r\\n]*)(\\}))?",
+          "name": "meta.image.inline.markdown",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.image.begin.markdown"
+            },
+            "2": {
+              "name": "punctuation.definition.link.description.begin.markdown"
+            },
+            "3": {
+              "name": "string.other.link.description.markdown"
+            },
+            "5": {
+              "name": "punctuation.definition.link.description.end.markdown"
+            },
+            "6": {
+              "name": "punctuation.definition.link.begin.markdown"
+            },
+            "7": {
+              "name": "markup.underline.link.image.markdown"
+            },
+            "9": {
+              "name": "punctuation.definition.string.begin.markdown"
+            },
+            "10": {
+              "name": "string.quoted.link.title.markdown"
+            },
+            "11": {
+              "name": "punctuation.definition.string.end.markdown"
+            },
+            "13": {
+              "name": "punctuation.definition.string.begin.markdown"
+            },
+            "14": {
+              "name": "string.quoted.link.title.markdown"
+            },
+            "15": {
+              "name": "punctuation.definition.string.end.markdown"
+            },
+            "16": {
+              "name": "punctuation.definition.link.end.markdown"
+            },
+            "17": {
+              "name": "punctuation.definition.attribute-list.begin.markdown"
+            },
+            "18": {
+              "name": "meta.attribute-list.trailing.inline.markdown",
+              "patterns": [
+                {
+                  "include": "#attribute"
+                }
+              ]
+            },
+            "19": {
+              "name": "punctuation.definition.attribute-list.end.markdown"
+            }
+          }
+        },
+        {
+          "match": "(\\!)(\\[)((?<square>[^\\[\\]\\\\]|\\\\.|\\[\\g<square>*+\\])*+)(\\])(\\()(?<url>(?:\\\\.|[^()\\r\\n\"'\\\\]|\\r\\n|\\r|\\n|\\(\\g<url>*\\))*)[ \\t]+(?:((\")([^\"\\r\\n]*)(\")?)|((')([^'\\r\\n]*)(')?))[ \\t]*(\\))?",
+          "name": "meta.image.inline.markdown",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.image.begin.markdown"
+            },
+            "2": {
+              "name": "punctuation.definition.link.description.begin.markdown"
+            },
+            "3": {
+              "name": "string.other.link.description.markdown"
+            },
+            "5": {
+              "name": "punctuation.definition.link.description.end.markdown"
+            },
+            "6": {
+              "name": "punctuation.definition.link.begin.markdown"
+            },
+            "7": {
+              "name": "markup.underline.link.image.markdown"
+            },
+            "9": {
+              "name": "punctuation.definition.string.begin.markdown"
+            },
+            "10": {
+              "name": "string.quoted.link.title.markdown"
+            },
+            "11": {
+              "name": "punctuation.definition.string.end.markdown"
+            },
+            "13": {
+              "name": "punctuation.definition.string.begin.markdown"
+            },
+            "14": {
+              "name": "string.quoted.link.title.markdown"
+            },
+            "15": {
+              "name": "punctuation.definition.string.end.markdown"
+            },
+            "16": {
+              "name": "punctuation.definition.link.end.markdown"
+            }
+          }
+        },
+        {
+          "match": "(\\!)(\\[)((?<square>[^\\[\\]\\\\]|\\\\.|\\[\\g<square>*+\\])*+)(\\])(\\()(?<url>(?:\\\\.|[^()\\r\\n\"'\\\\]|\\r\\n|\\r|\\n)*)(?:[ \\t]+(?:((\")([^\"\\r\\n]*)(\")?)|((')([^'\\r\\n]*)(')?)))?[ \\t]*(\\))?",
+          "name": "meta.image.inline.markdown",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.image.begin.markdown"
+            },
+            "2": {
+              "name": "punctuation.definition.link.description.begin.markdown"
+            },
+            "3": {
+              "name": "string.other.link.description.markdown"
+            },
+            "5": {
+              "name": "punctuation.definition.link.description.end.markdown"
+            },
+            "6": {
+              "name": "punctuation.definition.link.begin.markdown"
+            },
+            "7": {
+              "name": "markup.underline.link.image.markdown"
+            },
+            "9": {
+              "name": "punctuation.definition.string.begin.markdown"
+            },
+            "10": {
+              "name": "string.quoted.link.title.markdown"
+            },
+            "11": {
+              "name": "punctuation.definition.string.end.markdown"
+            },
+            "13": {
+              "name": "punctuation.definition.string.begin.markdown"
+            },
+            "14": {
+              "name": "string.quoted.link.title.markdown"
+            },
+            "15": {
+              "name": "punctuation.definition.string.end.markdown"
+            },
+            "16": {
+              "name": "punctuation.definition.link.end.markdown"
+            }
+          }
+        }
+      ]
+    },
+    "image_reference": {
+      "patterns": [
+        {
+          "match": "(?<!\\\\)(\\!)(\\[)((?<square>[^\\[\\]\\\\\\r\\n]|\\\\.|\\[\\g<square>*+\\])*+)(\\])([ \\t]?)(\\[)((?:\\\\.|[^\\]\\s\\r\\n])|(?:\\\\.|[^\\]\\s\\r\\n])(?:\\\\.|[^\\]\\r\\n])*?[^\\]\\s\\r\\n])(\\])(?:(\\{)([^}\\r\\n]*)(\\}))?",
+          "name": "meta.image.reference.markdown",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.image.begin.markdown"
+            },
+            "2": {
+              "name": "punctuation.definition.link.description.begin.markdown"
+            },
+            "3": {
+              "name": "string.other.link.description.markdown"
+            },
+            "5": {
+              "name": "punctuation.definition.link.description.end.markdown"
+            },
+            "7": {
+              "name": "punctuation.definition.link.begin.markdown"
+            },
+            "8": {
+              "name": "constant.other.reference.link.markdown"
+            },
+            "9": {
+              "name": "punctuation.definition.link.end.markdown"
+            },
+            "10": {
+              "name": "punctuation.definition.attribute-list.begin.markdown"
+            },
+            "11": {
+              "name": "meta.attribute-list.trailing.inline.markdown",
+              "patterns": [
+                {
+                  "include": "#attribute"
+                }
+              ]
+            },
+            "12": {
+              "name": "punctuation.definition.attribute-list.end.markdown"
+            }
+          }
+        },
+        {
+          "match": "(?<!\\\\)(\\!)(\\[)((?<square>[^\\[\\]\\\\\\r\\n]|\\\\.|\\[\\g<square>*+\\])++)(\\])(\\[)(\\])(?:(\\{)([^}\\r\\n]*)(\\}))?",
+          "name": "meta.image.reference.markdown",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.image.begin.markdown"
+            },
+            "2": {
+              "name": "punctuation.definition.link.description.begin.markdown"
+            },
+            "3": {
+              "name": "string.other.link.description.markdown"
+            },
+            "5": {
+              "name": "punctuation.definition.link.description.end.markdown"
+            },
+            "6": {
+              "name": "punctuation.definition.link.begin.markdown"
+            },
+            "7": {
+              "name": "punctuation.definition.link.end.markdown"
+            },
+            "8": {
+              "name": "punctuation.definition.attribute-list.begin.markdown"
+            },
+            "9": {
+              "name": "meta.attribute-list.trailing.inline.markdown",
+              "patterns": [
+                {
+                  "include": "#attribute"
+                }
+              ]
+            },
+            "10": {
+              "name": "punctuation.definition.attribute-list.end.markdown"
+            }
+          }
+        },
+        {
+          "match": "(?<!\\\\)(\\!)(\\[)((?<square>[^\\[\\]\\\\\\r\\n]|\\\\.|\\[\\g<square>*+\\])*+)(\\])([ \\t]?)(\\[)((?:\\\\.|[^\\]\\r\\n])*)$",
+          "name": "meta.image.reference.markdown",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.image.begin.markdown"
+            },
+            "2": {
+              "name": "punctuation.definition.link.description.begin.markdown"
+            },
+            "3": {
+              "name": "string.other.link.description.markdown"
+            },
+            "5": {
+              "name": "punctuation.definition.link.description.end.markdown"
+            },
+            "7": {
+              "name": "punctuation.definition.link.begin.markdown"
+            },
+            "8": {
+              "name": "constant.other.reference.link.markdown"
+            }
+          }
+        },
+        {
+          "match": "(?<!\\\\)(\\!)(\\[)((?<square>[^\\[\\]\\\\\\r\\n]|\\\\.|\\[\\g<square>*+\\])++)(\\])(?!\\()(?:(\\{)([^}\\r\\n]*)(\\}))?",
+          "name": "meta.image.reference.markdown",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.image.begin.markdown"
+            },
+            "2": {
+              "name": "punctuation.definition.link.description.begin.markdown"
+            },
+            "3": {
+              "name": "string.other.link.description.markdown"
+            },
+            "5": {
+              "name": "punctuation.definition.link.description.end.markdown"
+            },
+            "6": {
+              "name": "punctuation.definition.attribute-list.begin.markdown"
+            },
+            "7": {
+              "name": "meta.attribute-list.trailing.inline.markdown",
+              "patterns": [
+                {
+                  "include": "#attribute"
+                }
+              ]
+            },
+            "8": {
+              "name": "punctuation.definition.attribute-list.end.markdown"
+            }
+          }
+        }
+      ]
+    },
+    "footnote": {
+      "patterns": [
+        {
+          "name": "meta.footnote-definition.markdown",
+          "begin": "(\\[)(\\^)",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.definition.footnote.begin.markdown"
+            },
+            "2": {
+              "name": "keyword.control.footnote.markdown"
+            }
+          },
+          "contentName": "entity.name.label.footnote.markdown",
+          "end": "(\\])(?:(\\{)([^}\\r\\n]*)(\\}))?",
+          "endCaptures": {
+            "1": {
+              "name": "punctuation.definition.footnote.end.markdown"
             },
             "2": {
               "name": "punctuation.definition.attribute-list.begin.markdown"
