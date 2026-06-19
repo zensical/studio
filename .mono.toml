@@ -22,7 +22,7 @@
 # IN THE SOFTWARE.
 
 [projects]
-integration-code = "integrations/code"
+code = "integrations/code"
 
 [scopes]
-grammar-textmate = "grammars/textmate/**"
+grammar = "grammars/**"
