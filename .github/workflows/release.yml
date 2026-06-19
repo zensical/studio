@@ -101,8 +101,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          mono version changelog -s $VERSION > notes.txt
           gh release create $VERSION \
             --title ${VERSION#v} \
+            --notes-file notes.txt \
             --draft
 
       - name: Upload release artifacts
