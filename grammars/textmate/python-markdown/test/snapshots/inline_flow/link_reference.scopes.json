@@ -518,7 +518,6 @@
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
               "string.other.link.title.markdown",
-              "markup.inline.raw.string.markdown",
               "markup.inline.raw.string.markdown"
             ]
           },

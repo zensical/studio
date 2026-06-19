@@ -654,7 +654,7 @@ repository:
   # inline_code_{{language}}:
   #   patterns:
   #     - name: markup.inline.raw.string.markdown
-  #       begin: (`+)((?:::{3,}|#!))(?i:({{aliases}}))([ \t\r\n]+)
+  #       begin: (`+)((?:\:{3,}|#!))(?i:({{aliases}}))([ \t\r\n]+)
   #       beginCaptures:
   #         1: { name: punctuation.definition.raw.markdown }
   #         2: { name: punctuation.definition.inline-highlight.markdown }
@@ -676,7 +676,7 @@ repository:
   inline_code_markdown:
     patterns:
       - name: markup.inline.raw.string.markdown
-        begin: (`+)((?:::{3,}|#!))(?i:(markdown|md))([ \t\r\n]+)
+        begin: (`+)((?:\:{3,}|#!))(?i:(markdown|md))([ \t\r\n]+)
         beginCaptures:
           1: { name: punctuation.definition.raw.markdown }
           2: { name: punctuation.definition.inline-highlight.markdown }
@@ -700,7 +700,6 @@ repository:
         begin: (`+)
         beginCaptures:
           1: { name: punctuation.definition.raw.markdown }
-        contentName: markup.inline.raw.string.markdown
         end: (\1)(?:(\{)([^}\r\n]*)(\}))?
         endCaptures:
           1: { name: punctuation.definition.raw.markdown }

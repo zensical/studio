@@ -6263,7 +6263,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(abap))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(abap))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -6308,7 +6308,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(apacheconf|aconf|apache))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(apacheconf|aconf|apache))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -6353,7 +6353,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(applescript))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(applescript))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -6398,7 +6398,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(arduino))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(arduino))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -6443,7 +6443,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(awk|gawk|mawk|nawk))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(awk|gawk|mawk|nawk))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -6488,7 +6488,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(bat|batch|dosbatch|winbatch))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(bat|batch|dosbatch|winbatch))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -6533,7 +6533,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(bibtex|bib))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(bibtex|bib))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -6578,7 +6578,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(c))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(c))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -6623,7 +6623,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(clj|cljs|clojure|clojurescript))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(clj|cljs|clojure|clojurescript))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -6668,7 +6668,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(cmake))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(cmake))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -6713,7 +6713,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(cobol))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(cobol))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -6758,7 +6758,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(coffee|coffeescript))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(coffee|coffeescript))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -6803,7 +6803,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(cpp|c\\+\\+))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(cpp|c\\+\\+))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -6848,7 +6848,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(cs|csharp|c#))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(cs|csharp|c#))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -6893,7 +6893,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(css))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(css))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -6938,7 +6938,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(cython|pyx|pyrex))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(cython|pyx|pyrex))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -6983,7 +6983,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(d))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(d))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -7028,7 +7028,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(dart))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(dart))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -7073,7 +7073,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(diff))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(diff))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -7118,7 +7118,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(dockerfile|Dockerfile|docker))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(dockerfile|Dockerfile|docker))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -7163,7 +7163,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(graphviz|dot))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(graphviz|dot))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -7208,7 +7208,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(elixir|ex|exs))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(elixir|ex|exs))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -7253,7 +7253,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(erlang))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(erlang))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -7298,7 +7298,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(fortran|f90))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(fortran|f90))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -7343,7 +7343,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(fsharp|f#))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(fsharp|f#))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -7388,7 +7388,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(gleam))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(gleam))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -7433,7 +7433,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(glsl))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(glsl))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -7478,7 +7478,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(gnuplot))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(gnuplot))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -7523,7 +7523,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(go|golang))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(go|golang))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -7568,7 +7568,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(graphql))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(graphql))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -7613,7 +7613,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(groovy))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(groovy))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -7658,7 +7658,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(handlebars))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(handlebars))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -7703,7 +7703,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(html))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(html))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -7748,7 +7748,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(http))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(http))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -7793,7 +7793,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(ini|cfg))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(ini|cfg))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -7838,7 +7838,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(java))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(java))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -7883,7 +7883,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(javascript|js|jsx|react))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(javascript|js|jsx|react))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -7928,7 +7928,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(json|jsonld|json\\-ld))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(json|jsonld|json\\-ld))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -7973,7 +7973,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(json5))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(json5))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -8018,7 +8018,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(jsonnet))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(jsonnet))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -8063,7 +8063,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(julia|jl))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(julia|jl))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -8108,7 +8108,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(kotlin))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(kotlin))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -8153,7 +8153,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(latex|tex))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(latex|tex))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -8198,7 +8198,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(less))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(less))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -8243,7 +8243,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(lua))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(lua))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -8288,7 +8288,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(Makefile|makefile|make))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(Makefile|makefile|make))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -8333,7 +8333,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(matlab))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(matlab))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -8378,7 +8378,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(meson|meson\\.build))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(meson|meson\\.build))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -8423,7 +8423,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(nginx))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(nginx))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -8468,7 +8468,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(nimrod|nim))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(nimrod|nim))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -8513,7 +8513,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(nixos|nix))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(nixos|nix))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -8558,7 +8558,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(objectivec|objective\\-c|objc|obj\\-c))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(objectivec|objective\\-c|objc|obj\\-c))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -8603,7 +8603,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(ocaml))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(ocaml))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -8648,7 +8648,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(org|orgmode|org\\-mode))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(org|orgmode|org\\-mode))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -8693,7 +8693,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(perl|pl|PL|vcl))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(perl|pl|PL|vcl))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -8738,7 +8738,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(php|php3|php4|php5))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(php|php3|php4|php5))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -8783,7 +8783,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(powershell|ps1|psm1|pwsh|posh))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(powershell|ps1|psm1|pwsh|posh))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -8828,7 +8828,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(prolog))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(prolog))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -8873,7 +8873,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(promql))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(promql))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -8918,7 +8918,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(properties|jproperties))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(properties|jproperties))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -8963,7 +8963,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(jade|pug))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(jade|pug))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -9008,7 +9008,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(puppet))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(puppet))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -9053,7 +9053,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(python|py|py3|python3))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(python|py|py3|python3))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -9098,7 +9098,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(qml|qbs))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(qml|qbs))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -9143,7 +9143,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(R|r|s|S))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(R|r|s|S))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -9188,7 +9188,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(racket|rkt))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(racket|rkt))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -9233,7 +9233,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(restructuredtext|rst))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(restructuredtext|rst))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -9278,7 +9278,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(robotframework))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(robotframework))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -9323,7 +9323,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(ruby|rb))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(ruby|rb))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -9368,7 +9368,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(rust|rs))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(rust|rs))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -9413,7 +9413,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(sass))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(sass))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -9458,7 +9458,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(scala))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(scala))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -9503,7 +9503,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(scheme|scm))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(scheme|scm))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -9548,7 +9548,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(scss))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(scss))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -9593,7 +9593,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(shell|sh|bash|zsh|ksh|openrc|fish|fishshell|tcsh|csh))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(shell|sh|bash|zsh|ksh|openrc|fish|fishshell|tcsh|csh))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -9638,7 +9638,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(smalltalk|st))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(smalltalk|st))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -9683,7 +9683,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(solidity))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(solidity))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -9728,7 +9728,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(sparql))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(sparql))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -9773,7 +9773,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(sql))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(sql))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -9818,7 +9818,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(swift))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(swift))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -9863,7 +9863,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(tcl))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(tcl))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -9908,7 +9908,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(terraform|tf|hcl))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(terraform|tf|hcl))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -9953,7 +9953,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(toml))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(toml))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -9998,7 +9998,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(tsx))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(tsx))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -10043,7 +10043,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(twig))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(twig))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -10088,7 +10088,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(typescript|ts))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(typescript|ts))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -10133,7 +10133,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(vb\\.net|vbnet|visual\\-basic|visualbasic))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(vb\\.net|vbnet|visual\\-basic|visualbasic))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -10178,7 +10178,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(verilog|v))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(verilog|v))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -10223,7 +10223,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(vhdl))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(vhdl))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -10268,7 +10268,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(vim))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(vim))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -10313,7 +10313,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(wast|wat))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(wast|wat))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -10358,7 +10358,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(wgsl))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(wgsl))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -10403,7 +10403,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(xml|jsp))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(xml|jsp))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -10448,7 +10448,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(xslt))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(xslt))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -10493,7 +10493,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(yaml))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(yaml))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -10538,7 +10538,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(zig))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(zig))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -10583,7 +10583,7 @@
       "patterns": [
         {
           "name": "markup.inline.raw.string.markdown",
-          "begin": "(`+)((?:::{3,}|#!))(?i:(markdown|md))([ \\t\\r\\n]+)",
+          "begin": "(`+)((?:\\:{3,}|#!))(?i:(markdown|md))([ \\t\\r\\n]+)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.raw.markdown"
@@ -10634,7 +10634,6 @@
               "name": "punctuation.definition.raw.markdown"
             }
           },
-          "contentName": "markup.inline.raw.string.markdown",
           "end": "(\\1)(?:(\\{)([^}\\r\\n]*)(\\}))?",
           "endCaptures": {
             "1": {
