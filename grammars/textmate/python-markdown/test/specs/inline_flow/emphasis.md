@@ -314,7 +314,7 @@ ___x___b
 
 ## partial
 
-### accept_partial_asterisk
+### accept_unbalanced_nested_strong_asterisk
 
 ``` md
 *Emphasis **strong***
@@ -326,7 +326,7 @@ ___x___b
 _Emphasis **strong***
 ```
 
-### accept_partial_emphasis
+### accept_unmatched_strong_with_emphasis
 
 ``` md
 __Strong *emphasis***

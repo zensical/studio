@@ -2532,7 +2532,7 @@
     ]
   },
   "partial": {
-    "accept_partial_asterisk": [
+    "accept_unbalanced_nested_strong_asterisk": [
       {
         "line": "*Emphasis **strong***",
         "tokens": [
@@ -2603,20 +2603,10 @@
         "line": "_Emphasis **strong***",
         "tokens": [
           {
-            "text": "_",
+            "text": "_Emphasis ",
             "scopes": [
               "text.html.markdown.python",
-              "meta.paragraph.markdown",
-              "markup.italic.markdown",
-              "punctuation.definition.italic.markdown"
-            ]
-          },
-          {
-            "text": "Emphasis ",
-            "scopes": [
-              "text.html.markdown.python",
-              "meta.paragraph.markdown",
-              "markup.italic.markdown"
+              "meta.paragraph.markdown"
             ]
           },
           {
@@ -2624,7 +2614,6 @@
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
-              "markup.italic.markdown",
               "markup.bold.markdown",
               "punctuation.definition.bold.markdown"
             ]
@@ -2634,7 +2623,6 @@
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
-              "markup.italic.markdown",
               "markup.bold.markdown"
             ]
           },
@@ -2643,7 +2631,6 @@
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
-              "markup.italic.markdown",
               "markup.bold.markdown",
               "punctuation.definition.bold.markdown"
             ]
@@ -2652,8 +2639,7 @@
             "text": "*",
             "scopes": [
               "text.html.markdown.python",
-              "meta.paragraph.markdown",
-              "markup.italic.markdown"
+              "meta.paragraph.markdown"
             ]
           }
         ]
@@ -2663,25 +2649,15 @@
         "tokens": []
       }
     ],
-    "accept_partial_emphasis": [
+    "accept_unmatched_strong_with_emphasis": [
       {
         "line": "__Strong *emphasis***",
         "tokens": [
           {
-            "text": "__",
+            "text": "__Strong ",
             "scopes": [
               "text.html.markdown.python",
-              "meta.paragraph.markdown",
-              "markup.bold.markdown",
-              "punctuation.definition.bold.markdown"
-            ]
-          },
-          {
-            "text": "Strong ",
-            "scopes": [
-              "text.html.markdown.python",
-              "meta.paragraph.markdown",
-              "markup.bold.markdown"
+              "meta.paragraph.markdown"
             ]
           },
           {
@@ -2689,17 +2665,15 @@
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
-              "markup.bold.markdown",
               "markup.italic.markdown",
               "punctuation.definition.italic.markdown"
             ]
           },
           {
-            "text": "emphasis**",
+            "text": "emphasis",
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
-              "markup.bold.markdown",
               "markup.italic.markdown"
             ]
           },
@@ -2708,9 +2682,15 @@
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
-              "markup.bold.markdown",
               "markup.italic.markdown",
               "punctuation.definition.italic.markdown"
+            ]
+          },
+          {
+            "text": "**",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
             ]
           }
         ]

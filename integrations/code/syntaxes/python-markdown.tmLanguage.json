@@ -10361,6 +10361,26 @@
           ]
         },
         {
+          "name": "markup.italic.markdown",
+          "begin": "(?<!\\\\)(?<!\\*)(\\*)(?![\\s*])(?=(?:\\\\.|[^*])*(?<!\\\\)(?<![\\s*])\\*\\*\\*)",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.definition.italic.markdown"
+            }
+          },
+          "end": "(?<!\\\\)(?<![\\s*])(\\*)(?=\\*\\*)",
+          "endCaptures": {
+            "1": {
+              "name": "punctuation.definition.italic.markdown"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#inline_flow"
+            }
+          ]
+        },
+        {
           "name": "markup.bold.markdown",
           "begin": "(?<!\\\\)(?<!\\*)(\\*\\*)(?![\\s*])(?=(?:.*(?<!\\\\)(?<!\\s)\\*\\*|(?:(?:\\\\.|(?!\\*\\*).)*)$))",
           "beginCaptures": {
@@ -10402,7 +10422,7 @@
         },
         {
           "name": "markup.bold.markdown",
-          "begin": "(?<![\\w\\\\_])(__)(?![\\s_])(?=(?:.*(?<!\\\\)(?<!\\s)__(?!\\w)|(?:(?:\\\\.|(?!__).)*)$))",
+          "begin": "(?<![\\w\\\\_])(__)(?![\\s_])(?=(?:.*(?<!\\\\)(?<!\\s)__(?!\\w)))",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.bold.markdown"
@@ -10462,7 +10482,7 @@
         },
         {
           "name": "markup.italic.markdown",
-          "begin": "(?<![\\w\\\\_])(_)(?![\\s_])(?=(?:.*(?<!\\\\)(?<!\\s)_(?![\\w_])|(?:(?:\\\\.|[^_])*)$))",
+          "begin": "(?<![\\w\\\\_])(_)(?![\\s_])(?=(?:.*(?<!\\\\)(?<!\\s)_(?![\\w_])))",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.italic.markdown"
