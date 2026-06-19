@@ -71,12 +71,12 @@ jobs:
       - name: Build artifact
         run: npm run build && npx vsce package
 
-      # - name: Create artifact attestation
-      #   if: inputs.attestations == true
-      #   uses: actions/attest@v4
-      #   with:
-      #     show-summary: false
-      #     subject-path: integrations/code/*
+      - name: Create artifact attestation
+        if: inputs.attestations == true
+        uses: actions/attest@v4
+        with:
+          show-summary: false
+          subject-path: integrations/code/*
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v7
