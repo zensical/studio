@@ -5695,7 +5695,52 @@
           }
         },
         {
-          "match": "(\\!)(\\[)((?<square>[^\\[\\]\\\\]|\\\\.|\\[\\g<square>*+\\])*+)(\\])(\\()(?<url>(?:\\\\.|[^()\\r\\n\"'\\\\]|\\r\\n|\\r|\\n|\\(\\g<url>*\\))*?)(?:[ \\t]+(?:((\")([^\"\\r\\n]*)(\")?)|((')([^'\\r\\n]*)(')?)))?[ \\t]*(\\))?",
+          "match": "(\\!)(\\[)((?<square>[^\\[\\]\\\\]|\\\\.|\\[\\g<square>*+\\])*+)(\\])(\\()(?<url>(?:\\\\.|[^()\\r\\n\"'\\\\]|\\r\\n|\\r|\\n|\\(\\g<url>*\\))*)[ \\t]+(?:((\")([^\"\\r\\n]*)(\")?)|((')([^'\\r\\n]*)(')?))[ \\t]*(\\))?",
+          "name": "meta.image.inline.markdown",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.image.begin.markdown"
+            },
+            "2": {
+              "name": "punctuation.definition.link.description.begin.markdown"
+            },
+            "3": {
+              "name": "string.other.link.description.markdown"
+            },
+            "5": {
+              "name": "punctuation.definition.link.description.end.markdown"
+            },
+            "6": {
+              "name": "punctuation.definition.link.begin.markdown"
+            },
+            "7": {
+              "name": "markup.underline.link.image.markdown"
+            },
+            "9": {
+              "name": "punctuation.definition.string.begin.markdown"
+            },
+            "10": {
+              "name": "string.quoted.link.title.markdown"
+            },
+            "11": {
+              "name": "punctuation.definition.string.end.markdown"
+            },
+            "13": {
+              "name": "punctuation.definition.string.begin.markdown"
+            },
+            "14": {
+              "name": "string.quoted.link.title.markdown"
+            },
+            "15": {
+              "name": "punctuation.definition.string.end.markdown"
+            },
+            "16": {
+              "name": "punctuation.definition.link.end.markdown"
+            }
+          }
+        },
+        {
+          "match": "(\\!)(\\[)((?<square>[^\\[\\]\\\\]|\\\\.|\\[\\g<square>*+\\])*+)(\\])(\\()(?<url>(?:\\\\.|[^()\\r\\n\"'\\\\]|\\r\\n|\\r|\\n)*)(?:[ \\t]+(?:((\")([^\"\\r\\n]*)(\")?)|((')([^'\\r\\n]*)(')?)))?[ \\t]*(\\))?",
           "name": "meta.image.inline.markdown",
           "captures": {
             "1": {
@@ -5744,7 +5789,7 @@
     "image_reference": {
       "patterns": [
         {
-          "match": "(?<!\\\\)(\\!)(\\[)([^\\]\\r\\n]*)(\\])(\\[)([^\\]\\r\\n]*)(\\])(?:(\\{)([^}\\r\\n]*)(\\}))?",
+          "match": "(?<!\\\\)(\\!)(\\[)((?<square>[^\\[\\]\\\\\\r\\n]|\\\\.|\\[\\g<square>*+\\])*+)(\\])([ \\t]?)(\\[)((?:\\\\.|[^\\]\\s\\r\\n])|(?:\\\\.|[^\\]\\s\\r\\n])(?:\\\\.|[^\\]\\r\\n])*?[^\\]\\s\\r\\n])(\\])(?:(\\{)([^}\\r\\n]*)(\\}))?",
           "name": "meta.image.reference.markdown",
           "captures": {
             "1": {
@@ -5759,19 +5804,19 @@
             "4": {
               "name": "punctuation.definition.link.description.end.markdown"
             },
-            "5": {
+            "6": {
               "name": "punctuation.definition.link.begin.markdown"
             },
-            "6": {
+            "7": {
               "name": "constant.other.reference.link.markdown"
             },
-            "7": {
+            "8": {
               "name": "punctuation.definition.link.end.markdown"
             },
-            "8": {
+            "9": {
               "name": "punctuation.definition.attribute-list.begin.markdown"
             },
-            "9": {
+            "10": {
               "name": "meta.attribute-list.trailing.inline.markdown",
               "patterns": [
                 {
@@ -5779,13 +5824,13 @@
                 }
               ]
             },
-            "10": {
+            "11": {
               "name": "punctuation.definition.attribute-list.end.markdown"
             }
           }
         },
         {
-          "match": "(?<!\\\\)(\\!)(\\[)([^\\]\\r\\n]*)(\\])(\\[)([^\\]\\r\\n]*)(\\])?",
+          "match": "(?<!\\\\)(\\!)(\\[)((?<square>[^\\[\\]\\\\\\r\\n]|\\\\.|\\[\\g<square>*+\\])++)(\\])(\\[)(\\])(?:(\\{)([^}\\r\\n]*)(\\}))?",
           "name": "meta.image.reference.markdown",
           "captures": {
             "1": {
@@ -5804,15 +5849,50 @@
               "name": "punctuation.definition.link.begin.markdown"
             },
             "6": {
-              "name": "constant.other.reference.link.markdown"
+              "name": "punctuation.definition.link.end.markdown"
             },
             "7": {
-              "name": "punctuation.definition.link.end.markdown"
+              "name": "punctuation.definition.attribute-list.begin.markdown"
+            },
+            "8": {
+              "name": "meta.attribute-list.trailing.inline.markdown",
+              "patterns": [
+                {
+                  "include": "#attribute"
+                }
+              ]
+            },
+            "9": {
+              "name": "punctuation.definition.attribute-list.end.markdown"
             }
           }
         },
         {
-          "match": "(?<!\\\\)(\\!)(\\[)([^\\]\\r\\n]*)(\\])(?!\\()(?:(\\{)([^}\\r\\n]*)(\\}))?",
+          "match": "(?<!\\\\)(\\!)(\\[)((?<square>[^\\[\\]\\\\\\r\\n]|\\\\.|\\[\\g<square>*+\\])*+)(\\])([ \\t]?)(\\[)((?:\\\\.|[^\\]\\r\\n])*)$",
+          "name": "meta.image.reference.markdown",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.image.begin.markdown"
+            },
+            "2": {
+              "name": "punctuation.definition.link.description.begin.markdown"
+            },
+            "3": {
+              "name": "string.other.link.description.markdown"
+            },
+            "4": {
+              "name": "punctuation.definition.link.description.end.markdown"
+            },
+            "6": {
+              "name": "punctuation.definition.link.begin.markdown"
+            },
+            "7": {
+              "name": "constant.other.reference.link.markdown"
+            }
+          }
+        },
+        {
+          "match": "(?<!\\\\)(\\!)(\\[)((?<square>[^\\[\\]\\\\\\r\\n]|\\\\.|\\[\\g<square>*+\\])++)(\\])(?!\\()(?:(\\{)([^}\\r\\n]*)(\\}))?",
           "name": "meta.image.reference.markdown",
           "captures": {
             "1": {
@@ -10581,7 +10661,7 @@
     "link": {
       "patterns": [
         {
-          "match": "(\\[)((?<square>[^\\[\\]\\\\]|\\\\.|\\[\\g<square>*+\\])*+)(\\])(\\()(<)([^>\\r\\n)]*)(>)(?:[ \\t]+(?:((\")([^\"\\r\\n]*)(\"))|((')([^'\\r\\n]*)('))))?[ \\t]*(\\))(?:(\\{)([^}\\r\\n]*)(\\}))?",
+          "match": "(\\[)((?<square>[^\\[\\]\\\\]|\\\\.|\\[\\g<square>*+\\])*+)(\\])(\\()(<)([^>\\r\\n]*)(>)(?:[ \\t]+(?:((\")([^\"\\r\\n]*)(\"))|((')([^'\\r\\n]*)('))))?[ \\t]*(\\))(?:(\\{)([^}\\r\\n]*)(\\}))?",
           "name": "meta.link.inline.markdown",
           "captures": {
             "1": {
@@ -10750,7 +10830,7 @@
           }
         },
         {
-          "match": "(\\[)((?<square>[^\\[\\]\\\\]|\\\\.|\\[\\g<square>*+\\])*+)(\\])(\\()(<)([^>\\r\\n)]*)(>)?(?:[ \\t]+(?:((\")([^\"\\r\\n]*)(\")?)|((')([^'\\r\\n]*)(')?)))?[ \\t]*(\\))?",
+          "match": "(\\[)((?<square>[^\\[\\]\\\\]|\\\\.|\\[\\g<square>*+\\])*+)(\\])(\\()(<)([^>\\r\\n]*)(>)?(?:[ \\t]+(?:((\")([^\"\\r\\n]*)(\")?)|((')([^'\\r\\n]*)(')?)))?[ \\t]*(\\))?",
           "name": "meta.link.inline.markdown",
           "captures": {
             "1": {
@@ -10911,7 +10991,7 @@
           }
         },
         {
-          "match": "(\\[)((?<square>[^\\[\\]\\\\]|\\\\.|\\[\\g<square>*+\\])*+)(\\])(\\()(?<url>(?:\\\\.|[^()\\r\\n\"'\\\\]|\\r\\n|\\r|\\n|\\(\\g<url>*\\))*)(?:[ \\t]+(?:((\")([^\"\\r\\n]*)(\")?)|((')([^'\\r\\n]*)(')?)))?[ \\t]*(\\))?",
+          "match": "(\\[)((?<square>[^\\[\\]\\\\]|\\\\.|\\[\\g<square>*+\\])*+)(\\])(\\()(?<url>(?:\\\\.|[^()\\r\\n\"'\\\\]|\\r\\n|\\r|\\n)*)(?:[ \\t]+(?:((\")([^\"\\r\\n]*)(\")?)|((')([^'\\r\\n]*)(')?)))?[ \\t]*(\\))?",
           "name": "meta.link.inline.markdown",
           "captures": {
             "1": {

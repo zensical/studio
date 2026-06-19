@@ -531,7 +531,24 @@ repository:
               - include: "#attribute"
           19: { name: punctuation.definition.attribute-list.end.markdown }
       - match: >-
-          (\!)(\[)((?<square>[^\[\]\\]|\\.|\[\g<square>*+\])*+)(\])(\()(?<url>(?:\\.|[^()\r\n"'\\]|\r\n|\r|\n|\(\g<url>*\))*?)(?:[ \t]+(?:((")([^"\r\n]*)(")?)|((')([^'\r\n]*)(')?)))?[ \t]*(\))?
+          (\!)(\[)((?<square>[^\[\]\\]|\\.|\[\g<square>*+\])*+)(\])(\()(?<url>(?:\\.|[^()\r\n"'\\]|\r\n|\r|\n|\(\g<url>*\))*)[ \t]+(?:((")([^"\r\n]*)(")?)|((')([^'\r\n]*)(')?))[ \t]*(\))?
+        name: meta.image.inline.markdown
+        captures:
+          1: { name: punctuation.definition.image.begin.markdown }
+          2: { name: punctuation.definition.link.description.begin.markdown }
+          3: { name: string.other.link.description.markdown }
+          5: { name: punctuation.definition.link.description.end.markdown }
+          6: { name: punctuation.definition.link.begin.markdown }
+          7: { name: markup.underline.link.image.markdown }
+          9: { name: punctuation.definition.string.begin.markdown }
+          10: { name: string.quoted.link.title.markdown }
+          11: { name: punctuation.definition.string.end.markdown }
+          13: { name: punctuation.definition.string.begin.markdown }
+          14: { name: string.quoted.link.title.markdown }
+          15: { name: punctuation.definition.string.end.markdown }
+          16: { name: punctuation.definition.link.end.markdown }
+      - match: >-
+          (\!)(\[)((?<square>[^\[\]\\]|\\.|\[\g<square>*+\])*+)(\])(\()(?<url>(?:\\.|[^()\r\n"'\\]|\r\n|\r|\n)*)(?:[ \t]+(?:((")([^"\r\n]*)(")?)|((')([^'\r\n]*)(')?)))?[ \t]*(\))?
         name: meta.image.inline.markdown
         captures:
           1: { name: punctuation.definition.image.begin.markdown }
@@ -551,24 +568,24 @@ repository:
   image_reference:
     patterns:
       - match: >-
-          (?<!\\)(\!)(\[)([^\]\r\n]*)(\])(\[)([^\]\r\n]*)(\])(?:(\{)([^}\r\n]*)(\}))?
+          (?<!\\)(\!)(\[)((?<square>[^\[\]\\\r\n]|\\.|\[\g<square>*+\])*+)(\])([ \t]?)(\[)((?:\\.|[^\]\s\r\n])|(?:\\.|[^\]\s\r\n])(?:\\.|[^\]\r\n])*?[^\]\s\r\n])(\])(?:(\{)([^}\r\n]*)(\}))?
         name: meta.image.reference.markdown
         captures:
           1: { name: punctuation.definition.image.begin.markdown }
           2: { name: punctuation.definition.link.description.begin.markdown }
           3: { name: string.other.link.description.markdown }
           4: { name: punctuation.definition.link.description.end.markdown }
-          5: { name: punctuation.definition.link.begin.markdown }
-          6: { name: constant.other.reference.link.markdown }
-          7: { name: punctuation.definition.link.end.markdown }
-          8: { name: punctuation.definition.attribute-list.begin.markdown }
-          9:
+          6: { name: punctuation.definition.link.begin.markdown }
+          7: { name: constant.other.reference.link.markdown }
+          8: { name: punctuation.definition.link.end.markdown }
+          9: { name: punctuation.definition.attribute-list.begin.markdown }
+          10:
             name: meta.attribute-list.trailing.inline.markdown
             patterns:
               - include: "#attribute"
-          10: { name: punctuation.definition.attribute-list.end.markdown }
+          11: { name: punctuation.definition.attribute-list.end.markdown }
       - match: >-
-          (?<!\\)(\!)(\[)([^\]\r\n]*)(\])(\[)([^\]\r\n]*)(\])?
+          (?<!\\)(\!)(\[)((?<square>[^\[\]\\\r\n]|\\.|\[\g<square>*+\])++)(\])(\[)(\])(?:(\{)([^}\r\n]*)(\}))?
         name: meta.image.reference.markdown
         captures:
           1: { name: punctuation.definition.image.begin.markdown }
@@ -576,10 +593,25 @@ repository:
           3: { name: string.other.link.description.markdown }
           4: { name: punctuation.definition.link.description.end.markdown }
           5: { name: punctuation.definition.link.begin.markdown }
-          6: { name: constant.other.reference.link.markdown }
-          7: { name: punctuation.definition.link.end.markdown }
+          6: { name: punctuation.definition.link.end.markdown }
+          7: { name: punctuation.definition.attribute-list.begin.markdown }
+          8:
+            name: meta.attribute-list.trailing.inline.markdown
+            patterns:
+              - include: "#attribute"
+          9: { name: punctuation.definition.attribute-list.end.markdown }
       - match: >-
-          (?<!\\)(\!)(\[)([^\]\r\n]*)(\])(?!\()(?:(\{)([^}\r\n]*)(\}))?
+          (?<!\\)(\!)(\[)((?<square>[^\[\]\\\r\n]|\\.|\[\g<square>*+\])*+)(\])([ \t]?)(\[)((?:\\.|[^\]\r\n])*)$
+        name: meta.image.reference.markdown
+        captures:
+          1: { name: punctuation.definition.image.begin.markdown }
+          2: { name: punctuation.definition.link.description.begin.markdown }
+          3: { name: string.other.link.description.markdown }
+          4: { name: punctuation.definition.link.description.end.markdown }
+          6: { name: punctuation.definition.link.begin.markdown }
+          7: { name: constant.other.reference.link.markdown }
+      - match: >-
+          (?<!\\)(\!)(\[)((?<square>[^\[\]\\\r\n]|\\.|\[\g<square>*+\])++)(\])(?!\()(?:(\{)([^}\r\n]*)(\}))?
         name: meta.image.reference.markdown
         captures:
           1: { name: punctuation.definition.image.begin.markdown }
@@ -682,7 +714,7 @@ repository:
   link:
     patterns:
       - match: >-
-          (\[)((?<square>[^\[\]\\]|\\.|\[\g<square>*+\])*+)(\])(\()(<)([^>\r\n)]*)(>)(?:[ \t]+(?:((")([^"\r\n]*)("))|((')([^'\r\n]*)('))))?[ \t]*(\))(?:(\{)([^}\r\n]*)(\}))?
+          (\[)((?<square>[^\[\]\\]|\\.|\[\g<square>*+\])*+)(\])(\()(<)([^>\r\n]*)(>)(?:[ \t]+(?:((")([^"\r\n]*)("))|((')([^'\r\n]*)('))))?[ \t]*(\))(?:(\{)([^}\r\n]*)(\}))?
         name: meta.link.inline.markdown
         captures:
           1: { name: punctuation.definition.link.begin.markdown }
@@ -751,7 +783,7 @@ repository:
           14: { name: punctuation.definition.string.end.markdown }
           15: { name: punctuation.definition.link.end.markdown }
       - match: >-
-          (\[)((?<square>[^\[\]\\]|\\.|\[\g<square>*+\])*+)(\])(\()(<)([^>\r\n)]*)(>)?(?:[ \t]+(?:((")([^"\r\n]*)(")?)|((')([^'\r\n]*)(')?)))?[ \t]*(\))?
+          (\[)((?<square>[^\[\]\\]|\\.|\[\g<square>*+\])*+)(\])(\()(<)([^>\r\n]*)(>)?(?:[ \t]+(?:((")([^"\r\n]*)(")?)|((')([^'\r\n]*)(')?)))?[ \t]*(\))?
         name: meta.link.inline.markdown
         captures:
           1: { name: punctuation.definition.link.begin.markdown }
@@ -816,7 +848,7 @@ repository:
           14: { name: punctuation.definition.string.end.markdown }
           15: { name: punctuation.definition.link.end.markdown }
       - match: >-
-          (\[)((?<square>[^\[\]\\]|\\.|\[\g<square>*+\])*+)(\])(\()(?<url>(?:\\.|[^()\r\n"'\\]|\r\n|\r|\n|\(\g<url>*\))*)(?:[ \t]+(?:((")([^"\r\n]*)(")?)|((')([^'\r\n]*)(')?)))?[ \t]*(\))?
+          (\[)((?<square>[^\[\]\\]|\\.|\[\g<square>*+\])*+)(\])(\()(?<url>(?:\\.|[^()\r\n"'\\]|\r\n|\r|\n)*)(?:[ \t]+(?:((")([^"\r\n]*)(")?)|((')([^'\r\n]*)(')?)))?[ \t]*(\))?
         name: meta.link.inline.markdown
         captures:
           1: { name: punctuation.definition.link.begin.markdown }
