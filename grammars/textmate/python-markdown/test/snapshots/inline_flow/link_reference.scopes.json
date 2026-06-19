@@ -27,7 +27,8 @@
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
-              "meta.link.reference.markdown"
+              "meta.link.reference.markdown",
+              "punctuation.definition.link.end.markdown"
             ]
           },
           {
@@ -36,7 +37,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "constant.other.reference.link.markdown"
+              "punctuation.definition.link.begin.markdown"
             ]
           },
           {
@@ -45,7 +46,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "punctuation.definition.link.end.markdown"
+              "constant.other.reference.link.markdown"
             ]
           },
           {
@@ -54,7 +55,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "punctuation.definition.attribute-list.begin.markdown"
+              "punctuation.definition.link.end.markdown"
             ]
           }
         ]
@@ -92,7 +93,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "punctuation.definition.link.begin.markdown"
+              "punctuation.definition.link.end.markdown"
             ]
           },
           {
@@ -101,7 +102,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "punctuation.definition.link.end.markdown"
+              "punctuation.definition.link.begin.markdown"
             ]
           },
           {
@@ -110,7 +111,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "punctuation.definition.attribute-list.begin.markdown"
+              "punctuation.definition.link.end.markdown"
             ]
           }
         ]
@@ -147,7 +148,8 @@
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
-              "meta.link.reference.markdown"
+              "meta.link.reference.markdown",
+              "punctuation.definition.link.end.markdown"
             ]
           }
         ]
@@ -177,7 +179,8 @@
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
-              "meta.link.reference.markdown"
+              "meta.link.reference.markdown",
+              "punctuation.definition.link.end.markdown"
             ]
           },
           {
@@ -186,7 +189,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "constant.other.reference.link.markdown"
+              "punctuation.definition.link.begin.markdown"
             ]
           },
           {
@@ -195,7 +198,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "punctuation.definition.link.end.markdown"
+              "constant.other.reference.link.markdown"
             ]
           },
           {
@@ -204,7 +207,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "punctuation.definition.attribute-list.begin.markdown"
+              "punctuation.definition.link.end.markdown"
             ]
           }
         ]
@@ -241,7 +244,8 @@
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
-              "meta.link.reference.markdown"
+              "meta.link.reference.markdown",
+              "punctuation.definition.link.end.markdown"
             ]
           },
           {
@@ -250,7 +254,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "constant.other.reference.link.markdown"
+              "punctuation.definition.link.begin.markdown"
             ]
           },
           {
@@ -259,7 +263,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "punctuation.definition.link.end.markdown"
+              "constant.other.reference.link.markdown"
             ]
           },
           {
@@ -268,7 +272,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "punctuation.definition.attribute-list.begin.markdown"
+              "punctuation.definition.link.end.markdown"
             ]
           }
         ]
@@ -305,7 +309,8 @@
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
-              "meta.link.reference.markdown"
+              "meta.link.reference.markdown",
+              "punctuation.definition.link.end.markdown"
             ]
           },
           {
@@ -314,7 +319,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "constant.other.reference.link.markdown"
+              "punctuation.definition.link.begin.markdown"
             ]
           },
           {
@@ -323,7 +328,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "punctuation.definition.link.end.markdown"
+              "constant.other.reference.link.markdown"
             ]
           },
           {
@@ -332,7 +337,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "punctuation.definition.attribute-list.begin.markdown"
+              "punctuation.definition.link.end.markdown"
             ]
           }
         ]
@@ -369,7 +374,8 @@
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
-              "meta.link.reference.markdown"
+              "meta.link.reference.markdown",
+              "punctuation.definition.link.end.markdown"
             ]
           },
           {
@@ -378,7 +384,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "constant.other.reference.link.markdown"
+              "punctuation.definition.link.begin.markdown"
             ]
           },
           {
@@ -387,7 +393,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "punctuation.definition.link.end.markdown"
+              "constant.other.reference.link.markdown"
             ]
           },
           {
@@ -396,7 +402,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "punctuation.definition.attribute-list.begin.markdown"
+              "punctuation.definition.link.end.markdown"
             ]
           }
         ]
@@ -443,7 +449,8 @@
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
-              "meta.link.reference.markdown"
+              "meta.link.reference.markdown",
+              "punctuation.definition.link.end.markdown"
             ]
           },
           {
@@ -452,7 +459,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "constant.other.reference.link.markdown"
+              "punctuation.definition.link.begin.markdown"
             ]
           },
           {
@@ -461,7 +468,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "punctuation.definition.link.end.markdown"
+              "constant.other.reference.link.markdown"
             ]
           },
           {
@@ -470,7 +477,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "punctuation.definition.attribute-list.begin.markdown"
+              "punctuation.definition.link.end.markdown"
             ]
           }
         ]
@@ -531,7 +538,8 @@
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
-              "meta.link.reference.markdown"
+              "meta.link.reference.markdown",
+              "punctuation.definition.link.end.markdown"
             ]
           },
           {
@@ -540,7 +548,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "constant.other.reference.link.markdown"
+              "punctuation.definition.link.begin.markdown"
             ]
           },
           {
@@ -549,7 +557,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "punctuation.definition.link.end.markdown"
+              "constant.other.reference.link.markdown"
             ]
           },
           {
@@ -558,7 +566,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "punctuation.definition.attribute-list.begin.markdown"
+              "punctuation.definition.link.end.markdown"
             ]
           }
         ]
@@ -597,7 +605,8 @@
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
-              "meta.link.reference.markdown"
+              "meta.link.reference.markdown",
+              "punctuation.definition.link.end.markdown"
             ]
           },
           {
@@ -606,7 +615,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "constant.other.reference.link.markdown"
+              "punctuation.definition.link.begin.markdown"
             ]
           },
           {
@@ -615,7 +624,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "punctuation.definition.link.end.markdown"
+              "constant.other.reference.link.markdown"
             ]
           },
           {
@@ -624,7 +633,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "punctuation.definition.attribute-list.begin.markdown"
+              "punctuation.definition.link.end.markdown"
             ]
           }
         ]
@@ -661,7 +670,8 @@
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
-              "meta.link.reference.markdown"
+              "meta.link.reference.markdown",
+              "punctuation.definition.link.end.markdown"
             ]
           },
           {
@@ -670,7 +680,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "constant.other.reference.link.markdown"
+              "punctuation.definition.link.begin.markdown"
             ]
           },
           {
@@ -679,7 +689,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "punctuation.definition.link.end.markdown"
+              "constant.other.reference.link.markdown"
             ]
           },
           {
@@ -688,7 +698,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "punctuation.definition.attribute-list.begin.markdown"
+              "punctuation.definition.link.end.markdown"
             ]
           },
           {
@@ -732,7 +742,8 @@
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
-              "meta.link.reference.markdown"
+              "meta.link.reference.markdown",
+              "punctuation.definition.link.end.markdown"
             ]
           },
           {
@@ -741,7 +752,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "constant.other.reference.link.markdown"
+              "punctuation.definition.link.begin.markdown"
             ]
           },
           {
@@ -749,7 +760,8 @@
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
-              "meta.link.reference.markdown"
+              "meta.link.reference.markdown",
+              "constant.other.reference.link.markdown"
             ]
           }
         ]
@@ -786,7 +798,8 @@
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
-              "meta.link.reference.markdown"
+              "meta.link.reference.markdown",
+              "punctuation.definition.link.end.markdown"
             ]
           },
           {
@@ -812,7 +825,8 @@
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
-              "meta.link.reference.markdown"
+              "meta.link.reference.markdown",
+              "punctuation.definition.link.end.markdown"
             ]
           }
         ]
@@ -849,7 +863,8 @@
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
-              "meta.link.reference.markdown"
+              "meta.link.reference.markdown",
+              "punctuation.definition.link.end.markdown"
             ]
           },
           {
@@ -875,7 +890,8 @@
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
-              "meta.link.reference.markdown"
+              "meta.link.reference.markdown",
+              "punctuation.definition.link.end.markdown"
             ]
           }
         ]
@@ -914,7 +930,8 @@
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
-              "meta.link.reference.markdown"
+              "meta.link.reference.markdown",
+              "punctuation.definition.link.end.markdown"
             ]
           },
           {
@@ -922,8 +939,7 @@
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
-              "meta.link.reference.markdown",
-              "punctuation.definition.link.begin.markdown"
+              "meta.link.reference.markdown"
             ]
           },
           {
@@ -932,7 +948,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "constant.other.reference.link.markdown"
+              "punctuation.definition.link.begin.markdown"
             ]
           },
           {
@@ -941,7 +957,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "punctuation.definition.link.end.markdown"
+              "constant.other.reference.link.markdown"
             ]
           },
           {
@@ -950,7 +966,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "punctuation.definition.attribute-list.begin.markdown"
+              "punctuation.definition.link.end.markdown"
             ]
           }
         ]
@@ -987,7 +1003,8 @@
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
-              "meta.link.reference.markdown"
+              "meta.link.reference.markdown",
+              "punctuation.definition.link.end.markdown"
             ]
           },
           {
@@ -995,8 +1012,7 @@
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
-              "meta.link.reference.markdown",
-              "punctuation.definition.link.begin.markdown"
+              "meta.link.reference.markdown"
             ]
           },
           {
@@ -1005,7 +1021,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "constant.other.reference.link.markdown"
+              "punctuation.definition.link.begin.markdown"
             ]
           },
           {
@@ -1014,7 +1030,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "punctuation.definition.link.end.markdown"
+              "constant.other.reference.link.markdown"
             ]
           },
           {
@@ -1023,7 +1039,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "punctuation.definition.attribute-list.begin.markdown"
+              "punctuation.definition.link.end.markdown"
             ]
           }
         ]
@@ -1060,7 +1076,8 @@
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
-              "meta.link.reference.markdown"
+              "meta.link.reference.markdown",
+              "punctuation.definition.link.end.markdown"
             ]
           },
           {
@@ -1093,7 +1110,8 @@
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
-              "meta.link.reference.markdown"
+              "meta.link.reference.markdown",
+              "punctuation.definition.link.end.markdown"
             ]
           }
         ]
@@ -1132,7 +1150,8 @@
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
-              "meta.link.reference.markdown"
+              "meta.link.reference.markdown",
+              "punctuation.definition.link.end.markdown"
             ]
           },
           {
@@ -1141,7 +1160,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "constant.other.reference.link.markdown"
+              "punctuation.definition.link.begin.markdown"
             ]
           },
           {
@@ -1150,7 +1169,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "punctuation.definition.link.end.markdown"
+              "constant.other.reference.link.markdown"
             ]
           },
           {
@@ -1159,7 +1178,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "punctuation.definition.attribute-list.begin.markdown"
+              "punctuation.definition.link.end.markdown"
             ]
           },
           {
@@ -1168,17 +1187,27 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "meta.attribute-list.trailing.inline.markdown",
-              "entity.other.attribute-name.key.markdown"
+              "punctuation.definition.attribute-list.begin.markdown"
             ]
           },
           {
-            "text": "#id",
+            "text": "#",
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "punctuation.definition.attribute-list.end.markdown"
+              "meta.attribute-list.trailing.inline.markdown",
+              "punctuation.definition.attribute.markdown"
+            ]
+          },
+          {
+            "text": "id",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.reference.markdown",
+              "meta.attribute-list.trailing.inline.markdown",
+              "entity.other.attribute-name.id.markdown"
             ]
           },
           {
@@ -1186,7 +1215,8 @@
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
-              "meta.link.reference.markdown"
+              "meta.link.reference.markdown",
+              "punctuation.definition.attribute-list.end.markdown"
             ]
           }
         ]
@@ -1224,7 +1254,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "punctuation.definition.link.begin.markdown"
+              "punctuation.definition.link.end.markdown"
             ]
           },
           {
@@ -1233,7 +1263,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "punctuation.definition.link.end.markdown"
+              "punctuation.definition.link.begin.markdown"
             ]
           },
           {
@@ -1242,7 +1272,7 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "punctuation.definition.attribute-list.begin.markdown"
+              "punctuation.definition.link.end.markdown"
             ]
           },
           {
@@ -1251,17 +1281,27 @@
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "meta.attribute-list.trailing.inline.markdown",
-              "entity.other.attribute-name.key.markdown"
+              "punctuation.definition.attribute-list.begin.markdown"
             ]
           },
           {
-            "text": "#id",
+            "text": "#",
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
               "meta.link.reference.markdown",
-              "punctuation.definition.attribute-list.end.markdown"
+              "meta.attribute-list.trailing.inline.markdown",
+              "punctuation.definition.attribute.markdown"
+            ]
+          },
+          {
+            "text": "id",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.reference.markdown",
+              "meta.attribute-list.trailing.inline.markdown",
+              "entity.other.attribute-name.id.markdown"
             ]
           },
           {
@@ -1269,7 +1309,8 @@
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
-              "meta.link.reference.markdown"
+              "meta.link.reference.markdown",
+              "punctuation.definition.attribute-list.end.markdown"
             ]
           }
         ]
@@ -1306,7 +1347,8 @@
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
-              "meta.link.reference.markdown"
+              "meta.link.reference.markdown",
+              "punctuation.definition.link.end.markdown"
             ]
           },
           {
@@ -1422,7 +1464,8 @@
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
-              "meta.link.reference.markdown"
+              "meta.link.reference.markdown",
+              "punctuation.definition.link.end.markdown"
             ]
           }
         ]

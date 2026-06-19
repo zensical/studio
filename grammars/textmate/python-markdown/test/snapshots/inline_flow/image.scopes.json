@@ -4653,7 +4653,7 @@
             ]
           },
           {
-            "text": "tex",
+            "text": "text",
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
@@ -4662,21 +4662,12 @@
             ]
           },
           {
-            "text": "t",
-            "scopes": [
-              "text.html.markdown.python",
-              "meta.paragraph.markdown",
-              "meta.image.reference.markdown",
-              "string.other.link.description.markdown",
-              "punctuation.definition.link.description.end.markdown"
-            ]
-          },
-          {
             "text": "]",
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
-              "meta.image.reference.markdown"
+              "meta.image.reference.markdown",
+              "punctuation.definition.link.description.end.markdown"
             ]
           },
           {
@@ -4716,7 +4707,7 @@
             ]
           },
           {
-            "text": "tex",
+            "text": "text",
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
@@ -4725,21 +4716,12 @@
             ]
           },
           {
-            "text": "t",
-            "scopes": [
-              "text.html.markdown.python",
-              "meta.paragraph.markdown",
-              "meta.image.reference.markdown",
-              "string.other.link.description.markdown",
-              "punctuation.definition.link.description.end.markdown"
-            ]
-          },
-          {
             "text": "]",
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
-              "meta.image.reference.markdown"
+              "meta.image.reference.markdown",
+              "punctuation.definition.link.description.end.markdown"
             ]
           }
         ]

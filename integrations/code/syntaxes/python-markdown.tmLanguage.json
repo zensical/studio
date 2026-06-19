@@ -5801,22 +5801,22 @@
             "3": {
               "name": "string.other.link.description.markdown"
             },
-            "4": {
+            "5": {
               "name": "punctuation.definition.link.description.end.markdown"
             },
-            "6": {
+            "7": {
               "name": "punctuation.definition.link.begin.markdown"
             },
-            "7": {
+            "8": {
               "name": "constant.other.reference.link.markdown"
             },
-            "8": {
+            "9": {
               "name": "punctuation.definition.link.end.markdown"
             },
-            "9": {
+            "10": {
               "name": "punctuation.definition.attribute-list.begin.markdown"
             },
-            "10": {
+            "11": {
               "name": "meta.attribute-list.trailing.inline.markdown",
               "patterns": [
                 {
@@ -5824,7 +5824,7 @@
                 }
               ]
             },
-            "11": {
+            "12": {
               "name": "punctuation.definition.attribute-list.end.markdown"
             }
           }
@@ -5842,19 +5842,19 @@
             "3": {
               "name": "string.other.link.description.markdown"
             },
-            "4": {
+            "5": {
               "name": "punctuation.definition.link.description.end.markdown"
             },
-            "5": {
+            "6": {
               "name": "punctuation.definition.link.begin.markdown"
             },
-            "6": {
+            "7": {
               "name": "punctuation.definition.link.end.markdown"
             },
-            "7": {
+            "8": {
               "name": "punctuation.definition.attribute-list.begin.markdown"
             },
-            "8": {
+            "9": {
               "name": "meta.attribute-list.trailing.inline.markdown",
               "patterns": [
                 {
@@ -5862,7 +5862,7 @@
                 }
               ]
             },
-            "9": {
+            "10": {
               "name": "punctuation.definition.attribute-list.end.markdown"
             }
           }
@@ -5880,13 +5880,13 @@
             "3": {
               "name": "string.other.link.description.markdown"
             },
-            "4": {
+            "5": {
               "name": "punctuation.definition.link.description.end.markdown"
             },
-            "6": {
+            "7": {
               "name": "punctuation.definition.link.begin.markdown"
             },
-            "7": {
+            "8": {
               "name": "constant.other.reference.link.markdown"
             }
           }
@@ -5904,7 +5904,7 @@
             "3": {
               "name": "string.other.link.description.markdown"
             },
-            "4": {
+            "5": {
               "name": "punctuation.definition.link.description.end.markdown"
             },
             "6": {
@@ -11056,22 +11056,22 @@
                 }
               ]
             },
-            "3": {
+            "4": {
               "name": "punctuation.definition.link.end.markdown"
-            },
-            "5": {
-              "name": "punctuation.definition.link.begin.markdown"
             },
             "6": {
-              "name": "constant.other.reference.link.markdown"
+              "name": "punctuation.definition.link.begin.markdown"
             },
             "7": {
-              "name": "punctuation.definition.link.end.markdown"
+              "name": "constant.other.reference.link.markdown"
             },
             "8": {
-              "name": "punctuation.definition.attribute-list.begin.markdown"
+              "name": "punctuation.definition.link.end.markdown"
             },
             "9": {
+              "name": "punctuation.definition.attribute-list.begin.markdown"
+            },
+            "10": {
               "name": "meta.attribute-list.trailing.inline.markdown",
               "patterns": [
                 {
@@ -11079,7 +11079,7 @@
                 }
               ]
             },
-            "10": {
+            "11": {
               "name": "punctuation.definition.attribute-list.end.markdown"
             }
           }
@@ -11099,19 +11099,19 @@
                 }
               ]
             },
-            "3": {
-              "name": "punctuation.definition.link.end.markdown"
-            },
             "4": {
-              "name": "punctuation.definition.link.begin.markdown"
+              "name": "punctuation.definition.link.end.markdown"
             },
             "5": {
-              "name": "punctuation.definition.link.end.markdown"
+              "name": "punctuation.definition.link.begin.markdown"
             },
             "6": {
-              "name": "punctuation.definition.attribute-list.begin.markdown"
+              "name": "punctuation.definition.link.end.markdown"
             },
             "7": {
+              "name": "punctuation.definition.attribute-list.begin.markdown"
+            },
+            "8": {
               "name": "meta.attribute-list.trailing.inline.markdown",
               "patterns": [
                 {
@@ -11119,7 +11119,7 @@
                 }
               ]
             },
-            "8": {
+            "9": {
               "name": "punctuation.definition.attribute-list.end.markdown"
             }
           }
@@ -11139,13 +11139,13 @@
                 }
               ]
             },
-            "3": {
+            "4": {
               "name": "punctuation.definition.link.end.markdown"
             },
-            "5": {
+            "6": {
               "name": "punctuation.definition.link.begin.markdown"
             },
-            "6": {
+            "7": {
               "name": "constant.other.reference.link.markdown"
             }
           }
@@ -11165,7 +11165,7 @@
                 }
               ]
             },
-            "3": {
+            "4": {
               "name": "punctuation.definition.link.end.markdown"
             },
             "5": {
