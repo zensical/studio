@@ -1,0 +1,476 @@
+{
+  "marker": {
+    "accept_plain": [
+      {
+        "line": "==mark==",
+        "tokens": [
+          {
+            "text": "==",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.highlight.markdown",
+              "punctuation.definition.highlight.begin.markdown"
+            ]
+          },
+          {
+            "text": "mark",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.highlight.markdown"
+            ]
+          },
+          {
+            "text": "==",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.highlight.markdown",
+              "punctuation.definition.highlight.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_leading_space": [
+      {
+        "line": "== mark==",
+        "tokens": [
+          {
+            "text": "== mark==",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_trailing_space": [
+      {
+        "line": "==mark ==",
+        "tokens": [
+          {
+            "text": "==",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.highlight.markdown",
+              "punctuation.definition.highlight.begin.markdown"
+            ]
+          },
+          {
+            "text": "mark ==",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.highlight.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_triple_equal": [
+      {
+        "line": "===mark===",
+        "tokens": [
+          {
+            "text": "===mark===",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "text": {
+    "accept_escaped_closing_marker": [
+      {
+        "line": "==mark\\==text==",
+        "tokens": [
+          {
+            "text": "==",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.highlight.markdown",
+              "punctuation.definition.highlight.begin.markdown"
+            ]
+          },
+          {
+            "text": "mark",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.highlight.markdown"
+            ]
+          },
+          {
+            "text": "\\=",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.highlight.markdown",
+              "constant.character.escape.markdown"
+            ]
+          },
+          {
+            "text": "=text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.highlight.markdown"
+            ]
+          },
+          {
+            "text": "==",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.highlight.markdown",
+              "punctuation.definition.highlight.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_line_ending_lf": [
+      {
+        "line": "==ma",
+        "tokens": [
+          {
+            "text": "==",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.highlight.markdown",
+              "punctuation.definition.highlight.begin.markdown"
+            ]
+          },
+          {
+            "text": "ma",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.highlight.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": " rk==",
+        "tokens": [
+          {
+            "text": " rk",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.highlight.markdown"
+            ]
+          },
+          {
+            "text": "==",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.highlight.markdown",
+              "punctuation.definition.highlight.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "expect_line_ending_before_closing_as_mark": [
+      {
+        "line": "==ma",
+        "tokens": [
+          {
+            "text": "==",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.highlight.markdown",
+              "punctuation.definition.highlight.begin.markdown"
+            ]
+          },
+          {
+            "text": "ma",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.highlight.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "==",
+        "tokens": [
+          {
+            "text": "==",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.highlight.markdown",
+              "punctuation.definition.highlight.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "position": {
+    "reject_inside_word": [
+      {
+        "line": "foo==mark==bar",
+        "tokens": [
+          {
+            "text": "foo==mark==bar",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "child": {
+    "accept_emphasis": [
+      {
+        "line": "==*mark*==",
+        "tokens": [
+          {
+            "text": "==",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.highlight.markdown",
+              "punctuation.definition.highlight.begin.markdown"
+            ]
+          },
+          {
+            "text": "*",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.highlight.markdown",
+              "markup.italic.markdown",
+              "punctuation.definition.italic.markdown"
+            ]
+          },
+          {
+            "text": "mark",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.highlight.markdown",
+              "markup.italic.markdown"
+            ]
+          },
+          {
+            "text": "*",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.highlight.markdown",
+              "markup.italic.markdown",
+              "punctuation.definition.italic.markdown"
+            ]
+          },
+          {
+            "text": "==",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.highlight.markdown",
+              "punctuation.definition.highlight.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_inline_code": [
+      {
+        "line": "==mark `[code]`==",
+        "tokens": [
+          {
+            "text": "==",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.highlight.markdown",
+              "punctuation.definition.highlight.begin.markdown"
+            ]
+          },
+          {
+            "text": "mark ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.highlight.markdown"
+            ]
+          },
+          {
+            "text": "`",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.highlight.markdown",
+              "markup.inline.raw.string.markdown",
+              "punctuation.definition.raw.markdown"
+            ]
+          },
+          {
+            "text": "[code]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.highlight.markdown",
+              "markup.inline.raw.string.markdown"
+            ]
+          },
+          {
+            "text": "`",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.highlight.markdown",
+              "markup.inline.raw.string.markdown",
+              "punctuation.definition.raw.markdown"
+            ]
+          },
+          {
+            "text": "==",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.highlight.markdown",
+              "punctuation.definition.highlight.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "attribute_list": {
+    "accept_plain": [
+      {
+        "line": "==mark=={#id}",
+        "tokens": [
+          {
+            "text": "==",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.highlight.markdown",
+              "punctuation.definition.highlight.begin.markdown"
+            ]
+          },
+          {
+            "text": "mark",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.highlight.markdown"
+            ]
+          },
+          {
+            "text": "==",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.highlight.markdown",
+              "punctuation.definition.highlight.end.markdown"
+            ]
+          },
+          {
+            "text": "{",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.highlight.markdown",
+              "punctuation.definition.attribute-list.begin.markdown"
+            ]
+          },
+          {
+            "text": "#",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.highlight.markdown",
+              "meta.attribute-list.trailing.inline.markdown",
+              "punctuation.definition.attribute.markdown"
+            ]
+          },
+          {
+            "text": "id",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.highlight.markdown",
+              "meta.attribute-list.trailing.inline.markdown",
+              "entity.other.attribute-name.id.markdown"
+            ]
+          },
+          {
+            "text": "}",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.highlight.markdown",
+              "punctuation.definition.attribute-list.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  }
+}

@@ -411,6 +411,7 @@ repository:
     patterns:
       - include: "#escape"
       - include: "#inline_code"
+      - include: "#mark"
       - include: "#emphasis"
       - include: "#image"
       - include: "#image_reference"
@@ -491,6 +492,24 @@ repository:
             patterns:
               - include: "#attribute"
           4: { name: punctuation.definition.attribute-list.end.markdown }
+
+  mark:
+    patterns:
+      - name: markup.highlight.markdown
+        begin: (?:(?<=_)|(?<![\w=\\]))(==)(?![\s=])
+        beginCaptures:
+          1: { name: punctuation.definition.highlight.begin.markdown }
+        end: (?<!\\)(?<!\s)(==)(?:(\{)([^}\r\n]*)(\}))?
+        endCaptures:
+          1: { name: punctuation.definition.highlight.end.markdown }
+          2: { name: punctuation.definition.attribute-list.begin.markdown }
+          3:
+            name: meta.attribute-list.trailing.inline.markdown
+            patterns:
+              - include: "#attribute"
+          4: { name: punctuation.definition.attribute-list.end.markdown }
+        patterns:
+          - include: "#inline_flow"
 
   emphasis:
     patterns:
