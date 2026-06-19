@@ -830,7 +830,7 @@ repository:
   image_reference:
     patterns:
       - match: >-
-          (?<!\\)(\!)(\[)((?<square>[^\[\]\\\r\n]|\\.|\[\g<square>*+\])*+)(\])([ \t]?)(\[)((?:\\.|[^\]\s\r\n])|(?:\\.|[^\]\s\r\n])(?:\\.|[^\]\r\n])*?[^\]\s\r\n])(\])(?:(\{)([^}\r\n]*)(\}))?
+          (?<!\\)(\!)(\[)((?<square>[^\[\]\\\r\n]|\\.|\[\g<square>*+\])*+)(\])([ \t]?)(\[)((?:\\.|[^\]\s\r\n])|(?:\\.|[^\]\s\r\n])(?:\\.|[^\]\r\n])*?(?:\\.|[^\]\s\r\n]))(\])(?:(\{)([^}\r\n]*)(\}))?
         name: meta.image.reference.markdown
         captures:
           1: { name: punctuation.definition.image.begin.markdown }
@@ -1064,7 +1064,7 @@ repository:
   link_reference:
     patterns:
       - match: >-
-          (?<!\\)(\[)((?<square>[^\[\]\\\r\n]|\\.|\[\g<square>*+\])*+)(\])([ \t]?)(\[)((?:\\.|[^\]\s\r\n])|(?:\\.|[^\]\s\r\n])(?:\\.|[^\]\r\n])*?[^\]\s\r\n])(\])(?:(\{)([^}\r\n]*)(\}))?
+          (?<!\\)(\[)((?<square>[^\[\]\\\r\n]|\\.|\[\g<square>*+\])*+)(\])([ \t]?)(\[)((?:\\.|[^\]\s\r\n])|(?:\\.|[^\]\s\r\n])(?:\\.|[^\]\r\n])*?(?:\\.|[^\]\s\r\n]))(\])(?:(\{)([^}\r\n]*)(\}))?
         name: meta.link.reference.markdown
         captures:
           1: { name: punctuation.definition.link.begin.markdown }

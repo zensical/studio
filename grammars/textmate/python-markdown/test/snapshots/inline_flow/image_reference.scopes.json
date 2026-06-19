@@ -749,7 +749,7 @@
             ]
           },
           {
-            "text": "id \\",
+            "text": "id \\]",
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown",
@@ -764,13 +764,6 @@
               "meta.paragraph.markdown",
               "meta.image.reference.markdown",
               "punctuation.definition.link.end.markdown"
-            ]
-          },
-          {
-            "text": "]",
-            "scopes": [
-              "text.html.markdown.python",
-              "meta.paragraph.markdown"
             ]
           }
         ]
