@@ -32,6 +32,7 @@ import {
 } from "./grammar/languages.js";
 import { getPaths } from "./grammar/paths.js";
 import { render } from "./grammar/template.js";
+import { inspect, test } from "./grammar/tests.js";
 
 /* ----------------------------------------------------------------------------
  * State
@@ -114,8 +115,22 @@ async function watch(): Promise<void> {
  * Program
  * ------------------------------------------------------------------------- */
 
-if (process.argv[2] === "watch") {
-  await watch();
-} else {
-  await build();
+switch (process.argv[2]) {
+  case "watch":
+    await watch();
+    break;
+  case "test":
+    await build();
+    await test(paths, languages, process.argv.includes("--update"));
+    break;
+  case "inspect":
+    if (typeof process.argv[3] === "undefined") {
+      throw new Error("Missing file argument");
+    }
+    await build();
+    await inspect(paths, languages, process.argv[3]);
+    break;
+  default:
+    await build();
+    break;
 }
