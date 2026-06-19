@@ -411,7 +411,6 @@ repository:
     patterns:
       - include: "#escape"
       - include: "#inline_code"
-      - include: "#strong"
       - include: "#emphasis"
       - include: "#image"
       - include: "#image_reference"
@@ -424,64 +423,6 @@ repository:
     patterns:
       - match: \\.
         name: constant.character.escape.markdown
-
-  strong:
-    patterns:
-      - include: "#strong_asterisk"
-      - include: "#strong_underscore"
-
-  strong_asterisk:
-    patterns:
-      - name: markup.bold.markdown
-        begin: (?<!\\)(\*\*)(?![\s*])(?=(?:.*(?<!\\)(?<!\s)\*\*|(?:(?:\\.|(?!\*\*).)*)$))
-        beginCaptures:
-          1: { name: punctuation.definition.bold.markdown }
-        end: (?<!\\)(?<!\s)(\*\*)
-        endCaptures:
-          1: { name: punctuation.definition.bold.markdown }
-        patterns:
-          - include: "#inline_flow"
-
-  strong_underscore:
-    patterns:
-      - name: markup.bold.markdown
-        begin: (?<![\w\\])(__)(?![\s_])(?=(?:.*(?<!\\)(?<!\s)__(?!\w)|(?:(?:\\.|(?!__).)*)$))
-        beginCaptures:
-          1: { name: punctuation.definition.bold.markdown }
-        end: (?<!\\)(?<!\s)(__)(?!\w)
-        endCaptures:
-          1: { name: punctuation.definition.bold.markdown }
-        patterns:
-          - include: "#inline_flow"
-
-  emphasis:
-    patterns:
-      - include: "#emphasis_asterisk"
-      - include: "#emphasis_underscore"
-
-  emphasis_asterisk:
-    patterns:
-      - name: markup.italic.markdown
-        begin: (?<!\\)(?<!\*)(\*)(?![\s*])(?=(?:.*(?<!\\)(?<!\s)\*(?!\*)|(?:(?:\\.|[^*])*)$))
-        beginCaptures:
-          1: { name: punctuation.definition.italic.markdown }
-        end: (?<!\\)(?<!\s)(\*)(?!\*)
-        endCaptures:
-          1: { name: punctuation.definition.italic.markdown }
-        patterns:
-          - include: "#inline_flow"
-
-  emphasis_underscore:
-    patterns:
-      - name: markup.italic.markdown
-        begin: (?<![\w\\_])(_)(?![\s_])(?=(?:.*(?<!\\)(?<!\s)_(?![\w_])|(?:(?:\\.|[^_])*)$))
-        beginCaptures:
-          1: { name: punctuation.definition.italic.markdown }
-        end: (?<!\\)(?<!\s)(_)(?![\w_])
-        endCaptures:
-          1: { name: punctuation.definition.italic.markdown }
-        patterns:
-          - include: "#inline_flow"
 
   inline_code:
     patterns:
@@ -551,6 +492,170 @@ repository:
               - include: "#attribute"
           4: { name: punctuation.definition.attribute-list.end.markdown }
 
+  emphasis:
+    patterns:
+      - name: markup.bold.markdown
+        begin: (?<!\\)(\*\*)(?=\*(?![\s*])(?:.*(?<!\\)(?<![\s*])\*\*\*))
+        beginCaptures:
+          1: { name: punctuation.definition.bold.markdown }
+        end: (?<!\\)(?<!\s)(\*\*)
+        endCaptures:
+          1: { name: punctuation.definition.bold.markdown }
+        patterns:
+          - name: markup.italic.markdown
+            begin: \G(\*)
+            beginCaptures:
+              1: { name: punctuation.definition.italic.markdown }
+            end: (?<!\\)(?<![\s*])(\*)(?=\*\*)
+            endCaptures:
+              1: { name: punctuation.definition.italic.markdown }
+            patterns:
+              - include: "#inline_flow"
+          - include: "#inline_flow"
+      - name: markup.bold.markdown
+        begin: (?<!\\)(__)(?=_(?![\s_])(?:.*(?<!\\)(?<![\s_])___))
+        beginCaptures:
+          1: { name: punctuation.definition.bold.markdown }
+        end: (?<!\\)(?<!\s)(__)
+        endCaptures:
+          1: { name: punctuation.definition.bold.markdown }
+        patterns:
+          - name: markup.italic.markdown
+            begin: \G(_)
+            beginCaptures:
+              1: { name: punctuation.definition.italic.markdown }
+            end: (?<!\\)(?<![\s_])(_)(?=__)
+            endCaptures:
+              1: { name: punctuation.definition.italic.markdown }
+            patterns:
+              - include: "#inline_flow"
+          - include: "#inline_flow"
+      - name: markup.bold.markdown
+        begin: (?<!\\)(\*\*)(?=\*(?![\s*])(?:.*?(?<!\\)(?<![\s*])(?<!\*)\*(?!\*)(?:.*?(?<!\\)(?<!\s)\*\*)))
+        beginCaptures:
+          1: { name: punctuation.definition.bold.markdown }
+        end: (?<!\\)(?<!\s)(\*\*)
+        endCaptures:
+          1: { name: punctuation.definition.bold.markdown }
+        patterns:
+          - name: markup.italic.markdown
+            begin: \G(\*)
+            beginCaptures:
+              1: { name: punctuation.definition.italic.markdown }
+            end: (?<!\\)(?<![\s*])(?<!\*)(\*)(?!\*)
+            endCaptures:
+              1: { name: punctuation.definition.italic.markdown }
+            patterns:
+              - include: "#inline_flow"
+          - include: "#inline_flow"
+      - name: markup.bold.markdown
+        begin: (?<!\\)(__)(?=_(?![\s_])(?:.*?(?<!\\)(?<![\s_])(?<!_)_(?![\w_])(?:.*?(?<!\\)(?<!\s)__)))
+        beginCaptures:
+          1: { name: punctuation.definition.bold.markdown }
+        end: (?<!\\)(?<!\s)(__)
+        endCaptures:
+          1: { name: punctuation.definition.bold.markdown }
+        patterns:
+          - name: markup.italic.markdown
+            begin: \G(_)
+            beginCaptures:
+              1: { name: punctuation.definition.italic.markdown }
+            end: (?<!\\)(?<![\s_])(?<!_)(_)(?![\w_])
+            endCaptures:
+              1: { name: punctuation.definition.italic.markdown }
+            patterns:
+              - include: "#inline_flow"
+          - include: "#inline_flow"
+      - name: markup.italic.markdown
+        begin: (?<!\\)(\*)(?=\*\*(?![\s*])(?:.*?(?<!\\)(?<!\s)\*\*(?:.*?(?<!\\)(?<![\s*])\*(?!\*))))
+        beginCaptures:
+          1: { name: punctuation.definition.italic.markdown }
+        end: (?<!\\)(?<![\s*])(\*)(?!\*)
+        endCaptures:
+          1: { name: punctuation.definition.italic.markdown }
+        patterns:
+          - name: markup.bold.markdown
+            begin: \G(\*\*)
+            beginCaptures:
+              1: { name: punctuation.definition.bold.markdown }
+            end: (?<!\\)(?<!\s)(\*\*)
+            endCaptures:
+              1: { name: punctuation.definition.bold.markdown }
+            patterns:
+              - include: "#inline_flow"
+          - include: "#inline_flow"
+      - name: markup.italic.markdown
+        begin: (?<!\\)(_)(?=__(?![\s_])(?:.*?(?<!\\)(?<!\s)__(?:.*?(?<!\\)(?<![\s_])_(?![\w_]))))
+        beginCaptures:
+          1: { name: punctuation.definition.italic.markdown }
+        end: (?<!\\)(?<![\s_])(_)(?![\w_])
+        endCaptures:
+          1: { name: punctuation.definition.italic.markdown }
+        patterns:
+          - name: markup.bold.markdown
+            begin: \G(__)
+            beginCaptures:
+              1: { name: punctuation.definition.bold.markdown }
+            end: (?<!\\)(?<!\s)(__)(?!\w)
+            endCaptures:
+              1: { name: punctuation.definition.bold.markdown }
+            patterns:
+              - include: "#inline_flow"
+          - include: "#inline_flow"
+      - name: markup.bold.markdown
+        begin: (?<!\\)(?<!\*)(\*\*)(?![\s*])(?=(?:.*(?<!\\)(?<!\s)\*\*|(?:(?:\\.|(?!\*\*).)*)$))
+        beginCaptures:
+          1: { name: punctuation.definition.bold.markdown }
+        end: (?<!\\)(?<!\s)(\*\*)
+        endCaptures:
+          1: { name: punctuation.definition.bold.markdown }
+        patterns:
+          - name: markup.italic.markdown
+            begin: (?<!\\)(?<!\*)(\*)(?![\s*])(?=(?:.*(?<!\\)(?<![\s*])\*\*\*))
+            beginCaptures:
+              1: { name: punctuation.definition.italic.markdown }
+            end: (?<!\\)(?<![\s*])(\*)(?=\*\*)
+            endCaptures:
+              1: { name: punctuation.definition.italic.markdown }
+            patterns:
+              - include: "#inline_flow"
+          - include: "#inline_flow"
+      - name: markup.bold.markdown
+        begin: (?<![\w\\_])(__)(?![\s_])(?=(?:.*(?<!\\)(?<!\s)__(?!\w)|(?:(?:\\.|(?!__).)*)$))
+        beginCaptures:
+          1: { name: punctuation.definition.bold.markdown }
+        end: (?<!\\)(?<!\s)(__)(?!\w)
+        endCaptures:
+          1: { name: punctuation.definition.bold.markdown }
+        patterns:
+          - name: markup.italic.markdown
+            begin: (?<![\w\\_])(_)(?![\s_])(?=(?:.*(?<!\\)(?<![\s_])___))
+            beginCaptures:
+              1: { name: punctuation.definition.italic.markdown }
+            end: (?<!\\)(?<![\s_])(_)(?=__)
+            endCaptures:
+              1: { name: punctuation.definition.italic.markdown }
+            patterns:
+              - include: "#inline_flow"
+          - include: "#inline_flow"
+      - name: markup.italic.markdown
+        begin: (?<!\\)(?<!\*)(\*)(?![\s*])(?=(?:.*(?<!\\)(?<!\s)\*(?!\*)|(?:(?:\\.|[^*])*)$))
+        beginCaptures:
+          1: { name: punctuation.definition.italic.markdown }
+        end: (?<!\\)(?<!\s)(\*)(?!\*)
+        endCaptures:
+          1: { name: punctuation.definition.italic.markdown }
+        patterns:
+          - include: "#inline_flow"
+      - name: markup.italic.markdown
+        begin: (?<![\w\\_])(_)(?![\s_])(?=(?:.*(?<!\\)(?<!\s)_(?![\w_])|(?:(?:\\.|[^_])*)$))
+        beginCaptures:
+          1: { name: punctuation.definition.italic.markdown }
+        end: (?<!\\)(?<!\s)(_)(?![\w_])
+        endCaptures:
+          1: { name: punctuation.definition.italic.markdown }
+        patterns:
+          - include: "#inline_flow"
 
   image:
     patterns:
