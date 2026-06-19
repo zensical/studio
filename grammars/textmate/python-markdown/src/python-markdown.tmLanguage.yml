@@ -627,20 +627,21 @@ repository:
 
   footnote:
     patterns:
-      - match: >-
-          (\[)(\^)([^\]\r\n]*)(\])(?:(\{)([^}\r\n]*)(\}))?
-        name: meta.footnote-definition.markdown
-        captures:
+      - name: meta.footnote-definition.markdown
+        begin: (\[)(\^)
+        beginCaptures:
           1: { name: punctuation.definition.footnote.begin.markdown }
           2: { name: keyword.control.footnote.markdown }
-          3: { name: entity.name.label.footnote.markdown }
-          4: { name: punctuation.definition.footnote.end.markdown }
-          5: { name: punctuation.definition.attribute-list.begin.markdown }
-          6:
+        contentName: entity.name.label.footnote.markdown
+        end: (\])(?:(\{)([^}\r\n]*)(\}))?
+        endCaptures:
+          1: { name: punctuation.definition.footnote.end.markdown }
+          2: { name: punctuation.definition.attribute-list.begin.markdown }
+          3:
             name: meta.attribute-list.trailing.inline.markdown
             patterns:
               - include: "#attribute"
-          7: { name: punctuation.definition.attribute-list.end.markdown }
+          4: { name: punctuation.definition.attribute-list.end.markdown }
 
   inline_code:
     patterns:
