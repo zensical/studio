@@ -38,6 +38,10 @@ export interface Paths {
     source: string;
     target: string;
   };
+  test: {
+    specs: string;
+    snapshots: string;
+  };
 }
 
 /* ----------------------------------------------------------------------------
@@ -53,7 +57,7 @@ export interface Paths {
  */
 export function getPaths(importUrl: string): Paths {
   const scripts = path.dirname(fileURLToPath(importUrl));
-  const base = path.resolve(scripts, "..", "..");
+  const base = path.resolve(scripts, "..");
   const source = path.resolve(base, "src");
   const target = path.resolve(
     base,
@@ -81,6 +85,10 @@ export function getPaths(importUrl: string): Paths {
     grammar: {
       source: path.join(source, "python-markdown.tmLanguage.yml"),
       target: path.join(target, "python-markdown.tmLanguage.json"),
+    },
+    test: {
+      specs: path.join(base, "test", "specs"),
+      snapshots: path.join(base, "test", "snapshots"),
     },
   };
 }

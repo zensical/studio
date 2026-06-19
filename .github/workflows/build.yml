@@ -45,7 +45,33 @@ permissions:
   id-token: write # Required for OIDC
 
 jobs:
-  code:
+  grammar-textmate:
+    name: Grammar (TextMate)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: grammars/textmate/python-markdown
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.ref || github.sha }}
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: grammars/textmate/python-markdown/package-lock.json
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+  integration-code:
     name: Integration (Code)
     runs-on: ubuntu-latest
     defaults:

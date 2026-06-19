@@ -1,0 +1,245 @@
+{
+  "basic": {
+    "accept_punctuation": [
+      {
+        "line": "Text \\* Text",
+        "tokens": [
+          {
+            "text": "Text ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          },
+          {
+            "text": "\\*",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "constant.character.escape.markdown"
+            ]
+          },
+          {
+            "text": " Text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_backtick": [
+      {
+        "line": "Text \\` Text",
+        "tokens": [
+          {
+            "text": "Text ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          },
+          {
+            "text": "\\`",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "constant.character.escape.markdown"
+            ]
+          },
+          {
+            "text": " Text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_entity": [
+      {
+        "line": "Text \\&amp; Text",
+        "tokens": [
+          {
+            "text": "Text ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          },
+          {
+            "text": "\\&",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "constant.character.escape.markdown"
+            ]
+          },
+          {
+            "text": "amp; Text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_backslash": [
+      {
+        "line": "Text \\\\ Text",
+        "tokens": [
+          {
+            "text": "Text ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          },
+          {
+            "text": "\\\\",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "constant.character.escape.markdown"
+            ]
+          },
+          {
+            "text": " Text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "bracket": {
+    "accept_opening": [
+      {
+        "line": "Text \\[ Text",
+        "tokens": [
+          {
+            "text": "Text ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          },
+          {
+            "text": "\\[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "constant.character.escape.markdown"
+            ]
+          },
+          {
+            "text": " Text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_closing": [
+      {
+        "line": "Text \\] Text",
+        "tokens": [
+          {
+            "text": "Text ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          },
+          {
+            "text": "\\]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "constant.character.escape.markdown"
+            ]
+          },
+          {
+            "text": " Text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_pair": [
+      {
+        "line": "Text \\[\\] Text",
+        "tokens": [
+          {
+            "text": "Text ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          },
+          {
+            "text": "\\[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "constant.character.escape.markdown"
+            ]
+          },
+          {
+            "text": "\\]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "constant.character.escape.markdown"
+            ]
+          },
+          {
+            "text": " Text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  }
+}

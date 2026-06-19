@@ -411,17 +411,279 @@ repository:
     patterns:
       - include: "#escape"
       - include: "#inline_code"
-      - include: "#image_reference"
+      - include: "#mark"
+      - include: "#emphasis"
       - include: "#image"
+      - include: "#image_reference"
       - include: "#footnote"
-      - include: "#link_reference"
       - include: "#link"
+      - include: "#link_reference"
       - include: "#autolink"
 
   escape:
     patterns:
       - match: \\.
         name: constant.character.escape.markdown
+
+  inline_code:
+    patterns:
+      # @each languages
+      # - include: "#inline_code_{{language}}"
+      # @end
+      - include: "#inline_code_markdown"
+      - include: "#inline_code_raw"
+
+  # @each languages
+  # inline_code_{{language}}:
+  #   patterns:
+  #     - name: markup.inline.raw.string.markdown
+  #       begin: (`+)((?:\:{3,}|#!))(?i:({{aliases}}))([ \t\r\n]+)
+  #       beginCaptures:
+  #         1: { name: punctuation.definition.raw.markdown }
+  #         2: { name: punctuation.definition.inline-highlight.markdown }
+  #         3: { name: entity.name.language.inline-highlight.markdown }
+  #       contentName: meta.embedded.inline.{{language}}
+  #       end: (\1)(?:(\{)([^}\r\n]*)(\}))?
+  #       endCaptures:
+  #         1: { name: punctuation.definition.raw.markdown }
+  #         2: { name: punctuation.definition.attribute-list.begin.markdown }
+  #         3:
+  #           name: meta.attribute-list.trailing.inline.markdown
+  #           patterns:
+  #             - include: "#attribute"
+  #         4: { name: punctuation.definition.attribute-list.end.markdown }
+  #       patterns:
+  #         - include: "{{scope}}"
+  # @end
+
+  inline_code_markdown:
+    patterns:
+      - name: markup.inline.raw.string.markdown
+        begin: (`+)((?:\:{3,}|#!))(?i:(markdown|md))([ \t\r\n]+)
+        beginCaptures:
+          1: { name: punctuation.definition.raw.markdown }
+          2: { name: punctuation.definition.inline-highlight.markdown }
+          3: { name: entity.name.language.inline-highlight.markdown }
+        contentName: meta.embedded.inline.markdown
+        end: (\1)(?:(\{)([^}\r\n]*)(\}))?
+        endCaptures:
+          1: { name: punctuation.definition.raw.markdown }
+          2: { name: punctuation.definition.attribute-list.begin.markdown }
+          3:
+            name: meta.attribute-list.trailing.inline.markdown
+            patterns:
+              - include: "#attribute"
+          4: { name: punctuation.definition.attribute-list.end.markdown }
+        patterns:
+          - include: "#inline_flow"
+
+  inline_code_raw:
+    patterns:
+      - name: markup.inline.raw.string.markdown
+        begin: (`+)
+        beginCaptures:
+          1: { name: punctuation.definition.raw.markdown }
+        end: (\1)(?:(\{)([^}\r\n]*)(\}))?
+        endCaptures:
+          1: { name: punctuation.definition.raw.markdown }
+          2: { name: punctuation.definition.attribute-list.begin.markdown }
+          3:
+            name: meta.attribute-list.trailing.inline.markdown
+            patterns:
+              - include: "#attribute"
+          4: { name: punctuation.definition.attribute-list.end.markdown }
+
+  mark:
+    patterns:
+      - name: markup.highlight.markdown
+        begin: (?:(?<=_)|(?<![\w=\\]))(==)(?![\s=])
+        beginCaptures:
+          1: { name: punctuation.definition.highlight.begin.markdown }
+        end: (?<!\\)(?<!\s)(==)(?:(\{)([^}\r\n]*)(\}))?
+        endCaptures:
+          1: { name: punctuation.definition.highlight.end.markdown }
+          2: { name: punctuation.definition.attribute-list.begin.markdown }
+          3:
+            name: meta.attribute-list.trailing.inline.markdown
+            patterns:
+              - include: "#attribute"
+          4: { name: punctuation.definition.attribute-list.end.markdown }
+        patterns:
+          - include: "#inline_flow"
+
+  emphasis:
+    patterns:
+      - name: markup.bold.markdown
+        begin: (?<!\\)(\*\*)(?=\*(?![\s*])(?:.*(?<!\\)(?<![\s*])\*\*\*))
+        beginCaptures:
+          1: { name: punctuation.definition.bold.markdown }
+        end: (?<!\\)(?<!\s)(\*\*)
+        endCaptures:
+          1: { name: punctuation.definition.bold.markdown }
+        patterns:
+          - name: markup.italic.markdown
+            begin: \G(\*)
+            beginCaptures:
+              1: { name: punctuation.definition.italic.markdown }
+            end: (?<!\\)(?<![\s*])(\*)(?=\*\*)
+            endCaptures:
+              1: { name: punctuation.definition.italic.markdown }
+            patterns:
+              - include: "#inline_flow"
+          - include: "#inline_flow"
+      - name: markup.bold.markdown
+        begin: (?<!\\)(__)(?=_(?![\s_])(?:.*(?<!\\)(?<![\s_])___))
+        beginCaptures:
+          1: { name: punctuation.definition.bold.markdown }
+        end: (?<!\\)(?<!\s)(__)
+        endCaptures:
+          1: { name: punctuation.definition.bold.markdown }
+        patterns:
+          - name: markup.italic.markdown
+            begin: \G(_)
+            beginCaptures:
+              1: { name: punctuation.definition.italic.markdown }
+            end: (?<!\\)(?<![\s_])(_)(?=__)
+            endCaptures:
+              1: { name: punctuation.definition.italic.markdown }
+            patterns:
+              - include: "#inline_flow"
+          - include: "#inline_flow"
+      - name: markup.bold.markdown
+        begin: (?<!\\)(\*\*)(?=\*(?![\s*])(?:.*?(?<!\\)(?<![\s*])(?<!\*)\*(?!\*)(?:.*?(?<!\\)(?<!\s)\*\*)))
+        beginCaptures:
+          1: { name: punctuation.definition.bold.markdown }
+        end: (?<!\\)(?<!\s)(\*\*)
+        endCaptures:
+          1: { name: punctuation.definition.bold.markdown }
+        patterns:
+          - name: markup.italic.markdown
+            begin: \G(\*)
+            beginCaptures:
+              1: { name: punctuation.definition.italic.markdown }
+            end: (?<!\\)(?<![\s*])(?<!\*)(\*)(?!\*)
+            endCaptures:
+              1: { name: punctuation.definition.italic.markdown }
+            patterns:
+              - include: "#inline_flow"
+          - include: "#inline_flow"
+      - name: markup.bold.markdown
+        begin: (?<!\\)(__)(?=_(?![\s_])(?:.*?(?<!\\)(?<![\s_])(?<!_)_(?![\w_])(?:.*?(?<!\\)(?<!\s)__)))
+        beginCaptures:
+          1: { name: punctuation.definition.bold.markdown }
+        end: (?<!\\)(?<!\s)(__)
+        endCaptures:
+          1: { name: punctuation.definition.bold.markdown }
+        patterns:
+          - name: markup.italic.markdown
+            begin: \G(_)
+            beginCaptures:
+              1: { name: punctuation.definition.italic.markdown }
+            end: (?<!\\)(?<![\s_])(?<!_)(_)(?![\w_])
+            endCaptures:
+              1: { name: punctuation.definition.italic.markdown }
+            patterns:
+              - include: "#inline_flow"
+          - include: "#inline_flow"
+      - name: markup.italic.markdown
+        begin: (?<!\\)(\*)(?=\*\*(?![\s*])(?:.*?(?<!\\)(?<!\s)\*\*(?:.*?(?<!\\)(?<![\s*])\*(?!\*))))
+        beginCaptures:
+          1: { name: punctuation.definition.italic.markdown }
+        end: (?<!\\)(?<![\s*])(\*)(?!\*)
+        endCaptures:
+          1: { name: punctuation.definition.italic.markdown }
+        patterns:
+          - name: markup.bold.markdown
+            begin: \G(\*\*)
+            beginCaptures:
+              1: { name: punctuation.definition.bold.markdown }
+            end: (?<!\\)(?<!\s)(\*\*)
+            endCaptures:
+              1: { name: punctuation.definition.bold.markdown }
+            patterns:
+              - include: "#inline_flow"
+          - include: "#inline_flow"
+      - name: markup.italic.markdown
+        begin: (?<!\\)(_)(?=__(?![\s_])(?:.*?(?<!\\)(?<!\s)__(?:.*?(?<!\\)(?<![\s_])_(?![\w_]))))
+        beginCaptures:
+          1: { name: punctuation.definition.italic.markdown }
+        end: (?<!\\)(?<![\s_])(_)(?![\w_])
+        endCaptures:
+          1: { name: punctuation.definition.italic.markdown }
+        patterns:
+          - name: markup.bold.markdown
+            begin: \G(__)
+            beginCaptures:
+              1: { name: punctuation.definition.bold.markdown }
+            end: (?<!\\)(?<!\s)(__)(?!\w)
+            endCaptures:
+              1: { name: punctuation.definition.bold.markdown }
+            patterns:
+              - include: "#inline_flow"
+          - include: "#inline_flow"
+      - name: markup.italic.markdown
+        begin: (?<!\\)(?<!\*)(\*)(?![\s*])(?=(?:\\.|[^*])*(?<!\\)(?<![\s*])\*\*\*)
+        beginCaptures:
+          1: { name: punctuation.definition.italic.markdown }
+        end: (?<!\\)(?<![\s*])(\*)(?=\*\*)
+        endCaptures:
+          1: { name: punctuation.definition.italic.markdown }
+        patterns:
+          - include: "#inline_flow"
+      - name: markup.bold.markdown
+        begin: (?<!\\)(?<!\*)(\*\*)(?![\s*])(?=(?:.*(?<!\\)(?<!\s)\*\*|(?:(?:\\.|(?!\*\*).)*)$))
+        beginCaptures:
+          1: { name: punctuation.definition.bold.markdown }
+        end: (?<!\\)(?<!\s)(\*\*)
+        endCaptures:
+          1: { name: punctuation.definition.bold.markdown }
+        patterns:
+          - name: markup.italic.markdown
+            begin: (?<!\\)(?<!\*)(\*)(?![\s*])(?=(?:.*(?<!\\)(?<![\s*])\*\*\*))
+            beginCaptures:
+              1: { name: punctuation.definition.italic.markdown }
+            end: (?<!\\)(?<![\s*])(\*)(?=\*\*)
+            endCaptures:
+              1: { name: punctuation.definition.italic.markdown }
+            patterns:
+              - include: "#inline_flow"
+          - include: "#inline_flow"
+      - name: markup.bold.markdown
+        begin: (?<![\w\\_])(__)(?![\s_])(?=(?:.*(?<!\\)(?<!\s)__(?!\w)))
+        beginCaptures:
+          1: { name: punctuation.definition.bold.markdown }
+        end: (?<!\\)(?<!\s)(__)(?!\w)
+        endCaptures:
+          1: { name: punctuation.definition.bold.markdown }
+        patterns:
+          - name: markup.italic.markdown
+            begin: (?<![\w\\_])(_)(?![\s_])(?=(?:.*(?<!\\)(?<![\s_])___))
+            beginCaptures:
+              1: { name: punctuation.definition.italic.markdown }
+            end: (?<!\\)(?<![\s_])(_)(?=__)
+            endCaptures:
+              1: { name: punctuation.definition.italic.markdown }
+            patterns:
+              - include: "#inline_flow"
+          - include: "#inline_flow"
+      - name: markup.italic.markdown
+        begin: (?<!\\)(?<!\*)(\*)(?![\s*])(?=(?:.*(?<!\\)(?<!\s)\*(?!\*)|(?:(?:\\.|[^*])*)$))
+        beginCaptures:
+          1: { name: punctuation.definition.italic.markdown }
+        end: (?<!\\)(?<!\s)(\*)(?!\*)
+        endCaptures:
+          1: { name: punctuation.definition.italic.markdown }
+        patterns:
+          - include: "#inline_flow"
+      - name: markup.italic.markdown
+        begin: (?<![\w\\_])(_)(?![\s_])(?=(?:.*(?<!\\)(?<!\s)_(?![\w_])))
+        beginCaptures:
+          1: { name: punctuation.definition.italic.markdown }
+        end: (?<!\\)(?<!\s)(_)(?![\w_])
+        endCaptures:
+          1: { name: punctuation.definition.italic.markdown }
+        patterns:
+          - include: "#inline_flow"
 
   image:
     patterns:
@@ -531,7 +793,24 @@ repository:
               - include: "#attribute"
           19: { name: punctuation.definition.attribute-list.end.markdown }
       - match: >-
-          (\!)(\[)((?<square>[^\[\]\\]|\\.|\[\g<square>*+\])*+)(\])(\()(?<url>(?:\\.|[^()\r\n"'\\]|\r\n|\r|\n|\(\g<url>*\))*?)(?:[ \t]+(?:((")([^"\r\n]*)(")?)|((')([^'\r\n]*)(')?)))?[ \t]*(\))?
+          (\!)(\[)((?<square>[^\[\]\\]|\\.|\[\g<square>*+\])*+)(\])(\()(?<url>(?:\\.|[^()\r\n"'\\]|\r\n|\r|\n|\(\g<url>*\))*)[ \t]+(?:((")([^"\r\n]*)(")?)|((')([^'\r\n]*)(')?))[ \t]*(\))?
+        name: meta.image.inline.markdown
+        captures:
+          1: { name: punctuation.definition.image.begin.markdown }
+          2: { name: punctuation.definition.link.description.begin.markdown }
+          3: { name: string.other.link.description.markdown }
+          5: { name: punctuation.definition.link.description.end.markdown }
+          6: { name: punctuation.definition.link.begin.markdown }
+          7: { name: markup.underline.link.image.markdown }
+          9: { name: punctuation.definition.string.begin.markdown }
+          10: { name: string.quoted.link.title.markdown }
+          11: { name: punctuation.definition.string.end.markdown }
+          13: { name: punctuation.definition.string.begin.markdown }
+          14: { name: string.quoted.link.title.markdown }
+          15: { name: punctuation.definition.string.end.markdown }
+          16: { name: punctuation.definition.link.end.markdown }
+      - match: >-
+          (\!)(\[)((?<square>[^\[\]\\]|\\.|\[\g<square>*+\])*+)(\])(\()(?<url>(?:\\.|[^()\r\n"'\\]|\r\n|\r|\n)*)(?:[ \t]+(?:((")([^"\r\n]*)(")?)|((')([^'\r\n]*)(')?)))?[ \t]*(\))?
         name: meta.image.inline.markdown
         captures:
           1: { name: punctuation.definition.image.begin.markdown }
@@ -551,15 +830,31 @@ repository:
   image_reference:
     patterns:
       - match: >-
-          (?<!\\)(\!)(\[)([^\]\r\n]*)(\])(\[)([^\]\r\n]*)(\])(?:(\{)([^}\r\n]*)(\}))?
+          (?<!\\)(\!)(\[)((?<square>[^\[\]\\\r\n]|\\.|\[\g<square>*+\])*+)(\])([ \t]?)(\[)((?:\\.|[^\]\s\r\n])|(?:\\.|[^\]\s\r\n])(?:\\.|[^\]\r\n])*?(?:\\.|[^\]\s\r\n]))(\])(?:(\{)([^}\r\n]*)(\}))?
         name: meta.image.reference.markdown
         captures:
           1: { name: punctuation.definition.image.begin.markdown }
           2: { name: punctuation.definition.link.description.begin.markdown }
           3: { name: string.other.link.description.markdown }
-          4: { name: punctuation.definition.link.description.end.markdown }
-          5: { name: punctuation.definition.link.begin.markdown }
-          6: { name: constant.other.reference.link.markdown }
+          5: { name: punctuation.definition.link.description.end.markdown }
+          7: { name: punctuation.definition.link.begin.markdown }
+          8: { name: constant.other.reference.link.markdown }
+          9: { name: punctuation.definition.link.end.markdown }
+          10: { name: punctuation.definition.attribute-list.begin.markdown }
+          11:
+            name: meta.attribute-list.trailing.inline.markdown
+            patterns:
+              - include: "#attribute"
+          12: { name: punctuation.definition.attribute-list.end.markdown }
+      - match: >-
+          (?<!\\)(\!)(\[)((?<square>[^\[\]\\\r\n]|\\.|\[\g<square>*+\])++)(\])(\[)(\])(?:(\{)([^}\r\n]*)(\}))?
+        name: meta.image.reference.markdown
+        captures:
+          1: { name: punctuation.definition.image.begin.markdown }
+          2: { name: punctuation.definition.link.description.begin.markdown }
+          3: { name: string.other.link.description.markdown }
+          5: { name: punctuation.definition.link.description.end.markdown }
+          6: { name: punctuation.definition.link.begin.markdown }
           7: { name: punctuation.definition.link.end.markdown }
           8: { name: punctuation.definition.attribute-list.begin.markdown }
           9:
@@ -568,24 +863,23 @@ repository:
               - include: "#attribute"
           10: { name: punctuation.definition.attribute-list.end.markdown }
       - match: >-
-          (?<!\\)(\!)(\[)([^\]\r\n]*)(\])(\[)([^\]\r\n]*)(\])?
+          (?<!\\)(\!)(\[)((?<square>[^\[\]\\\r\n]|\\.|\[\g<square>*+\])*+)(\])([ \t]?)(\[)((?:\\.|[^\]\r\n])*)$
         name: meta.image.reference.markdown
         captures:
           1: { name: punctuation.definition.image.begin.markdown }
           2: { name: punctuation.definition.link.description.begin.markdown }
           3: { name: string.other.link.description.markdown }
-          4: { name: punctuation.definition.link.description.end.markdown }
-          5: { name: punctuation.definition.link.begin.markdown }
-          6: { name: constant.other.reference.link.markdown }
-          7: { name: punctuation.definition.link.end.markdown }
+          5: { name: punctuation.definition.link.description.end.markdown }
+          7: { name: punctuation.definition.link.begin.markdown }
+          8: { name: constant.other.reference.link.markdown }
       - match: >-
-          (?<!\\)(\!)(\[)([^\]\r\n]*)(\])(?!\()(?:(\{)([^}\r\n]*)(\}))?
+          (?<!\\)(\!)(\[)((?<square>[^\[\]\\\r\n]|\\.|\[\g<square>*+\])++)(\])(?!\()(?:(\{)([^}\r\n]*)(\}))?
         name: meta.image.reference.markdown
         captures:
           1: { name: punctuation.definition.image.begin.markdown }
           2: { name: punctuation.definition.link.description.begin.markdown }
           3: { name: string.other.link.description.markdown }
-          4: { name: punctuation.definition.link.description.end.markdown }
+          5: { name: punctuation.definition.link.description.end.markdown }
           6: { name: punctuation.definition.attribute-list.begin.markdown }
           7:
             name: meta.attribute-list.trailing.inline.markdown
@@ -595,83 +889,15 @@ repository:
 
   footnote:
     patterns:
-      - match: >-
-          (\[)(\^)([^\]\r\n]*)(\])(?:(\{)([^}\r\n]*)(\}))?
-        name: meta.footnote-definition.markdown
-        captures:
+      - name: meta.footnote-definition.markdown
+        begin: (\[)(\^)
+        beginCaptures:
           1: { name: punctuation.definition.footnote.begin.markdown }
           2: { name: keyword.control.footnote.markdown }
-          3: { name: entity.name.label.footnote.markdown }
-          4: { name: punctuation.definition.footnote.end.markdown }
-          5: { name: punctuation.definition.attribute-list.begin.markdown }
-          6:
-            name: meta.attribute-list.trailing.inline.markdown
-            patterns:
-              - include: "#attribute"
-          7: { name: punctuation.definition.attribute-list.end.markdown }
-
-  inline_code:
-    patterns:
-      # @each languages
-      # - include: "#inline_code_{{language}}"
-      # @end
-      - include: "#inline_code_markdown"
-      - include: "#inline_code_raw"
-
-  # @each languages
-  # inline_code_{{language}}:
-  #   patterns:
-  #     - name: markup.inline.raw.string.markdown
-  #       begin: (`+)((?:::{3,}|#!))(?i:({{aliases}}))([ \t\r\n]+)
-  #       beginCaptures:
-  #         1: { name: punctuation.definition.raw.markdown }
-  #         2: { name: punctuation.definition.inline-highlight.markdown }
-  #         3: { name: entity.name.language.inline-highlight.markdown }
-  #       contentName: meta.embedded.inline.{{language}}
-  #       end: (\1)(?:(\{)([^}\r\n]*)(\}))?
-  #       endCaptures:
-  #         1: { name: punctuation.definition.raw.markdown }
-  #         2: { name: punctuation.definition.attribute-list.begin.markdown }
-  #         3:
-  #           name: meta.attribute-list.trailing.inline.markdown
-  #           patterns:
-  #             - include: "#attribute"
-  #         4: { name: punctuation.definition.attribute-list.end.markdown }
-  #       patterns:
-  #         - include: "{{scope}}"
-  # @end
-
-  inline_code_markdown:
-    patterns:
-      - name: markup.inline.raw.string.markdown
-        begin: (`+)((?:::{3,}|#!))(?i:(markdown|md))([ \t\r\n]+)
-        beginCaptures:
-          1: { name: punctuation.definition.raw.markdown }
-          2: { name: punctuation.definition.inline-highlight.markdown }
-          3: { name: entity.name.language.inline-highlight.markdown }
-        contentName: meta.embedded.inline.markdown
-        end: (\1)(?:(\{)([^}\r\n]*)(\}))?
+        contentName: entity.name.label.footnote.markdown
+        end: (\])(?:(\{)([^}\r\n]*)(\}))?
         endCaptures:
-          1: { name: punctuation.definition.raw.markdown }
-          2: { name: punctuation.definition.attribute-list.begin.markdown }
-          3:
-            name: meta.attribute-list.trailing.inline.markdown
-            patterns:
-              - include: "#attribute"
-          4: { name: punctuation.definition.attribute-list.end.markdown }
-        patterns:
-          - include: "#inline_flow"
-
-  inline_code_raw:
-    patterns:
-      - name: markup.inline.raw.string.markdown
-        begin: (`+)
-        beginCaptures:
-          1: { name: punctuation.definition.raw.markdown }
-        contentName: markup.inline.raw.string.markdown
-        end: (\1)(?:(\{)([^}\r\n]*)(\}))?
-        endCaptures:
-          1: { name: punctuation.definition.raw.markdown }
+          1: { name: punctuation.definition.footnote.end.markdown }
           2: { name: punctuation.definition.attribute-list.begin.markdown }
           3:
             name: meta.attribute-list.trailing.inline.markdown
@@ -682,7 +908,7 @@ repository:
   link:
     patterns:
       - match: >-
-          (\[)((?<square>[^\[\]\\]|\\.|\[\g<square>*+\])*+)(\])(\()(<)([^>\r\n)]*)(>)(?:[ \t]+(?:((")([^"\r\n]*)("))|((')([^'\r\n]*)('))))?[ \t]*(\))(?:(\{)([^}\r\n]*)(\}))?
+          (\[)((?<square>[^\[\]\\]|\\.|\[\g<square>*+\])*+)(\])(\()(<)([^>\r\n]*)(>)(?:[ \t]+(?:((")([^"\r\n]*)("))|((')([^'\r\n]*)('))))?[ \t]*(\))(?:(\{)([^}\r\n]*)(\}))?
         name: meta.link.inline.markdown
         captures:
           1: { name: punctuation.definition.link.begin.markdown }
@@ -751,7 +977,7 @@ repository:
           14: { name: punctuation.definition.string.end.markdown }
           15: { name: punctuation.definition.link.end.markdown }
       - match: >-
-          (\[)((?<square>[^\[\]\\]|\\.|\[\g<square>*+\])*+)(\])(\()(<)([^>\r\n)]*)(>)?(?:[ \t]+(?:((")([^"\r\n]*)(")?)|((')([^'\r\n]*)(')?)))?[ \t]*(\))?
+          (\[)((?<square>[^\[\]\\]|\\.|\[\g<square>*+\])*+)(\])(\()(<)([^>\r\n]*)(>)?(?:[ \t]+(?:((")([^"\r\n]*)(")?)|((')([^'\r\n]*)(')?)))?[ \t]*(\))?
         name: meta.link.inline.markdown
         captures:
           1: { name: punctuation.definition.link.begin.markdown }
@@ -797,7 +1023,26 @@ repository:
               - include: "#attribute"
           18: { name: punctuation.definition.attribute-list.end.markdown }
       - match: >-
-          (\[)((?<square>[^\[\]\\]|\\.|\[\g<square>*+\])*+)(\])(\()(?<url>(?:\\.|[^()\r\n"'\\]|\r\n|\r|\n|\(\g<url>*\))*?)(?:[ \t]+(?:((")([^"\r\n]*)(")?)|((')([^'\r\n]*)(')?)))?[ \t]*(\))?
+          (\[)((?<square>[^\[\]\\]|\\.|\[\g<square>*+\])*+)(\])(\()(?<url>(?:\\.|[^()\r\n"'\\]|\r\n|\r|\n|\(\g<url>*\))*)[ \t]+(?:((")([^"\r\n]*)(")?)|((')([^'\r\n]*)(')?))[ \t]*(\))?
+        name: meta.link.inline.markdown
+        captures:
+          1: { name: punctuation.definition.link.begin.markdown }
+          2:
+            name: string.other.link.title.markdown
+            patterns:
+              - include: "#inline_flow"
+          4: { name: punctuation.definition.link.end.markdown }
+          5: { name: punctuation.definition.link.begin.markdown }
+          6: { name: markup.underline.link.markdown }
+          8: { name: punctuation.definition.string.begin.markdown }
+          9: { name: string.quoted.link.title.markdown }
+          10: { name: punctuation.definition.string.end.markdown }
+          12: { name: punctuation.definition.string.begin.markdown }
+          13: { name: string.quoted.link.title.markdown }
+          14: { name: punctuation.definition.string.end.markdown }
+          15: { name: punctuation.definition.link.end.markdown }
+      - match: >-
+          (\[)((?<square>[^\[\]\\]|\\.|\[\g<square>*+\])*+)(\])(\()(?<url>(?:\\.|[^()\r\n"'\\]|\r\n|\r|\n)*)(?:[ \t]+(?:((")([^"\r\n]*)(")?)|((')([^'\r\n]*)(')?)))?[ \t]*(\))?
         name: meta.link.inline.markdown
         captures:
           1: { name: punctuation.definition.link.begin.markdown }
@@ -819,7 +1064,7 @@ repository:
   link_reference:
     patterns:
       - match: >-
-          (?<!\\)(\[)([^\]\r\n]*)(\])(\[)([^\]\r\n]*)(\])(?:(\{)([^}\r\n]*)(\}))?
+          (?<!\\)(\[)((?<square>[^\[\]\\\r\n]|\\.|\[\g<square>*+\])*+)(\])([ \t]?)(\[)((?:\\.|[^\]\s\r\n])|(?:\\.|[^\]\s\r\n])(?:\\.|[^\]\r\n])*?(?:\\.|[^\]\s\r\n]))(\])(?:(\{)([^}\r\n]*)(\}))?
         name: meta.link.reference.markdown
         captures:
           1: { name: punctuation.definition.link.begin.markdown }
@@ -827,9 +1072,27 @@ repository:
             name: string.other.link.title.markdown
             patterns:
               - include: "#inline_flow"
-          3: { name: punctuation.definition.link.end.markdown }
-          4: { name: punctuation.definition.link.begin.markdown }
-          5: { name: constant.other.reference.link.markdown }
+          4: { name: punctuation.definition.link.end.markdown }
+          6: { name: punctuation.definition.link.begin.markdown }
+          7: { name: constant.other.reference.link.markdown }
+          8: { name: punctuation.definition.link.end.markdown }
+          9: { name: punctuation.definition.attribute-list.begin.markdown }
+          10:
+            name: meta.attribute-list.trailing.inline.markdown
+            patterns:
+              - include: "#attribute"
+          11: { name: punctuation.definition.attribute-list.end.markdown }
+      - match: >-
+          (?<!\\)(\[)((?<square>[^\[\]\\\r\n]|\\.|\[\g<square>*+\])++)(\])(\[)(\])(?:(\{)([^}\r\n]*)(\}))?
+        name: meta.link.reference.markdown
+        captures:
+          1: { name: punctuation.definition.link.begin.markdown }
+          2:
+            name: string.other.link.title.markdown
+            patterns:
+              - include: "#inline_flow"
+          4: { name: punctuation.definition.link.end.markdown }
+          5: { name: punctuation.definition.link.begin.markdown }
           6: { name: punctuation.definition.link.end.markdown }
           7: { name: punctuation.definition.attribute-list.begin.markdown }
           8:
@@ -838,7 +1101,7 @@ repository:
               - include: "#attribute"
           9: { name: punctuation.definition.attribute-list.end.markdown }
       - match: >-
-          (?<!\\)(\[)([^\]\r\n]*)(\])(\[)([^\]\r\n]*)(\])?
+          (?<!\\)(\[)((?<square>[^\[\]\\\r\n]|\\.|\[\g<square>*+\])*+)(\])([ \t]?)(\[)((?:\\.|[^\]\r\n])*)$
         name: meta.link.reference.markdown
         captures:
           1: { name: punctuation.definition.link.begin.markdown }
@@ -846,12 +1109,11 @@ repository:
             name: string.other.link.title.markdown
             patterns:
               - include: "#inline_flow"
-          3: { name: punctuation.definition.link.end.markdown }
-          4: { name: punctuation.definition.link.begin.markdown }
-          5: { name: constant.other.reference.link.markdown }
-          6: { name: punctuation.definition.link.end.markdown }
+          4: { name: punctuation.definition.link.end.markdown }
+          6: { name: punctuation.definition.link.begin.markdown }
+          7: { name: constant.other.reference.link.markdown }
       - match: >-
-          (?<!\\)(\[)([^\]\r\n]*)(\])(?!\()(?:(\{)([^}\r\n]*)(\}))?
+          (?<!\\)(\[)((?<square>[^\[\]\\\r\n]|\\.|\[\g<square>*+\])++)(\])(?!\()(?:(\{)([^}\r\n]*)(\}))?
         name: meta.link.reference.markdown
         captures:
           1: { name: punctuation.definition.link.begin.markdown }
@@ -859,7 +1121,7 @@ repository:
             name: string.other.link.title.markdown
             patterns:
               - include: "#inline_flow"
-          3: { name: punctuation.definition.link.end.markdown }
+          4: { name: punctuation.definition.link.end.markdown }
           5: { name: punctuation.definition.attribute-list.begin.markdown }
           6:
             name: meta.attribute-list.trailing.inline.markdown
@@ -870,7 +1132,7 @@ repository:
   autolink:
     patterns:
       - match: >-
-          (<)(?:((?:https?|ftp):\/\/[^<>\s]+)|((?:mailto:)?[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}))(\>)(?:(\{)([^}\r\n]*)(\}))?
+          (<)(?:((?i:(?:https?|ftp):\/\/[^<>\s]+))|((?i:(?:mailto:)?[^<>\s]+@[^<>\s]+)))(\>)(?:(\{)([^}\r\n]*)(\}))?
         name: meta.link.autolink.markdown
         captures:
           1: { name: punctuation.definition.link.begin.markdown }

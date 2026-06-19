@@ -6,13 +6,9 @@
       "type": "npm",
       "script": "build",
       "group": "build",
-      "problemMatcher": []
-    },
-    {
-      "label": "npm: vsix",
-      "type": "npm",
-      "script": "vsix",
-      "group": "build",
+      "options": {
+        "cwd": "${workspaceFolder}/integrations/code"
+      },
       "problemMatcher": []
     }
   ]

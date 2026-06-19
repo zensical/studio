@@ -1,0 +1,966 @@
+{
+  "scheme": {
+    "accept_scheme_http": [
+      {
+        "line": "<http://example.com>",
+        "tokens": [
+          {
+            "text": "<",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "http://example.com",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ">",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_scheme_https": [
+      {
+        "line": "<https://example.com>",
+        "tokens": [
+          {
+            "text": "<",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "https://example.com",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ">",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_scheme_uppercase": [
+      {
+        "line": "<HTTP://example.com>",
+        "tokens": [
+          {
+            "text": "<",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "HTTP://example.com",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ">",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_scheme_ftp": [
+      {
+        "line": "<ftp://example.com>",
+        "tokens": [
+          {
+            "text": "<",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "ftp://example.com",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ">",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_query": [
+      {
+        "line": "<https://example.com/path?q=1&p=2>",
+        "tokens": [
+          {
+            "text": "<",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "https://example.com/path?q=1&p=2",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ">",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_query_with_entity": [
+      {
+        "line": "<https://example.com?p=1&amp;q=2>",
+        "tokens": [
+          {
+            "text": "<",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "https://example.com?p=1&amp;q=2",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ">",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_href_with_parentheses": [
+      {
+        "line": "<http://example.com/path_(p)>",
+        "tokens": [
+          {
+            "text": "<",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "http://example.com/path_(p)",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ">",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "email": {
+    "accept_mailto_email": [
+      {
+        "line": "<mailto:user@example.com>",
+        "tokens": [
+          {
+            "text": "<",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "mailto:user@example.com",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ">",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_email": [
+      {
+        "line": "<user@example.com>",
+        "tokens": [
+          {
+            "text": "<",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "user@example.com",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ">",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_email_with_plus": [
+      {
+        "line": "<user.name+tag@example.co.uk>",
+        "tokens": [
+          {
+            "text": "<",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "user.name+tag@example.co.uk",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ">",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_email_with_ampersand": [
+      {
+        "line": "<usr&tag@example.com>",
+        "tokens": [
+          {
+            "text": "<",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "usr&tag@example.com",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ">",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_email_with_entity": [
+      {
+        "line": "<usr&amp;tag@example.com>",
+        "tokens": [
+          {
+            "text": "<",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "usr&amp;tag@example.com",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ">",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "position": {
+    "accept_before_text": [
+      {
+        "line": "<https://example.com> Text",
+        "tokens": [
+          {
+            "text": "<",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "https://example.com",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ">",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": " Text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_before_entity": [
+      {
+        "line": "<http://example.com>&amp;",
+        "tokens": [
+          {
+            "text": "<",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "http://example.com",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ">",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "&amp;",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_after_text": [
+      {
+        "line": "Text <https://example.com>",
+        "tokens": [
+          {
+            "text": "Text ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          },
+          {
+            "text": "<",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "https://example.com",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ">",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_after_entity": [
+      {
+        "line": "&amp;<http://example.com>",
+        "tokens": [
+          {
+            "text": "&amp;",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          },
+          {
+            "text": "<",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "http://example.com",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ">",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_consecutive": [
+      {
+        "line": "<http://doc.example><https://ref.example>",
+        "tokens": [
+          {
+            "text": "<",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "http://doc.example",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ">",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "<",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "https://ref.example",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ">",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.autolink.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "rejection": {
+    "reject_irc_scheme": [
+      {
+        "line": "<irc://example.com>",
+        "tokens": [
+          {
+            "text": "<irc://example.com>",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_unknown_scheme": [
+      {
+        "line": "<bad://example.com>",
+        "tokens": [
+          {
+            "text": "<bad://example.com>",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_empty_email_local": [
+      {
+        "line": "<@example.com>",
+        "tokens": [
+          {
+            "text": "<@example.com>",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_empty_email_domain": [
+      {
+        "line": "<user@>",
+        "tokens": [
+          {
+            "text": "<user@>",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_unterminated": [
+      {
+        "line": "<http://example.com",
+        "tokens": [
+          {
+            "text": "<http://example.com",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_empty": [
+      {
+        "line": "<>",
+        "tokens": [
+          {
+            "text": "<>",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_leading_space": [
+      {
+        "line": "< http://example.com>",
+        "tokens": [
+          {
+            "text": "< http://example.com>",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_leading_spaces": [
+      {
+        "line": "<  http://example.com>",
+        "tokens": [
+          {
+            "text": "<  http://example.com>",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_leading_tab": [
+      {
+        "line": "<\thttp://example.com>",
+        "tokens": [
+          {
+            "text": "<\thttp://example.com>",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_line_ending_lf": [
+      {
+        "line": "<http://example.com",
+        "tokens": [
+          {
+            "text": "<http://example.com",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": ">",
+        "tokens": [
+          {
+            "text": ">",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.block.quote.markdown",
+              "markup.quote.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_line_ending_crlf": [
+      {
+        "line": "<http://example.com",
+        "tokens": [
+          {
+            "text": "<http://example.com",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": ">",
+        "tokens": [
+          {
+            "text": ">",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.block.quote.markdown",
+              "markup.quote.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_line_ending_cr": [
+      {
+        "line": "<http://example.com",
+        "tokens": [
+          {
+            "text": "<http://example.com",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": ">",
+        "tokens": [
+          {
+            "text": ">",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.block.quote.markdown",
+              "markup.quote.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  }
+}

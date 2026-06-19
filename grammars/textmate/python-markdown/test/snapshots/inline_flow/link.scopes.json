@@ -1,0 +1,4402 @@
+{
+  "complete": {
+    "accept_plain": [
+      {
+        "line": "[text](href)",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "href",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_empty": [
+      {
+        "line": "[]()",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_empty_text": [
+      {
+        "line": "[](href)",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "href",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_empty_href": [
+      {
+        "line": "[text]()",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "text": {
+    "accept_leading_space": [
+      {
+        "line": "[ text](href)",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": " text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "href",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_trailing_space": [
+      {
+        "line": "[text ](href)",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "href",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_surrounding_space": [
+      {
+        "line": "[ text ](href)",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": " text ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "href",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_escaped_opening_bracket": [
+      {
+        "line": "[text \\[](href)",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "\\[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown",
+              "constant.character.escape.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "href",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_escaped_closing_bracket": [
+      {
+        "line": "[text \\]](href)",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "\\]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown",
+              "constant.character.escape.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "href",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_escaped_brackets": [
+      {
+        "line": "[text \\[\\]](href)",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "\\[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown",
+              "constant.character.escape.markdown"
+            ]
+          },
+          {
+            "text": "\\]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown",
+              "constant.character.escape.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "href",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_nested_brackets": [
+      {
+        "line": "[[](#)](#)",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "#",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "#",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_code": [
+      {
+        "line": "[`code`](href)",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "`",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown",
+              "markup.inline.raw.string.markdown",
+              "punctuation.definition.raw.markdown"
+            ]
+          },
+          {
+            "text": "code",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown",
+              "markup.inline.raw.string.markdown"
+            ]
+          },
+          {
+            "text": "`",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown",
+              "markup.inline.raw.string.markdown",
+              "punctuation.definition.raw.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "href",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "destination": {
+    "accept_parentheses": [
+      {
+        "line": "[text](href(foo))",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "href(foo)",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_nested_parentheses": [
+      {
+        "line": "[text](href(foo(bar)))",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "href(foo(bar))",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_escaped_opening_paren": [
+      {
+        "line": "[text](href\\()",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "href\\(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_escaped_opening_paren_unbalanced": [
+      {
+        "line": "[text](href\\(foo)",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "href\\(foo",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_escaped_closing_paren": [
+      {
+        "line": "[text](href\\))",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "href\\)",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_escaped_closing_paren_nested": [
+      {
+        "line": "[text](href(foo\\)))",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "href(foo\\))",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_escaped_parentheses": [
+      {
+        "line": "[text](href\\(foo\\))",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "href\\(foo\\)",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_escaped_closing_paren_nested_unbalanced": [
+      {
+        "line": "[text](href(foo\\))",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "href",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": "(foo",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          },
+          {
+            "text": "\\)",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "constant.character.escape.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_partial": [
+      {
+        "line": "[text](href",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "href",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_empty_partial": [
+      {
+        "line": "[text](",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "title": {
+    "accept_double_quoted": [
+      {
+        "line": "[text](href \"Title\")",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "href",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.string.begin.markdown"
+            ]
+          },
+          {
+            "text": "Title",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.quoted.link.title.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.string.end.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_double_quoted_empty": [
+      {
+        "line": "[text](href \"\")",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "href",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.string.begin.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.string.end.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_double_quoted_with_quotes": [
+      {
+        "line": "[text](href \"A 'title'\")",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "href",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.string.begin.markdown"
+            ]
+          },
+          {
+            "text": "A 'title'",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.quoted.link.title.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.string.end.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_single_quoted": [
+      {
+        "line": "[text](href 'Title')",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "href",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown"
+            ]
+          },
+          {
+            "text": "'",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.string.begin.markdown"
+            ]
+          },
+          {
+            "text": "Title",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.quoted.link.title.markdown"
+            ]
+          },
+          {
+            "text": "'",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.string.end.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_single_quoted_empty": [
+      {
+        "line": "[text](href '')",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "href",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown"
+            ]
+          },
+          {
+            "text": "'",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.string.begin.markdown"
+            ]
+          },
+          {
+            "text": "'",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.string.end.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_single_quoted_with_quotes": [
+      {
+        "line": "[text](href 'A \"title\"')",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "href",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown"
+            ]
+          },
+          {
+            "text": "'",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.string.begin.markdown"
+            ]
+          },
+          {
+            "text": "A \"title\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.quoted.link.title.markdown"
+            ]
+          },
+          {
+            "text": "'",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.string.end.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_empty_href": [
+      {
+        "line": "[text](\"Title\")",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.string.begin.markdown"
+            ]
+          },
+          {
+            "text": "Title",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.quoted.link.title.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.string.end.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "[text]('Title')",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "'",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.string.begin.markdown"
+            ]
+          },
+          {
+            "text": "Title",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.quoted.link.title.markdown"
+            ]
+          },
+          {
+            "text": "'",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.string.end.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_empty_href_partial": [
+      {
+        "line": "[text]( \"Title\")",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.string.begin.markdown"
+            ]
+          },
+          {
+            "text": "Title",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.quoted.link.title.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.string.end.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_with_paren": [
+      {
+        "line": "[text](href \"Tit)le\")",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "href",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.string.begin.markdown"
+            ]
+          },
+          {
+            "text": "Tit)le",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.quoted.link.title.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.string.end.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_partial": [
+      {
+        "line": "[text](href \"",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "href",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.string.begin.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_unterminated": [
+      {
+        "line": "[text](href \"Title",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "href",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.string.begin.markdown"
+            ]
+          },
+          {
+            "text": "Title",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.quoted.link.title.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "angle_destination": {
+    "accept_plain": [
+      {
+        "line": "[text](<href>)",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "<",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.angle.markdown"
+            ]
+          },
+          {
+            "text": "href",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ">",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.angle.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_empty": [
+      {
+        "line": "[text](<>)",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "<",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.angle.markdown"
+            ]
+          },
+          {
+            "text": ">",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.angle.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_parentheses": [
+      {
+        "line": "[text](<href(foo)>)",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "<",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.angle.markdown"
+            ]
+          },
+          {
+            "text": "href(foo)",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ">",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.angle.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_nested_parentheses": [
+      {
+        "line": "[text](<href(foo(bar))>)",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "<",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.angle.markdown"
+            ]
+          },
+          {
+            "text": "href(foo(bar))",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ">",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.angle.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_escaped_opening_paren": [
+      {
+        "line": "[text](<href\\(foo>)",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "<",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.angle.markdown"
+            ]
+          },
+          {
+            "text": "href\\(foo",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ">",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.angle.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_escaped_closing_paren": [
+      {
+        "line": "[text](<href\\)>)",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "<",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.angle.markdown"
+            ]
+          },
+          {
+            "text": "href\\)",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ">",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.angle.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_escaped_parentheses": [
+      {
+        "line": "[text](<href\\(foo\\)>)",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "<",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.angle.markdown"
+            ]
+          },
+          {
+            "text": "href\\(foo\\)",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ">",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.angle.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_partial": [
+      {
+        "line": "[text](<href",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "<",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.angle.markdown"
+            ]
+          },
+          {
+            "text": "href",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_title_double_quoted": [
+      {
+        "line": "[text](<href> \"Title\")",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "<",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.angle.markdown"
+            ]
+          },
+          {
+            "text": "href",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ">",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.angle.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.string.begin.markdown"
+            ]
+          },
+          {
+            "text": "Title",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.quoted.link.title.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.string.end.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_title_single_quoted": [
+      {
+        "line": "[text](<href> 'Title')",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "<",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.angle.markdown"
+            ]
+          },
+          {
+            "text": "href",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ">",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.angle.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown"
+            ]
+          },
+          {
+            "text": "'",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.string.begin.markdown"
+            ]
+          },
+          {
+            "text": "Title",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.quoted.link.title.markdown"
+            ]
+          },
+          {
+            "text": "'",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.string.end.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_title_partial": [
+      {
+        "line": "[text](<href> \"",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "<",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.angle.markdown"
+            ]
+          },
+          {
+            "text": "href",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ">",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.angle.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.string.begin.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_title_unterminated": [
+      {
+        "line": "[text](<href> \"Title",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "<",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.angle.markdown"
+            ]
+          },
+          {
+            "text": "href",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ">",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.angle.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.string.begin.markdown"
+            ]
+          },
+          {
+            "text": "Title",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.quoted.link.title.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_title_unbalanced": [
+      {
+        "line": "[text](<href> \"Title)",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "<",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.angle.markdown"
+            ]
+          },
+          {
+            "text": "href",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ">",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.angle.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.string.begin.markdown"
+            ]
+          },
+          {
+            "text": "Title)",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.quoted.link.title.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_title_quote_partial": [
+      {
+        "line": "[text](<href> \")",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "<",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.angle.markdown"
+            ]
+          },
+          {
+            "text": "href",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ">",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.angle.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.string.begin.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.quoted.link.title.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "attribute_list": {
+    "accept_plain": [
+      {
+        "line": "[text](href){#id}",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "href",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "{",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.attribute-list.begin.markdown"
+            ]
+          },
+          {
+            "text": "#",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "meta.attribute-list.trailing.inline.markdown",
+              "punctuation.definition.attribute.markdown"
+            ]
+          },
+          {
+            "text": "id",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "meta.attribute-list.trailing.inline.markdown",
+              "entity.other.attribute-name.id.markdown"
+            ]
+          },
+          {
+            "text": "}",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.attribute-list.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_title": [
+      {
+        "line": "[text](href \"Title\"){#id}",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "href",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.string.begin.markdown"
+            ]
+          },
+          {
+            "text": "Title",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.quoted.link.title.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.string.end.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "{",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.attribute-list.begin.markdown"
+            ]
+          },
+          {
+            "text": "#",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "meta.attribute-list.trailing.inline.markdown",
+              "punctuation.definition.attribute.markdown"
+            ]
+          },
+          {
+            "text": "id",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "meta.attribute-list.trailing.inline.markdown",
+              "entity.other.attribute-name.id.markdown"
+            ]
+          },
+          {
+            "text": "}",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.attribute-list.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_spaced": [
+      {
+        "line": "[text](href){ #id .class }",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "href",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "{",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.attribute-list.begin.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "meta.attribute-list.trailing.inline.markdown"
+            ]
+          },
+          {
+            "text": "#",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "meta.attribute-list.trailing.inline.markdown",
+              "punctuation.definition.attribute.markdown"
+            ]
+          },
+          {
+            "text": "id",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "meta.attribute-list.trailing.inline.markdown",
+              "entity.other.attribute-name.id.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "meta.attribute-list.trailing.inline.markdown"
+            ]
+          },
+          {
+            "text": ".",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "meta.attribute-list.trailing.inline.markdown",
+              "punctuation.definition.attribute.markdown"
+            ]
+          },
+          {
+            "text": "class",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "meta.attribute-list.trailing.inline.markdown",
+              "entity.other.attribute-name.class.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "meta.attribute-list.trailing.inline.markdown"
+            ]
+          },
+          {
+            "text": "}",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.attribute-list.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "marker": {
+    "reject_escaped_opening_bracket": [
+      {
+        "line": "\\[text](href)",
+        "tokens": [
+          {
+            "text": "\\[",
+            "scopes": [
+              "text.html.markdown.python",
+              "constant.character.escape.markdown"
+            ]
+          },
+          {
+            "text": "text](href)",
+            "scopes": [
+              "text.html.markdown.python"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_escaped_closing_bracket": [
+      {
+        "line": "[text\\](href)",
+        "tokens": [
+          {
+            "text": "[text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          },
+          {
+            "text": "\\]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "constant.character.escape.markdown"
+            ]
+          },
+          {
+            "text": "(href)",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "rejection": {
+    "reject_space_before_target": [
+      {
+        "line": "[text] (href)",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.reference.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.reference.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.reference.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": " (href)",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_line_ending_before_target": [
+      {
+        "line": "[text]",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.reference.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.reference.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.reference.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "(href)",
+        "tokens": [
+          {
+            "text": "(href)",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  }
+}
