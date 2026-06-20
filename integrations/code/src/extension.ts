@@ -24,6 +24,7 @@ import type { ExtensionContext } from "vscode";
 import type { LanguageClient } from "vscode-languageclient/node";
 
 import { registerCommands } from "./commands";
+import { promptFileAssociation } from "./extension/association";
 import { createLanguageClient } from "./extension/client";
 import { Context } from "./extension/context";
 import { getStudio } from "./extension/studio";
@@ -52,6 +53,9 @@ export async function activate(extension: ExtensionContext): Promise<void> {
   if (typeof studio === "undefined") {
     return;
   }
+
+  // Prompt user to associate Markdown files with Zensical Studio
+  await promptFileAssociation(context);
 
   // Register commands
   registerCommands(extension);

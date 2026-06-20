@@ -49,7 +49,9 @@
     "vscode": "^1.100.0"
   },
   "activationEvents": [
-    "onLanguage:python-markdown"
+    "onLanguage:python-markdown",
+    "workspaceContains:**/mkdocs.yml",
+    "workspaceContains:**/zensical.toml"
   ],
   "contributes": {
     "configurationDefaults": {
