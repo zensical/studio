@@ -54,9 +54,6 @@ export async function activate(extension: ExtensionContext): Promise<void> {
     return;
   }
 
-  // Prompt user to associate Markdown files with Zensical Studio
-  await promptFileAssociation(context);
-
   // Register commands
   registerCommands(extension);
 
@@ -69,6 +66,9 @@ export async function activate(extension: ExtensionContext): Promise<void> {
     const message = error instanceof Error ? error.message : String(error);
     context.log(`Failed to start Zensical Studio: ${message}`);
   }
+
+  // Prompt user to associate Markdown files with Zensical Studio
+  void promptFileAssociation(context);
 }
 
 /**
