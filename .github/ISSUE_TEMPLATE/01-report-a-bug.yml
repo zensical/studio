@@ -88,8 +88,6 @@ body:
       multiple: true
       options:
         - Visual Studio Code
-        -
-        -
 
   - type: checkboxes
     id: checklist
@@ -107,10 +105,6 @@ body:
         - label: >-
             I have attached links to [the documentation](https://zensical.org/studio/),
             and possibly related [issues](https://github.com/zensical/studio/issues).
-          required: true
-        - label: >-
-            I assure that I have [removed all customizations](https://zensical.org/docs/community/contribute/report-a-bug/#remove-customizations)
-            before submitting this bug report.
           required: true
         - label: >-
             I have attached a __.zip file__ with a [minimal reproduction](https://zensical.org/docs/community/guides/create-a-reproduction/).
