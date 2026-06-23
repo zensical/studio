@@ -24,9 +24,9 @@ import type { ExtensionContext } from "vscode";
 import type { LanguageClient } from "vscode-languageclient/node";
 
 import { registerCommands } from "./commands";
-import { promptFileAssociation } from "./extension/association";
 import { createLanguageClient } from "./extension/client";
 import { Context } from "./extension/context";
+import { activateProjectMarkdown } from "./extension/project";
 import { getStudio } from "./extension/studio";
 
 /* ----------------------------------------------------------------------------
@@ -49,6 +49,9 @@ let client: LanguageClient | undefined;
  */
 export async function activate(extension: ExtensionContext): Promise<void> {
   const context = new Context(extension);
+  void activateProjectMarkdown(extension, context);
+
+  // Obtain Zensical studio configuration
   const studio = await getStudio(context);
   if (typeof studio === "undefined") {
     return;
@@ -66,9 +69,6 @@ export async function activate(extension: ExtensionContext): Promise<void> {
     const message = error instanceof Error ? error.message : String(error);
     context.log(`Failed to start Zensical Studio: ${message}`);
   }
-
-  // Prompt user to associate Markdown files with Zensical Studio
-  void promptFileAssociation(context);
 }
 
 /**
