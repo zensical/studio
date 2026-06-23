@@ -1,0 +1,751 @@
+{
+  "parenthesized": {
+    "accept_trademark": [
+      {
+        "line": "(tm)",
+        "tokens": [
+          {
+            "text": "(tm)",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "constant.other.smart-symbol.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_copyright": [
+      {
+        "line": "(c)",
+        "tokens": [
+          {
+            "text": "(c)",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "constant.other.smart-symbol.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_registered": [
+      {
+        "line": "(r)",
+        "tokens": [
+          {
+            "text": "(r)",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "constant.other.smart-symbol.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "operator": {
+    "accept_plusminus": [
+      {
+        "line": "+/-",
+        "tokens": [
+          {
+            "text": "+/-",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "constant.other.smart-symbol.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_notequal": [
+      {
+        "line": "=/=",
+        "tokens": [
+          {
+            "text": "=/=",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "constant.other.smart-symbol.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "arrow": {
+    "accept_left": [
+      {
+        "line": "<--",
+        "tokens": [
+          {
+            "text": "<--",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "constant.other.smart-symbol.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_right": [
+      {
+        "line": "-->",
+        "tokens": [
+          {
+            "text": "-->",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "constant.other.smart-symbol.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_both": [
+      {
+        "line": "<-->",
+        "tokens": [
+          {
+            "text": "<-->",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "constant.other.smart-symbol.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "care_of": {
+    "accept_plain": [
+      {
+        "line": "c/o",
+        "tokens": [
+          {
+            "text": "c/o",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "constant.other.smart-symbol.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "fraction": {
+    "accept_half": [
+      {
+        "line": "1/2",
+        "tokens": [
+          {
+            "text": "1/2",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "constant.other.smart-symbol.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_five_eighths": [
+      {
+        "line": "5/8",
+        "tokens": [
+          {
+            "text": "5/8",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "constant.other.smart-symbol.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "ordinal": {
+    "accept_first": [
+      {
+        "line": "1st",
+        "tokens": [
+          {
+            "text": "1st",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "constant.other.smart-symbol.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_eleventh": [
+      {
+        "line": "11th",
+        "tokens": [
+          {
+            "text": "11th",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "constant.other.smart-symbol.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_twelfth": [
+      {
+        "line": "12th",
+        "tokens": [
+          {
+            "text": "12th",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "constant.other.smart-symbol.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_thirty_second": [
+      {
+        "line": "32nd",
+        "tokens": [
+          {
+            "text": "32nd",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "constant.other.smart-symbol.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_hundred_third": [
+      {
+        "line": "103rd",
+        "tokens": [
+          {
+            "text": "103rd",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "constant.other.smart-symbol.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "position": {
+    "accept_before_text": [
+      {
+        "line": "(c) Text",
+        "tokens": [
+          {
+            "text": "(c)",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "constant.other.smart-symbol.markdown"
+            ]
+          },
+          {
+            "text": " Text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_after_text": [
+      {
+        "line": "Text (c)",
+        "tokens": [
+          {
+            "text": "Text ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          },
+          {
+            "text": "(c)",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "constant.other.smart-symbol.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_multiple": [
+      {
+        "line": "(c) +/- 1/2",
+        "tokens": [
+          {
+            "text": "(c)",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "constant.other.smart-symbol.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          },
+          {
+            "text": "+/-",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "constant.other.smart-symbol.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          },
+          {
+            "text": "1/2",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "constant.other.smart-symbol.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "nesting": {
+    "accept_inside_emphasis": [
+      {
+        "line": "*(c)*",
+        "tokens": [
+          {
+            "text": "*",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.italic.markdown",
+              "punctuation.definition.italic.markdown"
+            ]
+          },
+          {
+            "text": "(c)",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.italic.markdown",
+              "constant.other.smart-symbol.markdown"
+            ]
+          },
+          {
+            "text": "*",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.italic.markdown",
+              "punctuation.definition.italic.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_inside_link": [
+      {
+        "line": "[(c)](href)",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "(c)",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown",
+              "constant.other.smart-symbol.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "href",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "rejection": {
+    "reject_escaped_copyright": [
+      {
+        "line": "\\(c)",
+        "tokens": [
+          {
+            "text": "\\(",
+            "scopes": [
+              "text.html.markdown.python",
+              "constant.character.escape.markdown"
+            ]
+          },
+          {
+            "text": "c)",
+            "scopes": [
+              "text.html.markdown.python"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_uppercase_trademark": [
+      {
+        "line": "(TM)",
+        "tokens": [
+          {
+            "text": "(TM)",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_uppercase_care_of": [
+      {
+        "line": "C/O",
+        "tokens": [
+          {
+            "text": "C/O",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_arrow_right_tail": [
+      {
+        "line": "---",
+        "tokens": [
+          {
+            "text": "---",
+            "scopes": [
+              "text.html.markdown.python",
+              "punctuation.definition.begin.frontmatter"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_arrow_left_tail": [
+      {
+        "line": "<---",
+        "tokens": [
+          {
+            "text": "<---",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_wrong_ordinal_eleventh_second": [
+      {
+        "line": "11nd",
+        "tokens": [
+          {
+            "text": "11nd",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_wrong_ordinal_tenth": [
+      {
+        "line": "10st",
+        "tokens": [
+          {
+            "text": "10st",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_wrong_ordinal_twenty_second": [
+      {
+        "line": "22th",
+        "tokens": [
+          {
+            "text": "22th",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_leading_zero_ordinal": [
+      {
+        "line": "01st",
+        "tokens": [
+          {
+            "text": "01st",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_fraction_digit_before": [
+      {
+        "line": "11/2",
+        "tokens": [
+          {
+            "text": "11/2",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_fraction_digit_after": [
+      {
+        "line": "1/22",
+        "tokens": [
+          {
+            "text": "1/22",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_care_of_before_underscore": [
+      {
+        "line": "c/o_",
+        "tokens": [
+          {
+            "text": "c/o_",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  }
+}

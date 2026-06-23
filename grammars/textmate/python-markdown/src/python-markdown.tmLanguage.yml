@@ -26,6 +26,7 @@ scopeName: text.html.markdown.python
 
 patterns:
   - include: "#front_matter"
+  - include: "#snippet"
   - include: "#flow"
 
 repository:
@@ -60,7 +61,134 @@ repository:
       - include: "#heading_atx"
       - include: "#thematic_break"
       - include: "#block_quote"
+      - include: "#list_item"
       - include: "#paragraph"
+
+  snippet:
+    patterns:
+      - name: meta.snippet.section.markdown
+        match: >-
+          (?:^|\G)(.*?)(?<!;)(-{1,}8<-{1,})([ \t]+)(\[)([ \t]*)(?i:(start|end))([ \t]*)(:)([ \t]*)([a-z][-_0-9a-z]*)([ \t]*)(\])(.*)$
+        captures:
+          1:
+            name: meta.snippet.section.prefix.markdown
+            patterns:
+              - include: "#inline_flow"
+          2: { name: keyword.control.snippet.markdown }
+          3: { name: comment.snippet.separator.markdown }
+          4: { name: punctuation.definition.snippet-section.begin.markdown }
+          5: { name: punctuation.whitespace.markdown }
+          6: { name: keyword.control.snippet.section.markdown }
+          7: { name: punctuation.whitespace.markdown }
+          8: { name: punctuation.separator.snippet-section.markdown }
+          9: { name: punctuation.whitespace.markdown }
+          10: { name: entity.name.section.snippet.markdown }
+          11: { name: punctuation.whitespace.markdown }
+          12: { name: punctuation.definition.snippet-section.end.markdown }
+          13:
+            name: meta.snippet.section.suffix.markdown
+            patterns:
+              - include: "#inline_flow"
+      - name: meta.snippet.inline.markdown
+        match: >-
+          (?:^|\G)([ \t]*)(-{1,}8<-{1,})([ \t]+)(")((?:\\"|[^"\r\n])+?)((?::-?[0-9]*){1,2}(?:(?:,(?=[-0-9:])-?[0-9]*)(?::-?[0-9]*)?)*)(")$
+        captures:
+          1: { name: punctuation.whitespace.leading.markdown }
+          2: { name: keyword.control.snippet.markdown }
+          3: { name: comment.snippet.separator.markdown }
+          4: { name: punctuation.definition.string.begin.markdown }
+          5: { name: string.quoted.double.snippet.markdown }
+          6: { name: constant.numeric.snippet-selector.line.markdown }
+          7: { name: punctuation.definition.string.end.markdown }
+      - name: meta.snippet.inline.markdown
+        match: >-
+          (?:^|\G)([ \t]*)(-{1,}8<-{1,})([ \t]+)(")((?:\\"|[^"\r\n])+?)(:[a-z][-_0-9a-z]*)(")$
+        captures:
+          1: { name: punctuation.whitespace.leading.markdown }
+          2: { name: keyword.control.snippet.markdown }
+          3: { name: comment.snippet.separator.markdown }
+          4: { name: punctuation.definition.string.begin.markdown }
+          5: { name: string.quoted.double.snippet.markdown }
+          6: { name: entity.name.section.snippet-selector.markdown }
+          7: { name: punctuation.definition.string.end.markdown }
+      - name: meta.snippet.inline.markdown
+        match: >-
+          (?:^|\G)([ \t]*)(-{1,}8<-{1,})([ \t]+)(")((?:\\"|[^"\r\n])+?)(")$
+        captures:
+          1: { name: punctuation.whitespace.leading.markdown }
+          2: { name: keyword.control.snippet.markdown }
+          3: { name: comment.snippet.separator.markdown }
+          4: { name: punctuation.definition.string.begin.markdown }
+          5: { name: string.quoted.double.snippet.markdown }
+          6: { name: punctuation.definition.string.end.markdown }
+      - name: meta.snippet.inline.markdown
+        match: >-
+          (?:^|\G)([ \t]*)(-{1,}8<-{1,})([ \t]+)(')((?:\\'|[^'\r\n])+?)((?::-?[0-9]*){1,2}(?:(?:,(?=[-0-9:])-?[0-9]*)(?::-?[0-9]*)?)*)(')$
+        captures:
+          1: { name: punctuation.whitespace.leading.markdown }
+          2: { name: keyword.control.snippet.markdown }
+          3: { name: comment.snippet.separator.markdown }
+          4: { name: punctuation.definition.string.begin.markdown }
+          5: { name: string.quoted.single.snippet.markdown }
+          6: { name: constant.numeric.snippet-selector.line.markdown }
+          7: { name: punctuation.definition.string.end.markdown }
+      - name: meta.snippet.inline.markdown
+        match: >-
+          (?:^|\G)([ \t]*)(-{1,}8<-{1,})([ \t]+)(')((?:\\'|[^'\r\n])+?)(:[a-z][-_0-9a-z]*)(')$
+        captures:
+          1: { name: punctuation.whitespace.leading.markdown }
+          2: { name: keyword.control.snippet.markdown }
+          3: { name: comment.snippet.separator.markdown }
+          4: { name: punctuation.definition.string.begin.markdown }
+          5: { name: string.quoted.single.snippet.markdown }
+          6: { name: entity.name.section.snippet-selector.markdown }
+          7: { name: punctuation.definition.string.end.markdown }
+      - name: meta.snippet.inline.markdown
+        match: >-
+          (?:^|\G)([ \t]*)(-{1,}8<-{1,})([ \t]+)(')((?:\\'|[^'\r\n])+?)(')$
+        captures:
+          1: { name: punctuation.whitespace.leading.markdown }
+          2: { name: keyword.control.snippet.markdown }
+          3: { name: comment.snippet.separator.markdown }
+          4: { name: punctuation.definition.string.begin.markdown }
+          5: { name: string.quoted.single.snippet.markdown }
+          6: { name: punctuation.definition.string.end.markdown }
+      - name: meta.snippet.block.markdown
+        begin: (?:^|\G)([ \t]*)(-{1,}8<-{1,})(?![ \t])$
+        beginCaptures:
+          1: { name: punctuation.whitespace.leading.markdown }
+          2: { name: keyword.control.snippet.markdown }
+        end: (?:^|\G)([ \t]*)(-{1,}8<-{1,})(?![ \t])$
+        endCaptures:
+          1: { name: punctuation.whitespace.leading.markdown }
+          2: { name: keyword.control.snippet.markdown }
+        patterns:
+          - match: (?:^|\G)([ \t]*)(;[^\r\n]*?)$
+            captures:
+              1: { name: punctuation.whitespace.leading.markdown }
+              2: { name: comment.line.snippet.markdown }
+          - match: >-
+              (?:^|\G)([ \t]*)(?=[^;\s\r\n])(.*?)(:[-0-9:,]+)([ \t]*)$
+            captures:
+              1: { name: punctuation.whitespace.leading.markdown }
+              2: { name: string.unquoted.snippet.markdown }
+              3: { name: constant.numeric.snippet-selector.line.markdown }
+              4: { name: punctuation.whitespace.trailing.markdown }
+          - match: >-
+              (?:^|\G)([ \t]*)(?=[^;\s\r\n])(.*?)(:[a-z][-_0-9a-z]*)([ \t]*)$
+            captures:
+              1: { name: punctuation.whitespace.leading.markdown }
+              2: { name: string.unquoted.snippet.markdown }
+              3: { name: entity.name.section.snippet-selector.markdown }
+              4: { name: punctuation.whitespace.trailing.markdown }
+          - match: (?:^|\G)([ \t]*)(?=[^;\s\r\n])([^\r\n]*?)([ \t]*)$
+            captures:
+              1: { name: punctuation.whitespace.leading.markdown }
+              2: { name: string.unquoted.snippet.markdown }
+              3: { name: punctuation.whitespace.trailing.markdown }
+          - match: (?:^|\G)([ \t]+)$
+            captures:
+              1: { name: punctuation.whitespace.markdown }
 
   table:
     patterns:
@@ -386,6 +514,37 @@ repository:
       - match: (?:^|\G)[ \t]*([\*\-\_])([ ]{0,2}\1){2,}[ \t]*$\n?
         name: meta.thematic-break.markdown
 
+  list_item:
+    patterns:
+      - match: >-
+          (?:^|\G)([ \t]*)([*+-])([ ]+)(\[(?: |x|X)\])([ \t]+)
+        captures:
+          1: { name: punctuation.whitespace.leading.markdown }
+          2: { name: keyword.control.list.unordered.markdown }
+          3: { name: punctuation.whitespace.markdown }
+          4: { name: keyword.control.task-checkbox.markdown }
+          5: { name: punctuation.whitespace.markdown }
+      - match: >-
+          (?:^|\G)([ \t]*)(\d+\.)([ ]+)(\[(?: |x|X)\])([ \t]+)
+        captures:
+          1: { name: punctuation.whitespace.leading.markdown }
+          2: { name: keyword.control.list.ordered.markdown }
+          3: { name: punctuation.whitespace.markdown }
+          4: { name: keyword.control.task-checkbox.markdown }
+          5: { name: punctuation.whitespace.markdown }
+      - match: >-
+          (?:^|\G)([ \t]*)([*+-])([ ]+)(?=\S)
+        captures:
+          1: { name: punctuation.whitespace.leading.markdown }
+          2: { name: keyword.control.list.unordered.markdown }
+          3: { name: punctuation.whitespace.markdown }
+      - match: >-
+          (?:^|\G)([ \t]*)(\d+\.)([ ]+)(?=\S)
+        captures:
+          1: { name: punctuation.whitespace.leading.markdown }
+          2: { name: keyword.control.list.ordered.markdown }
+          3: { name: punctuation.whitespace.markdown }
+
   block_quote:
     patterns:
       - name: meta.block.quote.markdown
@@ -404,13 +563,16 @@ repository:
     end: (?=$)
     patterns:
       - include: "#inline_flow"
-      - include: text.html.derivative
       # - include: "#heading_setext"
 
   inline_flow:
     patterns:
-      - include: "#escape"
       - include: "#inline_code"
+      - include: "#inline_math"
+      - include: "#escape"
+      - include: "#emoji"
+      - include: "#keys"
+      - include: "#smart_symbol"
       - include: "#mark"
       - include: "#emphasis"
       - include: "#image"
@@ -419,11 +581,7 @@ repository:
       - include: "#link"
       - include: "#link_reference"
       - include: "#autolink"
-
-  escape:
-    patterns:
-      - match: \\.
-        name: constant.character.escape.markdown
+      - include: text.html.derivative
 
   inline_code:
     patterns:
@@ -492,6 +650,86 @@ repository:
             patterns:
               - include: "#attribute"
           4: { name: punctuation.definition.attribute-list.end.markdown }
+
+  inline_math:
+    patterns:
+      - name: markup.math.inline.markdown
+        begin: (\$)(?=[^\s$])
+        beginCaptures:
+          1: { name: punctuation.definition.math.begin.markdown }
+        contentName: meta.embedded.inline.latex
+        end: (?<!\\)(?<![\s$])(\$)
+        endCaptures:
+          1: { name: punctuation.definition.math.end.markdown }
+        patterns:
+          - include: text.tex.latex
+      - name: markup.math.inline.markdown
+        begin: (\\\()
+        beginCaptures:
+          1: { name: punctuation.definition.math.begin.markdown }
+        contentName: meta.embedded.inline.latex
+        end: (?<!\\)(\\\))
+        endCaptures:
+          1: { name: punctuation.definition.math.end.markdown }
+        patterns:
+          - include: text.tex.latex
+
+  escape:
+    patterns:
+      - match: \\.
+        name: constant.character.escape.markdown
+
+  emoji:
+    patterns:
+      - name: meta.emoji.markdown
+        match: (:)([\p{L}\p{N}_+-]+)(:)
+        captures:
+          1: { name: punctuation.definition.emoji.markdown }
+          2: { name: constant.other.emoji-name.markdown }
+          3: { name: punctuation.definition.emoji.markdown }
+
+  keys:
+    patterns:
+      - name: meta.keys.markdown
+        begin: >-
+          (\+{2})(?=(?:[\p{L}\p{N}_-]+|"(?:\\.|[^"\\+])+"|'(?:\\.|[^'\\+])+')(?:\+(?:[\p{L}\p{N}_-]+|"(?:\\.|[^"\\+])+"|'(?:\\.|[^'\\+])+'))*\+{2})
+        beginCaptures:
+          1: { name: punctuation.definition.keys.begin.markdown }
+        end: \+{2}
+        endCaptures:
+          0: { name: punctuation.definition.keys.end.markdown }
+        patterns:
+          - match: \+
+            name: punctuation.separator.key.markdown
+          - match: (")((?:\\.|[^"\\+])+)(")
+            captures:
+              1: { name: punctuation.definition.string.begin.key.markdown }
+              2: { name: constant.other.key.markdown }
+              3: { name: punctuation.definition.string.end.key.markdown }
+          - match: (')((?:\\.|[^'\\+])+)(')
+            captures:
+              1: { name: punctuation.definition.string.begin.key.markdown }
+              2: { name: constant.other.key.markdown }
+              3: { name: punctuation.definition.string.end.key.markdown }
+          - match: '[\p{L}\p{N}_-]+'
+            name: constant.other.key.markdown
+
+  smart_symbol:
+    patterns:
+      - name: constant.other.smart-symbol.markdown
+        match: \(tm\)|\(c\)|\(r\)
+      - name: constant.other.smart-symbol.markdown
+        match: \+/-|=/=
+      - name: constant.other.smart-symbol.markdown
+        match: <-->|(?<!-)-->|<--(?!-)
+      - name: constant.other.smart-symbol.markdown
+        match: (?<![\p{L}\p{N}_])c/o(?![\p{L}\p{N}_])
+      - name: constant.other.smart-symbol.markdown
+        match: >-
+          (?<!\d)(?:1/4|1/2|3/4|1/3|2/3|1/5|2/5|3/5|4/5|1/6|5/6|1/8|3/8|5/8|7/8)(?!\d)
+      - name: constant.other.smart-symbol.markdown
+        match: >-
+          (?<![0-9A-Za-z])(?:0th|(?:[1-9][0-9]*)?(?:1st|2nd|3rd|(?<=1)(?:1|2|3)th|[04-9]th))(?![0-9A-Za-z])
 
   mark:
     patterns:

@@ -1,0 +1,1038 @@
+{
+  "name": {
+    "accept_named_key": [
+      {
+        "line": "++enter++",
+        "tokens": [
+          {
+            "text": "++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.keys.begin.markdown"
+            ]
+          },
+          {
+            "text": "enter",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "constant.other.key.markdown"
+            ]
+          },
+          {
+            "text": "++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.keys.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_key_alias": [
+      {
+        "line": "++pg-up++",
+        "tokens": [
+          {
+            "text": "++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.keys.begin.markdown"
+            ]
+          },
+          {
+            "text": "pg-up",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "constant.other.key.markdown"
+            ]
+          },
+          {
+            "text": "++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.keys.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_function_key": [
+      {
+        "line": "++f12++",
+        "tokens": [
+          {
+            "text": "++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.keys.begin.markdown"
+            ]
+          },
+          {
+            "text": "f12",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "constant.other.key.markdown"
+            ]
+          },
+          {
+            "text": "++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.keys.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_unicode_key": [
+      {
+        "line": "++é++",
+        "tokens": [
+          {
+            "text": "++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.keys.begin.markdown"
+            ]
+          },
+          {
+            "text": "é",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "constant.other.key.markdown"
+            ]
+          },
+          {
+            "text": "++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.keys.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "sequence": {
+    "accept_key_sequence": [
+      {
+        "line": "++ctrl+alt+delete++",
+        "tokens": [
+          {
+            "text": "++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.keys.begin.markdown"
+            ]
+          },
+          {
+            "text": "ctrl",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "constant.other.key.markdown"
+            ]
+          },
+          {
+            "text": "+",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.separator.key.markdown"
+            ]
+          },
+          {
+            "text": "alt",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "constant.other.key.markdown"
+            ]
+          },
+          {
+            "text": "+",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.separator.key.markdown"
+            ]
+          },
+          {
+            "text": "delete",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "constant.other.key.markdown"
+            ]
+          },
+          {
+            "text": "++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.keys.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_key_name_with_side": [
+      {
+        "line": "++left-control++",
+        "tokens": [
+          {
+            "text": "++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.keys.begin.markdown"
+            ]
+          },
+          {
+            "text": "left-control",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "constant.other.key.markdown"
+            ]
+          },
+          {
+            "text": "++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.keys.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_key_name_with_side_in_sequence": [
+      {
+        "line": "++ctrl+left-control++",
+        "tokens": [
+          {
+            "text": "++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.keys.begin.markdown"
+            ]
+          },
+          {
+            "text": "ctrl",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "constant.other.key.markdown"
+            ]
+          },
+          {
+            "text": "+",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.separator.key.markdown"
+            ]
+          },
+          {
+            "text": "left-control",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "constant.other.key.markdown"
+            ]
+          },
+          {
+            "text": "++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.keys.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "quoted": {
+    "accept_quoted_key": [
+      {
+        "line": "++\"enter delete\"++",
+        "tokens": [
+          {
+            "text": "++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.keys.begin.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.string.begin.key.markdown"
+            ]
+          },
+          {
+            "text": "enter delete",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "constant.other.key.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.string.end.key.markdown"
+            ]
+          },
+          {
+            "text": "++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.keys.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_single_quoted_key": [
+      {
+        "line": "++'enter delete'++",
+        "tokens": [
+          {
+            "text": "++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.keys.begin.markdown"
+            ]
+          },
+          {
+            "text": "'",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.string.begin.key.markdown"
+            ]
+          },
+          {
+            "text": "enter delete",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "constant.other.key.markdown"
+            ]
+          },
+          {
+            "text": "'",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.string.end.key.markdown"
+            ]
+          },
+          {
+            "text": "++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.keys.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_escaped_quoted_key": [
+      {
+        "line": "++\"control\\\"alt\"++",
+        "tokens": [
+          {
+            "text": "++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.keys.begin.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.string.begin.key.markdown"
+            ]
+          },
+          {
+            "text": "control\\\"alt",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "constant.other.key.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.string.end.key.markdown"
+            ]
+          },
+          {
+            "text": "++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.keys.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_escaped_plus_in_quoted_key": [
+      {
+        "line": "++\"control\\+alt\"++",
+        "tokens": [
+          {
+            "text": "++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.keys.begin.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.string.begin.key.markdown"
+            ]
+          },
+          {
+            "text": "control\\+alt",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "constant.other.key.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.string.end.key.markdown"
+            ]
+          },
+          {
+            "text": "++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.keys.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_mixed_named_and_quoted_keys": [
+      {
+        "line": "++ctrl+\"alt delete\"++",
+        "tokens": [
+          {
+            "text": "++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.keys.begin.markdown"
+            ]
+          },
+          {
+            "text": "ctrl",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "constant.other.key.markdown"
+            ]
+          },
+          {
+            "text": "+",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.separator.key.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.string.begin.key.markdown"
+            ]
+          },
+          {
+            "text": "alt delete",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "constant.other.key.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.string.end.key.markdown"
+            ]
+          },
+          {
+            "text": "++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.keys.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "position": {
+    "accept_before_text": [
+      {
+        "line": "++enter++ Text",
+        "tokens": [
+          {
+            "text": "++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.keys.begin.markdown"
+            ]
+          },
+          {
+            "text": "enter",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "constant.other.key.markdown"
+            ]
+          },
+          {
+            "text": "++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.keys.end.markdown"
+            ]
+          },
+          {
+            "text": " Text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_after_text": [
+      {
+        "line": "Text ++enter++",
+        "tokens": [
+          {
+            "text": "Text ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          },
+          {
+            "text": "++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.keys.begin.markdown"
+            ]
+          },
+          {
+            "text": "enter",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "constant.other.key.markdown"
+            ]
+          },
+          {
+            "text": "++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.keys.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_multiple": [
+      {
+        "line": "++ctrl++ ++alt++",
+        "tokens": [
+          {
+            "text": "++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.keys.begin.markdown"
+            ]
+          },
+          {
+            "text": "ctrl",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "constant.other.key.markdown"
+            ]
+          },
+          {
+            "text": "++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.keys.end.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          },
+          {
+            "text": "++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.keys.begin.markdown"
+            ]
+          },
+          {
+            "text": "alt",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "constant.other.key.markdown"
+            ]
+          },
+          {
+            "text": "++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.keys.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "nesting": {
+    "accept_inside_emphasis": [
+      {
+        "line": "*++enter++*",
+        "tokens": [
+          {
+            "text": "*",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.italic.markdown",
+              "punctuation.definition.italic.markdown"
+            ]
+          },
+          {
+            "text": "++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.italic.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.keys.begin.markdown"
+            ]
+          },
+          {
+            "text": "enter",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.italic.markdown",
+              "meta.keys.markdown",
+              "constant.other.key.markdown"
+            ]
+          },
+          {
+            "text": "++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.italic.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.keys.end.markdown"
+            ]
+          },
+          {
+            "text": "*",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.italic.markdown",
+              "punctuation.definition.italic.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_inside_link": [
+      {
+        "line": "[++enter++](href)",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.keys.begin.markdown"
+            ]
+          },
+          {
+            "text": "enter",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown",
+              "meta.keys.markdown",
+              "constant.other.key.markdown"
+            ]
+          },
+          {
+            "text": "++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown",
+              "meta.keys.markdown",
+              "punctuation.definition.keys.end.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "href",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "rejection": {
+    "reject_blank_key": [
+      {
+        "line": "++++",
+        "tokens": [
+          {
+            "text": "++++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_unterminated_key": [
+      {
+        "line": "++enter",
+        "tokens": [
+          {
+            "text": "++enter",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_escaped_key": [
+      {
+        "line": "\\++enter++",
+        "tokens": [
+          {
+            "text": "\\+",
+            "scopes": [
+              "text.html.markdown.python",
+              "constant.character.escape.markdown"
+            ]
+          },
+          {
+            "text": "+enter++",
+            "scopes": [
+              "text.html.markdown.python"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_unescaped_plus_in_quoted_key": [
+      {
+        "line": "++\"control+alt\"++",
+        "tokens": [
+          {
+            "text": "++\"control+alt\"++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_empty_quoted_key": [
+      {
+        "line": "+\"\"++",
+        "tokens": [
+          {
+            "text": "+\"\"++",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  }
+}
