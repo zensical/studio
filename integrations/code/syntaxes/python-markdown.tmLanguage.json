@@ -5775,6 +5775,9 @@
           "include": "#emoji"
         },
         {
+          "include": "#keys"
+        },
+        {
           "include": "#smart_symbol"
         },
         {
@@ -10526,6 +10529,63 @@
               "name": "punctuation.definition.emoji.markdown"
             }
           }
+        }
+      ]
+    },
+    "keys": {
+      "patterns": [
+        {
+          "name": "meta.keys.markdown",
+          "begin": "(\\+{2})(?=(?:[\\p{L}\\p{N}_-]+|\"(?:\\\\.|[^\"\\\\+])+\"|'(?:\\\\.|[^'\\\\+])+')(?:\\+(?:[\\p{L}\\p{N}_-]+|\"(?:\\\\.|[^\"\\\\+])+\"|'(?:\\\\.|[^'\\\\+])+'))*\\+{2})",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.definition.keys.begin.markdown"
+            }
+          },
+          "end": "\\+{2}",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.keys.end.markdown"
+            }
+          },
+          "patterns": [
+            {
+              "match": "\\+",
+              "name": "punctuation.separator.key.markdown"
+            },
+            {
+              "match": "(\")((?:\\\\.|[^\"\\\\+])+)(\")",
+              "captures": {
+                "1": {
+                  "name": "punctuation.definition.string.begin.key.markdown"
+                },
+                "2": {
+                  "name": "constant.other.key.markdown"
+                },
+                "3": {
+                  "name": "punctuation.definition.string.end.key.markdown"
+                }
+              }
+            },
+            {
+              "match": "(')((?:\\\\.|[^'\\\\+])+)(')",
+              "captures": {
+                "1": {
+                  "name": "punctuation.definition.string.begin.key.markdown"
+                },
+                "2": {
+                  "name": "constant.other.key.markdown"
+                },
+                "3": {
+                  "name": "punctuation.definition.string.end.key.markdown"
+                }
+              }
+            },
+            {
+              "match": "[\\p{L}\\p{N}_-]+",
+              "name": "constant.other.key.markdown"
+            }
+          ]
         }
       ]
     },
