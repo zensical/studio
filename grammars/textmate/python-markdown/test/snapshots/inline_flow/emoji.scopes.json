@@ -1,0 +1,726 @@
+{
+  "name": {
+    "accept_plain": [
+      {
+        "line": ":smile:",
+        "tokens": [
+          {
+            "text": ":",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.emoji.markdown",
+              "punctuation.definition.emoji.markdown"
+            ]
+          },
+          {
+            "text": "smile",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.emoji.markdown",
+              "constant.other.emoji-name.markdown"
+            ]
+          },
+          {
+            "text": ":",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.emoji.markdown",
+              "punctuation.definition.emoji.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_with_plus": [
+      {
+        "line": ":+1:",
+        "tokens": [
+          {
+            "text": ":",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.emoji.markdown",
+              "punctuation.definition.emoji.markdown"
+            ]
+          },
+          {
+            "text": "+1",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.emoji.markdown",
+              "constant.other.emoji-name.markdown"
+            ]
+          },
+          {
+            "text": ":",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.emoji.markdown",
+              "punctuation.definition.emoji.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_with_dash": [
+      {
+        "line": ":-1:",
+        "tokens": [
+          {
+            "text": ":",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.emoji.markdown",
+              "punctuation.definition.emoji.markdown"
+            ]
+          },
+          {
+            "text": "-1",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.emoji.markdown",
+              "constant.other.emoji-name.markdown"
+            ]
+          },
+          {
+            "text": ":",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.emoji.markdown",
+              "punctuation.definition.emoji.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_with_underscore": [
+      {
+        "line": ":foo_bar:",
+        "tokens": [
+          {
+            "text": ":",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.emoji.markdown",
+              "punctuation.definition.emoji.markdown"
+            ]
+          },
+          {
+            "text": "foo_bar",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.emoji.markdown",
+              "constant.other.emoji-name.markdown"
+            ]
+          },
+          {
+            "text": ":",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.emoji.markdown",
+              "punctuation.definition.emoji.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_icon_name": [
+      {
+        "line": ":material-home:",
+        "tokens": [
+          {
+            "text": ":",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.emoji.markdown",
+              "punctuation.definition.emoji.markdown"
+            ]
+          },
+          {
+            "text": "material-home",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.emoji.markdown",
+              "constant.other.emoji-name.markdown"
+            ]
+          },
+          {
+            "text": ":",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.emoji.markdown",
+              "punctuation.definition.emoji.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_icon_name_with_digits": [
+      {
+        "line": ":octicons-arrow-left-16:",
+        "tokens": [
+          {
+            "text": ":",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.emoji.markdown",
+              "punctuation.definition.emoji.markdown"
+            ]
+          },
+          {
+            "text": "octicons-arrow-left-16",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.emoji.markdown",
+              "constant.other.emoji-name.markdown"
+            ]
+          },
+          {
+            "text": ":",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.emoji.markdown",
+              "punctuation.definition.emoji.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_unicode": [
+      {
+        "line": ":é:",
+        "tokens": [
+          {
+            "text": ":",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.emoji.markdown",
+              "punctuation.definition.emoji.markdown"
+            ]
+          },
+          {
+            "text": "é",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.emoji.markdown",
+              "constant.other.emoji-name.markdown"
+            ]
+          },
+          {
+            "text": ":",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.emoji.markdown",
+              "punctuation.definition.emoji.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "position": {
+    "accept_before_text": [
+      {
+        "line": ":smile: Text",
+        "tokens": [
+          {
+            "text": ":",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.emoji.markdown",
+              "punctuation.definition.emoji.markdown"
+            ]
+          },
+          {
+            "text": "smile",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.emoji.markdown",
+              "constant.other.emoji-name.markdown"
+            ]
+          },
+          {
+            "text": ":",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.emoji.markdown",
+              "punctuation.definition.emoji.markdown"
+            ]
+          },
+          {
+            "text": " Text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_after_text": [
+      {
+        "line": "Text :smile:",
+        "tokens": [
+          {
+            "text": "Text ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          },
+          {
+            "text": ":",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.emoji.markdown",
+              "punctuation.definition.emoji.markdown"
+            ]
+          },
+          {
+            "text": "smile",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.emoji.markdown",
+              "constant.other.emoji-name.markdown"
+            ]
+          },
+          {
+            "text": ":",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.emoji.markdown",
+              "punctuation.definition.emoji.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_multiple": [
+      {
+        "line": ":smile::heart:",
+        "tokens": [
+          {
+            "text": ":",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.emoji.markdown",
+              "punctuation.definition.emoji.markdown"
+            ]
+          },
+          {
+            "text": "smile",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.emoji.markdown",
+              "constant.other.emoji-name.markdown"
+            ]
+          },
+          {
+            "text": ":",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.emoji.markdown",
+              "punctuation.definition.emoji.markdown"
+            ]
+          },
+          {
+            "text": ":",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.emoji.markdown",
+              "punctuation.definition.emoji.markdown"
+            ]
+          },
+          {
+            "text": "heart",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.emoji.markdown",
+              "constant.other.emoji-name.markdown"
+            ]
+          },
+          {
+            "text": ":",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.emoji.markdown",
+              "punctuation.definition.emoji.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_inside_word": [
+      {
+        "line": "Text:smile:Text",
+        "tokens": [
+          {
+            "text": "Text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          },
+          {
+            "text": ":",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.emoji.markdown",
+              "punctuation.definition.emoji.markdown"
+            ]
+          },
+          {
+            "text": "smile",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.emoji.markdown",
+              "constant.other.emoji-name.markdown"
+            ]
+          },
+          {
+            "text": ":",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.emoji.markdown",
+              "punctuation.definition.emoji.markdown"
+            ]
+          },
+          {
+            "text": "Text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "nesting": {
+    "accept_inside_emphasis": [
+      {
+        "line": "*:smile:*",
+        "tokens": [
+          {
+            "text": "*",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.italic.markdown",
+              "punctuation.definition.italic.markdown"
+            ]
+          },
+          {
+            "text": ":",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.italic.markdown",
+              "meta.emoji.markdown",
+              "punctuation.definition.emoji.markdown"
+            ]
+          },
+          {
+            "text": "smile",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.italic.markdown",
+              "meta.emoji.markdown",
+              "constant.other.emoji-name.markdown"
+            ]
+          },
+          {
+            "text": ":",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.italic.markdown",
+              "meta.emoji.markdown",
+              "punctuation.definition.emoji.markdown"
+            ]
+          },
+          {
+            "text": "*",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.italic.markdown",
+              "punctuation.definition.italic.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_inside_strong": [
+      {
+        "line": "**:smile:**",
+        "tokens": [
+          {
+            "text": "**",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.bold.markdown",
+              "punctuation.definition.bold.markdown"
+            ]
+          },
+          {
+            "text": ":",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.bold.markdown",
+              "meta.emoji.markdown",
+              "punctuation.definition.emoji.markdown"
+            ]
+          },
+          {
+            "text": "smile",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.bold.markdown",
+              "meta.emoji.markdown",
+              "constant.other.emoji-name.markdown"
+            ]
+          },
+          {
+            "text": ":",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.bold.markdown",
+              "meta.emoji.markdown",
+              "punctuation.definition.emoji.markdown"
+            ]
+          },
+          {
+            "text": "**",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.bold.markdown",
+              "punctuation.definition.bold.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_inside_link": [
+      {
+        "line": "[:smile:](href)",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": ":",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown",
+              "meta.emoji.markdown",
+              "punctuation.definition.emoji.markdown"
+            ]
+          },
+          {
+            "text": "smile",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown",
+              "meta.emoji.markdown",
+              "constant.other.emoji-name.markdown"
+            ]
+          },
+          {
+            "text": ":",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown",
+              "meta.emoji.markdown",
+              "punctuation.definition.emoji.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "href",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "rejection": {
+    "reject_empty": [
+      {
+        "line": "::",
+        "tokens": [
+          {
+            "text": "::",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_unterminated": [
+      {
+        "line": ":smile",
+        "tokens": [
+          {
+            "text": ":smile",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  }
+}
