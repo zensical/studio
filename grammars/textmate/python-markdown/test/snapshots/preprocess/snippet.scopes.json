@@ -1,0 +1,1095 @@
+{
+  "inline": {
+    "accept_double_quoted": [
+      {
+        "line": "--8<-- \"index.md\"",
+        "tokens": [
+          {
+            "text": "--8<--",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.inline.markdown",
+              "keyword.control.snippet.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.inline.markdown",
+              "comment.snippet.separator.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.inline.markdown",
+              "punctuation.definition.string.begin.snippet.markdown"
+            ]
+          },
+          {
+            "text": "index.md",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.inline.markdown",
+              "string.quoted.double.snippet.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.inline.markdown",
+              "punctuation.definition.string.end.snippet.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_single_quoted": [
+      {
+        "line": "---8<--- 'index.md'",
+        "tokens": [
+          {
+            "text": "---8<---",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.inline.markdown",
+              "keyword.control.snippet.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.inline.markdown",
+              "comment.snippet.separator.markdown"
+            ]
+          },
+          {
+            "text": "'",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.inline.markdown",
+              "punctuation.definition.string.begin.snippet.markdown"
+            ]
+          },
+          {
+            "text": "index.md",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.inline.markdown",
+              "string.quoted.single.snippet.markdown"
+            ]
+          },
+          {
+            "text": "'",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.inline.markdown",
+              "punctuation.definition.string.end.snippet.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_indented": [
+      {
+        "line": "    --8<-- \"index.md\"",
+        "tokens": [
+          {
+            "text": "    ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.inline.markdown",
+              "punctuation.whitespace.leading.markdown"
+            ]
+          },
+          {
+            "text": "--8<--",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.inline.markdown",
+              "keyword.control.snippet.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.inline.markdown",
+              "comment.snippet.separator.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.inline.markdown",
+              "punctuation.definition.string.begin.snippet.markdown"
+            ]
+          },
+          {
+            "text": "index.md",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.inline.markdown",
+              "string.quoted.double.snippet.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.inline.markdown",
+              "punctuation.definition.string.end.snippet.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_section_selector": [
+      {
+        "line": "--8<-- \"index.md:example\"",
+        "tokens": [
+          {
+            "text": "--8<--",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.inline.markdown",
+              "keyword.control.snippet.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.inline.markdown",
+              "comment.snippet.separator.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.inline.markdown",
+              "punctuation.definition.string.begin.snippet.markdown"
+            ]
+          },
+          {
+            "text": "index.md",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.inline.markdown",
+              "string.quoted.double.snippet.markdown"
+            ]
+          },
+          {
+            "text": ":example",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.inline.markdown",
+              "entity.name.section.snippet-selector.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.inline.markdown",
+              "punctuation.definition.string.end.snippet.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_line_selector": [
+      {
+        "line": "--8<-- \"index.md:1:3,5:7\"",
+        "tokens": [
+          {
+            "text": "--8<--",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.inline.markdown",
+              "keyword.control.snippet.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.inline.markdown",
+              "comment.snippet.separator.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.inline.markdown",
+              "punctuation.definition.string.begin.snippet.markdown"
+            ]
+          },
+          {
+            "text": "index.md",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.inline.markdown",
+              "string.quoted.double.snippet.markdown"
+            ]
+          },
+          {
+            "text": ":1:3,5:7",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.inline.markdown",
+              "constant.numeric.snippet-selector.line.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.inline.markdown",
+              "punctuation.definition.string.end.snippet.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_escaped": [
+      {
+        "line": ";--8<-- \"index.md\"",
+        "tokens": [
+          {
+            "text": ";--8<-- \"index.md\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_unquoted": [
+      {
+        "line": "--8<-- index.md",
+        "tokens": [
+          {
+            "text": "--8<-- index.md",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_trailing_space": [
+      {
+        "line": "--8<-- \"index.md\" ",
+        "tokens": [
+          {
+            "text": "--8<-- \"index.md\" ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "block": {
+    "accept_plain": [
+      {
+        "line": "--8<--",
+        "tokens": [
+          {
+            "text": "--8<--",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.block.markdown",
+              "keyword.control.snippet.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "index.md",
+        "tokens": [
+          {
+            "text": "index.md",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.block.markdown",
+              "string.unquoted.snippet.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "about.md",
+        "tokens": [
+          {
+            "text": "about.md",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.block.markdown",
+              "string.unquoted.snippet.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "--8<--",
+        "tokens": [
+          {
+            "text": "--8<--",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.block.markdown",
+              "keyword.control.snippet.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_blank_lines": [
+      {
+        "line": "--8<--",
+        "tokens": [
+          {
+            "text": "--8<--",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.block.markdown",
+              "keyword.control.snippet.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      },
+      {
+        "line": "  ",
+        "tokens": [
+          {
+            "text": "  ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.block.markdown",
+              "punctuation.whitespace.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "index.md",
+        "tokens": [
+          {
+            "text": "index.md",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.block.markdown",
+              "string.unquoted.snippet.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "--8<--",
+        "tokens": [
+          {
+            "text": "--8<--",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.block.markdown",
+              "keyword.control.snippet.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_selectors": [
+      {
+        "line": "--8<--",
+        "tokens": [
+          {
+            "text": "--8<--",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.block.markdown",
+              "keyword.control.snippet.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "index.md:1:3",
+        "tokens": [
+          {
+            "text": "index.md",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.block.markdown",
+              "string.unquoted.snippet.markdown"
+            ]
+          },
+          {
+            "text": ":1:3",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.block.markdown",
+              "constant.numeric.snippet-selector.line.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "about.md:section",
+        "tokens": [
+          {
+            "text": "about.md",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.block.markdown",
+              "string.unquoted.snippet.markdown"
+            ]
+          },
+          {
+            "text": ":section",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.block.markdown",
+              "entity.name.section.snippet-selector.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "https://example.com/",
+        "tokens": [
+          {
+            "text": "https://example.com/",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.block.markdown",
+              "string.unquoted.snippet.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "--8<--",
+        "tokens": [
+          {
+            "text": "--8<--",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.block.markdown",
+              "keyword.control.snippet.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_line_selector_split": [
+      {
+        "line": "--8<--",
+        "tokens": [
+          {
+            "text": "--8<--",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.block.markdown",
+              "keyword.control.snippet.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "snippet.md:1:3",
+        "tokens": [
+          {
+            "text": "snippet.md",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.block.markdown",
+              "string.unquoted.snippet.markdown"
+            ]
+          },
+          {
+            "text": ":1:3",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.block.markdown",
+              "constant.numeric.snippet-selector.line.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "--8<--",
+        "tokens": [
+          {
+            "text": "--8<--",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.block.markdown",
+              "keyword.control.snippet.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_indented": [
+      {
+        "line": " --8<--",
+        "tokens": [
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.block.markdown",
+              "punctuation.whitespace.leading.markdown"
+            ]
+          },
+          {
+            "text": "--8<--",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.block.markdown",
+              "keyword.control.snippet.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "   index.md  ",
+        "tokens": [
+          {
+            "text": "   ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.block.markdown",
+              "punctuation.whitespace.leading.markdown"
+            ]
+          },
+          {
+            "text": "index.md",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.block.markdown",
+              "string.unquoted.snippet.markdown"
+            ]
+          },
+          {
+            "text": "  ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.block.markdown",
+              "punctuation.whitespace.trailing.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": " --8<--",
+        "tokens": [
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.block.markdown",
+              "punctuation.whitespace.leading.markdown"
+            ]
+          },
+          {
+            "text": "--8<--",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.block.markdown",
+              "keyword.control.snippet.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_comment_line": [
+      {
+        "line": "--8<--",
+        "tokens": [
+          {
+            "text": "--8<--",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.block.markdown",
+              "keyword.control.snippet.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "; comment",
+        "tokens": [
+          {
+            "text": "; comment",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.block.markdown",
+              "comment.line.snippet.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "index.md",
+        "tokens": [
+          {
+            "text": "index.md",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.block.markdown",
+              "string.unquoted.snippet.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "--8<--",
+        "tokens": [
+          {
+            "text": "--8<--",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.block.markdown",
+              "keyword.control.snippet.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "section": {
+    "accept_start": [
+      {
+        "line": "--8<-- [start:example]",
+        "tokens": [
+          {
+            "text": "--8<--",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "keyword.control.snippet.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "comment.snippet.separator.markdown"
+            ]
+          },
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "punctuation.definition.snippet-section.begin.markdown"
+            ]
+          },
+          {
+            "text": "start",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "keyword.control.snippet.section.markdown"
+            ]
+          },
+          {
+            "text": ":",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "punctuation.separator.snippet-section.markdown"
+            ]
+          },
+          {
+            "text": "example",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "entity.name.section.snippet.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "punctuation.definition.snippet-section.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_end": [
+      {
+        "line": "--8<-- [end:example]",
+        "tokens": [
+          {
+            "text": "--8<--",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "keyword.control.snippet.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "comment.snippet.separator.markdown"
+            ]
+          },
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "punctuation.definition.snippet-section.begin.markdown"
+            ]
+          },
+          {
+            "text": "end",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "keyword.control.snippet.section.markdown"
+            ]
+          },
+          {
+            "text": ":",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "punctuation.separator.snippet-section.markdown"
+            ]
+          },
+          {
+            "text": "example",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "entity.name.section.snippet.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "punctuation.definition.snippet-section.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_with_prefix_and_suffix": [
+      {
+        "line": "prefix --8<-- [start:example] suffix",
+        "tokens": [
+          {
+            "text": "prefix ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "meta.snippet.section.prefix.markdown"
+            ]
+          },
+          {
+            "text": "--8<--",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "keyword.control.snippet.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "comment.snippet.separator.markdown"
+            ]
+          },
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "punctuation.definition.snippet-section.begin.markdown"
+            ]
+          },
+          {
+            "text": "start",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "keyword.control.snippet.section.markdown"
+            ]
+          },
+          {
+            "text": ":",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "punctuation.separator.snippet-section.markdown"
+            ]
+          },
+          {
+            "text": "example",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "entity.name.section.snippet.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "punctuation.definition.snippet-section.end.markdown"
+            ]
+          },
+          {
+            "text": " suffix",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "meta.snippet.section.suffix.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_uppercase_keyword": [
+      {
+        "line": "--8<-- [START:example]",
+        "tokens": [
+          {
+            "text": "--8<--",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "keyword.control.snippet.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "comment.snippet.separator.markdown"
+            ]
+          },
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "punctuation.definition.snippet-section.begin.markdown"
+            ]
+          },
+          {
+            "text": "START",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "keyword.control.snippet.section.markdown"
+            ]
+          },
+          {
+            "text": ":",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "punctuation.separator.snippet-section.markdown"
+            ]
+          },
+          {
+            "text": "example",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "entity.name.section.snippet.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "punctuation.definition.snippet-section.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_escaped": [
+      {
+        "line": ";--8<-- [start:example]",
+        "tokens": [
+          {
+            "text": ";-",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "meta.snippet.section.prefix.markdown"
+            ]
+          },
+          {
+            "text": "-8<--",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "keyword.control.snippet.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "comment.snippet.separator.markdown"
+            ]
+          },
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "punctuation.definition.snippet-section.begin.markdown"
+            ]
+          },
+          {
+            "text": "start",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "keyword.control.snippet.section.markdown"
+            ]
+          },
+          {
+            "text": ":",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "punctuation.separator.snippet-section.markdown"
+            ]
+          },
+          {
+            "text": "example",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "entity.name.section.snippet.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "punctuation.definition.snippet-section.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  }
+}
