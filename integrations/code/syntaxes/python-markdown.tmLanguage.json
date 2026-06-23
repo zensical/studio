@@ -85,6 +85,9 @@
           "include": "#block_quote"
         },
         {
+          "include": "#list_item"
+        },
+        {
           "include": "#paragraph"
         }
       ]
@@ -5651,6 +5654,78 @@
         {
           "match": "(?:^|\\G)[ \\t]*([\\*\\-\\_])([ ]{0,2}\\1){2,}[ \\t]*$\\n?",
           "name": "meta.thematic-break.markdown"
+        }
+      ]
+    },
+    "list_item": {
+      "patterns": [
+        {
+          "match": "(?:^|\\G)([ \\t]*)([*+-])([ ]+)(\\[(?: |x|X)\\])([ \\t]+)",
+          "captures": {
+            "1": {
+              "name": "punctuation.whitespace.leading.markdown"
+            },
+            "2": {
+              "name": "keyword.control.list.unordered.markdown"
+            },
+            "3": {
+              "name": "punctuation.whitespace.markdown"
+            },
+            "4": {
+              "name": "keyword.control.task-checkbox.markdown"
+            },
+            "5": {
+              "name": "punctuation.whitespace.markdown"
+            }
+          }
+        },
+        {
+          "match": "(?:^|\\G)([ \\t]*)(\\d+\\.)([ ]+)(\\[(?: |x|X)\\])([ \\t]+)",
+          "captures": {
+            "1": {
+              "name": "punctuation.whitespace.leading.markdown"
+            },
+            "2": {
+              "name": "keyword.control.list.ordered.markdown"
+            },
+            "3": {
+              "name": "punctuation.whitespace.markdown"
+            },
+            "4": {
+              "name": "keyword.control.task-checkbox.markdown"
+            },
+            "5": {
+              "name": "punctuation.whitespace.markdown"
+            }
+          }
+        },
+        {
+          "match": "(?:^|\\G)([ \\t]*)([*+-])([ ]+)(?=\\S)",
+          "captures": {
+            "1": {
+              "name": "punctuation.whitespace.leading.markdown"
+            },
+            "2": {
+              "name": "keyword.control.list.unordered.markdown"
+            },
+            "3": {
+              "name": "punctuation.whitespace.markdown"
+            }
+          }
+        },
+        {
+          "match": "(?:^|\\G)([ \\t]*)(\\d+\\.)([ ]+)(?=\\S)",
+          "captures": {
+            "1": {
+              "name": "punctuation.whitespace.leading.markdown"
+            },
+            "2": {
+              "name": "keyword.control.list.ordered.markdown"
+            },
+            "3": {
+              "name": "punctuation.whitespace.markdown"
+            }
+          }
         }
       ]
     },

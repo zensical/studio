@@ -249,10 +249,23 @@
         "line": "* Emphasis*",
         "tokens": [
           {
-            "text": "* Emphasis*",
+            "text": "*",
             "scopes": [
               "text.html.markdown.python",
-              "meta.paragraph.markdown"
+              "keyword.control.list.unordered.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "punctuation.whitespace.markdown"
+            ]
+          },
+          {
+            "text": "Emphasis*",
+            "scopes": [
+              "text.html.markdown.python"
             ]
           }
         ]

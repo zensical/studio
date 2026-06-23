@@ -1,0 +1,583 @@
+{
+  "marker": {
+    "accept_unordered_dash": [
+      {
+        "line": "- Item",
+        "tokens": [
+          {
+            "text": "-",
+            "scopes": [
+              "text.html.markdown.python",
+              "keyword.control.list.unordered.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "punctuation.whitespace.markdown"
+            ]
+          },
+          {
+            "text": "Item",
+            "scopes": [
+              "text.html.markdown.python"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_unordered_asterisk": [
+      {
+        "line": "* Item",
+        "tokens": [
+          {
+            "text": "*",
+            "scopes": [
+              "text.html.markdown.python",
+              "keyword.control.list.unordered.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "punctuation.whitespace.markdown"
+            ]
+          },
+          {
+            "text": "Item",
+            "scopes": [
+              "text.html.markdown.python"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_unordered_plus": [
+      {
+        "line": "+ Item",
+        "tokens": [
+          {
+            "text": "+",
+            "scopes": [
+              "text.html.markdown.python",
+              "keyword.control.list.unordered.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "punctuation.whitespace.markdown"
+            ]
+          },
+          {
+            "text": "Item",
+            "scopes": [
+              "text.html.markdown.python"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_ordered": [
+      {
+        "line": "1. Item",
+        "tokens": [
+          {
+            "text": "1.",
+            "scopes": [
+              "text.html.markdown.python",
+              "keyword.control.list.ordered.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "punctuation.whitespace.markdown"
+            ]
+          },
+          {
+            "text": "Item",
+            "scopes": [
+              "text.html.markdown.python"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_with_3_leading_spaces": [
+      {
+        "line": "   - Item",
+        "tokens": [
+          {
+            "text": "   ",
+            "scopes": [
+              "text.html.markdown.python",
+              "punctuation.whitespace.leading.markdown"
+            ]
+          },
+          {
+            "text": "-",
+            "scopes": [
+              "text.html.markdown.python",
+              "keyword.control.list.unordered.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "punctuation.whitespace.markdown"
+            ]
+          },
+          {
+            "text": "Item",
+            "scopes": [
+              "text.html.markdown.python"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "task": {
+    "accept_unchecked": [
+      {
+        "line": "- [ ] Task",
+        "tokens": [
+          {
+            "text": "-",
+            "scopes": [
+              "text.html.markdown.python",
+              "keyword.control.list.unordered.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "punctuation.whitespace.markdown"
+            ]
+          },
+          {
+            "text": "[ ]",
+            "scopes": [
+              "text.html.markdown.python",
+              "keyword.control.task-checkbox.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "punctuation.whitespace.markdown"
+            ]
+          },
+          {
+            "text": "Task",
+            "scopes": [
+              "text.html.markdown.python"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_checked_uppercase": [
+      {
+        "line": "* [X] Task",
+        "tokens": [
+          {
+            "text": "*",
+            "scopes": [
+              "text.html.markdown.python",
+              "keyword.control.list.unordered.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "punctuation.whitespace.markdown"
+            ]
+          },
+          {
+            "text": "[X]",
+            "scopes": [
+              "text.html.markdown.python",
+              "keyword.control.task-checkbox.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "punctuation.whitespace.markdown"
+            ]
+          },
+          {
+            "text": "Task",
+            "scopes": [
+              "text.html.markdown.python"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_ordered": [
+      {
+        "line": "1. [ ] Task",
+        "tokens": [
+          {
+            "text": "1.",
+            "scopes": [
+              "text.html.markdown.python",
+              "keyword.control.list.ordered.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "punctuation.whitespace.markdown"
+            ]
+          },
+          {
+            "text": "[ ]",
+            "scopes": [
+              "text.html.markdown.python",
+              "keyword.control.task-checkbox.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "punctuation.whitespace.markdown"
+            ]
+          },
+          {
+            "text": "Task",
+            "scopes": [
+              "text.html.markdown.python"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_tab_after_checkbox": [
+      {
+        "line": "- [ ]\tTask",
+        "tokens": [
+          {
+            "text": "-",
+            "scopes": [
+              "text.html.markdown.python",
+              "keyword.control.list.unordered.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "punctuation.whitespace.markdown"
+            ]
+          },
+          {
+            "text": "[ ]",
+            "scopes": [
+              "text.html.markdown.python",
+              "keyword.control.task-checkbox.markdown"
+            ]
+          },
+          {
+            "text": "\t",
+            "scopes": [
+              "text.html.markdown.python",
+              "punctuation.whitespace.markdown"
+            ]
+          },
+          {
+            "text": "Task",
+            "scopes": [
+              "text.html.markdown.python"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_2_spaces_after_checkbox": [
+      {
+        "line": "- [ ]  Task",
+        "tokens": [
+          {
+            "text": "-",
+            "scopes": [
+              "text.html.markdown.python",
+              "keyword.control.list.unordered.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "punctuation.whitespace.markdown"
+            ]
+          },
+          {
+            "text": "[ ]",
+            "scopes": [
+              "text.html.markdown.python",
+              "keyword.control.task-checkbox.markdown"
+            ]
+          },
+          {
+            "text": "  ",
+            "scopes": [
+              "text.html.markdown.python",
+              "punctuation.whitespace.markdown"
+            ]
+          },
+          {
+            "text": "Task",
+            "scopes": [
+              "text.html.markdown.python"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_checkbox_without_text": [
+      {
+        "line": "- [ ] ",
+        "tokens": [
+          {
+            "text": "-",
+            "scopes": [
+              "text.html.markdown.python",
+              "keyword.control.list.unordered.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "punctuation.whitespace.markdown"
+            ]
+          },
+          {
+            "text": "[ ]",
+            "scopes": [
+              "text.html.markdown.python",
+              "keyword.control.task-checkbox.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "punctuation.whitespace.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "rejection": {
+    "reject_marker_missing_space": [
+      {
+        "line": "-Item",
+        "tokens": [
+          {
+            "text": "-Item",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_checkbox_only": [
+      {
+        "line": "- [ ]",
+        "tokens": [
+          {
+            "text": "-",
+            "scopes": [
+              "text.html.markdown.python",
+              "keyword.control.list.unordered.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "punctuation.whitespace.markdown"
+            ]
+          },
+          {
+            "text": "[ ]",
+            "scopes": [
+              "text.html.markdown.python"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_checkbox_invalid_marker": [
+      {
+        "line": "- [y] Task",
+        "tokens": [
+          {
+            "text": "-",
+            "scopes": [
+              "text.html.markdown.python",
+              "keyword.control.list.unordered.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "punctuation.whitespace.markdown"
+            ]
+          },
+          {
+            "text": "[y] Task",
+            "scopes": [
+              "text.html.markdown.python"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_checkbox_without_space_after": [
+      {
+        "line": "- [x]Task",
+        "tokens": [
+          {
+            "text": "-",
+            "scopes": [
+              "text.html.markdown.python",
+              "keyword.control.list.unordered.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "punctuation.whitespace.markdown"
+            ]
+          },
+          {
+            "text": "[x]Task",
+            "scopes": [
+              "text.html.markdown.python"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_with_4_leading_spaces": [
+      {
+        "line": "    - Item",
+        "tokens": [
+          {
+            "text": "    ",
+            "scopes": [
+              "text.html.markdown.python",
+              "punctuation.whitespace.leading.markdown"
+            ]
+          },
+          {
+            "text": "-",
+            "scopes": [
+              "text.html.markdown.python",
+              "keyword.control.list.unordered.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "punctuation.whitespace.markdown"
+            ]
+          },
+          {
+            "text": "Item",
+            "scopes": [
+              "text.html.markdown.python"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  }
+}
