@@ -5766,10 +5766,13 @@
     "inline_flow": {
       "patterns": [
         {
-          "include": "#escape"
+          "include": "#inline_code"
         },
         {
-          "include": "#inline_code"
+          "include": "#inline_math"
+        },
+        {
+          "include": "#escape"
         },
         {
           "include": "#emoji"
@@ -5806,14 +5809,6 @@
         },
         {
           "include": "text.html.derivative"
-        }
-      ]
-    },
-    "escape": {
-      "patterns": [
-        {
-          "match": "\\\\.",
-          "name": "constant.character.escape.markdown"
         }
       ]
     },
@@ -10510,6 +10505,60 @@
               "name": "punctuation.definition.attribute-list.end.markdown"
             }
           }
+        }
+      ]
+    },
+    "inline_math": {
+      "patterns": [
+        {
+          "name": "markup.math.inline.markdown",
+          "begin": "(\\$)(?=[^\\s$])",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.definition.math.begin.markdown"
+            }
+          },
+          "contentName": "meta.embedded.inline.latex",
+          "end": "(?<!\\\\)(?<![\\s$])(\\$)",
+          "endCaptures": {
+            "1": {
+              "name": "punctuation.definition.math.end.markdown"
+            }
+          },
+          "patterns": [
+            {
+              "include": "text.tex.latex"
+            }
+          ]
+        },
+        {
+          "name": "markup.math.inline.markdown",
+          "begin": "(\\\\\\()",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.definition.math.begin.markdown"
+            }
+          },
+          "contentName": "meta.embedded.inline.latex",
+          "end": "(?<!\\\\)(\\\\\\))",
+          "endCaptures": {
+            "1": {
+              "name": "punctuation.definition.math.end.markdown"
+            }
+          },
+          "patterns": [
+            {
+              "include": "text.tex.latex"
+            }
+          ]
+        }
+      ]
+    },
+    "escape": {
+      "patterns": [
+        {
+          "match": "\\\\.",
+          "name": "constant.character.escape.markdown"
         }
       ]
     },

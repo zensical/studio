@@ -1,0 +1,888 @@
+{
+  "marker": {
+    "accept_dollar": [
+      {
+        "line": "$Math$",
+        "tokens": [
+          {
+            "text": "$",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.math.inline.markdown",
+              "punctuation.definition.math.begin.markdown"
+            ]
+          },
+          {
+            "text": "Math",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.math.inline.markdown",
+              "meta.embedded.inline.latex"
+            ]
+          },
+          {
+            "text": "$",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.math.inline.markdown",
+              "punctuation.definition.math.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_dollar_with_parentheses": [
+      {
+        "line": "$(Math)$",
+        "tokens": [
+          {
+            "text": "$",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.math.inline.markdown",
+              "punctuation.definition.math.begin.markdown"
+            ]
+          },
+          {
+            "text": "(Math)",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.math.inline.markdown",
+              "meta.embedded.inline.latex"
+            ]
+          },
+          {
+            "text": "$",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.math.inline.markdown",
+              "punctuation.definition.math.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_dollar_with_escaped_dollar": [
+      {
+        "line": "$Math \\$ Text$",
+        "tokens": [
+          {
+            "text": "$",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.math.inline.markdown",
+              "punctuation.definition.math.begin.markdown"
+            ]
+          },
+          {
+            "text": "Math \\$ Text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.math.inline.markdown",
+              "meta.embedded.inline.latex"
+            ]
+          },
+          {
+            "text": "$",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.math.inline.markdown",
+              "punctuation.definition.math.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_dollar_with_closing_marker": [
+      {
+        "line": "$Math $ Text$",
+        "tokens": [
+          {
+            "text": "$",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.math.inline.markdown",
+              "punctuation.definition.math.begin.markdown"
+            ]
+          },
+          {
+            "text": "Math $ Text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.math.inline.markdown",
+              "meta.embedded.inline.latex"
+            ]
+          },
+          {
+            "text": "$",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.math.inline.markdown",
+              "punctuation.definition.math.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_dollar_with_trailing_marker": [
+      {
+        "line": "$Math$$",
+        "tokens": [
+          {
+            "text": "$",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.math.inline.markdown",
+              "punctuation.definition.math.begin.markdown"
+            ]
+          },
+          {
+            "text": "Math",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.math.inline.markdown",
+              "meta.embedded.inline.latex"
+            ]
+          },
+          {
+            "text": "$",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.math.inline.markdown",
+              "punctuation.definition.math.end.markdown"
+            ]
+          },
+          {
+            "text": "$",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_dollar_with_leading_marker": [
+      {
+        "line": "$$Math$",
+        "tokens": [
+          {
+            "text": "$$",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.math.block.markdown",
+              "punctuation.definition.math.begin.markdown"
+            ]
+          },
+          {
+            "text": "Math$",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.math.block.markdown",
+              "meta.embedded.block.latex"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_round": [
+      {
+        "line": "\\(Math\\)",
+        "tokens": [
+          {
+            "text": "\\(",
+            "scopes": [
+              "text.html.markdown.python",
+              "constant.character.escape.markdown"
+            ]
+          },
+          {
+            "text": "Math",
+            "scopes": [
+              "text.html.markdown.python"
+            ]
+          },
+          {
+            "text": "\\)",
+            "scopes": [
+              "text.html.markdown.python",
+              "constant.character.escape.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_round_with_escaped_parentheses": [
+      {
+        "line": "\\(Math \\\\) Text\\)",
+        "tokens": [
+          {
+            "text": "\\(",
+            "scopes": [
+              "text.html.markdown.python",
+              "constant.character.escape.markdown"
+            ]
+          },
+          {
+            "text": "Math ",
+            "scopes": [
+              "text.html.markdown.python"
+            ]
+          },
+          {
+            "text": "\\\\",
+            "scopes": [
+              "text.html.markdown.python",
+              "constant.character.escape.markdown"
+            ]
+          },
+          {
+            "text": ") Text",
+            "scopes": [
+              "text.html.markdown.python"
+            ]
+          },
+          {
+            "text": "\\)",
+            "scopes": [
+              "text.html.markdown.python",
+              "constant.character.escape.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "position": {
+    "accept_before_text": [
+      {
+        "line": "$Math$ Text",
+        "tokens": [
+          {
+            "text": "$",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.math.inline.markdown",
+              "punctuation.definition.math.begin.markdown"
+            ]
+          },
+          {
+            "text": "Math",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.math.inline.markdown",
+              "meta.embedded.inline.latex"
+            ]
+          },
+          {
+            "text": "$",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.math.inline.markdown",
+              "punctuation.definition.math.end.markdown"
+            ]
+          },
+          {
+            "text": " Text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_after_text": [
+      {
+        "line": "Text $Math$",
+        "tokens": [
+          {
+            "text": "Text ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          },
+          {
+            "text": "$",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.math.inline.markdown",
+              "punctuation.definition.math.begin.markdown"
+            ]
+          },
+          {
+            "text": "Math",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.math.inline.markdown",
+              "meta.embedded.inline.latex"
+            ]
+          },
+          {
+            "text": "$",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.math.inline.markdown",
+              "punctuation.definition.math.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_inside_emphasis": [
+      {
+        "line": "*$Math$*",
+        "tokens": [
+          {
+            "text": "*",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.italic.markdown",
+              "punctuation.definition.italic.markdown"
+            ]
+          },
+          {
+            "text": "$",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.italic.markdown",
+              "markup.math.inline.markdown",
+              "punctuation.definition.math.begin.markdown"
+            ]
+          },
+          {
+            "text": "Math",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.italic.markdown",
+              "markup.math.inline.markdown",
+              "meta.embedded.inline.latex"
+            ]
+          },
+          {
+            "text": "$",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.italic.markdown",
+              "markup.math.inline.markdown",
+              "punctuation.definition.math.end.markdown"
+            ]
+          },
+          {
+            "text": "*",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.italic.markdown",
+              "punctuation.definition.italic.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_inside_link": [
+      {
+        "line": "[$Math$](href)",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "$",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown",
+              "markup.math.inline.markdown",
+              "punctuation.definition.math.begin.markdown"
+            ]
+          },
+          {
+            "text": "Math",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown",
+              "markup.math.inline.markdown",
+              "meta.embedded.inline.latex"
+            ]
+          },
+          {
+            "text": "$",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "string.other.link.title.markdown",
+              "markup.math.inline.markdown",
+              "punctuation.definition.math.end.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "(",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "href",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "markup.underline.link.markdown"
+            ]
+          },
+          {
+            "text": ")",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.link.inline.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "line_ending": {
+    "accept_dollar_with_line_ending": [
+      {
+        "line": "$Math",
+        "tokens": [
+          {
+            "text": "$",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.math.inline.markdown",
+              "punctuation.definition.math.begin.markdown"
+            ]
+          },
+          {
+            "text": "Math",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.math.inline.markdown",
+              "meta.embedded.inline.latex"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "Text$",
+        "tokens": [
+          {
+            "text": "Text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.math.inline.markdown",
+              "meta.embedded.inline.latex"
+            ]
+          },
+          {
+            "text": "$",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.math.inline.markdown",
+              "punctuation.definition.math.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_round_with_line_ending": [
+      {
+        "line": "\\(Math",
+        "tokens": [
+          {
+            "text": "\\(",
+            "scopes": [
+              "text.html.markdown.python",
+              "constant.character.escape.markdown"
+            ]
+          },
+          {
+            "text": "Math",
+            "scopes": [
+              "text.html.markdown.python"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "Text\\)",
+        "tokens": [
+          {
+            "text": "Text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          },
+          {
+            "text": "\\)",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "constant.character.escape.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "rejection": {
+    "reject_dollar_with_opening_space": [
+      {
+        "line": "$ Math$",
+        "tokens": [
+          {
+            "text": "$ Math$",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_dollar_with_opening_tab": [
+      {
+        "line": "$\tMath$",
+        "tokens": [
+          {
+            "text": "$\tMath$",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_dollar_with_closing_space": [
+      {
+        "line": "$Math $",
+        "tokens": [
+          {
+            "text": "$",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.math.inline.markdown",
+              "punctuation.definition.math.begin.markdown"
+            ]
+          },
+          {
+            "text": "Math $",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.math.inline.markdown",
+              "meta.embedded.inline.latex"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_dollar_with_closing_tab": [
+      {
+        "line": "$Math\t$",
+        "tokens": [
+          {
+            "text": "$",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.math.inline.markdown",
+              "punctuation.definition.math.begin.markdown"
+            ]
+          },
+          {
+            "text": "Math\t$",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.math.inline.markdown",
+              "meta.embedded.inline.latex"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_dollar_with_closing_line_ending": [
+      {
+        "line": "$Math",
+        "tokens": [
+          {
+            "text": "$",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.math.inline.markdown",
+              "punctuation.definition.math.begin.markdown"
+            ]
+          },
+          {
+            "text": "Math",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.math.inline.markdown",
+              "meta.embedded.inline.latex"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "$",
+        "tokens": [
+          {
+            "text": "$",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.math.inline.markdown",
+              "punctuation.definition.math.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_dollar_unterminated": [
+      {
+        "line": "$Math",
+        "tokens": [
+          {
+            "text": "$",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.math.inline.markdown",
+              "punctuation.definition.math.begin.markdown"
+            ]
+          },
+          {
+            "text": "Math",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "markup.math.inline.markdown",
+              "meta.embedded.inline.latex"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_dollar_with_escaped_opening": [
+      {
+        "line": "\\$Math$",
+        "tokens": [
+          {
+            "text": "\\$",
+            "scopes": [
+              "text.html.markdown.python",
+              "constant.character.escape.markdown"
+            ]
+          },
+          {
+            "text": "Math$",
+            "scopes": [
+              "text.html.markdown.python"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_round_unterminated": [
+      {
+        "line": "\\(Math",
+        "tokens": [
+          {
+            "text": "\\(",
+            "scopes": [
+              "text.html.markdown.python",
+              "constant.character.escape.markdown"
+            ]
+          },
+          {
+            "text": "Math",
+            "scopes": [
+              "text.html.markdown.python"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "reject_square_block_math": [
+      {
+        "line": "\\[Math\\]",
+        "tokens": [
+          {
+            "text": "\\[",
+            "scopes": [
+              "text.html.markdown.python",
+              "constant.character.escape.markdown"
+            ]
+          },
+          {
+            "text": "Math",
+            "scopes": [
+              "text.html.markdown.python"
+            ]
+          },
+          {
+            "text": "\\]",
+            "scopes": [
+              "text.html.markdown.python",
+              "constant.character.escape.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  }
+}
