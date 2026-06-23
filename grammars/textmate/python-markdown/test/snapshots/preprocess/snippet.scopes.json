@@ -284,7 +284,22 @@
         "line": ";--8<-- \"index.md\"",
         "tokens": [
           {
-            "text": ";--8<-- \"index.md\"",
+            "text": ";--8",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          },
+          {
+            "text": "<--",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "constant.other.smart-symbol.markdown"
+            ]
+          },
+          {
+            "text": " \"index.md\"",
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown"
@@ -302,7 +317,22 @@
         "line": "--8<-- index.md",
         "tokens": [
           {
-            "text": "--8<-- index.md",
+            "text": "--8",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          },
+          {
+            "text": "<--",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "constant.other.smart-symbol.markdown"
+            ]
+          },
+          {
+            "text": " index.md",
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown"
@@ -320,7 +350,22 @@
         "line": "--8<-- \"index.md\" ",
         "tokens": [
           {
-            "text": "--8<-- \"index.md\" ",
+            "text": "--8",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          },
+          {
+            "text": "<--",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "constant.other.smart-symbol.markdown"
+            ]
+          },
+          {
+            "text": " \"index.md\" ",
             "scopes": [
               "text.html.markdown.python",
               "meta.paragraph.markdown"

@@ -5700,6 +5700,9 @@
           "include": "#emoji"
         },
         {
+          "include": "#smart_symbol"
+        },
+        {
           "include": "#mark"
         },
         {
@@ -10448,6 +10451,34 @@
               "name": "punctuation.definition.emoji.markdown"
             }
           }
+        }
+      ]
+    },
+    "smart_symbol": {
+      "patterns": [
+        {
+          "name": "constant.other.smart-symbol.markdown",
+          "match": "\\(tm\\)|\\(c\\)|\\(r\\)"
+        },
+        {
+          "name": "constant.other.smart-symbol.markdown",
+          "match": "\\+/-|=/="
+        },
+        {
+          "name": "constant.other.smart-symbol.markdown",
+          "match": "<-->|(?<!-)-->|<--(?!-)"
+        },
+        {
+          "name": "constant.other.smart-symbol.markdown",
+          "match": "(?<![\\p{L}\\p{N}_])c/o(?![\\p{L}\\p{N}_])"
+        },
+        {
+          "name": "constant.other.smart-symbol.markdown",
+          "match": "(?<!\\d)(?:1/4|1/2|3/4|1/3|2/3|1/5|2/5|3/5|4/5|1/6|5/6|1/8|3/8|5/8|7/8)(?!\\d)"
+        },
+        {
+          "name": "constant.other.smart-symbol.markdown",
+          "match": "(?<![0-9A-Za-z])(?:0th|(?:[1-9][0-9]*)?(?:1st|2nd|3rd|(?<=1)(?:1|2|3)th|[04-9]th))(?![0-9A-Za-z])"
         }
       ]
     },
