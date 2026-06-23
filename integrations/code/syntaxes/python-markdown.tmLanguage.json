@@ -5685,9 +5685,6 @@
       "patterns": [
         {
           "include": "#inline_flow"
-        },
-        {
-          "include": "text.html.derivative"
         }
       ]
     },
@@ -5725,6 +5722,9 @@
         },
         {
           "include": "#autolink"
+        },
+        {
+          "include": "text.html.derivative"
         }
       ]
     },
