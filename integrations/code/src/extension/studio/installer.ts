@@ -28,7 +28,7 @@ import { coerce, satisfies, validRange } from "semver";
 
 import type { Context } from "../context";
 import { extract } from "./archive";
-import { fetchArchive, fetchRelease, Release } from "./fetch";
+import { fetchArchive, fetchRelease, NetworkError, Release } from "./fetch";
 
 /* ----------------------------------------------------------------------------
  * Functions
@@ -46,14 +46,6 @@ export async function getStudioPathFromInstallation(
 ): Promise<string | undefined> {
   let archive = "";
   try {
-    const release = await fetchRelease(context);
-    if (typeof release === "undefined") {
-      return;
-    }
-    if (!(await checkRelease(context, release))) {
-      return;
-    }
-
     // Determine extension storage and ensure it exists
     const storage = path.join(context.getStorage(), "studio");
     await fs.mkdir(storage, { recursive: true });
@@ -65,6 +57,25 @@ export async function getStudioPathFromInstallation(
         ? "zensical-studio.exe"
         : "zensical-studio",
     );
+
+    // Try to fetch the latest release
+    let release: Release | undefined;
+    try {
+      release = await fetchRelease(context);
+    } catch (error) {
+      if (!existsSync(executable) || !(error instanceof NetworkError)) {
+        throw error;
+      }
+      context.log("Using installed Zensical Studio");
+    }
+
+    // If we don't have a release, just return the installed executable
+    if (typeof release === "undefined") {
+      return existsSync(executable) ? executable : undefined;
+    }
+    if (!(await checkRelease(context, release))) {
+      return;
+    }
 
     // Check if we already have the latest version available
     const version = context.getState("version");

@@ -20,6 +20,7 @@
  * IN THE SOFTWARE.
  */
 
+import * as vscode from "vscode";
 import type { ExtensionContext } from "vscode";
 import type { LanguageClient } from "vscode-languageclient/node";
 
@@ -28,6 +29,7 @@ import { createLanguageClient } from "./extension/client";
 import { Context } from "./extension/context";
 import { activateProjectMarkdown } from "./extension/project";
 import { getStudio } from "./extension/studio";
+import { NetworkError } from "./extension/studio/fetch";
 
 /* ----------------------------------------------------------------------------
  * State
@@ -37,6 +39,21 @@ import { getStudio } from "./extension/studio";
  * Language client.
  */
 let client: LanguageClient | undefined;
+
+/**
+ * Startup timer.
+ */
+let retryTimer: ReturnType<typeof setTimeout> | undefined;
+
+/**
+ * Startup retry delay.
+ */
+let retryDelay = 5000;
+
+/**
+ * Whether startup is already in progress.
+ */
+let starting = false;
 
 /* ----------------------------------------------------------------------------
  * Functions
@@ -51,32 +68,120 @@ export async function activate(extension: ExtensionContext): Promise<void> {
   const context = new Context(extension);
   void activateProjectMarkdown(extension, context);
 
-  // Obtain Zensical studio configuration
-  const studio = await getStudio(context);
-  if (typeof studio === "undefined") {
-    return;
-  }
-
   // Register commands
   registerCommands(extension);
+  extension.subscriptions.push(
+    // The timer below is the primary recovery mechanism. These hooks only make
+    // retry more responsive when the user returns to the window or opens a
+    // Python Markdown document after VPN/proxy startup has completed.
+    vscode.window.onDidChangeWindowState((state) => {
+      if (state.focused && typeof retryTimer !== "undefined") {
+        void startStudio(context);
+      }
+    }),
+    vscode.workspace.onDidOpenTextDocument((document) => {
+      if (
+        document.languageId === "python-markdown" &&
+        typeof retryTimer !== "undefined"
+      ) {
+        void startStudio(context);
+      }
+    }),
+  );
 
-  // Create and start the language client
-  context.log("Starting Zensical Studio");
-  try {
-    client = createLanguageClient(context, studio);
-    client.start();
-  } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    context.log(`Failed to start Zensical Studio: ${message}`);
-  }
+  // Start Zensical Studio
+  void startStudio(context);
 }
 
 /**
  * Deactivate extension.
  */
 export async function deactivate(): Promise<void> {
+  clearRetry();
   if (typeof client !== "undefined") {
     await client.stop();
     client = undefined;
   }
+}
+
+/* ----------------------------------------------------------------------------
+ * Helper functions
+ * ------------------------------------------------------------------------- */
+
+/**
+ * Start Zensical Studio.
+ *
+ * @param context - Context
+ */
+async function startStudio(context: Context): Promise<void> {
+  if (typeof client !== "undefined" || starting) {
+    return;
+  }
+
+  // Clear any scheduled retry
+  clearRetry();
+  starting = true;
+  try {
+    // Obtain Zensical studio configuration
+    const studio = await getStudio(context);
+    if (typeof studio === "undefined") {
+      retryDelay = 5000;
+      return;
+    }
+
+    // Create and start the language client
+    retryDelay = 5000;
+    context.log("Starting Zensical Studio");
+    client = createLanguageClient(context, studio);
+    client.start();
+  } catch (error) {
+    if (error instanceof NetworkError) {
+      scheduleRetry(context);
+      return;
+    }
+
+    // Log the error
+    const message = error instanceof Error ? error.message : String(error);
+    context.log(`Failed to start Zensical Studio: ${message}`);
+  } finally {
+    starting = false;
+  }
+}
+
+/**
+ * Schedule startup retry.
+ *
+ * @param context - Context
+ */
+function scheduleRetry(context: Context): void {
+  const delay = retryDelay;
+  const seconds = Math.round(delay / 1000);
+  context.log(`Network unavailable; retrying in ${seconds}s`);
+
+  // Schedule retry with exponential backoff and jitter
+  retryTimer = setTimeout(() => {
+    void startStudio(context);
+  }, jitter(delay));
+  retryDelay = Math.min(delay * 2, 5 * 60 * 1000);
+}
+
+/**
+ * Clear scheduled startup retry.
+ */
+function clearRetry(): void {
+  if (typeof retryTimer !== "undefined") {
+    clearTimeout(retryTimer);
+    retryTimer = undefined;
+  }
+}
+
+/**
+ * Add jitter to a retry delay.
+ *
+ * @param delay - Delay in milliseconds
+ *
+ * @returns Jittered delay
+ */
+function jitter(delay: number): number {
+  return Math.round(delay * (0.8 + Math.random() * 0.4));
 }

@@ -77,6 +77,15 @@ export class Context {
   }
 
   /**
+   * Get output channel.
+   *
+   * @returns Output channel
+   */
+  public getOutput(): OutputChannel {
+    return this.output;
+  }
+
+  /**
    * Get extension state for a given key.
    *
    * @param key - Key
