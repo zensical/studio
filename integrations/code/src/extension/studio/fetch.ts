@@ -60,6 +60,25 @@ export interface Message {
 }
 
 /* ----------------------------------------------------------------------------
+ * Class
+ * ------------------------------------------------------------------------- */
+
+/**
+ * Retryable network failure.
+ */
+export class NetworkError extends Error {
+  /**
+   * Create error.
+   *
+   * @param message - Message
+   */
+  public constructor(message: string) {
+    super(message);
+    this.name = "NetworkError";
+  }
+}
+
+/* ----------------------------------------------------------------------------
  * Functions
  * ------------------------------------------------------------------------- */
 
@@ -131,16 +150,24 @@ export async function fetchToken(
   token?: string,
 ): Promise<Token | undefined> {
   context.log("Renewing token for beta access");
-
-  // Fetch a new token
   const url = "https://get.zensical.org/studio/token/";
-  const res = await request(context, url, {
-    ...(token && { headers: { authorization: `Bearer ${token}` } }),
-  });
-  if (typeof res !== "undefined") {
-    return (await res.json()) as Token;
-  } else {
-    return;
+  try {
+    const res = await request(context, url, {
+      ...(token && { headers: { authorization: `Bearer ${token}` } }),
+    });
+
+    // Return the new token if available
+    if (typeof res !== "undefined") {
+      return (await res.json()) as Token;
+    } else {
+      return;
+    }
+  } catch (error) {
+    if (typeof token !== "undefined" && error instanceof NetworkError) {
+      context.log("Using cached token");
+      return { token };
+    }
+    throw error;
   }
 }
 
@@ -181,7 +208,7 @@ async function request(
   } catch (error) {
     const reason = error instanceof Error ? error.message : String(error);
     context.log(`Fetching failed: ${reason}`);
-    return;
+    throw new NetworkError(reason);
   }
 }
 

@@ -60,7 +60,7 @@ export function createLanguageClient(
   // Initialize client options
   const clientOptions: LanguageClientOptions = {
     documentSelector: [{ scheme: "file", language: "python-markdown" }],
-    outputChannel: context.output,
+    outputChannel: context.getOutput(),
     initializationOptions: { token: studio.token },
   };
 
