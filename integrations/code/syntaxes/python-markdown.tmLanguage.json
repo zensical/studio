@@ -47,15 +47,67 @@
       "patterns": [
         {
           "name": "meta.snippet.section.markdown",
-          "match": "(?:^|\\G)(.*?)(?<!;)(-{1,}8<-{1,})([ \\t]+)(\\[)([ \\t]*)(?i:(start|end))([ \\t]*)(:)([ \\t]*)([a-z][-_0-9a-z]*)([ \\t]*)(\\])(.*)$",
+          "match": "(?:^|\\G)([ \\t]*)(<!--)([ \\t]+)(-{1,}8<-{1,})([ \\t]+)(\\[)([ \\t]*)(?i:(start|end))([ \\t]*)(:)([ \\t]*)([a-z][-_0-9a-z]*)([ \\t]*)(\\])([ \\t]+)(-->)([ \\t]*)$",
           "captures": {
             "1": {
-              "name": "meta.snippet.section.prefix.markdown",
-              "patterns": [
-                {
-                  "include": "#inline_flow"
-                }
-              ]
+              "name": "punctuation.whitespace.leading.markdown"
+            },
+            "2": {
+              "name": "punctuation.definition.comment.begin.html"
+            },
+            "3": {
+              "name": "punctuation.whitespace.markdown"
+            },
+            "4": {
+              "name": "keyword.control.snippet.markdown"
+            },
+            "5": {
+              "name": "comment.snippet.separator.markdown"
+            },
+            "6": {
+              "name": "punctuation.definition.snippet-section.begin.markdown"
+            },
+            "7": {
+              "name": "punctuation.whitespace.markdown"
+            },
+            "8": {
+              "name": "keyword.control.snippet.section.markdown"
+            },
+            "9": {
+              "name": "punctuation.whitespace.markdown"
+            },
+            "10": {
+              "name": "punctuation.separator.snippet-section.markdown"
+            },
+            "11": {
+              "name": "punctuation.whitespace.markdown"
+            },
+            "12": {
+              "name": "entity.name.section.snippet.markdown"
+            },
+            "13": {
+              "name": "punctuation.whitespace.markdown"
+            },
+            "14": {
+              "name": "punctuation.definition.snippet-section.end.markdown"
+            },
+            "15": {
+              "name": "punctuation.whitespace.markdown"
+            },
+            "16": {
+              "name": "punctuation.definition.comment.end.html"
+            },
+            "17": {
+              "name": "punctuation.whitespace.trailing.markdown"
+            }
+          }
+        },
+        {
+          "name": "meta.snippet.section.markdown",
+          "match": "(?:^|\\G)([ \\t]*)(-{1,}8<-{1,})([ \\t]+)(\\[)([ \\t]*)(?i:(start|end))([ \\t]*)(:)([ \\t]*)([a-z][-_0-9a-z]*)([ \\t]*)(\\])([ \\t]*)$",
+          "captures": {
+            "1": {
+              "name": "punctuation.whitespace.leading.markdown"
             },
             "2": {
               "name": "keyword.control.snippet.markdown"
@@ -91,12 +143,7 @@
               "name": "punctuation.definition.snippet-section.end.markdown"
             },
             "13": {
-              "name": "meta.snippet.section.suffix.markdown",
-              "patterns": [
-                {
-                  "include": "#inline_flow"
-                }
-              ]
+              "name": "punctuation.whitespace.trailing.markdown"
             }
           }
         },
