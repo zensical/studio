@@ -156,13 +156,15 @@
             "text": "\\*",
             "scopes": [
               "text.html.markdown.python",
+              "meta.paragraph.markdown",
               "constant.character.escape.markdown"
             ]
           },
           {
             "text": "Emphasis*",
             "scopes": [
-              "text.html.markdown.python"
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
             ]
           }
         ]
@@ -180,13 +182,15 @@
             "text": "\\_",
             "scopes": [
               "text.html.markdown.python",
+              "meta.paragraph.markdown",
               "constant.character.escape.markdown"
             ]
           },
           {
             "text": "Emphasis_",
             "scopes": [
-              "text.html.markdown.python"
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
             ]
           }
         ]
@@ -204,13 +208,15 @@
             "text": "\\*",
             "scopes": [
               "text.html.markdown.python",
+              "meta.paragraph.markdown",
               "constant.character.escape.markdown"
             ]
           },
           {
             "text": "*Strong**",
             "scopes": [
-              "text.html.markdown.python"
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
             ]
           }
         ]
@@ -228,13 +234,15 @@
             "text": "\\_",
             "scopes": [
               "text.html.markdown.python",
+              "meta.paragraph.markdown",
               "constant.character.escape.markdown"
             ]
           },
           {
             "text": "_Strong__",
             "scopes": [
-              "text.html.markdown.python"
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
             ]
           }
         ]

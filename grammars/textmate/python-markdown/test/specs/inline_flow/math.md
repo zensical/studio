@@ -1,147 +1,158 @@
-## marker
+## dollar_valid
 
-### accept_dollar
-
-``` md
-$Math$
-```
-
-### accept_dollar_with_parentheses
+### accept_plain
 
 ``` md
-$(Math)$
+$a$
 ```
 
-### accept_dollar_with_escaped_dollar
+### accept_commands
 
 ``` md
-$Math \$ Text$
+$\alpha + \beta$
 ```
 
-### accept_dollar_with_closing_marker
+### accept_parenthesized
 
 ``` md
-$Math $ Text$
+$(a)$
 ```
 
-### accept_dollar_with_trailing_marker
+### accept_escaped_dollar
 
 ``` md
-$Math$$
+$a \$ b$
 ```
 
-### accept_dollar_with_leading_marker
+### accept_trailing_marker
 
 ``` md
-$$Math$
+$a$$
 ```
 
-### accept_round
+### accept_leading_marker
 
 ``` md
-\(Math\)
+$$a$
 ```
-
-### accept_round_with_escaped_parentheses
-
-``` md
-\(Math \\) Text\)
-```
-
-## position
 
 ### accept_before_text
 
 ``` md
-$Math$ Text
+$a$ Text
 ```
 
 ### accept_after_text
 
 ``` md
-Text $Math$
+Text $a$
+```
+
+### accept_inside_word
+
+``` md
+x$a$y
+```
+
+### accept_before_punctuation
+
+``` md
+$a$,
 ```
 
 ### accept_inside_emphasis
 
 ``` md
-*$Math$*
+*$a$*
 ```
 
 ### accept_inside_link
 
 ``` md
-[$Math$](href)
+[$a$](href)
 ```
 
-## line_ending
+## round_valid
 
-### accept_dollar_with_line_ending
+### accept_plain
 
 ``` md
-$Math
-Text$
+\(a\)
 ```
 
-### accept_round_with_line_ending
+### accept_commands
 
 ``` md
-\(Math
-Text\)
+\(\begin{matrix} a & b \\ c & d \end{matrix}\)
 ```
 
-## rejection
+### accept_escaped_closer
 
-### reject_dollar_with_opening_space
+``` md
+\(a \\) b\)
+```
+
+## dollar_invalid
+
+### reject_opening_space
 
 ``` md
 $ Math$
 ```
 
-### reject_dollar_with_opening_tab
+### reject_opening_tab
 
 ``` md
 $	Math$
 ```
 
-### reject_dollar_with_closing_space
+### reject_closing_space
 
 ``` md
 $Math $
 ```
 
-### reject_dollar_with_closing_tab
+### reject_closing_tab
 
 ``` md
 $Math	$
 ```
 
-### reject_dollar_with_closing_line_ending
+### reject_unterminated
 
 ``` md
-$Math
-$
+$a
 ```
 
-### reject_dollar_unterminated
+### reject_escaped_opening
 
 ``` md
-$Math
+\$a$
 ```
 
-### reject_dollar_with_escaped_opening
+### reject_closing_marker_as_text
 
 ``` md
-\$Math$
+$a $ b$
 ```
 
-### reject_round_unterminated
+## round_invalid
+
+### reject_unterminated
 
 ``` md
-\(Math
+\(a
 ```
 
-### reject_square_block_math
+### reject_blank_line
+
+``` md
+\(a
+
+b\)
+```
+
+### reject_inline_square_form
 
 ``` md
 \[Math\]

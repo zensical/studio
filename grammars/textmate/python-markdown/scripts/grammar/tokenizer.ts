@@ -175,8 +175,8 @@ function getEmbeddedGrammar(
   if (scope === "source.yaml") {
     return getYamlGrammar();
   }
-  if (scope === "text.tex.latex") {
-    return { name: "Test LaTeX", scopeName: scope, patterns: [] };
+  if (scope === "text.html.markdown.math") {
+    return { name: "Test Markdown Math", scopeName: scope, patterns: [] };
   }
 
   // Return a minimal grammar for every embedded language scope

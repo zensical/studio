@@ -46,9 +46,6 @@
     "flow": {
       "patterns": [
         {
-          "include": "#escape"
-        },
-        {
           "include": "#table"
         },
         {
@@ -821,14 +818,14 @@
       "patterns": [
         {
           "name": "markup.math.block.markdown",
-          "begin": "(?:^|\\G)(\\$\\$)",
+          "begin": "(?:^|\\G)[ \\t]*(\\$\\$)[ \\t]*$",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.math.begin.markdown"
             }
           },
-          "contentName": "meta.embedded.block.latex",
-          "end": "(\\$\\$)([ \\t]*)(\\r?\\n|\\r)?",
+          "contentName": "meta.embedded.math.markdown",
+          "end": "(?:^|\\G)[ \\t]*(\\$\\$)([ \\t]*)(\\r?\\n|\\r)?",
           "endCaptures": {
             "1": {
               "name": "punctuation.definition.math.end.markdown"
@@ -836,20 +833,20 @@
           },
           "patterns": [
             {
-              "include": "text.tex.latex"
+              "include": "text.html.markdown.math"
             }
           ]
         },
         {
           "name": "markup.math.block.markdown",
-          "begin": "(?:^|\\G)(\\\\\\[)",
+          "begin": "(?:^|\\G)[ \\t]*(\\\\\\[)[ \\t]*$",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.math.begin.markdown"
             }
           },
-          "contentName": "meta.embedded.block.latex",
-          "end": "(\\\\\\])([ \\t]*)(\\r?\\n|\\r)?",
+          "contentName": "meta.embedded.math.markdown",
+          "end": "(?:^|\\G)[ \\t]*(\\\\\\])([ \\t]*)(\\r?\\n|\\r)?",
           "endCaptures": {
             "1": {
               "name": "punctuation.definition.math.end.markdown"
@@ -857,7 +854,7 @@
           },
           "patterns": [
             {
-              "include": "text.tex.latex"
+              "include": "text.html.markdown.math"
             }
           ]
         }
@@ -10512,14 +10509,14 @@
       "patterns": [
         {
           "name": "markup.math.inline.markdown",
-          "begin": "(\\$)(?=[^\\s$])",
+          "begin": "(?<!\\\\)(\\$)(?![\\s$])(?=(?:\\\\.|[^\\\\$\\r\\n])*?(?<!\\s)\\$)",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.math.begin.markdown"
             }
           },
-          "contentName": "meta.embedded.inline.latex",
-          "end": "(?<!\\\\)(?<![\\s$])(\\$)",
+          "contentName": "meta.embedded.math.markdown",
+          "end": "(?<!\\\\)(?<!\\s)(\\$)",
           "endCaptures": {
             "1": {
               "name": "punctuation.definition.math.end.markdown"
@@ -10527,19 +10524,19 @@
           },
           "patterns": [
             {
-              "include": "text.tex.latex"
+              "include": "text.html.markdown.math"
             }
           ]
         },
         {
           "name": "markup.math.inline.markdown",
-          "begin": "(\\\\\\()",
+          "begin": "(\\\\\\()(?=(?:\\\\[^)]|[^\\\\\\r\\n])*?(?<!\\\\)\\\\\\))",
           "beginCaptures": {
             "1": {
               "name": "punctuation.definition.math.begin.markdown"
             }
           },
-          "contentName": "meta.embedded.inline.latex",
+          "contentName": "meta.embedded.math.markdown",
           "end": "(?<!\\\\)(\\\\\\))",
           "endCaptures": {
             "1": {
@@ -10548,7 +10545,7 @@
           },
           "patterns": [
             {
-              "include": "text.tex.latex"
+              "include": "text.html.markdown.math"
             }
           ]
         }
