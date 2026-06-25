@@ -36,6 +36,15 @@ import type { ExtensionContext } from "vscode";
 type Project = "MkDocs" | "Zensical";
 
 /* ----------------------------------------------------------------------------
+ * Data
+ * ------------------------------------------------------------------------- */
+
+/**
+ * Tagged documents.
+ */
+const tagged = new Set<string>();
+
+/* ----------------------------------------------------------------------------
  * Functions
  * ------------------------------------------------------------------------- */
 
@@ -171,6 +180,9 @@ async function tagDocument(
     return;
   }
 
-  // Retag the document as Python Markdown
-  await vscode.languages.setTextDocumentLanguage(document, "python-markdown");
+  // Tag the document as Python Markdown
+  if (!tagged.has(document.uri.toString())) {
+    tagged.add(document.uri.toString());
+    await vscode.languages.setTextDocumentLanguage(document, "python-markdown");
+  }
 }
