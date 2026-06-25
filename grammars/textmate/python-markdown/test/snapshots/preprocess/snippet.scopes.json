@@ -911,89 +911,6 @@
         "tokens": []
       }
     ],
-    "accept_with_prefix_and_suffix": [
-      {
-        "line": "prefix --8<-- [start:example] suffix",
-        "tokens": [
-          {
-            "text": "prefix ",
-            "scopes": [
-              "text.html.markdown.python",
-              "meta.snippet.section.markdown",
-              "meta.snippet.section.prefix.markdown"
-            ]
-          },
-          {
-            "text": "--8<--",
-            "scopes": [
-              "text.html.markdown.python",
-              "meta.snippet.section.markdown",
-              "keyword.control.snippet.markdown"
-            ]
-          },
-          {
-            "text": " ",
-            "scopes": [
-              "text.html.markdown.python",
-              "meta.snippet.section.markdown",
-              "comment.snippet.separator.markdown"
-            ]
-          },
-          {
-            "text": "[",
-            "scopes": [
-              "text.html.markdown.python",
-              "meta.snippet.section.markdown",
-              "punctuation.definition.snippet-section.begin.markdown"
-            ]
-          },
-          {
-            "text": "start",
-            "scopes": [
-              "text.html.markdown.python",
-              "meta.snippet.section.markdown",
-              "keyword.control.snippet.section.markdown"
-            ]
-          },
-          {
-            "text": ":",
-            "scopes": [
-              "text.html.markdown.python",
-              "meta.snippet.section.markdown",
-              "punctuation.separator.snippet-section.markdown"
-            ]
-          },
-          {
-            "text": "example",
-            "scopes": [
-              "text.html.markdown.python",
-              "meta.snippet.section.markdown",
-              "entity.name.section.snippet.markdown"
-            ]
-          },
-          {
-            "text": "]",
-            "scopes": [
-              "text.html.markdown.python",
-              "meta.snippet.section.markdown",
-              "punctuation.definition.snippet-section.end.markdown"
-            ]
-          },
-          {
-            "text": " suffix",
-            "scopes": [
-              "text.html.markdown.python",
-              "meta.snippet.section.markdown",
-              "meta.snippet.section.suffix.markdown"
-            ]
-          }
-        ]
-      },
-      {
-        "line": "",
-        "tokens": []
-      }
-    ],
     "accept_uppercase_keyword": [
       {
         "line": "--8<-- [START:example]",
@@ -1061,20 +978,28 @@
         "tokens": []
       }
     ],
-    "reject_escaped": [
+    "accept_html_comment_wrapped": [
       {
-        "line": ";--8<-- [start:example]",
+        "line": "<!-- --8<-- [start:example] -->",
         "tokens": [
           {
-            "text": ";-",
+            "text": "<!--",
             "scopes": [
               "text.html.markdown.python",
               "meta.snippet.section.markdown",
-              "meta.snippet.section.prefix.markdown"
+              "punctuation.definition.comment.begin.html"
             ]
           },
           {
-            "text": "-8<--",
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "punctuation.whitespace.markdown"
+            ]
+          },
+          {
+            "text": "--8<--",
             "scopes": [
               "text.html.markdown.python",
               "meta.snippet.section.markdown",
@@ -1127,6 +1052,22 @@
               "text.html.markdown.python",
               "meta.snippet.section.markdown",
               "punctuation.definition.snippet-section.end.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "punctuation.whitespace.markdown"
+            ]
+          },
+          {
+            "text": "-->",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.snippet.section.markdown",
+              "punctuation.definition.comment.end.html"
             ]
           }
         ]

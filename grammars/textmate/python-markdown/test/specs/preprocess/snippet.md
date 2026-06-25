@@ -118,20 +118,14 @@ index.md
 --8<-- [end:example]
 ```
 
-### accept_with_prefix_and_suffix
-
-``` md
-prefix --8<-- [start:example] suffix
-```
-
 ### accept_uppercase_keyword
 
 ``` md
 --8<-- [START:example]
 ```
 
-### reject_escaped
+### accept_html_comment_wrapped
 
 ``` md
-;--8<-- [start:example]
+<!-- --8<-- [start:example] -->
 ```
