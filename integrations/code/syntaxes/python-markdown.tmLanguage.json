@@ -43,52 +43,6 @@
         }
       ]
     },
-    "flow": {
-      "patterns": [
-        {
-          "include": "#table"
-        },
-        {
-          "include": "#admonition"
-        },
-        {
-          "include": "#details"
-        },
-        {
-          "include": "#tab"
-        },
-        {
-          "include": "#footnote_definition"
-        },
-        {
-          "include": "#reference_definition"
-        },
-        {
-          "include": "#abbreviation"
-        },
-        {
-          "include": "#math"
-        },
-        {
-          "include": "#fenced_code"
-        },
-        {
-          "include": "#heading_atx"
-        },
-        {
-          "include": "#thematic_break"
-        },
-        {
-          "include": "#block_quote"
-        },
-        {
-          "include": "#list_item"
-        },
-        {
-          "include": "#paragraph"
-        }
-      ]
-    },
     "snippet": {
       "patterns": [
         {
@@ -391,6 +345,52 @@
               }
             }
           ]
+        }
+      ]
+    },
+    "flow": {
+      "patterns": [
+        {
+          "include": "#table"
+        },
+        {
+          "include": "#admonition"
+        },
+        {
+          "include": "#details"
+        },
+        {
+          "include": "#tab"
+        },
+        {
+          "include": "#footnote_definition"
+        },
+        {
+          "include": "#reference_definition"
+        },
+        {
+          "include": "#abbreviation"
+        },
+        {
+          "include": "#math"
+        },
+        {
+          "include": "#fenced_code"
+        },
+        {
+          "include": "#heading_atx"
+        },
+        {
+          "include": "#thematic_break"
+        },
+        {
+          "include": "#block_quote"
+        },
+        {
+          "include": "#list_item"
+        },
+        {
+          "include": "#paragraph"
         }
       ]
     },
