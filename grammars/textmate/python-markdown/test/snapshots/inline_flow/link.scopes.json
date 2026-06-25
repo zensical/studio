@@ -4252,13 +4252,15 @@
             "text": "\\[",
             "scopes": [
               "text.html.markdown.python",
+              "meta.paragraph.markdown",
               "constant.character.escape.markdown"
             ]
           },
           {
             "text": "text](href)",
             "scopes": [
-              "text.html.markdown.python"
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
             ]
           }
         ]

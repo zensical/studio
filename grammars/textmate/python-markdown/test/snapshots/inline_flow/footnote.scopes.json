@@ -1347,13 +1347,15 @@
             "text": "\\[",
             "scopes": [
               "text.html.markdown.python",
+              "meta.paragraph.markdown",
               "constant.character.escape.markdown"
             ]
           },
           {
             "text": "^1]",
             "scopes": [
-              "text.html.markdown.python"
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
             ]
           }
         ]
