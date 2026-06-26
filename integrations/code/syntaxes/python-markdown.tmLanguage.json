@@ -1297,6 +1297,9 @@
               "contentName": "meta.embedded.block.abap",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.abap"
                 }
               ]
@@ -1341,6 +1344,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.apache",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.apacheconf"
                 }
@@ -1387,6 +1393,9 @@
               "contentName": "meta.embedded.block.applescript",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.applescript"
                 }
               ]
@@ -1431,6 +1440,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.arduino",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.arduino"
                 }
@@ -1477,6 +1489,9 @@
               "contentName": "meta.embedded.block.awk",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.awk"
                 }
               ]
@@ -1521,6 +1536,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.bat",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.batchfile"
                 }
@@ -1567,6 +1585,9 @@
               "contentName": "meta.embedded.block.bibtex",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "text.bibtex"
                 }
               ]
@@ -1611,6 +1632,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.c",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.c"
                 }
@@ -1657,6 +1681,9 @@
               "contentName": "meta.embedded.block.clojure",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.clojure"
                 }
               ]
@@ -1701,6 +1728,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.cmake",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.cmake"
                 }
@@ -1747,6 +1777,9 @@
               "contentName": "meta.embedded.block.cobol",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.cobol"
                 }
               ]
@@ -1791,6 +1824,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.coffeescript",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.coffee"
                 }
@@ -1837,6 +1873,9 @@
               "contentName": "meta.embedded.block.cpp",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.cpp"
                 }
               ]
@@ -1881,6 +1920,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.csharp",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.cs"
                 }
@@ -1927,6 +1969,9 @@
               "contentName": "meta.embedded.block.css",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.css"
                 }
               ]
@@ -1971,6 +2016,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.cython",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.cython"
                 }
@@ -2017,6 +2065,9 @@
               "contentName": "meta.embedded.block.d",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.d"
                 }
               ]
@@ -2061,6 +2112,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.dart",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.dart"
                 }
@@ -2107,6 +2161,9 @@
               "contentName": "meta.embedded.block.diff",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.diff"
                 }
               ]
@@ -2151,6 +2208,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.dockerfile",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.dockerfile"
                 }
@@ -2197,6 +2257,9 @@
               "contentName": "meta.embedded.block.dot",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.dot"
                 }
               ]
@@ -2241,6 +2304,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.elixir",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.elixir"
                 }
@@ -2287,6 +2353,9 @@
               "contentName": "meta.embedded.block.erlang",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.erlang"
                 }
               ]
@@ -2331,6 +2400,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.fortran",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.fortran"
                 }
@@ -2377,6 +2449,9 @@
               "contentName": "meta.embedded.block.fsharp",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.fsharp"
                 }
               ]
@@ -2421,6 +2496,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.gleam",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.gleam"
                 }
@@ -2467,6 +2545,9 @@
               "contentName": "meta.embedded.block.glsl",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.glsl"
                 }
               ]
@@ -2511,6 +2592,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.gnuplot",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.gnuplot"
                 }
@@ -2557,6 +2641,9 @@
               "contentName": "meta.embedded.block.go",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.go"
                 }
               ]
@@ -2601,6 +2688,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.graphql",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.graphql"
                 }
@@ -2647,6 +2737,9 @@
               "contentName": "meta.embedded.block.groovy",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.groovy"
                 }
               ]
@@ -2691,6 +2784,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.handlebars",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "text.html.handlebars"
                 }
@@ -2737,6 +2833,9 @@
               "contentName": "meta.embedded.block.html",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "text.html.basic"
                 }
               ]
@@ -2781,6 +2880,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.http",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.http"
                 }
@@ -2827,6 +2929,9 @@
               "contentName": "meta.embedded.block.ini",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.ini"
                 }
               ]
@@ -2871,6 +2976,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.java",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.java"
                 }
@@ -2917,6 +3025,9 @@
               "contentName": "meta.embedded.block.javascript",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.js"
                 }
               ]
@@ -2961,6 +3072,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.json",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.json"
                 }
@@ -3007,6 +3121,9 @@
               "contentName": "meta.embedded.block.json5",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.json"
                 }
               ]
@@ -3051,6 +3168,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.jsonnet",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.jsonnet"
                 }
@@ -3097,6 +3217,9 @@
               "contentName": "meta.embedded.block.julia",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.julia"
                 }
               ]
@@ -3141,6 +3264,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.kotlin",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.kotlin"
                 }
@@ -3187,6 +3313,9 @@
               "contentName": "meta.embedded.block.latex",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "text.tex.latex"
                 }
               ]
@@ -3231,6 +3360,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.less",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.css.less"
                 }
@@ -3277,6 +3409,9 @@
               "contentName": "meta.embedded.block.lua",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.lua"
                 }
               ]
@@ -3321,6 +3456,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.makefile",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.makefile"
                 }
@@ -3367,6 +3505,9 @@
               "contentName": "meta.embedded.block.matlab",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.matlab"
                 }
               ]
@@ -3411,6 +3552,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.meson",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.meson"
                 }
@@ -3457,6 +3601,9 @@
               "contentName": "meta.embedded.block.nginx",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.nginx"
                 }
               ]
@@ -3501,6 +3648,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.nim",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.nim"
                 }
@@ -3547,6 +3697,9 @@
               "contentName": "meta.embedded.block.nix",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.nix"
                 }
               ]
@@ -3591,6 +3744,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.objective-c",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.objc"
                 }
@@ -3637,6 +3793,9 @@
               "contentName": "meta.embedded.block.ocaml",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.ocaml"
                 }
               ]
@@ -3681,6 +3840,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.org",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "text.org"
                 }
@@ -3727,6 +3889,9 @@
               "contentName": "meta.embedded.block.perl",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.perl"
                 }
               ]
@@ -3771,6 +3936,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.php",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.php"
                 }
@@ -3817,6 +3985,9 @@
               "contentName": "meta.embedded.block.powershell",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.powershell"
                 }
               ]
@@ -3861,6 +4032,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.prolog",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.prolog"
                 }
@@ -3907,6 +4081,9 @@
               "contentName": "meta.embedded.block.promql",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.promql"
                 }
               ]
@@ -3951,6 +4128,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.properties",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.ini"
                 }
@@ -3997,6 +4177,9 @@
               "contentName": "meta.embedded.block.pug",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "text.pug"
                 }
               ]
@@ -4041,6 +4224,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.puppet",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.puppet"
                 }
@@ -4087,6 +4273,9 @@
               "contentName": "meta.embedded.block.python",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.python"
                 }
               ]
@@ -4131,6 +4320,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.qml",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.qml"
                 }
@@ -4177,6 +4369,9 @@
               "contentName": "meta.embedded.block.r",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.r"
                 }
               ]
@@ -4221,6 +4416,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.racket",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.racket"
                 }
@@ -4267,6 +4465,9 @@
               "contentName": "meta.embedded.block.restructuredtext",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.rst"
                 }
               ]
@@ -4311,6 +4512,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.robotframework",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.robotframework"
                 }
@@ -4357,6 +4561,9 @@
               "contentName": "meta.embedded.block.ruby",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.ruby"
                 }
               ]
@@ -4401,6 +4608,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.rust",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.rust"
                 }
@@ -4447,6 +4657,9 @@
               "contentName": "meta.embedded.block.sass",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.sass"
                 }
               ]
@@ -4491,6 +4704,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.scala",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.scala"
                 }
@@ -4537,6 +4753,9 @@
               "contentName": "meta.embedded.block.scheme",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.scheme"
                 }
               ]
@@ -4581,6 +4800,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.scss",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.css.scss"
                 }
@@ -4627,6 +4849,9 @@
               "contentName": "meta.embedded.block.shellscript",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.shell"
                 }
               ]
@@ -4671,6 +4896,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.smalltalk",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.smalltalk"
                 }
@@ -4717,6 +4945,9 @@
               "contentName": "meta.embedded.block.solidity",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.solidity"
                 }
               ]
@@ -4761,6 +4992,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.sparql",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.sparql"
                 }
@@ -4807,6 +5041,9 @@
               "contentName": "meta.embedded.block.sql",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.sql"
                 }
               ]
@@ -4851,6 +5088,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.swift",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.swift"
                 }
@@ -4897,6 +5137,9 @@
               "contentName": "meta.embedded.block.tcl",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.tcl"
                 }
               ]
@@ -4941,6 +5184,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.terraform",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.hcl.terraform"
                 }
@@ -4987,6 +5233,9 @@
               "contentName": "meta.embedded.block.toml",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.toml"
                 }
               ]
@@ -5031,6 +5280,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.tsx",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.tsx"
                 }
@@ -5077,6 +5329,9 @@
               "contentName": "meta.embedded.block.twig",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.twig"
                 }
               ]
@@ -5121,6 +5376,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.typescript",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.ts"
                 }
@@ -5167,6 +5425,9 @@
               "contentName": "meta.embedded.block.vbnet",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.asp.vb.net"
                 }
               ]
@@ -5211,6 +5472,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.verilog",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.verilog"
                 }
@@ -5257,6 +5521,9 @@
               "contentName": "meta.embedded.block.vhdl",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.vhdl"
                 }
               ]
@@ -5301,6 +5568,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.vim",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.viml"
                 }
@@ -5347,6 +5617,9 @@
               "contentName": "meta.embedded.block.wast",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "text.wat"
                 }
               ]
@@ -5391,6 +5664,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.wgsl",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.wgsl"
                 }
@@ -5437,6 +5713,9 @@
               "contentName": "meta.embedded.block.xml",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "text.xml"
                 }
               ]
@@ -5481,6 +5760,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.xslt",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "text.xml.xsl"
                 }
@@ -5527,6 +5809,9 @@
               "contentName": "meta.embedded.block.yaml",
               "patterns": [
                 {
+                  "include": "#snippet"
+                },
+                {
                   "include": "source.yaml"
                 }
               ]
@@ -5571,6 +5856,9 @@
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
               "contentName": "meta.embedded.block.zig",
               "patterns": [
+                {
+                  "include": "#snippet"
+                },
                 {
                   "include": "source.zig"
                 }
@@ -5656,7 +5944,12 @@
             {
               "begin": "(?:^|\\G)",
               "while": "(?:^|\\G)(?![ \\t]*(`{3,}|~{3,})[ \\t]*$)",
-              "contentName": "markup.raw.block.markdown"
+              "contentName": "markup.raw.block.markdown",
+              "patterns": [
+                {
+                  "include": "#snippet"
+                }
+              ]
             }
           ]
         }

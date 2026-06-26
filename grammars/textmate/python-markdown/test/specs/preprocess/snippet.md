@@ -65,6 +65,7 @@ about.md
 --8<--
 
   
+
 index.md
 --8<--
 ```
@@ -129,3 +130,13 @@ index.md
 ``` md
 <!-- --8<-- [start:example] -->
 ```
+
+## fenced
+
+### accept_inline_in_language_block
+
+```` md
+```
+--8<-- "../includes/intro.md"
+```
+````

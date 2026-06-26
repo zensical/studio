@@ -461,6 +461,7 @@ repository:
   #           while: (?:^|\G)(?![ \t]*(`{3,}|~{3,})[ \t]*$)
   #           contentName: meta.embedded.block.{{language}}
   #           patterns:
+  #             - include: "#snippet"
   #             - include: {{scope}}
   # @end
 
@@ -504,6 +505,8 @@ repository:
           - begin: (?:^|\G)
             while: (?:^|\G)(?![ \t]*(`{3,}|~{3,})[ \t]*$)
             contentName: markup.raw.block.markdown
+            patterns:
+              - include: "#snippet"
 
   heading_atx:
     patterns:

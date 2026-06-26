@@ -470,6 +470,10 @@
         ]
       },
       {
+        "line": "",
+        "tokens": []
+      },
+      {
         "line": "index.md",
         "tokens": [
           {
@@ -1068,6 +1072,95 @@
               "text.html.markdown.python",
               "meta.snippet.section.markdown",
               "punctuation.definition.comment.end.html"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "fenced": {
+    "accept_inline_in_language_block": [
+      {
+        "line": "```",
+        "tokens": [
+          {
+            "text": "```",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.fenced_code.block.markdown",
+              "punctuation.definition.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "--8<-- \"../includes/intro.md\"",
+        "tokens": [
+          {
+            "text": "--8<--",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.fenced_code.block.markdown",
+              "markup.raw.block.markdown",
+              "meta.snippet.inline.markdown",
+              "keyword.control.snippet.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.fenced_code.block.markdown",
+              "markup.raw.block.markdown",
+              "meta.snippet.inline.markdown",
+              "comment.snippet.separator.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.fenced_code.block.markdown",
+              "markup.raw.block.markdown",
+              "meta.snippet.inline.markdown",
+              "punctuation.definition.string.begin.markdown"
+            ]
+          },
+          {
+            "text": "../includes/intro.md",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.fenced_code.block.markdown",
+              "markup.raw.block.markdown",
+              "meta.snippet.inline.markdown",
+              "string.quoted.double.snippet.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.fenced_code.block.markdown",
+              "markup.raw.block.markdown",
+              "meta.snippet.inline.markdown",
+              "punctuation.definition.string.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "```",
+        "tokens": [
+          {
+            "text": "```",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.fenced_code.block.markdown",
+              "punctuation.definition.markdown"
             ]
           }
         ]
