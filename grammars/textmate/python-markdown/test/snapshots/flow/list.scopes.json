@@ -429,6 +429,326 @@
       }
     ]
   },
+  "inline": {
+    "accept_unordered_dash": [
+      {
+        "line": "- __bold__ _italic_ `code`",
+        "tokens": [
+          {
+            "text": "-",
+            "scopes": [
+              "text.html.markdown.python",
+              "keyword.control.list.unordered.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "punctuation.whitespace.markdown"
+            ]
+          },
+          {
+            "text": "__",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.bold.markdown",
+              "punctuation.definition.bold.markdown"
+            ]
+          },
+          {
+            "text": "bold",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.bold.markdown"
+            ]
+          },
+          {
+            "text": "__",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.bold.markdown",
+              "punctuation.definition.bold.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python"
+            ]
+          },
+          {
+            "text": "_",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.italic.markdown",
+              "punctuation.definition.italic.markdown"
+            ]
+          },
+          {
+            "text": "italic",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.italic.markdown"
+            ]
+          },
+          {
+            "text": "_",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.italic.markdown",
+              "punctuation.definition.italic.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python"
+            ]
+          },
+          {
+            "text": "`",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.inline.raw.string.markdown",
+              "punctuation.definition.raw.markdown"
+            ]
+          },
+          {
+            "text": "code",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.inline.raw.string.markdown"
+            ]
+          },
+          {
+            "text": "`",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.inline.raw.string.markdown",
+              "punctuation.definition.raw.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_unordered_asterisk": [
+      {
+        "line": "* __bold__ _italic_ `code`",
+        "tokens": [
+          {
+            "text": "*",
+            "scopes": [
+              "text.html.markdown.python",
+              "keyword.control.list.unordered.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "punctuation.whitespace.markdown"
+            ]
+          },
+          {
+            "text": "__",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.bold.markdown",
+              "punctuation.definition.bold.markdown"
+            ]
+          },
+          {
+            "text": "bold",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.bold.markdown"
+            ]
+          },
+          {
+            "text": "__",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.bold.markdown",
+              "punctuation.definition.bold.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python"
+            ]
+          },
+          {
+            "text": "_",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.italic.markdown",
+              "punctuation.definition.italic.markdown"
+            ]
+          },
+          {
+            "text": "italic",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.italic.markdown"
+            ]
+          },
+          {
+            "text": "_",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.italic.markdown",
+              "punctuation.definition.italic.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python"
+            ]
+          },
+          {
+            "text": "`",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.inline.raw.string.markdown",
+              "punctuation.definition.raw.markdown"
+            ]
+          },
+          {
+            "text": "code",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.inline.raw.string.markdown"
+            ]
+          },
+          {
+            "text": "`",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.inline.raw.string.markdown",
+              "punctuation.definition.raw.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "accept_unordered_plus": [
+      {
+        "line": "+ __bold__ _italic_ `code`",
+        "tokens": [
+          {
+            "text": "+",
+            "scopes": [
+              "text.html.markdown.python",
+              "keyword.control.list.unordered.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "punctuation.whitespace.markdown"
+            ]
+          },
+          {
+            "text": "__",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.bold.markdown",
+              "punctuation.definition.bold.markdown"
+            ]
+          },
+          {
+            "text": "bold",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.bold.markdown"
+            ]
+          },
+          {
+            "text": "__",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.bold.markdown",
+              "punctuation.definition.bold.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python"
+            ]
+          },
+          {
+            "text": "_",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.italic.markdown",
+              "punctuation.definition.italic.markdown"
+            ]
+          },
+          {
+            "text": "italic",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.italic.markdown"
+            ]
+          },
+          {
+            "text": "_",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.italic.markdown",
+              "punctuation.definition.italic.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python"
+            ]
+          },
+          {
+            "text": "`",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.inline.raw.string.markdown",
+              "punctuation.definition.raw.markdown"
+            ]
+          },
+          {
+            "text": "code",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.inline.raw.string.markdown"
+            ]
+          },
+          {
+            "text": "`",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.inline.raw.string.markdown",
+              "punctuation.definition.raw.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
   "rejection": {
     "reject_marker_missing_space": [
       {
@@ -467,9 +787,27 @@
             ]
           },
           {
-            "text": "[ ]",
+            "text": "[",
             "scopes": [
-              "text.html.markdown.python"
+              "text.html.markdown.python",
+              "meta.link.reference.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.link.reference.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.link.reference.markdown",
+              "punctuation.definition.link.end.markdown"
             ]
           }
         ]
@@ -498,7 +836,31 @@
             ]
           },
           {
-            "text": "[y] Task",
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.link.reference.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "y",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.link.reference.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.link.reference.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": " Task",
             "scopes": [
               "text.html.markdown.python"
             ]
@@ -529,7 +891,31 @@
             ]
           },
           {
-            "text": "[x]Task",
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.link.reference.markdown",
+              "punctuation.definition.link.begin.markdown"
+            ]
+          },
+          {
+            "text": "x",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.link.reference.markdown",
+              "string.other.link.title.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.link.reference.markdown",
+              "punctuation.definition.link.end.markdown"
+            ]
+          },
+          {
+            "text": "Task",
             "scopes": [
               "text.html.markdown.python"
             ]

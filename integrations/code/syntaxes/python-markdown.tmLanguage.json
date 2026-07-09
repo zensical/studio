@@ -5997,8 +5997,8 @@
     "list_item": {
       "patterns": [
         {
-          "match": "(?:^|\\G)([ \\t]*)([*+-])([ ]+)(\\[(?: |x|X)\\])([ \\t]+)",
-          "captures": {
+          "begin": "(?:^|\\G)([ \\t]*)([*+-])([ ]+)(\\[(?: |x|X)\\])([ \\t]+)",
+          "beginCaptures": {
             "1": {
               "name": "punctuation.whitespace.leading.markdown"
             },
@@ -6014,11 +6014,17 @@
             "5": {
               "name": "punctuation.whitespace.markdown"
             }
-          }
+          },
+          "end": "(?=$)",
+          "patterns": [
+            {
+              "include": "#inline_flow"
+            }
+          ]
         },
         {
-          "match": "(?:^|\\G)([ \\t]*)(\\d+\\.)([ ]+)(\\[(?: |x|X)\\])([ \\t]+)",
-          "captures": {
+          "begin": "(?:^|\\G)([ \\t]*)(\\d+\\.)([ ]+)(\\[(?: |x|X)\\])([ \\t]+)",
+          "beginCaptures": {
             "1": {
               "name": "punctuation.whitespace.leading.markdown"
             },
@@ -6034,11 +6040,17 @@
             "5": {
               "name": "punctuation.whitespace.markdown"
             }
-          }
+          },
+          "end": "(?=$)",
+          "patterns": [
+            {
+              "include": "#inline_flow"
+            }
+          ]
         },
         {
-          "match": "(?:^|\\G)([ \\t]*)([*+-])([ ]+)(?=\\S)",
-          "captures": {
+          "begin": "(?:^|\\G)([ \\t]*)([*+-])([ ]+)(?=\\S)",
+          "beginCaptures": {
             "1": {
               "name": "punctuation.whitespace.leading.markdown"
             },
@@ -6048,11 +6060,17 @@
             "3": {
               "name": "punctuation.whitespace.markdown"
             }
-          }
+          },
+          "end": "(?=$)",
+          "patterns": [
+            {
+              "include": "#inline_flow"
+            }
+          ]
         },
         {
-          "match": "(?:^|\\G)([ \\t]*)(\\d+\\.)([ ]+)(?=\\S)",
-          "captures": {
+          "begin": "(?:^|\\G)([ \\t]*)(\\d+\\.)([ ]+)(?=\\S)",
+          "beginCaptures": {
             "1": {
               "name": "punctuation.whitespace.leading.markdown"
             },
@@ -6062,7 +6080,13 @@
             "3": {
               "name": "punctuation.whitespace.markdown"
             }
-          }
+          },
+          "end": "(?=$)",
+          "patterns": [
+            {
+              "include": "#inline_flow"
+            }
+          ]
         }
       ]
     },

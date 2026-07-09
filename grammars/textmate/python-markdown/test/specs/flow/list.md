@@ -68,6 +68,26 @@
 - [ ] 
 ```
 
+## inline
+
+### accept_unordered_dash
+
+``` md
+- __bold__ _italic_ `code`
+```
+
+### accept_unordered_asterisk
+
+``` md
+* __bold__ _italic_ `code`
+```
+
+### accept_unordered_plus
+
+``` md
++ __bold__ _italic_ `code`
+```
+
 ## rejection
 
 ### reject_marker_missing_space
