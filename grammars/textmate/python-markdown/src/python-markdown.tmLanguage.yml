@@ -533,34 +533,46 @@ repository:
 
   list_item:
     patterns:
-      - match: >-
+      - begin: >-
           (?:^|\G)([ \t]*)([*+-])([ ]+)(\[(?: |x|X)\])([ \t]+)
-        captures:
+        beginCaptures:
           1: { name: punctuation.whitespace.leading.markdown }
           2: { name: keyword.control.list.unordered.markdown }
           3: { name: punctuation.whitespace.markdown }
           4: { name: keyword.control.task-checkbox.markdown }
           5: { name: punctuation.whitespace.markdown }
-      - match: >-
+        end: (?=$)
+        patterns:
+          - include: "#inline_flow"
+      - begin: >-
           (?:^|\G)([ \t]*)(\d+\.)([ ]+)(\[(?: |x|X)\])([ \t]+)
-        captures:
+        beginCaptures:
           1: { name: punctuation.whitespace.leading.markdown }
           2: { name: keyword.control.list.ordered.markdown }
           3: { name: punctuation.whitespace.markdown }
           4: { name: keyword.control.task-checkbox.markdown }
           5: { name: punctuation.whitespace.markdown }
-      - match: >-
+        end: (?=$)
+        patterns:
+          - include: "#inline_flow"
+      - begin: >-
           (?:^|\G)([ \t]*)([*+-])([ ]+)(?=\S)
-        captures:
+        beginCaptures:
           1: { name: punctuation.whitespace.leading.markdown }
           2: { name: keyword.control.list.unordered.markdown }
           3: { name: punctuation.whitespace.markdown }
-      - match: >-
+        end: (?=$)
+        patterns:
+          - include: "#inline_flow"
+      - begin: >-
           (?:^|\G)([ \t]*)(\d+\.)([ ]+)(?=\S)
-        captures:
+        beginCaptures:
           1: { name: punctuation.whitespace.leading.markdown }
           2: { name: keyword.control.list.ordered.markdown }
           3: { name: punctuation.whitespace.markdown }
+        end: (?=$)
+        patterns:
+          - include: "#inline_flow"
 
   block_quote:
     patterns:
