@@ -1,6 +1,9 @@
 /*
  * Copyright (c) 2026 Zensical and contributors
  *
+ * SPDX-License-Identifier: MIT
+ * All contributions are certified under the DCO
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
  * deal in the Software without restriction, including without limitation the
@@ -22,7 +25,10 @@
 
 import * as vscode from "vscode";
 import type { ExtensionContext } from "vscode";
+import type { LanguageClient } from "vscode-languageclient/node";
 import type { Location, Position } from "vscode-languageserver-types";
+
+import { registerPreviewCommand } from "./preview";
 
 /* ----------------------------------------------------------------------------
  * Functions
@@ -33,7 +39,10 @@ import type { Location, Position } from "vscode-languageserver-types";
  *
  * @param context - The extension context
  */
-export function registerCommands(context: ExtensionContext): void {
+export function registerCommands(
+  context: ExtensionContext,
+  getClient: () => LanguageClient | undefined,
+): void {
   context.subscriptions.push(
     vscode.commands.registerCommand(
       "zensical.showReferences",
@@ -47,6 +56,7 @@ export function registerCommands(context: ExtensionContext): void {
       },
     ),
   );
+  registerPreviewCommand(context, getClient);
 }
 
 /* ----------------------------------------------------------------------------

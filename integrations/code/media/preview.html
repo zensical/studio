@@ -1,0 +1,393 @@
+<!--
+  Copyright (c) 2026 Zensical and contributors
+
+  SPDX-License-Identifier: MIT
+  All contributions are certified under the DCO
+-->
+<!doctype html>
+<html class="no-js">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="__CSP__">
+    <base id="preview-base">
+    <link rel="stylesheet" href="__STYLESHEET__">
+    <link rel="stylesheet" href="__PALETTE__">
+    <style>
+      img {
+        max-width: 100%;
+        height: auto;
+      }
+
+      .preview-active-range {
+        background-color: color-mix(in srgb, currentColor 10%, transparent);
+        box-shadow:
+          0 0 0 1px color-mix(in srgb, currentColor 28%, transparent),
+          0 1px 3px color-mix(in srgb, currentColor 14%, transparent);
+        border-radius: 3px;
+        box-decoration-break: clone;
+        -webkit-box-decoration-break: clone;
+      }
+    </style>
+  </head>
+  <body
+    dir="ltr"
+    data-md-color-scheme="default"
+    data-md-color-primary="indigo"
+    data-md-color-accent="indigo"
+  >
+    <div class="md-content" data-md-component="content">
+      <article id="preview" class="md-content__inner md-typeset"></article>
+    </div>
+
+    <script nonce="__NONCE__">
+      let latestVersion = -1;
+      let latestSession = null;
+      const preview = document.getElementById("preview");
+      const vscode = acquireVsCodeApi();
+      let lastAnchor = null;
+      let activeSourceOffset = null;
+      let activeLineStart = null;
+      let activeLineEnd = null;
+      let activeRange = null;
+      let renderedUri = null;
+      const uiStateByUri = new Map();
+
+      function updateColorScheme() {
+        document.body.dataset.mdColorScheme =
+          document.body.classList.contains("vscode-dark") ||
+          document.body.classList.contains("vscode-high-contrast")
+            ? "slate"
+            : "default";
+      }
+
+      updateColorScheme();
+      new MutationObserver(updateColorScheme).observe(document.body, {
+        attributes: true,
+        attributeFilter: ["class"],
+      });
+
+      function sanitizeHtml(html) {
+        const parsed = new DOMParser().parseFromString(html, "text/html");
+        for (const node of parsed.querySelectorAll(
+          "script,iframe,object,embed,base,form",
+        )) {
+          node.remove();
+        }
+        for (const node of parsed.querySelectorAll("*")) {
+          for (const attr of [...node.attributes]) {
+            const value = attr.value.trim().toLowerCase();
+            if (
+              attr.name.toLowerCase().startsWith("on") ||
+              ((attr.name.toLowerCase() === "href" ||
+                attr.name.toLowerCase() === "src") &&
+                value.startsWith("javascript:"))
+            ) {
+              node.removeAttribute(attr.name);
+            }
+          }
+        }
+        return parsed.body.childNodes;
+      }
+
+      preview.addEventListener("click", (event) => {
+        const link = event.target.closest?.("a[href]");
+        if (!link) return;
+
+        const href = link.getAttribute("href");
+        if (
+          !href ||
+          href.startsWith("#") ||
+          href.startsWith("//") ||
+          /^[a-z][a-z0-9+.-]*:/i.test(href)
+        ) {
+          return;
+        }
+
+        event.preventDefault();
+        vscode.postMessage({ type: "preview/open-link", href });
+      });
+
+      function tabLabel(set, input) {
+        return (
+          [...set.querySelectorAll("label")]
+            .find((label) => label.getAttribute("for") === input.id)
+            ?.textContent.trim() ||
+          input.value ||
+          input.id
+        );
+      }
+
+      function captureUiState(uri) {
+        if (!uri) return;
+
+        const tabs = [...preview.querySelectorAll(".tabbed-set")].map(
+          (set) => {
+            const input = set.querySelector('input[type="radio"]:checked');
+            return input ? tabLabel(set, input) : null;
+          },
+        );
+        const details = [...preview.querySelectorAll("details")].map(
+          (detail) => detail.open,
+        );
+        uiStateByUri.set(uri, { tabs, details });
+      }
+
+      function restoreUiState(uri) {
+        const state = uiStateByUri.get(uri);
+        if (!state) return;
+
+        [...preview.querySelectorAll(".tabbed-set")].forEach((set, index) => {
+          const desired = state.tabs[index];
+          if (!desired) return;
+
+          const input = [...set.querySelectorAll('input[type="radio"]')].find(
+            (candidate) => tabLabel(set, candidate) === desired,
+          );
+          if (input) {
+            input.checked = true;
+            input.dispatchEvent(new Event("change", { bubbles: true }));
+          }
+        });
+
+        [...preview.querySelectorAll("details")].forEach((detail, index) => {
+          if (state.details[index] !== undefined) {
+            detail.open = state.details[index];
+          }
+        });
+      }
+
+      function utf8Index(text) {
+        const encoder = new TextEncoder();
+        const bytes = [];
+        const indices = [];
+        let byteOffset = 0;
+        let stringIndex = 0;
+
+        for (const character of text) {
+          bytes.push(byteOffset);
+          indices.push(stringIndex);
+          byteOffset += encoder.encode(character).length;
+          stringIndex += character.length;
+        }
+
+        bytes.push(byteOffset);
+        indices.push(text.length);
+        return { bytes, indices };
+      }
+
+      function byteIndex(index, offset) {
+        let low = 0;
+        let high = index.bytes.length - 1;
+        while (low < high) {
+          const middle = Math.floor((low + high) / 2);
+          if (index.bytes[middle] < offset) low = middle + 1;
+          else high = middle;
+        }
+        return index.indices[low];
+      }
+
+      function decorateHtml(html, mappings) {
+        const anchors = mappings
+          .filter((mapping) =>
+            ["text", "escapedText", "whitespace"].includes(mapping.kind),
+          )
+          .map((mapping) => {
+            const spans =
+              mapping.markdown.type === "direct"
+                ? [mapping.markdown.spans]
+                : mapping.markdown.spans;
+            if (!spans.length) return null;
+
+            return {
+              uri: spans[0].uri,
+              start: Math.min(...spans.map((span) => span.start)),
+              end: Math.max(...spans.map((span) => span.end)),
+              htmlStart: mapping.htmlStart,
+              htmlEnd: mapping.htmlEnd,
+            };
+          })
+          .filter((anchor) => anchor && anchor.htmlStart < anchor.htmlEnd)
+          .sort((a, b) => a.htmlStart - b.htmlStart);
+
+        const index = utf8Index(html);
+        const parts = [];
+        let cursor = 0;
+        for (const anchor of anchors) {
+          const start = byteIndex(index, anchor.htmlStart);
+          const end = byteIndex(index, anchor.htmlEnd);
+          if (start < cursor || end <= start) continue;
+
+          parts.push(
+            html.slice(cursor, start),
+            '<span data-md-source-uri="',
+            String(anchor.uri),
+            '" data-md-source-start="',
+            String(anchor.start),
+            '" data-md-source-end="',
+            String(anchor.end),
+            '">',
+            html.slice(start, end),
+            "</span>",
+          );
+          cursor = end;
+        }
+
+        parts.push(html.slice(cursor));
+        return parts.join("");
+      }
+
+      function findAnchor(sourceOffset, lineStart = null, lineEnd = null) {
+        const anchors = [...preview.querySelectorAll("[data-md-source-start]")]
+          .filter(
+            (anchor) =>
+              !anchor.dataset.mdSourceUri ||
+              anchor.dataset.mdSourceUri === renderedUri,
+          );
+        const scoped =
+          lineStart === null || lineEnd === null
+            ? anchors
+            : anchors.filter(
+                (anchor) =>
+                  Number(anchor.dataset.mdSourceStart) < lineEnd &&
+                  Number(anchor.dataset.mdSourceEnd) > lineStart,
+              );
+        const matches = scoped.filter(
+          (anchor) =>
+            Number(anchor.dataset.mdSourceStart) <= sourceOffset &&
+            sourceOffset < Number(anchor.dataset.mdSourceEnd),
+        );
+        if (matches.length) {
+          return matches.sort(
+            (a, b) =>
+              Number(b.dataset.mdSourceStart) -
+              Number(a.dataset.mdSourceStart),
+          )[0];
+        }
+
+        const preceding = scoped.filter(
+          (anchor) => Number(anchor.dataset.mdSourceEnd) <= sourceOffset,
+        );
+        if (preceding.length) return preceding[preceding.length - 1];
+        return scoped.sort(
+          (a, b) =>
+            Math.abs(Number(a.dataset.mdSourceStart) - sourceOffset) -
+            Math.abs(Number(b.dataset.mdSourceStart) - sourceOffset),
+        )[0];
+      }
+
+      function blockFor(anchor) {
+        return (
+          anchor?.closest(
+            "p,h1,h2,h3,h4,h5,h6,li,blockquote,pre,table,figure,.admonition,.tabbed-set",
+          ) || anchor
+        );
+      }
+
+      function activateAncestors(anchor) {
+        for (let node = anchor.parentElement; node; node = node.parentElement) {
+          if (node.tagName === "DETAILS") node.open = true;
+        }
+
+        const sets = [];
+        for (let node = anchor.parentElement; node; node = node.parentElement) {
+          if (node.matches?.(".tabbed-set")) sets.push(node);
+        }
+
+        for (const set of sets) {
+          const blocks = [...set.querySelectorAll(".tabbed-block")].filter(
+            (block) => block.closest(".tabbed-set") === set,
+          );
+          const block = blocks.find((candidate) => candidate.contains(anchor));
+          if (!block) continue;
+
+          const index = blocks.indexOf(block);
+          const inputs = [
+            ...set.querySelectorAll('input[type="radio"]'),
+          ].filter((input) => input.closest(".tabbed-set") === set);
+          const input = inputs[index];
+          if (input && !input.checked) {
+            input.checked = true;
+            input.dispatchEvent(new Event("change", { bubbles: true }));
+          }
+        }
+      }
+
+      function highlightActiveRange(sourceOffset, lineStart = null, lineEnd = null) {
+        activeRange?.classList.remove("preview-active-range");
+        activeRange = null;
+        const anchor = findAnchor(sourceOffset, lineStart, lineEnd);
+        if (!anchor) return;
+
+        activateAncestors(anchor);
+        anchor.classList.add("preview-active-range");
+        activeRange = anchor;
+      }
+
+      function reveal(
+        sourceOffset,
+        lineStart = null,
+        lineEnd = null,
+        force = false,
+      ) {
+        const target = blockFor(findAnchor(sourceOffset, lineStart, lineEnd));
+        if (!target || (!force && target === lastAnchor)) return;
+
+        lastAnchor = target;
+        target.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+
+      window.addEventListener("message", (event) => {
+        const message = event.data;
+        if (message.type === "preview/highlight") {
+          activeSourceOffset = message.sourceOffset;
+          activeLineStart = message.sourceLineStart;
+          activeLineEnd = message.sourceLineEnd;
+          highlightActiveRange(
+            activeSourceOffset,
+            activeLineStart,
+            activeLineEnd,
+          );
+          return;
+        }
+        if (message.type === "preview/reveal") {
+          reveal(
+            message.sourceOffset,
+            message.sourceLineStart,
+            message.sourceLineEnd,
+            message.force === true,
+          );
+          return;
+        }
+        if (message.type !== "preview/update") return;
+
+        const update = message.update;
+        if (update.session !== latestSession) {
+          latestSession = update.session;
+          latestVersion = -1;
+          activeSourceOffset = null;
+          activeLineStart = null;
+          activeLineEnd = null;
+        }
+        if (update.version < latestVersion) return;
+
+        document.getElementById("preview-base").href = update.baseUri;
+        if (renderedUri) captureUiState(renderedUri);
+        latestVersion = update.version;
+        lastAnchor = null;
+        activeRange = null;
+        renderedUri = update.uri;
+        preview.replaceChildren(
+          ...sanitizeHtml(decorateHtml(update.html, update.mappings || [])),
+        );
+        restoreUiState(renderedUri);
+        if (activeSourceOffset !== null) {
+          highlightActiveRange(
+            activeSourceOffset,
+            activeLineStart,
+            activeLineEnd,
+          );
+        }
+      });
+    </script>
+  </body>
+</html>

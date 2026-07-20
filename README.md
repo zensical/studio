@@ -67,7 +67,7 @@ That's all. Zensical Studio will now automatically detect and validate Python Ma
 
 __Supported platforms__
 
-- __Windows__: arch64, x64
+- __Windows__: arm64, x64
 - __macOS__: arm64, x64
 - __Linux__: arm64, x64
 
