@@ -69,7 +69,7 @@ export async function activate(extension: ExtensionContext): Promise<void> {
   void activateProjectMarkdown(extension, context);
 
   // Register commands
-  registerCommands(extension);
+  registerCommands(extension, () => client);
   extension.subscriptions.push(
     // The timer below is the primary recovery mechanism. These hooks only make
     // retry more responsive when the user returns to the window or opens a

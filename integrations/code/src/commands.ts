@@ -22,7 +22,10 @@
 
 import * as vscode from "vscode";
 import type { ExtensionContext } from "vscode";
+import type { LanguageClient } from "vscode-languageclient/node";
 import type { Location, Position } from "vscode-languageserver-types";
+
+import { registerPreviewCommand } from "./preview";
 
 /* ----------------------------------------------------------------------------
  * Functions
@@ -33,7 +36,10 @@ import type { Location, Position } from "vscode-languageserver-types";
  *
  * @param context - The extension context
  */
-export function registerCommands(context: ExtensionContext): void {
+export function registerCommands(
+  context: ExtensionContext,
+  getClient: () => LanguageClient | undefined,
+): void {
   context.subscriptions.push(
     vscode.commands.registerCommand(
       "zensical.showReferences",
@@ -47,6 +53,7 @@ export function registerCommands(context: ExtensionContext): void {
       },
     ),
   );
+  registerPreviewCommand(context, getClient);
 }
 
 /* ----------------------------------------------------------------------------

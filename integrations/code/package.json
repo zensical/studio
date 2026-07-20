@@ -54,6 +54,22 @@
     "workspaceContains:**/zensical.toml"
   ],
   "contributes": {
+    "commands": [
+      {
+        "command": "zensical.preview.open",
+        "title": "Zensical: Open Preview",
+        "icon": "$(open-preview)"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "zensical.preview.open",
+          "when": "editorLangId == python-markdown && !notebookEditorFocused",
+          "group": "navigation@1"
+        }
+      ]
+    },
     "configurationDefaults": {
       "[python-markdown]": {
         "editor.colorDecorators": false,
