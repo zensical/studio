@@ -40,6 +40,7 @@
     "@types/semver": "^7.7.1",
     "@types/vscode": "^1.100.0",
     "esbuild": "^0.28.1",
+    "katex": "0.16.22",
     "typescript": "^6.0.3"
   },
   "allowScripts": {

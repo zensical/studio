@@ -532,12 +532,18 @@ function previewHtml(
   const palette = webview.asWebviewUri(
     vscode.Uri.joinPath(extensionUri, "media", "palette.css"),
   );
+  const katex = webview.asWebviewUri(
+    vscode.Uri.joinPath(extensionUri, "media", "katex.min.js"),
+  );
+  const katexStylesheet = webview.asWebviewUri(
+    vscode.Uri.joinPath(extensionUri, "media", "katex.min.css"),
+  );
   const csp = [
     "default-src 'none'",
     `img-src ${webview.cspSource} data: https:`,
     `style-src ${webview.cspSource} 'unsafe-inline'`,
-    "font-src https://zensical.org data:",
-    `script-src 'nonce-${nonce}'`,
+    `font-src ${webview.cspSource} data:`,
+    `script-src 'nonce-${nonce}' ${webview.cspSource}`,
     `base-uri ${webview.cspSource}`,
     "form-action 'none'",
   ].join("; ");
@@ -549,7 +555,9 @@ function previewHtml(
     .replaceAll("__CSP__", csp)
     .replaceAll("__NONCE__", nonce)
     .replaceAll("__STYLESHEET__", stylesheet.toString())
-    .replaceAll("__PALETTE__", palette.toString());
+    .replaceAll("__PALETTE__", palette.toString())
+    .replaceAll("__KATEX__", katex.toString())
+    .replaceAll("__KATEX_STYLESHEET__", katexStylesheet.toString());
 }
 
 /**

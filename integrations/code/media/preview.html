@@ -12,6 +12,7 @@
     <base id="preview-base">
     <link rel="stylesheet" href="__STYLESHEET__">
     <link rel="stylesheet" href="__PALETTE__">
+    <link rel="stylesheet" href="__KATEX_STYLESHEET__">
     <style>
       img {
         max-width: 100%;
@@ -42,6 +43,7 @@
       }
 
     </style>
+    <script nonce="__NONCE__" src="__KATEX__"></script>
   </head>
   <body
     dir="ltr"
@@ -235,6 +237,41 @@
             detail.open = state.details[index];
           }
         });
+      }
+
+      function typesetMath() {
+        const mathNodes = [...preview.querySelectorAll(".arithmatex")];
+        if (!window.katex) return;
+
+        try {
+          const delimiters = [
+            { left: "$$", right: "$$", displayMode: true },
+            { left: "$", right: "$", displayMode: false },
+            { left: "\\[", right: "\\]", displayMode: true },
+            { left: "\\(", right: "\\)", displayMode: false },
+          ];
+          for (const node of mathNodes) {
+            const source = node.textContent.trim();
+            const delimiter = delimiters.find(
+              ({ left, right }) =>
+                source.startsWith(left) && source.endsWith(right),
+            );
+            const expression = delimiter
+              ? source.slice(
+                  delimiter.left.length,
+                  source.length - delimiter.right.length,
+                )
+              : source;
+            if (!expression) continue;
+            node.replaceChildren();
+            window.katex.render(expression, node, {
+              displayMode: delimiter?.displayMode ?? node.tagName === "DIV",
+              throwOnError: false,
+            });
+          }
+        } catch (error) {
+          // Ignore invalid expressions so one math block cannot break preview updates.
+        }
       }
 
       function utf8Index(text) {
@@ -468,6 +505,7 @@
         preview.replaceChildren(
           ...sanitizeHtml(decorateHtml(update.html, update.mappings || [])),
         );
+        typesetMath();
         restoreUiState(renderedUri);
         revealPendingFragment();
         if (activeSourceOffset !== null) {
