@@ -32,6 +32,15 @@
         scroll-margin-top: 1.2rem
       }
 
+      .md-typeset a.preview-external-link::after {
+        content: "\2197";
+        display: inline-block;
+        font-size: 0.8em;
+        margin-left: 0.2em;
+        text-decoration: none;
+        vertical-align: super;
+      }
+
     </style>
   </head>
   <body
@@ -91,6 +100,12 @@
             ) {
               node.removeAttribute(attr.name);
             }
+          }
+        }
+        for (const link of parsed.querySelectorAll("a[href]")) {
+          const href = link.getAttribute("href")?.trim() ?? "";
+          if (/^(?:https?:|mailto:|tel:|\/\/)/i.test(href)) {
+            link.classList.add("preview-external-link");
           }
         }
         return parsed.body.childNodes;
