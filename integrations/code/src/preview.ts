@@ -538,6 +538,9 @@ function previewHtml(
   const katexStylesheet = webview.asWebviewUri(
     vscode.Uri.joinPath(extensionUri, "media", "katex.min.css"),
   );
+  const mermaid = webview.asWebviewUri(
+    vscode.Uri.joinPath(extensionUri, "media", "mermaid.js"),
+  );
   const csp = [
     "default-src 'none'",
     `img-src ${webview.cspSource} data: https:`,
@@ -557,7 +560,8 @@ function previewHtml(
     .replaceAll("__STYLESHEET__", stylesheet.toString())
     .replaceAll("__PALETTE__", palette.toString())
     .replaceAll("__KATEX__", katex.toString())
-    .replaceAll("__KATEX_STYLESHEET__", katexStylesheet.toString());
+    .replaceAll("__KATEX_STYLESHEET__", katexStylesheet.toString())
+    .replaceAll("__MERMAID__", mermaid.toString());
 }
 
 /**
