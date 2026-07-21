@@ -42,8 +42,21 @@
         vertical-align: super;
       }
 
+      .md-typeset .mermaid {
+        display: flex;
+        justify-content: center;
+        max-width: 100%;
+        overflow-x: auto;
+      }
+
+      .md-typeset .mermaid svg {
+        max-width: 100%;
+        height: auto;
+      }
+
     </style>
     <script nonce="__NONCE__" src="__KATEX__"></script>
+    <script nonce="__NONCE__" src="__MERMAID__"></script>
   </head>
   <body
     dir="ltr"
@@ -68,6 +81,7 @@
       let renderedUri = null;
       let fragmentTarget = null;
       let pendingFragment = null;
+      let mermaidId = 0;
       const uiStateByUri = new Map();
 
       function updateColorScheme() {
@@ -76,6 +90,7 @@
           document.body.classList.contains("vscode-high-contrast")
             ? "slate"
             : "default";
+        void renderMermaid();
       }
 
       updateColorScheme();
@@ -271,6 +286,38 @@
           }
         } catch (error) {
           // Ignore invalid expressions so one math block cannot break preview updates.
+        }
+      }
+
+      async function renderMermaid() {
+        const nodes = [...preview.querySelectorAll(".mermaid")];
+        if (!window.mermaid || !nodes.length) return;
+
+        const dark =
+          document.body.classList.contains("vscode-dark") ||
+          document.body.classList.contains("vscode-high-contrast");
+        window.mermaid.initialize({
+          startOnLoad: false,
+          securityLevel: "strict",
+          theme: dark ? "dark" : "default",
+        });
+
+        for (const node of nodes) {
+          const source = node.dataset.mermaidSource || node.textContent.trim();
+          if (!source) continue;
+          node.dataset.mermaidSource = source;
+
+          try {
+            const result = await window.mermaid.render(
+              `preview-mermaid-${++mermaidId}`,
+              source,
+              node,
+            );
+            node.innerHTML = result.svg;
+            result.bindFunctions?.(node);
+          } catch {
+            // Keep the source visible when Mermaid cannot parse a diagram.
+          }
         }
       }
 
@@ -506,6 +553,7 @@
           ...sanitizeHtml(decorateHtml(update.html, update.mappings || [])),
         );
         typesetMath();
+        void renderMermaid();
         restoreUiState(renderedUri);
         revealPendingFragment();
         if (activeSourceOffset !== null) {
