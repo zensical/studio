@@ -104,6 +104,8 @@
         }
 
         event.preventDefault();
+        event.stopPropagation();
+        if (!renderedUri) return;
         vscode.postMessage({ type: "preview/open-link", href });
       });
 
