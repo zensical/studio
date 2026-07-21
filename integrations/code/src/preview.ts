@@ -99,6 +99,14 @@ interface PreviewStartResult {
   initialUpdate: PreviewUpdate;
 };
 
+/**
+ * A local link resolved against the active Markdown document.
+ */
+interface ResolvedLocalLink {
+  uri: vscode.Uri;
+  fragment?: string;
+}
+
 /* ----------------------------------------------------------------------------
  * Constants
  * ------------------------------------------------------------------------- */
@@ -260,7 +268,47 @@ export function registerPreviewCommand(
 
       // Handle messages from the web view, such as link clicks
       panel.webview.onDidReceiveMessage(
-        async (message: { type?: string; href?: string }) => {
+        async (message: {
+          type?: string;
+          href?: string;
+          uri?: string;
+          end?: number;
+        }) => {
+          if (message.type === "preview/reveal-source") {
+            if (
+              !message.uri ||
+              message.uri !== activeUri ||
+              typeof message.end !== "number"
+            ) {
+              return;
+            }
+            try {
+              const uri = vscode.Uri.parse(message.uri);
+              const document = await vscode.workspace.openTextDocument(uri);
+              const editor = await vscode.window.showTextDocument(document, {
+                preview: true,
+                preserveFocus: false,
+                viewColumn:
+                  vscode.window.activeTextEditor?.viewColumn ??
+                  vscode.ViewColumn.One,
+              });
+              const position = document.positionAt(
+                utf16OffsetAtByteOffset(document.getText(), message.end),
+              );
+              editor.selection = new vscode.Selection(position, position);
+              editor.revealRange(
+                new vscode.Range(position, position),
+                vscode.TextEditorRevealType.InCenterIfOutsideViewport,
+              );
+              postEditorPosition(editor, true);
+            } catch (error) {
+              const detail = error instanceof Error ? error.message : String(error);
+              void vscode.window.showErrorMessage(
+                `Unable to reveal preview source: ${detail}`,
+              );
+            }
+            return;
+          }
           if (
             message.type !== "preview/open-link" ||
             !message.href || !activeUri
@@ -269,10 +317,10 @@ export function registerPreviewCommand(
           }
 
           // Resolve the clicked link relative to the active document
-          const uri = resolveLocalLink(activeUri, message.href);
-          if (!uri) return;
+          const link = resolveLocalLink(activeUri, message.href);
+          if (!link) return;
           try {
-            const document = await vscode.workspace.openTextDocument(uri);
+            const document = await vscode.workspace.openTextDocument(link.uri);
             await vscode.window.showTextDocument(document, {
               preview: true,
               preserveFocus: false,
@@ -280,6 +328,13 @@ export function registerPreviewCommand(
                 vscode.window.activeTextEditor?.viewColumn ??
                 vscode.ViewColumn.One,
             });
+            if (link.fragment) {
+              void panel.webview.postMessage({
+                type: "preview/reveal-fragment",
+                fragment: link.fragment,
+                uri: link.uri.toString(),
+              });
+            }
           } catch (error) {
             const detail = error instanceof Error ? error.message : String(error);
             void vscode.window.showErrorMessage(
@@ -507,16 +562,32 @@ function previewHtml(
  */
 function resolveLocalLink(
   baseUri: string, href: string
-): vscode.Uri | undefined {
+): ResolvedLocalLink | undefined {
   try {
     const url = new URL(href, baseUri);
     if (url.protocol !== "file:") return undefined;
+    const fragment = url.hash.slice(1) || undefined;
     url.hash = "";
     url.search = "";
-    return vscode.Uri.parse(url.toString());
+    return { uri: vscode.Uri.parse(url.toString()), fragment };
   } catch {
     return undefined;
   }
+}
+
+/**
+ * Convert a UTF-8 byte offset to the UTF-16 offset used by VS Code positions.
+ *
+ * @param text - Document text
+ * @param byteOffset - UTF-8 byte offset
+ *
+ * @returns UTF-16 offset
+ */
+function utf16OffsetAtByteOffset(text: string, byteOffset: number): number {
+  return Buffer.from(text, "utf8")
+    .subarray(0, byteOffset)
+    .toString("utf8")
+    .length;
 }
 
 /**

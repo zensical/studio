@@ -27,6 +27,11 @@
         box-decoration-break: clone;
         -webkit-box-decoration-break: clone;
       }
+
+      .md-typeset .preview-fragment-target {
+        scroll-margin-top: 1.2rem
+      }
+
     </style>
   </head>
   <body
@@ -50,6 +55,8 @@
       let activeLineEnd = null;
       let activeRange = null;
       let renderedUri = null;
+      let fragmentTarget = null;
+      let pendingFragment = null;
       const uiStateByUri = new Map();
 
       function updateColorScheme() {
@@ -94,9 +101,23 @@
         if (!link) return;
 
         const href = link.getAttribute("href");
+        if (!href) {
+          return;
+        }
+
+        if (href.startsWith("#")) {
+          event.preventDefault();
+          event.stopPropagation();
+          const source = sourceForFragment(href.slice(1));
+          if (source) {
+            vscode.postMessage({ type: "preview/reveal-source", ...source });
+          } else {
+            revealFragment(href.slice(1));
+          }
+          return;
+        }
+
         if (
-          !href ||
-          href.startsWith("#") ||
           href.startsWith("//") ||
           /^[a-z][a-z0-9+.-]*:/i.test(href)
         ) {
@@ -108,6 +129,49 @@
         if (!renderedUri) return;
         vscode.postMessage({ type: "preview/open-link", href });
       });
+
+      function revealFragment(fragment) {
+        let id = fragment;
+        try {
+          id = decodeURIComponent(id);
+        } catch {
+          // Keep the raw fragment when it is not valid URI encoding.
+        }
+        const target = id ? document.getElementById(id) : document.body;
+        fragmentTarget?.classList.remove("preview-fragment-target");
+        fragmentTarget = target;
+        fragmentTarget?.classList.add("preview-fragment-target");
+        target?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      function sourceForFragment(fragment) {
+        let id = fragment;
+        try {
+          id = decodeURIComponent(id);
+        } catch {
+          // Keep the raw fragment when it is not valid URI encoding.
+        }
+        const target = id ? document.getElementById(id) : null;
+        const selector =
+          "[data-md-source-uri][data-md-source-start][data-md-source-end]";
+        const source = target?.matches(selector)
+          ? target
+          : target?.querySelector(selector);
+        if (!source) return null;
+        return {
+          uri: source.dataset.mdSourceUri,
+          end: Number(source.dataset.mdSourceEnd),
+        };
+      }
+
+      function revealPendingFragment() {
+        if (!pendingFragment || pendingFragment.uri !== renderedUri) return;
+        const source = sourceForFragment(pendingFragment.fragment);
+        if (source) {
+          vscode.postMessage({ type: "preview/reveal-source", ...source });
+        }
+        pendingFragment = null;
+      }
 
       function tabLabel(set, input) {
         return (
@@ -360,6 +424,14 @@
           );
           return;
         }
+        if (message.type === "preview/reveal-fragment") {
+          pendingFragment = {
+            fragment: message.fragment,
+            uri: message.uri,
+          };
+          revealPendingFragment();
+          return;
+        }
         if (message.type !== "preview/update") return;
 
         const update = message.update;
@@ -382,6 +454,7 @@
           ...sanitizeHtml(decorateHtml(update.html, update.mappings || [])),
         );
         restoreUiState(renderedUri);
+        revealPendingFragment();
         if (activeSourceOffset !== null) {
           highlightActiveRange(
             activeSourceOffset,
