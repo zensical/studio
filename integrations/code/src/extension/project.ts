@@ -24,19 +24,24 @@
  */
 
 import * as vscode from "vscode";
-import { basename, extname } from "node:path";
+import { extname } from "node:path";
 
 import type { Context } from "./context";
-import type { ExtensionContext } from "vscode";
+import type { LanguageClient } from "vscode-languageclient/node";
 
 /* ----------------------------------------------------------------------------
  * Types
  * ------------------------------------------------------------------------- */
 
 /**
- * Project type.
+ * Workspace scopes returned by Studio.
  */
-type Project = "MkDocs" | "Zensical";
+interface WorkspaceScopes {
+  scopes: Array<{
+    projectUri: string;
+    roots: string[];
+  }>;
+}
 
 /* ----------------------------------------------------------------------------
  * Functions
@@ -45,56 +50,71 @@ type Project = "MkDocs" | "Zensical";
 /**
  * Activate project-aware Markdown tagging.
  *
- * If a workspace folder contains an `mkdocs.yml` or `zensical.toml` file, open
- * Markdown files in that folder are treated as Python Markdown for the current
- * session. This makes it easier to work with Python Markdown in a project
- * context without requiring explicit configuration in the workspace settings.
- *
- * @param context - Extension context
+ * @param context - Studio extension context
+ * @param client - Started language client
+ * @returns Subscriptions created by the project integration
  */
 export async function activateProjectMarkdown(
-  extension: ExtensionContext,
-  context: Context,
-): Promise<void> {
-  let projects = await findProjects();
-  await tagOpenDocuments(projects);
+  context: Context, client: LanguageClient,
+): Promise<vscode.Disposable[]> {
+  const handled = new Set<string>();
+  const roots = new Map<string, string[]>();
 
-  // Tag newly opened Markdown files in detected project folders
-  extension.subscriptions.push(
-    vscode.workspace.onDidOpenTextDocument((document) => {
-      void tagDocument(document, projects);
-    }),
-  );
+  // Refresh governed Markdown roots for all workspace folders
+  const refreshScopes = async (): Promise<void> => {
+    const folders = vscode.workspace.workspaceFolders ?? [];
+    const responses = await Promise.all(
+      folders.map(async (folder) => {
+        try {
+          const scopes = await client.sendRequest<WorkspaceScopes>(
+            "zensical/workspace/scopes",
+            { workspaceUri: folder.uri.toString() },
+          );
+          return [
+            folder.uri.toString(),
+            scopes.scopes.flatMap((scope) => scope.roots),
+          ] as const;
+        } catch (error) {
+          context.log(
+            `Failed to retrieve Markdown scopes for ${folder.uri}: ${
+              error instanceof Error ? error.message : String(error)
+            }`,
+          );
+          return [folder.uri.toString(), []] as [string, string[]];
+        }
+      }),
+    );
 
-  // Re-scan project folders when the workspace shape changes
-  extension.subscriptions.push(
-    vscode.workspace.onDidChangeWorkspaceFolders(async () => {
-      projects = await findProjects();
-      await tagOpenDocuments(projects);
-    }),
-  );
+    // Update managed Markdown roots
+    roots.clear();
+    for (const [folder, values] of responses) {
+      roots.set(folder, values);
+    }
 
-  // Helper to refresh the list of detected project folders
-  const refresh = async (): Promise<void> => {
-    projects = await findProjects();
-    await tagOpenDocuments(projects);
+    // Tag currently open Markdown documents inside managed roots
+    await tagOpenDocuments(roots, handled);
+    context.log(
+      `Received ${responses.reduce((count, [, values]) => count + values.length, 0)} ` +
+        "governed Markdown root(s)",
+    );
   };
 
-  // Create a file system watcher to detect changes to project config files
-  const watcher = vscode.workspace.createFileSystemWatcher(
-    "**/{mkdocs.yml,zensical.toml}",
-  );
-  watcher.onDidCreate(() => void refresh());
-  watcher.onDidDelete(() => void refresh());
-  watcher.onDidChange(() => void refresh());
-  extension.subscriptions.push(watcher);
+  // Subscribe to relevant events
+  const subscriptions = [
+    client.onNotification("zensical/workspace/scopesChanged", () => {
+      void refreshScopes();
+    }),
+    vscode.workspace.onDidOpenTextDocument((document) => {
+      void tagDocument(document, roots, handled);
+    }),
+    vscode.workspace.onDidChangeWorkspaceFolders(async () => {
+      await refreshScopes();
+    }),
+  ];
 
-  // Log detected project folders
-  context.log(
-    projects.size > 0
-      ? `Detected ${projects.size} Python Markdown project folder(s)`
-      : "No Python Markdown project folders detected",
-  );
+  // Initial refresh of managed Markdown roots
+  await refreshScopes();
+  return subscriptions;
 }
 
 /* ----------------------------------------------------------------------------
@@ -102,42 +122,17 @@ export async function activateProjectMarkdown(
  * ------------------------------------------------------------------------- */
 
 /**
- * Find project folders in the current workspace.
+ * Tag currently open Markdown documents inside managed roots.
  *
- * @returns Project folders
+ * @param roots - Manged Markdown roots by workspace folder
+ * @param handled - Set of already handled document URIs
  */
-async function findProjects(): Promise<Map<string, Project>> {
-  const projects = new Map<string, Project>();
-  for (const folder of vscode.workspace.workspaceFolders ?? []) {
-    const [match] = await vscode.workspace.findFiles(
-      new vscode.RelativePattern(folder, "**/{mkdocs.yml,zensical.toml}"),
-      null,
-      1,
-    );
-
-    // Skip folders without a project config file
-    switch (basename(match?.fsPath ?? "")) {
-      case "zensical.toml":
-        projects.set(folder.uri.toString(), "Zensical");
-        break;
-      case "mkdocs.yml":
-        projects.set(folder.uri.toString(), "MkDocs");
-        break;
-    }
-  }
-
-  // Return detected project folders
-  return projects;
-}
-
-/**
- * Tag all currently open Markdown documents inside detected project folders.
- *
- * @param projects - Project folders
- */
-async function tagOpenDocuments(projects: Map<string, Project>): Promise<void> {
+async function tagOpenDocuments(
+  roots: Map<string, string[]>,
+  handled: Set<string>,
+): Promise<void> {
   for (const document of vscode.workspace.textDocuments) {
-    await tagDocument(document, projects);
+    await tagDocument(document, roots, handled);
   }
 }
 
@@ -145,16 +140,14 @@ async function tagOpenDocuments(projects: Map<string, Project>): Promise<void> {
  * Tag a Markdown document as Python Markdown when appropriate.
  *
  * @param document - Text document
- * @param projects - Project folders
+ * @param roots - Managed Markdown roots by workspace folder
+ * @param handled - Set of already handled document URIs
  */
 async function tagDocument(
   document: vscode.TextDocument,
-  projects: Map<string, Project>,
+  roots: Map<string, string[]>,
+  handled: Set<string>,
 ): Promise<void> {
-  if (document.languageId !== "markdown") {
-    return;
-  }
-
   // Skip non-file documents and non-Markdown files
   if (
     document.uri.scheme !== "file" ||
@@ -163,17 +156,55 @@ async function tagDocument(
     return;
   }
 
-  // Skip documents outside of detected project folders
+  // Skip documents outside of a workspace folder
   const folder = vscode.workspace.getWorkspaceFolder(document.uri);
   if (typeof folder === "undefined") {
     return;
   }
 
-  // Skip documents in non-project folders
-  if (!projects.has(folder.uri.toString())) {
+  // Skip documents that are not inside a managed root
+  const folderRoots = roots.get(folder.uri.toString()) ?? [];
+  if (!isManaged(document.uri, folderRoots)) {
+    return;
+  }
+
+  // Skip documents that have already been handled
+  const key = document.uri.toString();
+  if (handled.has(key)) {
+    return;
+  }
+  handled.add(key);
+
+  // Skip documents that are already tagged as Python Markdown
+  if (document.languageId !== "markdown") {
     return;
   }
 
   // Retag the document as Python Markdown
   await vscode.languages.setTextDocumentLanguage(document, "python-markdown");
+}
+
+/**
+ * Check whether a document is inside one of the managed directory roots.
+ *
+ * @param uri - Document URI
+ * @param roots - Managed directory URIs
+ *
+ * @returns Whether the document is managed
+ */
+function isManaged(uri: vscode.Uri, roots: string[]): boolean {
+  return roots.some((root) => {
+    const rootUri = vscode.Uri.parse(root);
+    const rootPath = rootUri.path.endsWith("/")
+      ? rootUri.path
+      : `${rootUri.path}/`;
+
+    // Check if the document URI matches the root URI scheme and authority, and
+    // if the document path is equal to the root path or starts at the root
+    return (
+      uri.scheme === rootUri.scheme &&
+      uri.authority === rootUri.authority &&
+      (uri.path === rootUri.path || uri.path.startsWith(rootPath))
+    );
+  });
 }
