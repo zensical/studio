@@ -69,7 +69,6 @@ let starting = false;
  */
 export async function activate(extension: ExtensionContext): Promise<void> {
   const context = new Context(extension);
-  void activateProjectMarkdown(extension, context);
 
   // Register commands
   registerCommands(extension, () => client);
@@ -79,7 +78,7 @@ export async function activate(extension: ExtensionContext): Promise<void> {
     // Python Markdown document after VPN/proxy startup has completed.
     vscode.window.onDidChangeWindowState((state) => {
       if (state.focused && typeof retryTimer !== "undefined") {
-        void startStudio(context);
+        void startStudio(extension, context);
       }
     }),
     vscode.workspace.onDidOpenTextDocument((document) => {
@@ -87,13 +86,13 @@ export async function activate(extension: ExtensionContext): Promise<void> {
         document.languageId === "python-markdown" &&
         typeof retryTimer !== "undefined"
       ) {
-        void startStudio(context);
+        void startStudio(extension, context);
       }
     }),
   );
 
   // Start Zensical Studio
-  void startStudio(context);
+  void startStudio(extension, context);
 }
 
 /**
@@ -114,9 +113,12 @@ export async function deactivate(): Promise<void> {
 /**
  * Start Zensical Studio.
  *
+ * @param extension - Extension context
  * @param context - Context
  */
-async function startStudio(context: Context): Promise<void> {
+async function startStudio(
+  extension: ExtensionContext, context: Context,
+): Promise<void> {
   if (typeof client !== "undefined" || starting) {
     return;
   }
@@ -136,10 +138,13 @@ async function startStudio(context: Context): Promise<void> {
     retryDelay = 5000;
     context.log("Starting Zensical Studio");
     client = createLanguageClient(context, studio);
-    client.start();
+    await client.start();
+    extension.subscriptions.push(
+      ...(await activateProjectMarkdown(context, client)),
+    );
   } catch (error) {
     if (error instanceof NetworkError) {
-      scheduleRetry(context);
+      scheduleRetry(extension, context);
       return;
     }
 
@@ -154,16 +159,19 @@ async function startStudio(context: Context): Promise<void> {
 /**
  * Schedule startup retry.
  *
+ * @param extension - Extension context
  * @param context - Context
  */
-function scheduleRetry(context: Context): void {
+function scheduleRetry(
+  extension: ExtensionContext, context: Context,
+): void {
   const delay = retryDelay;
   const seconds = Math.round(delay / 1000);
   context.log(`Network unavailable; retrying in ${seconds}s`);
 
   // Schedule retry with exponential backoff and jitter
   retryTimer = setTimeout(() => {
-    void startStudio(context);
+    void startStudio(extension, context);
   }, jitter(delay));
   retryDelay = Math.min(delay * 2, 5 * 60 * 1000);
 }
