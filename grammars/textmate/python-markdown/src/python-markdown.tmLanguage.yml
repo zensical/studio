@@ -592,6 +592,7 @@ repository:
     end: (?=$)
     patterns:
       - include: "#inline_flow"
+      - include: "#attribute_list"
       # - include: "#heading_setext"
 
   inline_flow:
