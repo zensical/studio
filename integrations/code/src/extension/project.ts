@@ -43,6 +43,15 @@ interface WorkspaceScopes {
   }>;
 }
 
+/**
+ * State for one document lifecycle.
+ */
+interface DocumentState {
+  languageId: string;
+  automaticallyTagged: boolean;
+  userOverride: boolean;
+}
+
 /* ----------------------------------------------------------------------------
  * Functions
  * ------------------------------------------------------------------------- */
@@ -57,10 +66,11 @@ interface WorkspaceScopes {
 export async function activateProjectMarkdown(
   context: Context, client: LanguageClient,
 ): Promise<vscode.Disposable[]> {
-  const handled = new Set<string>();
+  const openDocuments = new Map<string, DocumentState>();
+  const changingLanguage = new Set<string>();
   const roots = new Map<string, string[]>();
 
-  // Refresh governed Markdown roots for all workspace folders
+  // Refresh managed Markdown roots for all workspace folders
   const refreshScopes = async (): Promise<void> => {
     const folders = vscode.workspace.workspaceFolders ?? [];
     const responses = await Promise.all(
@@ -92,27 +102,47 @@ export async function activateProjectMarkdown(
     }
 
     // Tag currently open Markdown documents inside managed roots
-    await tagOpenDocuments(roots, handled);
+    await tagOpenDocuments(roots, openDocuments, changingLanguage);
     context.log(
       `Received ${responses.reduce((count, [, values]) => count + values.length, 0)} ` +
-        "governed Markdown root(s)",
+        "managed Markdown root(s)",
     );
   };
 
-  // Subscribe to relevant events
-  const subscriptions = [
+  // Register event listeners for workspace changes and document lifecycle
+  const subscriptions: vscode.Disposable[] = [
     client.onNotification("zensical/workspace/scopesChanged", () => {
       void refreshScopes();
     }),
     vscode.workspace.onDidOpenTextDocument((document) => {
-      void tagDocument(document, roots, handled);
+      void tagDocument(document, roots, openDocuments, changingLanguage);
+    }),
+    vscode.workspace.onDidCloseTextDocument((document) => {
+      const key = document.uri.toString();
+
+      // A language change may emit close/open events while the URI remains
+      // open. Defer cleanup until VS Code has updated its document collection.
+      setTimeout(() => {
+        if (
+          changingLanguage.has(key) ||
+          vscode.workspace.textDocuments.some(
+            (open) => open.uri.toString() === key,
+          )
+        ) {
+          return;
+        }
+
+        // Remove document state when the document is closed and not reopened
+        openDocuments.delete(key);
+      }, 0);
     }),
     vscode.workspace.onDidChangeWorkspaceFolders(async () => {
       await refreshScopes();
     }),
   ];
 
-  // Initial refresh of managed Markdown roots
+  // Register listeners before the initial request so document events cannot
+  // be lost while Studio is calculating the scopes.
   await refreshScopes();
   return subscriptions;
 }
@@ -121,18 +151,14 @@ export async function activateProjectMarkdown(
  * Helper functions
  * ------------------------------------------------------------------------- */
 
-/**
- * Tag currently open Markdown documents inside managed roots.
- *
- * @param roots - Manged Markdown roots by workspace folder
- * @param handled - Set of already handled document URIs
- */
+/** Tag currently open Markdown documents inside governed roots. */
 async function tagOpenDocuments(
   roots: Map<string, string[]>,
-  handled: Set<string>,
+  documents: Map<string, DocumentState>,
+  changingLanguage: Set<string>,
 ): Promise<void> {
   for (const document of vscode.workspace.textDocuments) {
-    await tagDocument(document, roots, handled);
+    await tagDocument(document, roots, documents, changingLanguage);
   }
 }
 
@@ -141,12 +167,14 @@ async function tagOpenDocuments(
  *
  * @param document - Text document
  * @param roots - Managed Markdown roots by workspace folder
- * @param handled - Set of already handled document URIs
+ * @param documents - Per-document lifecycle state
+ * @param changingLanguage - Language changes initiated by this extension
  */
 async function tagDocument(
   document: vscode.TextDocument,
   roots: Map<string, string[]>,
-  handled: Set<string>,
+  openDocuments: Map<string, DocumentState>,
+  changingLanguage: Set<string>,
 ): Promise<void> {
   // Skip non-file documents and non-Markdown files
   if (
@@ -170,18 +198,51 @@ async function tagDocument(
 
   // Skip documents that have already been handled
   const key = document.uri.toString();
-  if (handled.has(key)) {
+
+  // Initialize document state if it doesn't exist yet
+  let state = openDocuments.get(key);
+  if (typeof state === "undefined") {
+    state = {
+      languageId: document.languageId,
+      automaticallyTagged: false,
+      userOverride: false,
+    };
+      openDocuments.set(key, state);
+  }
+
+  // Ignore the language event caused by our own retagging.
+  if (changingLanguage.has(key)) {
+    state.languageId = document.languageId;
     return;
   }
-  handled.add(key);
 
-  // Skip documents that are already tagged as Python Markdown
-  if (document.languageId !== "markdown") {
+  // A language change on an open document is an explicit user decision.
+  if (state.languageId !== document.languageId) {
+    state.languageId = document.languageId;
+    if (document.languageId === "markdown") {
+      state.userOverride = true;
+    }
     return;
   }
 
-  // Retag the document as Python Markdown
-  await vscode.languages.setTextDocumentLanguage(document, "python-markdown");
+  // Skip documents that are already tagged or not Markdown
+  if (
+    state.userOverride ||
+    state.automaticallyTagged ||
+    document.languageId !== "markdown"
+  ) {
+    return;
+  }
+
+  // Tag the document as Python Markdown
+  changingLanguage.add(key);
+  try {
+    await vscode.languages.setTextDocumentLanguage(document, "python-markdown");
+    state.languageId = "python-markdown";
+    state.automaticallyTagged = true;
+  } finally {
+    changingLanguage.delete(key);
+  }
 }
 
 /**
