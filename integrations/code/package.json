@@ -33,7 +33,7 @@
     "@zip.js/zip.js": "^2.8.26",
     "semver": "^7.8.4",
     "tar": "^7.4.3",
-    "vscode-languageclient": "^9.0.1"
+    "vscode-languageclient": "^10.1.0"
   },
   "devDependencies": {
     "@types/node": "^25.9.1",
