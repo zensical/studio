@@ -26,7 +26,7 @@
 import * as vscode from "vscode";
 import type {
   ExtensionContext,
-  OutputChannel,
+  LogOutputChannel,
   WorkspaceConfiguration,
 } from "vscode";
 
@@ -39,7 +39,7 @@ import type {
  */
 export class Context {
   /** Output channel */
-  private readonly output: OutputChannel;
+  private readonly output: LogOutputChannel;
   /** Extension context */
   private readonly context: ExtensionContext;
 
@@ -48,7 +48,9 @@ export class Context {
    */
   public constructor(extension: ExtensionContext) {
     this.context = extension;
-    this.output = vscode.window.createOutputChannel("Zensical Studio");
+    this.output = vscode.window.createOutputChannel("Zensical Studio", {
+      log: true,
+    });
     this.context.subscriptions.push(this.output);
   }
 
@@ -84,7 +86,7 @@ export class Context {
    *
    * @returns Output channel
    */
-  public getOutput(): OutputChannel {
+  public getOutput(): LogOutputChannel {
     return this.output;
   }
 
