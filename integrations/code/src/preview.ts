@@ -107,6 +107,14 @@ interface ResolvedLocalLink {
   fragment?: string;
 }
 
+/**
+ * Variants available for a preview document.
+ */
+interface PreviewVariants {
+  defaultVariant?: string;
+  variants: string[];
+}
+
 /* ----------------------------------------------------------------------------
  * Constants
  * ------------------------------------------------------------------------- */
@@ -115,6 +123,8 @@ interface ResolvedLocalLink {
 const previewStart = "zensical/preview/start";
 const previewStop = "zensical/preview/stop";
 const previewUpdate = "zensical/preview/update";
+const previewVariants = "zensical/preview/variants";
+const previewVariantsChanged = "zensical/preview/variantsChanged";
 
 /* ----------------------------------------------------------------------------
  * Data
@@ -191,6 +201,78 @@ export function registerPreviewCommand(
       let latestVersion = -1;
       let latestUpdate: PreviewUpdate | undefined;
       let updateTimer: ReturnType<typeof setTimeout> | undefined;
+      let selectedVariant: string | undefined;
+      let availableVariants: string[] = [];
+      let variantUpdateGeneration = 0;
+
+      // Generate a unique key for storing the selected variant
+      const variantStateKey = (uri: string) => `preview.variant.${uri}`;
+
+      // Post the available variants and selected variant to the webview
+      const postVariants = () => {
+        void panel.webview.postMessage({
+          type: "preview/variants",
+          variants: availableVariants,
+          selectedVariant,
+        });
+      };
+
+      // Query the available variants for a document from the language server
+      const queryVariants = async (
+        document: vscode.TextDocument,
+      ): Promise<PreviewVariants | undefined> => {
+        try {
+          return await client.sendRequest<PreviewVariants>(
+            previewVariants,
+            { uri: document.uri.toString() },
+          );
+        } catch {
+          // Older servers and projects without a catalog have no variants.
+          return undefined;
+        }
+      };
+
+      // Set the available variants and selected variant for a document
+      const setVariants = async (
+        document: vscode.TextDocument,
+        updateSession: boolean,
+      ): Promise<void> => {
+        const uri = document.uri.toString();
+        const generation = ++variantUpdateGeneration;
+        const result = await queryVariants(document);
+        if (disposed || generation !== variantUpdateGeneration || uri !== activeUri) {
+          return;
+        }
+
+        // Update the selected variant and persist it in the workspace state
+        const previous = selectedVariant;
+        availableVariants = result?.variants ?? [];
+        const persisted = context.workspaceState.get<string>(
+          variantStateKey(uri),
+        );
+        selectedVariant = availableVariants.includes(persisted ?? "")
+          ? persisted
+          : result?.defaultVariant;
+        if (selectedVariant && availableVariants.includes(selectedVariant)) {
+          void context.workspaceState.update(
+            variantStateKey(uri), selectedVariant,
+          );
+        }
+        postVariants();
+
+        // If the selected variant has changed, send a preview update
+        if (
+          updateSession &&
+          activeSession &&
+          selectedVariant !== previous
+        ) {
+          await client.sendRequest<void>(previewUpdate, {
+            session: activeSession,
+            variant: selectedVariant,
+            projections: {},
+          });
+        }
+      };
 
       // Accept only updates for the active session, then debounce the web view
       // replacement so rapid editor changes do not trigger a DOM rebuild each
@@ -199,7 +281,7 @@ export function registerPreviewCommand(
           // Ignore updates for inactive sessions or older versions
           if (
             update.session !== activeSession ||
-            update.version <= latestVersion
+            update.version < latestVersion
           ) {
             return;
           }
@@ -221,6 +303,27 @@ export function registerPreviewCommand(
         },
       );
 
+      // Listen for variant changes from the language server and update preview
+      const variantsChangedDisposable = client.onNotification(
+        previewVariantsChanged,
+        async () => {
+          if (!activeUri) return;
+          try {
+            const document = await vscode.workspace.openTextDocument(
+              vscode.Uri.parse(activeUri),
+            );
+            await setVariants(document, true);
+          } catch (error) {
+            if (!disposed) {
+              const detail = error instanceof Error ? error.message : String(error);
+              void vscode.window.showErrorMessage(
+                `Unable to update Zensical Preview variants: ${detail}`,
+              );
+            }
+          }
+        },
+      );
+
       // Dispose of the panel and clean up resources when it is closed
       panel.onDidDispose(() => {
         disposed = true;
@@ -232,6 +335,7 @@ export function registerPreviewCommand(
         activeUri = undefined;
         notificationDisposable?.dispose();
         notificationDisposable = undefined;
+        variantsChangedDisposable.dispose();
         if (updateTimer) clearTimeout(updateTimer);
         if (session) void client.sendNotification(previewStop, { session });
       }, undefined, context.subscriptions);
@@ -273,6 +377,7 @@ export function registerPreviewCommand(
           href?: string;
           uri?: string;
           end?: number;
+          variant?: string;
         }) => {
           if (message.type === "preview/reveal-source") {
             if (
@@ -306,6 +411,39 @@ export function registerPreviewCommand(
               void vscode.window.showErrorMessage(
                 `Unable to reveal preview source: ${detail}`,
               );
+            }
+            return;
+          }
+          if (message.type === "preview/select-variant") {
+            if (
+              !activeUri ||
+              !activeSession ||
+              !message.variant ||
+              !availableVariants.includes(message.variant) ||
+              message.variant === selectedVariant
+            ) {
+              return;
+            }
+            const session = activeSession;
+            const uri = activeUri;
+            selectedVariant = message.variant;
+            void context.workspaceState.update(
+              variantStateKey(uri), selectedVariant,
+            );
+            postVariants();
+            try {
+              await client.sendRequest<void>(previewUpdate, {
+                session,
+                variant: selectedVariant,
+                projections: {},
+              });
+            } catch (error) {
+              if (session === activeSession && uri === activeUri) {
+                const detail = error instanceof Error ? error.message : String(error);
+                void vscode.window.showErrorMessage(
+                  `Unable to update Zensical Preview: ${detail}`,
+                );
+              }
             }
             return;
           }
@@ -421,6 +559,9 @@ export function registerPreviewCommand(
             const previousSession = activeSession;
             activeSession = undefined;
             activeUri = undefined;
+            variantUpdateGeneration += 1;
+            availableVariants = [];
+            selectedVariant = undefined;
             latestVersion = -1;
             latestUpdate = undefined;
             if (updateTimer) {
@@ -436,9 +577,26 @@ export function registerPreviewCommand(
             // Start a new preview session for the requested document
             let result: PreviewStartResult;
             try {
+              const variants = await queryVariants(document);
+              const persisted = context.workspaceState.get<string>(
+                variantStateKey(uri),
+              );
+              availableVariants = variants?.variants ?? [];
+              selectedVariant = availableVariants.includes(persisted ?? "")
+                ? persisted
+                : variants?.defaultVariant;
+              if (selectedVariant && availableVariants.includes(selectedVariant)) {
+                void context.workspaceState.update(
+                  variantStateKey(uri), selectedVariant,
+                );
+              }
               result = await client.sendRequest<PreviewStartResult>(
                 previewStart,
-                { uri, projections: {} },
+                {
+                  uri,
+                  projections: {},
+                  ...(selectedVariant ? { variant: selectedVariant } : {}),
+                },
               );
             } catch (error) {
               startingUri = undefined;
@@ -474,6 +632,7 @@ export function registerPreviewCommand(
               type: "preview/update",
               update: withPreviewBase(panel.webview, result.initialUpdate),
             });
+            postVariants();
             postEditorPosition(vscode.window.activeTextEditor, true);
           }
         } finally {

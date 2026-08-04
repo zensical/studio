@@ -42,6 +42,10 @@
         vertical-align: super;
       }
 
+      .md-typeset {
+        font-size: 0.9rem;
+      }
+
       .md-typeset .mermaid {
         display: flex;
         justify-content: center;
@@ -54,6 +58,42 @@
         height: auto;
       }
 
+      #preview-toolbar {
+        align-items: center;
+        -webkit-backdrop-filter: blur(8px);
+        backdrop-filter: blur(8px);
+        background-color: color-mix(
+          in srgb, var(--md-default-bg-color) 82%, transparent
+        );
+        font-size: 16px;
+        display: none;
+        gap: 0.45rem;
+        padding: 0.55rem 0.8rem;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+      }
+
+      #preview-toolbar strong {
+        font-weight: 600;
+      }
+
+      #preview-variant-control {
+        align-items: center;
+        display: none;
+        gap: 0.3rem;
+      }
+
+      #preview-variant {
+        background: transparent;
+        border: 1px solid color-mix(in srgb, currentColor 25%, transparent);
+        border-radius: 3px;
+        color: inherit;
+        font: inherit;
+        max-width: 14rem;
+        padding: 0.15rem 1.4rem 0.15rem 0.35rem;
+      }
+
     </style>
     <script nonce="__NONCE__" src="__KATEX__"></script>
     <script nonce="__NONCE__" src="__MERMAID__"></script>
@@ -64,6 +104,13 @@
     data-md-color-primary="indigo"
     data-md-color-accent="indigo"
   >
+    <div id="preview-toolbar">
+      <strong>Preview</strong>
+      <label id="preview-variant-control" for="preview-variant">
+        <span>Variant:</span>
+        <select id="preview-variant"></select>
+      </label>
+    </div>
     <div class="md-content" data-md-component="content">
       <article id="preview" class="md-content__inner md-typeset"></article>
     </div>
@@ -72,6 +119,8 @@
       let latestVersion = -1;
       let latestSession = null;
       const preview = document.getElementById("preview");
+      const variantControl = document.getElementById("preview-variant-control");
+      const variantSelect = document.getElementById("preview-variant");
       const vscode = acquireVsCodeApi();
       let lastAnchor = null;
       let activeSourceOffset = null;
@@ -83,6 +132,31 @@
       let pendingFragment = null;
       let mermaidId = 0;
       const uiStateByUri = new Map();
+
+      variantSelect.addEventListener("change", () => {
+        vscode.postMessage({
+          type: "preview/select-variant",
+          variant: variantSelect.value,
+        });
+      });
+
+      function updateVariants(message) {
+        const variants = Array.isArray(message.variants) ? message.variants : [];
+        const selected = message.selectedVariant;
+        variantSelect.replaceChildren(
+          ...variants.map((variant) => {
+            const option = document.createElement("option");
+            option.value = variant;
+            option.textContent = variant;
+            option.selected = variant === selected;
+            return option;
+          }),
+        );
+        const hasVariants = variants.length > 1;
+        variantControl.style.display = hasVariants ? "flex" : "none";
+        document.getElementById("preview-toolbar").style.display =
+          hasVariants ? "flex" : "none";
+      }
 
       function updateColorScheme() {
         document.body.dataset.mdColorScheme =
@@ -503,6 +577,10 @@
 
       window.addEventListener("message", (event) => {
         const message = event.data;
+        if (message.type === "preview/variants") {
+          updateVariants(message);
+          return;
+        }
         if (message.type === "preview/highlight") {
           activeSourceOffset = message.sourceOffset;
           activeLineStart = message.sourceLineStart;

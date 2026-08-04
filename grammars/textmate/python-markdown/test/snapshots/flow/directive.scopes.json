@@ -1,0 +1,439 @@
+{
+  "conditions": {
+    "if_elif_else": [
+      {
+        "line": "@if product = studio OR not platform = \"windows\"",
+        "tokens": [
+          {
+            "text": "@",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.condition.block.markdown",
+              "keyword.control.directive.condition.markdown"
+            ]
+          },
+          {
+            "text": "if",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.condition.block.markdown",
+              "keyword.control.directive.condition.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.condition.block.markdown",
+              "punctuation.whitespace.markdown"
+            ]
+          },
+          {
+            "text": "product",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.condition.block.markdown",
+              "meta.directive.expression.markdown",
+              "variable.other.directive.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.condition.block.markdown",
+              "meta.directive.expression.markdown"
+            ]
+          },
+          {
+            "text": "=",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.condition.block.markdown",
+              "meta.directive.expression.markdown",
+              "keyword.operator.comparison.directive.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.condition.block.markdown",
+              "meta.directive.expression.markdown",
+              "punctuation.whitespace.markdown"
+            ]
+          },
+          {
+            "text": "studio",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.condition.block.markdown",
+              "meta.directive.expression.markdown",
+              "string.unquoted.directive.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.condition.block.markdown",
+              "meta.directive.expression.markdown"
+            ]
+          },
+          {
+            "text": "OR",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.condition.block.markdown",
+              "meta.directive.expression.markdown",
+              "keyword.operator.logical.directive.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.condition.block.markdown",
+              "meta.directive.expression.markdown"
+            ]
+          },
+          {
+            "text": "not",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.condition.block.markdown",
+              "meta.directive.expression.markdown",
+              "keyword.operator.logical.directive.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.condition.block.markdown",
+              "meta.directive.expression.markdown"
+            ]
+          },
+          {
+            "text": "platform",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.condition.block.markdown",
+              "meta.directive.expression.markdown",
+              "variable.other.directive.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.condition.block.markdown",
+              "meta.directive.expression.markdown"
+            ]
+          },
+          {
+            "text": "=",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.condition.block.markdown",
+              "meta.directive.expression.markdown",
+              "keyword.operator.comparison.directive.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.condition.block.markdown",
+              "meta.directive.expression.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.condition.block.markdown",
+              "meta.directive.expression.markdown",
+              "punctuation.definition.string.begin.directive.markdown"
+            ]
+          },
+          {
+            "text": "windows",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.condition.block.markdown",
+              "meta.directive.expression.markdown",
+              "string.quoted.double.directive.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.condition.block.markdown",
+              "meta.directive.expression.markdown",
+              "punctuation.definition.string.end.directive.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "    Studio",
+        "tokens": [
+          {
+            "text": "    ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          },
+          {
+            "text": "Studio",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "@elif product = spark",
+        "tokens": [
+          {
+            "text": "@",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.condition.block.markdown",
+              "keyword.control.directive.condition.markdown"
+            ]
+          },
+          {
+            "text": "elif",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.condition.block.markdown",
+              "keyword.control.directive.condition.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.condition.block.markdown",
+              "punctuation.whitespace.markdown"
+            ]
+          },
+          {
+            "text": "product",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.condition.block.markdown",
+              "meta.directive.expression.markdown",
+              "variable.other.directive.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.condition.block.markdown",
+              "meta.directive.expression.markdown"
+            ]
+          },
+          {
+            "text": "=",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.condition.block.markdown",
+              "meta.directive.expression.markdown",
+              "keyword.operator.comparison.directive.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.condition.block.markdown",
+              "meta.directive.expression.markdown",
+              "punctuation.whitespace.markdown"
+            ]
+          },
+          {
+            "text": "spark",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.condition.block.markdown",
+              "meta.directive.expression.markdown",
+              "string.unquoted.directive.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "    Spark",
+        "tokens": [
+          {
+            "text": "    ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          },
+          {
+            "text": "Spark",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "@else",
+        "tokens": [
+          {
+            "text": "@",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.condition.block.markdown",
+              "keyword.control.directive.condition.markdown"
+            ]
+          },
+          {
+            "text": "else",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.condition.block.markdown",
+              "keyword.control.directive.condition.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "    Other",
+        "tokens": [
+          {
+            "text": "    ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          },
+          {
+            "text": "Other",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  },
+  "use": {
+    "quoted_and_bare_targets": [
+      {
+        "line": "@use \"shared/guide.md\"",
+        "tokens": [
+          {
+            "text": "@",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.use.block.markdown",
+              "keyword.control.directive.use.markdown"
+            ]
+          },
+          {
+            "text": "use",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.use.block.markdown",
+              "keyword.control.directive.use.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.use.block.markdown",
+              "punctuation.whitespace.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.use.block.markdown",
+              "meta.directive.path.markdown",
+              "punctuation.definition.string.begin.directive.markdown"
+            ]
+          },
+          {
+            "text": "shared/guide.md",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.use.block.markdown",
+              "meta.directive.path.markdown",
+              "string.quoted.double.directive-path.markdown"
+            ]
+          },
+          {
+            "text": "\"",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.use.block.markdown",
+              "meta.directive.path.markdown",
+              "punctuation.definition.string.end.directive.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "@use shared/other.md",
+        "tokens": [
+          {
+            "text": "@",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.use.block.markdown",
+              "keyword.control.directive.use.markdown"
+            ]
+          },
+          {
+            "text": "use",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.use.block.markdown",
+              "keyword.control.directive.use.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.use.block.markdown",
+              "punctuation.whitespace.markdown"
+            ]
+          },
+          {
+            "text": "shared/other.md",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.directive.use.block.markdown",
+              "meta.directive.path.markdown",
+              "string.unquoted.directive-path.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  }
+}

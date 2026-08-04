@@ -1,0 +1,108 @@
+{
+  "variables": {
+    "named_variables": [
+      {
+        "line": "Use @var{product} with @var{_variant}.",
+        "tokens": [
+          {
+            "text": "Use ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          },
+          {
+            "text": "@var",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.directive.variable.inline.markdown",
+              "keyword.control.directive.variable.markdown"
+            ]
+          },
+          {
+            "text": "{",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.directive.variable.inline.markdown",
+              "punctuation.definition.directive.variable.begin.markdown"
+            ]
+          },
+          {
+            "text": "product",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.directive.variable.inline.markdown",
+              "variable.other.directive.markdown"
+            ]
+          },
+          {
+            "text": "}",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.directive.variable.inline.markdown",
+              "punctuation.definition.directive.variable.end.markdown"
+            ]
+          },
+          {
+            "text": " with ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          },
+          {
+            "text": "@var",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.directive.variable.inline.markdown",
+              "keyword.control.directive.variable.markdown"
+            ]
+          },
+          {
+            "text": "{",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.directive.variable.inline.markdown",
+              "punctuation.definition.directive.variable.begin.markdown"
+            ]
+          },
+          {
+            "text": "_variant",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.directive.variable.inline.markdown",
+              "variable.other.directive.markdown"
+            ]
+          },
+          {
+            "text": "}",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown",
+              "meta.directive.variable.inline.markdown",
+              "punctuation.definition.directive.variable.end.markdown"
+            ]
+          },
+          {
+            "text": ".",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  }
+}
