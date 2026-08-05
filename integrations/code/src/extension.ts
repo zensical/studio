@@ -24,7 +24,7 @@
  */
 
 import * as vscode from "vscode";
-import type { ExtensionContext } from "vscode";
+import type { ExtensionContext, TextDocument } from "vscode";
 import type { LanguageClient } from "vscode-languageclient/node";
 
 import { registerCommands } from "./commands";
@@ -58,6 +58,11 @@ let retryDelay = 5000;
  */
 let starting = false;
 
+/**
+ * Markdown documents opened before Studio has provided project scopes.
+ */
+const pending = new Map<string, TextDocument>();
+
 /* ----------------------------------------------------------------------------
  * Functions
  * ------------------------------------------------------------------------- */
@@ -82,6 +87,9 @@ export async function activate(extension: ExtensionContext): Promise<void> {
       }
     }),
     vscode.workspace.onDidOpenTextDocument((document) => {
+      if (document.languageId === "markdown") {
+        pending.set(document.uri.toString(), document);
+      }
       if (
         document.languageId === "python-markdown" &&
         typeof retryTimer !== "undefined"
@@ -90,6 +98,14 @@ export async function activate(extension: ExtensionContext): Promise<void> {
       }
     }),
   );
+
+  // Remember documents that may open before Studio has returned project
+  // scopes. They are retagged as soon as the authoritative scopes arrive.
+  for (const document of vscode.workspace.textDocuments) {
+    if (document.languageId === "markdown") {
+      pending.set(document.uri.toString(), document);
+    }
+  }
 
   // Start Zensical Studio
   void startStudio(extension, context);
@@ -140,7 +156,9 @@ async function startStudio(
     client = createLanguageClient(context, studio);
     await client.start();
     extension.subscriptions.push(
-      ...(await activateProjectMarkdown(context, client)),
+      ...(await activateProjectMarkdown(
+        context, client, pending,
+      )),
     );
   } catch (error) {
     if (error instanceof NetworkError) {
