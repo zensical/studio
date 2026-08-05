@@ -24,10 +24,11 @@
  */
 
 import * as vscode from "vscode";
+import type { Disposable, TextDocument } from "vscode";
+import type { LanguageClient } from "vscode-languageclient/node";
 import { extname } from "node:path";
 
 import type { Context } from "./context";
-import type { LanguageClient } from "vscode-languageclient/node";
 
 /* ----------------------------------------------------------------------------
  * Types
@@ -65,7 +66,8 @@ interface DocumentState {
  */
 export async function activateProjectMarkdown(
   context: Context, client: LanguageClient,
-): Promise<vscode.Disposable[]> {
+  pending = new Map<string, TextDocument>(),
+): Promise<Disposable[]> {
   const openDocuments = new Map<string, DocumentState>();
   const changingLanguage = new Set<string>();
   const roots = new Map<string, string[]>();
@@ -102,7 +104,9 @@ export async function activateProjectMarkdown(
     }
 
     // Tag currently open Markdown documents inside managed roots
-    await tagOpenDocuments(roots, openDocuments, changingLanguage);
+    await tagOpenDocuments(
+      roots, openDocuments, changingLanguage, pending,
+    );
     context.log(
       `Received ${responses.reduce((count, [, values]) => count + values.length, 0)} ` +
         "managed Markdown root(s)",
@@ -110,7 +114,7 @@ export async function activateProjectMarkdown(
   };
 
   // Register event listeners for workspace changes and document lifecycle
-  const subscriptions: vscode.Disposable[] = [
+  const subscriptions: Disposable[] = [
     client.onNotification("zensical/workspace/scopesChanged", () => {
       void refreshScopes();
     }),
@@ -151,15 +155,28 @@ export async function activateProjectMarkdown(
  * Helper functions
  * ------------------------------------------------------------------------- */
 
-/** Tag currently open Markdown documents inside governed roots. */
+/**
+ * Tag currently open Markdown documents inside governed roots.
+ *
+ * @param roots - Managed Markdown roots by workspace folder
+ * @param documents - Per-document lifecycle state
+ * @param changingLanguage - Language changes initiated by this extension
+ * @param pending - Documents that opened before Studio returned project scopes
+ */
 async function tagOpenDocuments(
   roots: Map<string, string[]>,
   documents: Map<string, DocumentState>,
   changingLanguage: Set<string>,
+  pending: Map<string, TextDocument>,
 ): Promise<void> {
-  for (const document of vscode.workspace.textDocuments) {
+  const openDocuments = new Map(
+    [...vscode.workspace.textDocuments, ...pending.values()]
+      .map((document) => [document.uri.toString(), document] as const),
+  );
+  for (const document of openDocuments.values()) {
     await tagDocument(document, roots, documents, changingLanguage);
   }
+  pending.clear();
 }
 
 /**
@@ -171,7 +188,7 @@ async function tagOpenDocuments(
  * @param changingLanguage - Language changes initiated by this extension
  */
 async function tagDocument(
-  document: vscode.TextDocument,
+  document: TextDocument,
   roots: Map<string, string[]>,
   openDocuments: Map<string, DocumentState>,
   changingLanguage: Set<string>,
