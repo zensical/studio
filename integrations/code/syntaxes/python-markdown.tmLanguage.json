@@ -401,6 +401,9 @@
           "include": "#table"
         },
         {
+          "include": "#directive"
+        },
+        {
           "include": "#admonition"
         },
         {
@@ -438,6 +441,158 @@
         },
         {
           "include": "#paragraph"
+        }
+      ]
+    },
+    "directive": {
+      "patterns": [
+        {
+          "name": "meta.directive.condition.block.markdown",
+          "match": "(?:^|\\G)([ \\t]*)(@)(if|elif)([ \\t]+)(.*?)([ \\t]*)$",
+          "captures": {
+            "1": {
+              "name": "punctuation.whitespace.leading.markdown"
+            },
+            "2": {
+              "name": "keyword.control.directive.condition.markdown"
+            },
+            "3": {
+              "name": "keyword.control.directive.condition.markdown"
+            },
+            "4": {
+              "name": "punctuation.whitespace.markdown"
+            },
+            "5": {
+              "name": "meta.directive.expression.markdown",
+              "patterns": [
+                {
+                  "match": "(?i:\\b(?:and|or|not)\\b)",
+                  "name": "keyword.operator.logical.directive.markdown"
+                },
+                {
+                  "match": "(==|!=|<=|>=|=|<|>)([ \\t]+)(\\\")([^\\\"\\\\r\\\\n]+)(\\\")",
+                  "captures": {
+                    "1": {
+                      "name": "keyword.operator.comparison.directive.markdown"
+                    },
+                    "2": {
+                      "name": "punctuation.whitespace.markdown"
+                    },
+                    "3": {
+                      "name": "punctuation.definition.string.begin.directive.markdown"
+                    },
+                    "4": {
+                      "name": "string.quoted.double.directive.markdown"
+                    },
+                    "5": {
+                      "name": "punctuation.definition.string.end.directive.markdown"
+                    }
+                  }
+                },
+                {
+                  "match": "(==|!=|<=|>=|=|<|>)([ \\t]+)([a-zA-Z_][a-zA-Z0-9_.-]*)",
+                  "captures": {
+                    "1": {
+                      "name": "keyword.operator.comparison.directive.markdown"
+                    },
+                    "2": {
+                      "name": "punctuation.whitespace.markdown"
+                    },
+                    "3": {
+                      "name": "string.unquoted.directive.markdown"
+                    }
+                  }
+                },
+                {
+                  "match": "==|!=|<=|>=|=|<|>",
+                  "name": "keyword.operator.comparison.directive.markdown"
+                },
+                {
+                  "match": "([\"])([^\"\\r\\n]*)([\"])",
+                  "captures": {
+                    "1": {
+                      "name": "punctuation.definition.string.begin.directive.markdown"
+                    },
+                    "2": {
+                      "name": "string.quoted.double.directive.markdown"
+                    },
+                    "3": {
+                      "name": "punctuation.definition.string.end.directive.markdown"
+                    }
+                  }
+                },
+                {
+                  "match": "\\b[a-zA-Z_][a-zA-Z0-9_.-]*\\b",
+                  "name": "variable.other.directive.markdown"
+                }
+              ]
+            },
+            "6": {
+              "name": "punctuation.whitespace.trailing.markdown"
+            }
+          }
+        },
+        {
+          "name": "meta.directive.condition.block.markdown",
+          "match": "(?:^|\\G)([ \\t]*)(@)(else)([ \\t]*)$",
+          "captures": {
+            "1": {
+              "name": "punctuation.whitespace.leading.markdown"
+            },
+            "2": {
+              "name": "keyword.control.directive.condition.markdown"
+            },
+            "3": {
+              "name": "keyword.control.directive.condition.markdown"
+            },
+            "4": {
+              "name": "punctuation.whitespace.trailing.markdown"
+            }
+          }
+        },
+        {
+          "name": "meta.directive.use.block.markdown",
+          "match": "(?:^|\\G)([ \\t]*)(@)(use)([ \\t]+)(.*?)([ \\t]*)$",
+          "captures": {
+            "1": {
+              "name": "punctuation.whitespace.leading.markdown"
+            },
+            "2": {
+              "name": "keyword.control.directive.use.markdown"
+            },
+            "3": {
+              "name": "keyword.control.directive.use.markdown"
+            },
+            "4": {
+              "name": "punctuation.whitespace.markdown"
+            },
+            "5": {
+              "name": "meta.directive.path.markdown",
+              "patterns": [
+                {
+                  "match": "(\\\")(.+)(\\\")",
+                  "captures": {
+                    "1": {
+                      "name": "punctuation.definition.string.begin.directive.markdown"
+                    },
+                    "2": {
+                      "name": "string.quoted.double.directive-path.markdown"
+                    },
+                    "3": {
+                      "name": "punctuation.definition.string.end.directive.markdown"
+                    }
+                  }
+                },
+                {
+                  "match": "\\S+",
+                  "name": "string.unquoted.directive-path.markdown"
+                }
+              ]
+            },
+            "6": {
+              "name": "punctuation.whitespace.trailing.markdown"
+            }
+          }
         }
       ]
     },
@@ -6130,6 +6285,9 @@
     "inline_flow": {
       "patterns": [
         {
+          "include": "#directive_variable"
+        },
+        {
           "include": "#inline_code"
         },
         {
@@ -6173,6 +6331,28 @@
         },
         {
           "include": "text.html.derivative"
+        }
+      ]
+    },
+    "directive_variable": {
+      "patterns": [
+        {
+          "name": "meta.directive.variable.inline.markdown",
+          "match": "(@var)(\\{)([_a-zA-Z][_a-zA-Z0-9]*)(\\})",
+          "captures": {
+            "1": {
+              "name": "keyword.control.directive.variable.markdown"
+            },
+            "2": {
+              "name": "punctuation.definition.directive.variable.begin.markdown"
+            },
+            "3": {
+              "name": "variable.other.directive.markdown"
+            },
+            "4": {
+              "name": "punctuation.definition.directive.variable.end.markdown"
+            }
+          }
         }
       ]
     },
