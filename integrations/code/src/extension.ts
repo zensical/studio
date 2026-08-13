@@ -76,7 +76,7 @@ export async function activate(extension: ExtensionContext): Promise<void> {
   const context = new Context(extension);
 
   // Register commands
-  registerCommands(extension, () => client);
+  registerCommands(extension, () => client, () => context.getOutput().show());
   extension.subscriptions.push(
     // The timer below is the primary recovery mechanism. These hooks only make
     // retry more responsive when the user returns to the window or opens a

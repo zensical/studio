@@ -42,6 +42,7 @@ import { registerPreviewCommand } from "./preview";
 export function registerCommands(
   context: ExtensionContext,
   getClient: () => LanguageClient | undefined,
+  showLogs: () => void,
 ): void {
   context.subscriptions.push(
     vscode.commands.registerCommand(
@@ -72,6 +73,9 @@ export function registerCommands(
           `Zensical Studio: Unable to restart server: ${message}`,
         );
       }
+    }),
+    vscode.commands.registerCommand("zensicalStudio.showLogs", () => {
+      showLogs();
     }),
   );
   registerPreviewCommand(context, getClient);
