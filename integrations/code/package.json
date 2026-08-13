@@ -61,6 +61,14 @@
         "command": "zensical.preview.open",
         "title": "Zensical: Open Preview",
         "icon": "$(open-preview)"
+      },
+      {
+        "command": "zensicalStudio.restartServer",
+        "title": "Zensical Studio: Restart Server"
+      },
+      {
+        "command": "zensicalStudio.showLogs",
+        "title": "Zensical Studio: Show Logs"
       }
     ],
     "menus": {
