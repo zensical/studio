@@ -25,6 +25,7 @@
 
 import * as vscode from "vscode";
 import type { ExtensionContext, TextDocument } from "vscode";
+import type { ChildProcess } from "node:child_process";
 import type { LanguageClient } from "vscode-languageclient/node";
 
 import { registerCommands } from "./commands";
@@ -76,7 +77,12 @@ export async function activate(extension: ExtensionContext): Promise<void> {
   const context = new Context(extension);
 
   // Register commands
-  registerCommands(extension, () => client, () => context.getOutput().show());
+  registerCommands(
+    extension,
+    () => client,
+    () => context.getOutput().show(),
+    () => restartStudio(extension, context),
+  );
   extension.subscriptions.push(
     // The timer below is the primary recovery mechanism. These hooks only make
     // retry more responsive when the user returns to the window or opens a
@@ -172,6 +178,78 @@ async function startStudio(
   } finally {
     starting = false;
   }
+}
+
+/**
+ * Stop the current server and start a fresh language client and process.
+ *
+ * @param extension - Extension context
+ * @param context - Context
+ */
+async function restartStudio(
+  extension: ExtensionContext, context: Context,
+): Promise<void> {
+  clearRetry();
+  const previous = client;
+  if (typeof previous === "undefined") {
+    await startStudio(extension, context);
+    return;
+  }
+
+  client = undefined;
+  const serverProcess = previous.serverProcess;
+  try {
+    await previous.stop();
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    context.log(`Server shutdown failed: ${message}`);
+  }
+
+  await terminateServerProcess(serverProcess, context);
+  previous.dispose();
+  await startStudio(extension, context);
+}
+
+/** Terminate a server process that survived client shutdown. */
+async function terminateServerProcess(
+  serverProcess: ChildProcess | undefined, context: Context,
+): Promise<void> {
+  if (!serverProcess || typeof serverProcess.pid !== "number") {
+    return;
+  }
+
+  if (serverProcess.exitCode === null && serverProcess.signalCode === null) {
+    context.log(`Terminating server process ${serverProcess.pid}`);
+    serverProcess.kill();
+    await waitForProcessExit(serverProcess, 1000);
+  }
+
+  if (serverProcess.exitCode === null && serverProcess.signalCode === null) {
+    context.log(`Force terminating server process ${serverProcess.pid}`);
+    serverProcess.kill("SIGKILL");
+    await waitForProcessExit(serverProcess, 1000);
+  }
+}
+
+/** Wait briefly for a child process to exit. */
+function waitForProcessExit(
+  serverProcess: ChildProcess, timeout: number,
+): Promise<void> {
+  if (serverProcess.exitCode !== null || serverProcess.signalCode !== null) {
+    return Promise.resolve();
+  }
+
+  return new Promise((resolve) => {
+    const timer = setTimeout(() => {
+      serverProcess.removeListener("exit", onExit);
+      resolve();
+    }, timeout);
+    const onExit = () => {
+      clearTimeout(timer);
+      resolve();
+    };
+    serverProcess.once("exit", onExit);
+  });
 }
 
 /**

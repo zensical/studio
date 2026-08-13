@@ -43,6 +43,7 @@ export function registerCommands(
   context: ExtensionContext,
   getClient: () => LanguageClient | undefined,
   showLogs: () => void,
+  restartServer: () => Promise<void>,
 ): void {
   context.subscriptions.push(
     vscode.commands.registerCommand(
@@ -56,24 +57,10 @@ export function registerCommands(
         );
       },
     ),
-    vscode.commands.registerCommand("zensicalStudio.restartServer", async () => {
-      const client = getClient();
-      if (!client) {
-        void vscode.window.showInformationMessage(
-          "Zensical Studio is not running.",
-        );
-        return;
-      }
-
-      try {
-        await client.restart();
-      } catch (error) {
-        const message = error instanceof Error ? error.message : String(error);
-        void vscode.window.showErrorMessage(
-          `Zensical Studio: Unable to restart server: ${message}`,
-        );
-      }
-    }),
+    vscode.commands.registerCommand(
+      "zensicalStudio.restartServer",
+      restartServer,
+    ),
     vscode.commands.registerCommand("zensicalStudio.showLogs", () => {
       showLogs();
     }),
