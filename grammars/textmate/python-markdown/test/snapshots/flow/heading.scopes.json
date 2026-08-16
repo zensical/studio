@@ -1,0 +1,398 @@
+{
+  "atx": {
+    "h1": [
+      {
+        "line": "# Heading one",
+        "tokens": [
+          {
+            "text": "#",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown",
+              "heading.1.markdown",
+              "punctuation.definition.heading.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown",
+              "heading.1.markdown"
+            ]
+          },
+          {
+            "text": "Heading one",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown",
+              "heading.1.markdown",
+              "entity.name.section.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "h2": [
+      {
+        "line": "## Heading two",
+        "tokens": [
+          {
+            "text": "##",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown",
+              "heading.2.markdown",
+              "punctuation.definition.heading.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown",
+              "heading.2.markdown"
+            ]
+          },
+          {
+            "text": "Heading two",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown",
+              "heading.2.markdown",
+              "entity.name.section.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "h3": [
+      {
+        "line": "### Heading three",
+        "tokens": [
+          {
+            "text": "###",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown",
+              "heading.3.markdown",
+              "punctuation.definition.heading.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown",
+              "heading.3.markdown"
+            ]
+          },
+          {
+            "text": "Heading three",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown",
+              "heading.3.markdown",
+              "entity.name.section.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "h4": [
+      {
+        "line": "#### Heading four",
+        "tokens": [
+          {
+            "text": "####",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown",
+              "heading.4.markdown",
+              "punctuation.definition.heading.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown",
+              "heading.4.markdown"
+            ]
+          },
+          {
+            "text": "Heading four",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown",
+              "heading.4.markdown",
+              "entity.name.section.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "h5": [
+      {
+        "line": "##### Heading five",
+        "tokens": [
+          {
+            "text": "#####",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown",
+              "heading.5.markdown",
+              "punctuation.definition.heading.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown",
+              "heading.5.markdown"
+            ]
+          },
+          {
+            "text": "Heading five",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown",
+              "heading.5.markdown",
+              "entity.name.section.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "h6": [
+      {
+        "line": "###### Heading six",
+        "tokens": [
+          {
+            "text": "######",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown",
+              "heading.6.markdown",
+              "punctuation.definition.heading.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown",
+              "heading.6.markdown"
+            ]
+          },
+          {
+            "text": "Heading six",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown",
+              "heading.6.markdown",
+              "entity.name.section.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "seven_hashes": [
+      {
+        "line": "####### Seven hashes",
+        "tokens": [
+          {
+            "text": "######",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown",
+              "heading.6.markdown",
+              "punctuation.definition.heading.markdown"
+            ]
+          },
+          {
+            "text": "# Seven hashes",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown",
+              "heading.6.markdown",
+              "entity.name.section.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "closing_hashes": [
+      {
+        "line": "## Heading ##",
+        "tokens": [
+          {
+            "text": "##",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown",
+              "heading.2.markdown",
+              "punctuation.definition.heading.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown",
+              "heading.2.markdown"
+            ]
+          },
+          {
+            "text": "Heading",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown",
+              "heading.2.markdown",
+              "entity.name.section.markdown"
+            ]
+          },
+          {
+            "text": " ##",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown",
+              "heading.2.markdown",
+              "punctuation.definition.heading.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "attribute_list": [
+      {
+        "line": "## Heading { #id }",
+        "tokens": [
+          {
+            "text": "##",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown",
+              "heading.2.markdown",
+              "punctuation.definition.heading.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown",
+              "heading.2.markdown"
+            ]
+          },
+          {
+            "text": "Heading",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown",
+              "heading.2.markdown",
+              "entity.name.section.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown",
+              "meta.attribute-list.trailing.markdown"
+            ]
+          },
+          {
+            "text": "{",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown",
+              "meta.attribute-list.trailing.markdown",
+              "punctuation.definition.attribute-list.begin.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown",
+              "meta.attribute-list.trailing.markdown"
+            ]
+          },
+          {
+            "text": "#",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown",
+              "meta.attribute-list.trailing.markdown",
+              "punctuation.definition.attribute.markdown"
+            ]
+          },
+          {
+            "text": "id",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown",
+              "meta.attribute-list.trailing.markdown",
+              "entity.other.attribute-name.id.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown",
+              "meta.attribute-list.trailing.markdown"
+            ]
+          },
+          {
+            "text": "}",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown",
+              "meta.attribute-list.trailing.markdown",
+              "punctuation.definition.attribute-list.end.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
+  }
+}
