@@ -34,6 +34,7 @@ import { Context } from "./extension/context";
 import { activateProjectMarkdown } from "./extension/project";
 import { getStudio } from "./extension/studio";
 import { NetworkError } from "./extension/studio/fetch";
+import { WordCount } from "./word-count";
 
 /* ----------------------------------------------------------------------------
  * State
@@ -43,6 +44,9 @@ import { NetworkError } from "./extension/studio/fetch";
  * Language client.
  */
 let client: LanguageClient | undefined;
+
+/** Editor-side prose statistics controller. */
+let wordCount: WordCount | undefined;
 
 /**
  * Startup timer.
@@ -75,6 +79,8 @@ const pending = new Map<string, TextDocument>();
  */
 export async function activate(extension: ExtensionContext): Promise<void> {
   const context = new Context(extension);
+  wordCount = new WordCount(() => client);
+  extension.subscriptions.push(wordCount);
 
   // Register commands
   registerCommands(
@@ -166,6 +172,7 @@ async function startStudio(
         context, client, pending,
       )),
     );
+    wordCount?.refresh();
   } catch (error) {
     if (error instanceof NetworkError) {
       scheduleRetry(extension, context);

@@ -60,6 +60,9 @@ interface PreviewUpdate {
   version: number;
   html: string;
   mappings: MappingSegment[];
+  words: number;
+  cjkUnits: number;
+  readingSeconds: number;
 };
 
 /**
@@ -139,6 +142,13 @@ let activePanel: vscode.WebviewPanel | undefined;
  * Active preview session.
  */
 let activeSession: string | undefined;
+
+/**
+ * Active preview context used by editor-side document statistics.
+ */
+let activePreviewContext:
+  { uri: string; variant?: string; projections: Record<string, string> }
+  | undefined;
 
 /**
  * Disposable for the preview update notification.
@@ -253,6 +263,11 @@ export function registerPreviewCommand(
         selectedVariant = availableVariants.includes(persisted ?? "")
           ? persisted
           : result?.defaultVariant;
+        activePreviewContext = {
+          uri,
+          variant: selectedVariant,
+          projections: {},
+        };
         if (selectedVariant && availableVariants.includes(selectedVariant)) {
           void context.workspaceState.update(
             variantStateKey(uri), selectedVariant,
@@ -333,6 +348,7 @@ export function registerPreviewCommand(
         activePanel = undefined;
         activeSession = undefined;
         activeUri = undefined;
+        activePreviewContext = undefined;
         notificationDisposable?.dispose();
         notificationDisposable = undefined;
         variantsChangedDisposable.dispose();
@@ -427,6 +443,11 @@ export function registerPreviewCommand(
             const session = activeSession;
             const uri = activeUri;
             selectedVariant = message.variant;
+            activePreviewContext = {
+              uri,
+              variant: selectedVariant,
+              projections: {},
+            };
             void context.workspaceState.update(
               variantStateKey(uri), selectedVariant,
             );
@@ -562,6 +583,7 @@ export function registerPreviewCommand(
             variantUpdateGeneration += 1;
             availableVariants = [];
             selectedVariant = undefined;
+            activePreviewContext = undefined;
             latestVersion = -1;
             latestUpdate = undefined;
             if (updateTimer) {
@@ -585,6 +607,11 @@ export function registerPreviewCommand(
               selectedVariant = availableVariants.includes(persisted ?? "")
                 ? persisted
                 : variants?.defaultVariant;
+              activePreviewContext = {
+                uri,
+                variant: selectedVariant,
+                projections: {},
+              };
               if (selectedVariant && availableVariants.includes(selectedVariant)) {
                 void context.workspaceState.update(
                   variantStateKey(uri), selectedVariant,
@@ -625,6 +652,11 @@ export function registerPreviewCommand(
             // Update the active session and send the initial preview update
             activeSession = result.session;
             activeUri = uri;
+            activePreviewContext = {
+              uri,
+              variant: selectedVariant,
+              projections: {},
+            };
             startingUri = undefined;
             latestVersion = result.initialUpdate.version;
             latestUpdate = result.initialUpdate;
@@ -667,6 +699,20 @@ export function registerPreviewCommand(
       requestSwitch(editor.document);
     }),
   );
+}
+
+/**
+ * Returns the selected context for an active preview document.
+ *
+ * @param uri - The URI of the document
+ *
+ * @returns Active preview context, or undefined if not active
+ */
+export function getActivePreviewContext(
+  uri: string,
+): { variant?: string; projections: Record<string, string> } | undefined {
+  if (activePreviewContext?.uri !== uri) return undefined;
+  return activePreviewContext;
 }
 
 /* ------------------------------------------------------------------------- */
