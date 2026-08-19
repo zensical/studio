@@ -586,7 +586,7 @@ repository:
         beginCaptures:
           1:
             patterns:
-              - match: (?:^|\G)(#{6})[ \t]*(.*?)(?:([ \t]+#{1,}[ \t]*))?[ \t]*$
+              - match: (#{6})[ \t]*(.*?)(?:([ \t]+#{1,}[ \t]*))?[ \t]*$
                 name: heading.6.markdown
                 captures:
                   1: { name: punctuation.definition.heading.markdown }
@@ -595,7 +595,7 @@ repository:
                     patterns:
                       - include: "#inline_flow"
                   3: { name: punctuation.definition.heading.markdown }
-              - match: (?:^|\G)(#{5})[ \t]*(.*?)(?:([ \t]+#{1,}[ \t]*))?[ \t]*$
+              - match: (#{5})[ \t]*(.*?)(?:([ \t]+#{1,}[ \t]*))?[ \t]*$
                 name: heading.5.markdown
                 captures:
                   1: { name: punctuation.definition.heading.markdown }
@@ -604,7 +604,7 @@ repository:
                     patterns:
                       - include: "#inline_flow"
                   3: { name: punctuation.definition.heading.markdown }
-              - match: (?:^|\G)(#{4})[ \t]*(.*?)(?:([ \t]+#{1,}[ \t]*))?[ \t]*$
+              - match: (#{4})[ \t]*(.*?)(?:([ \t]+#{1,}[ \t]*))?[ \t]*$
                 name: heading.4.markdown
                 captures:
                   1: { name: punctuation.definition.heading.markdown }
@@ -613,7 +613,7 @@ repository:
                     patterns:
                       - include: "#inline_flow"
                   3: { name: punctuation.definition.heading.markdown }
-              - match: (?:^|\G)(#{3})[ \t]*(.*?)(?:([ \t]+#{1,}[ \t]*))?[ \t]*$
+              - match: (#{3})[ \t]*(.*?)(?:([ \t]+#{1,}[ \t]*))?[ \t]*$
                 name: heading.3.markdown
                 captures:
                   1: { name: punctuation.definition.heading.markdown }
@@ -622,7 +622,7 @@ repository:
                     patterns:
                       - include: "#inline_flow"
                   3: { name: punctuation.definition.heading.markdown }
-              - match: (?:^|\G)(#{2})[ \t]*(.*?)(?:([ \t]+#{1,}[ \t]*))?[ \t]*$
+              - match: (#{2})[ \t]*(.*?)(?:([ \t]+#{1,}[ \t]*))?[ \t]*$
                 name: heading.2.markdown
                 captures:
                   1: { name: punctuation.definition.heading.markdown }
@@ -631,7 +631,7 @@ repository:
                     patterns:
                       - include: "#inline_flow"
                   3: { name: punctuation.definition.heading.markdown }
-              - match: (?:^|\G)(#{1})[ \t]*(.*?)(?:([ \t]+#{1,}[ \t]*))?[ \t]*$
+              - match: (#{1})[ \t]*(.*?)(?:([ \t]+#{1,}[ \t]*))?[ \t]*$
                 name: heading.1.markdown
                 captures:
                   1: { name: punctuation.definition.heading.markdown }

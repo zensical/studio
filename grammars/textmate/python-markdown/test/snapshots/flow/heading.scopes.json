@@ -394,5 +394,323 @@
         "tokens": []
       }
     ]
+  },
+  "nested": {
+    "blockquote": [
+      {
+        "line": "> ## Heading two",
+        "tokens": [
+          {
+            "text": ">",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.block.quote.markdown",
+              "markup.quote.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.block.quote.markdown"
+            ]
+          },
+          {
+            "text": "##",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.block.quote.markdown",
+              "markup.heading.markdown",
+              "heading.2.markdown",
+              "punctuation.definition.heading.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.block.quote.markdown",
+              "markup.heading.markdown",
+              "heading.2.markdown"
+            ]
+          },
+          {
+            "text": "Heading two",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.block.quote.markdown",
+              "markup.heading.markdown",
+              "heading.2.markdown",
+              "entity.name.section.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "nested_blockquote": [
+      {
+        "line": "> > ### Heading three",
+        "tokens": [
+          {
+            "text": ">",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.block.quote.markdown",
+              "markup.quote.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.block.quote.markdown"
+            ]
+          },
+          {
+            "text": ">",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.block.quote.markdown",
+              "meta.block.quote.markdown",
+              "markup.quote.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.block.quote.markdown",
+              "meta.block.quote.markdown"
+            ]
+          },
+          {
+            "text": "###",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.block.quote.markdown",
+              "meta.block.quote.markdown",
+              "markup.heading.markdown",
+              "heading.3.markdown",
+              "punctuation.definition.heading.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.block.quote.markdown",
+              "meta.block.quote.markdown",
+              "markup.heading.markdown",
+              "heading.3.markdown"
+            ]
+          },
+          {
+            "text": "Heading three",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.block.quote.markdown",
+              "meta.block.quote.markdown",
+              "markup.heading.markdown",
+              "heading.3.markdown",
+              "entity.name.section.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "admonition": [
+      {
+        "line": "!!! note",
+        "tokens": [
+          {
+            "text": "!!!",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.admonition.markdown",
+              "keyword.control.admonition.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.admonition.markdown"
+            ]
+          },
+          {
+            "text": "note",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.admonition.markdown",
+              "entity.other.attribute-name.admonition.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      },
+      {
+        "line": "    ## Heading two",
+        "tokens": [
+          {
+            "text": "    ",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown"
+            ]
+          },
+          {
+            "text": "##",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown",
+              "heading.2.markdown",
+              "punctuation.definition.heading.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown",
+              "heading.2.markdown"
+            ]
+          },
+          {
+            "text": "Heading two",
+            "scopes": [
+              "text.html.markdown.python",
+              "markup.heading.markdown",
+              "heading.2.markdown",
+              "entity.name.section.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      },
+      {
+        "line": "    Body text",
+        "tokens": [
+          {
+            "text": "    ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          },
+          {
+            "text": "Body text",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.paragraph.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ],
+    "footnote_definition": [
+      {
+        "line": "[^1]: # Heading one",
+        "tokens": [
+          {
+            "text": "[",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.footnote-definition.markdown",
+              "punctuation.definition.footnote.begin.markdown"
+            ]
+          },
+          {
+            "text": "^",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.footnote-definition.markdown",
+              "keyword.control.footnote.markdown"
+            ]
+          },
+          {
+            "text": "1",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.footnote-definition.markdown",
+              "entity.name.label.footnote.markdown"
+            ]
+          },
+          {
+            "text": "]",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.footnote-definition.markdown",
+              "punctuation.definition.footnote.end.markdown"
+            ]
+          },
+          {
+            "text": ":",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.footnote-definition.markdown",
+              "punctuation.separator.key-value.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.footnote-definition.markdown"
+            ]
+          },
+          {
+            "text": "#",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.footnote-definition.markdown",
+              "markup.heading.markdown",
+              "heading.1.markdown",
+              "punctuation.definition.heading.markdown"
+            ]
+          },
+          {
+            "text": " ",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.footnote-definition.markdown",
+              "markup.heading.markdown",
+              "heading.1.markdown"
+            ]
+          },
+          {
+            "text": "Heading one",
+            "scopes": [
+              "text.html.markdown.python",
+              "meta.footnote-definition.markdown",
+              "markup.heading.markdown",
+              "heading.1.markdown",
+              "entity.name.section.markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "line": "",
+        "tokens": []
+      }
+    ]
   }
 }

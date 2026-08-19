@@ -53,3 +53,33 @@
 ``` md
 ## Heading { #id }
 ```
+
+## nested
+
+### blockquote
+
+``` md
+> ## Heading two
+```
+
+### nested_blockquote
+
+``` md
+> > ### Heading three
+```
+
+### admonition
+
+``` md
+!!! note
+
+    ## Heading two
+
+    Body text
+```
+
+### footnote_definition
+
+``` md
+[^1]: # Heading one
+```
