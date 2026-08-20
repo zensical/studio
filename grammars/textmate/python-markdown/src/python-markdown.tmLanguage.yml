@@ -580,16 +580,66 @@ repository:
     patterns:
       - name: markup.heading.markdown
         begin: >-
-          (?:^|\G)[ \t]*(#{1,6})[ \t]*(.*?)(?:([ \t]+#{1,}[ \t]*))?(?=(?:[
+          (?:^|\G)[ \t]*((#{1,6})[ \t]*(.*?)(?:([ \t]+#{1,}[ \t]*))?)(?=(?:[
           \t]+\{)|$)
         applyEndPatternLast: 1
         beginCaptures:
-          1: { name: punctuation.definition.heading.markdown }
-          2:
-            name: entity.name.section.markdown
+          1:
             patterns:
-              - include: "#inline_flow"
-          3: { name: punctuation.definition.heading.markdown }
+              - match: (#{6})[ \t]*(.*?)(?:([ \t]+#{1,}[ \t]*))?[ \t]*$
+                name: heading.6.markdown
+                captures:
+                  1: { name: punctuation.definition.heading.markdown }
+                  2:
+                    name: entity.name.section.markdown
+                    patterns:
+                      - include: "#inline_flow"
+                  3: { name: punctuation.definition.heading.markdown }
+              - match: (#{5})[ \t]*(.*?)(?:([ \t]+#{1,}[ \t]*))?[ \t]*$
+                name: heading.5.markdown
+                captures:
+                  1: { name: punctuation.definition.heading.markdown }
+                  2:
+                    name: entity.name.section.markdown
+                    patterns:
+                      - include: "#inline_flow"
+                  3: { name: punctuation.definition.heading.markdown }
+              - match: (#{4})[ \t]*(.*?)(?:([ \t]+#{1,}[ \t]*))?[ \t]*$
+                name: heading.4.markdown
+                captures:
+                  1: { name: punctuation.definition.heading.markdown }
+                  2:
+                    name: entity.name.section.markdown
+                    patterns:
+                      - include: "#inline_flow"
+                  3: { name: punctuation.definition.heading.markdown }
+              - match: (#{3})[ \t]*(.*?)(?:([ \t]+#{1,}[ \t]*))?[ \t]*$
+                name: heading.3.markdown
+                captures:
+                  1: { name: punctuation.definition.heading.markdown }
+                  2:
+                    name: entity.name.section.markdown
+                    patterns:
+                      - include: "#inline_flow"
+                  3: { name: punctuation.definition.heading.markdown }
+              - match: (#{2})[ \t]*(.*?)(?:([ \t]+#{1,}[ \t]*))?[ \t]*$
+                name: heading.2.markdown
+                captures:
+                  1: { name: punctuation.definition.heading.markdown }
+                  2:
+                    name: entity.name.section.markdown
+                    patterns:
+                      - include: "#inline_flow"
+                  3: { name: punctuation.definition.heading.markdown }
+              - match: (#{1})[ \t]*(.*?)(?:([ \t]+#{1,}[ \t]*))?[ \t]*$
+                name: heading.1.markdown
+                captures:
+                  1: { name: punctuation.definition.heading.markdown }
+                  2:
+                    name: entity.name.section.markdown
+                    patterns:
+                      - include: "#inline_flow"
+                  3: { name: punctuation.definition.heading.markdown }
         end: (?=[ \t]+\{|$)
         patterns:
           - include: "#attribute_list"
