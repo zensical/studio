@@ -29,6 +29,7 @@ import type { LanguageClient } from "vscode-languageclient/node";
 import { extname } from "node:path";
 
 import type { Context } from "./context";
+import { isUriInside } from "./project-path";
 
 /* ----------------------------------------------------------------------------
  * Types
@@ -271,18 +272,5 @@ async function tagDocument(
  * @returns Whether the document is managed
  */
 function isManaged(uri: vscode.Uri, roots: string[]): boolean {
-  return roots.some((root) => {
-    const rootUri = vscode.Uri.parse(root);
-    const rootPath = rootUri.path.endsWith("/")
-      ? rootUri.path
-      : `${rootUri.path}/`;
-
-    // Check if the document URI matches the root URI scheme and authority, and
-    // if the document path is equal to the root path or starts at the root
-    return (
-      uri.scheme === rootUri.scheme &&
-      uri.authority === rootUri.authority &&
-      (uri.path === rootUri.path || uri.path.startsWith(rootPath))
-    );
-  });
+  return roots.some((root) => isUriInside(uri, vscode.Uri.parse(root)));
 }
