@@ -108,9 +108,11 @@ export async function activateProjectMarkdown(
     await tagOpenDocuments(
       roots, openDocuments, changingLanguage, pending,
     );
+    const count = responses.reduce(
+      (total, [, values]) => total + values.length, 0,
+    );
     context.log(
-      `Received ${responses.reduce((count, [, values]) => count + values.length, 0)} ` +
-        "managed Markdown root(s)",
+      `Workspace: received ${count} managed Markdown ${count === 1 ? "root" : "roots"}`,
     );
   };
 
