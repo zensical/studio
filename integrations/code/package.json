@@ -125,6 +125,16 @@
       {
         "command": "zensicalStudio.connections.copyTargetPath",
         "title": "Copy Path"
+      },
+      {
+        "command": "zensicalStudio.toggleBold",
+        "title": "Zensical Studio: Toggle Bold",
+        "enablement": "editorLangId == python-markdown"
+      },
+      {
+        "command": "zensicalStudio.toggleItalic",
+        "title": "Zensical Studio: Toggle Italic",
+        "enablement": "editorLangId == python-markdown"
       }
     ],
     "menus": {
@@ -172,6 +182,14 @@
         {
           "command": "zensicalStudio.connections.copyTargetPath",
           "when": "false"
+        },
+        {
+          "command": "zensicalStudio.toggleBold",
+          "when": "editorLangId == python-markdown"
+        },
+        {
+          "command": "zensicalStudio.toggleItalic",
+          "when": "editorLangId == python-markdown"
         }
       ],
       "editor/title": [
@@ -271,6 +289,20 @@
         }
       ]
     },
+    "keybindings": [
+      {
+        "command": "zensicalStudio.toggleBold",
+        "key": "ctrl+b",
+        "mac": "cmd+b",
+        "when": "editorTextFocus && !editorReadonly && editorLangId == python-markdown"
+      },
+      {
+        "command": "zensicalStudio.toggleItalic",
+        "key": "ctrl+i",
+        "mac": "cmd+i",
+        "when": "editorTextFocus && !editorReadonly && editorLangId == python-markdown"
+      }
+    ],
     "configurationDefaults": {
       "[python-markdown]": {
         "editor.colorDecorators": false,
