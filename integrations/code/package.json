@@ -59,7 +59,7 @@
     "commands": [
       {
         "command": "zensical.preview.open",
-        "title": "Zensical: Open Preview",
+        "title": "Zensical Studio: Open Preview",
         "icon": "$(open-preview)"
       },
       {
@@ -69,14 +69,99 @@
       {
         "command": "zensicalStudio.showLogs",
         "title": "Zensical Studio: Show Logs"
+      },
+      {
+        "command": "zensicalStudio.connections.show",
+        "title": "Zensical Studio: Show Connections",
+        "icon": "$(type-hierarchy)",
+        "enablement": "resourceScheme == file && resourceExtname =~ /\\.(avif|bmp|gif|ico|jpe?g|markdown|md|mp3|mp4|ogg|otf|pdf|png|svg|ttf|wav|webm|webp|woff2?)$/i"
+      },
+      {
+        "command": "zensicalStudio.connections.refresh",
+        "title": "Refresh Connections",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "zensicalStudio.connections.follow",
+        "title": "Follow Active Editor",
+        "icon": "$(eye)"
+      },
+      {
+        "command": "zensicalStudio.connections.pin",
+        "title": "Pin Current Resource",
+        "icon": "$(pinned)"
       }
     ],
     "menus": {
+      "commandPalette": [
+        {
+          "command": "zensicalStudio.connections.show",
+          "when": "resourceScheme == file && resourceExtname =~ /\\.(avif|bmp|gif|ico|jpe?g|markdown|md|mp3|mp4|ogg|otf|pdf|png|svg|ttf|wav|webm|webp|woff2?)$/i"
+        },
+        {
+          "command": "zensicalStudio.connections.refresh",
+          "when": "false"
+        },
+        {
+          "command": "zensicalStudio.connections.follow",
+          "when": "false"
+        },
+        {
+          "command": "zensicalStudio.connections.pin",
+          "when": "false"
+        }
+      ],
       "editor/title": [
         {
           "command": "zensical.preview.open",
           "when": "editorLangId == python-markdown && !notebookEditorFocused",
           "group": "navigation@1"
+        },
+        {
+          "command": "zensicalStudio.connections.show",
+          "when": "editorLangId == python-markdown && !notebookEditorFocused",
+          "group": "navigation@2"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "zensicalStudio.connections.show",
+          "when": "editorLangId == python-markdown",
+          "group": "navigation@10"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "zensicalStudio.connections.show",
+          "when": "resourceScheme == file && resourceExtname =~ /\\.(avif|bmp|gif|ico|jpe?g|markdown|md|mp3|mp4|ogg|otf|pdf|png|svg|ttf|wav|webm|webp|woff2?)$/i && !explorerResourceIsFolder",
+          "group": "navigation@1"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "zensicalStudio.connections.follow",
+          "when": "view == zensicalStudio.connections && !zensicalStudio.connections.followActiveEditor",
+          "group": "navigation@1"
+        },
+        {
+          "command": "zensicalStudio.connections.pin",
+          "when": "view == zensicalStudio.connections && zensicalStudio.connections.followActiveEditor",
+          "group": "navigation@1"
+        },
+        {
+          "command": "zensicalStudio.connections.refresh",
+          "when": "view == zensicalStudio.connections",
+          "group": "navigation@2"
+        }
+      ]
+    },
+    "views": {
+      "explorer": [
+        {
+          "id": "zensicalStudio.connections",
+          "name": "Connections",
+          "contextualTitle": "Connections",
+          "visibility": "collapsed"
         }
       ]
     },

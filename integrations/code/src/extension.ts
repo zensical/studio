@@ -29,6 +29,7 @@ import type { ChildProcess } from "node:child_process";
 import type { LanguageClient } from "vscode-languageclient/node";
 
 import { registerCommands } from "./commands";
+import { ConnectionsView } from "./connections";
 import { createLanguageClient } from "./extension/client";
 import { Context } from "./extension/context";
 import { activateProjectMarkdown } from "./extension/project";
@@ -45,8 +46,15 @@ import { WordCount } from "./word-count";
  */
 let client: LanguageClient | undefined;
 
-/** Editor-side prose statistics controller. */
+/**
+ * Editor-side prose statistics controller.
+ */
 let wordCount: WordCount | undefined;
+
+/**
+ * Sticky document relationships tree.
+ */
+let connections: ConnectionsView | undefined;
 
 /**
  * Startup timer.
@@ -81,6 +89,7 @@ export async function activate(extension: ExtensionContext): Promise<void> {
   const context = new Context(extension);
   wordCount = new WordCount(() => client);
   extension.subscriptions.push(wordCount);
+  connections = new ConnectionsView(extension, () => client);
 
   // Register commands
   registerCommands(
@@ -172,6 +181,7 @@ async function startStudio(
         context, client, pending,
       )),
     );
+    connections?.attachClient(client);
     wordCount?.refresh();
   } catch (error) {
     if (error instanceof NetworkError) {
