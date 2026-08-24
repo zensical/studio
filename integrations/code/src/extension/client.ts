@@ -62,7 +62,12 @@ export function createLanguageClient(
 
   // Initialize client options
   const clientOptions: LanguageClientOptions = {
-    documentSelector: [{ scheme: "file", language: "python-markdown" }],
+    documentSelector: [
+      { scheme: "file", language: "python-markdown" },
+      { scheme: "file", language: "toml", pattern: "**/zensical.toml" },
+      { scheme: "file", language: "yaml", pattern: "**/mkdocs.yml" },
+      { scheme: "file", language: "yaml", pattern: "**/mkdocs.yaml" },
+    ],
     outputChannel: context.getOutput(),
     initializationOptions: { token: studio.token },
   };
