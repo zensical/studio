@@ -32,7 +32,10 @@
     },
     {
       "open": "`",
-      "close": "`"
+      "close": "`",
+      "notIn": [
+        "string"
+      ]
     },
     {
       "open": "<",
