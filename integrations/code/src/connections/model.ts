@@ -74,6 +74,15 @@ export interface RelationshipGroupSummary {
   kind: RelationshipGroupKind;
   entries: number;
   occurrences: number;
+  assetKinds?: AssetKindCount[];
+}
+
+/**
+ * Counts of distinct assets grouped by media type.
+ */
+export interface AssetKindCount {
+  kind: "image" | "video" | "audio" | "other";
+  entries: number;
 }
 
 /**
@@ -83,6 +92,28 @@ export interface ConnectionsSummary {
   version: 1;
   subject: RelationshipSubject;
   groups: RelationshipGroupSummary[];
+  navigation?: NavigationContext[];
+}
+
+/**
+ * One authored navigation entry.
+ */
+export interface NavigationEntry {
+  label: string;
+  uri: string;
+  path?: string;
+  configurationUri: string;
+  configurationRange?: Range;
+}
+
+/**
+ * Direct navigation context for one occurrence of the current page.
+ */
+export interface NavigationContext {
+  ancestors: string[];
+  current: NavigationEntry;
+  previous?: NavigationEntry;
+  next?: NavigationEntry;
 }
 
 /**
@@ -140,6 +171,7 @@ export interface RelationshipGroupDefinition {
 export interface VisibleRelationshipGroup extends RelationshipGroupDefinition {
   entries: number;
   occurrences: number;
+  assetKinds?: AssetKindCount[];
 }
 
 /**
