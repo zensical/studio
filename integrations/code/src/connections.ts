@@ -30,7 +30,10 @@ import type { Range } from "vscode-languageserver-types";
 
 import {
   getVisibleSections,
+  type AssetKindCount,
   type ConnectionsSummary,
+  type NavigationContext,
+  type NavigationEntry,
   type RelationshipEntries,
   type RelationshipEntry,
   type RelationshipGroupKind,
@@ -48,6 +51,10 @@ import {
  * Tree node for a relationship view.
  */
 type RelationshipNode =
+  | NavigationSectionNode
+  | NavigationAncestorNode
+  | NavigationEntryNode
+  | NavigationNeighborNode
   | SectionNode
   | GroupNode
   | EntryNode
@@ -60,6 +67,42 @@ type RelationshipNode =
 interface SectionNode {
   type: "section";
   section: VisibleRelationshipSection;
+}
+
+/**
+ * Root section for authored page placement in project navigation.
+ */
+interface NavigationSectionNode {
+  type: "navigation";
+  contexts: NavigationContext[];
+}
+
+/**
+ * One label-only level in the authored navigation hierarchy.
+ */
+interface NavigationAncestorNode {
+  type: "navigationAncestor";
+  contexts: NavigationContext[];
+  ancestors: string[];
+}
+
+/**
+ * The active page as it is named in one navigation occurrence.
+ */
+interface NavigationEntryNode {
+  type: "navigationEntry";
+  context: NavigationContext;
+  index: number;
+}
+
+/**
+ * A neighboring page in the active navigation branch.
+ */
+interface NavigationNeighborNode {
+  type: "navigationNeighbor";
+  relation: "Previous" | "Next";
+  entry: NavigationEntry;
+  index: number;
 }
 
 /**
@@ -241,6 +284,14 @@ implements vscode.TreeDataProvider<RelationshipNode>, vscode.Disposable {
   /** Return a rendered tree item. */
   getTreeItem(node: RelationshipNode): vscode.TreeItem {
     switch (node.type) {
+      case "navigation":
+        return navigationSectionTreeItem(node);
+      case "navigationAncestor":
+        return navigationAncestorTreeItem(node);
+      case "navigationEntry":
+        return navigationEntryTreeItem(node);
+      case "navigationNeighbor":
+        return navigationNeighborTreeItem(node);
       case "section":
         return sectionTreeItem(node);
       case "group":
@@ -258,12 +309,44 @@ implements vscode.TreeDataProvider<RelationshipNode>, vscode.Disposable {
   async getChildren(node?: RelationshipNode): Promise<RelationshipNode[]> {
     if (!node) {
       if (this.state !== "ready" || !this.summary) return [];
-      return getVisibleSections(this.summary.groups).map(
-        (section): SectionNode => ({ type: "section", section }),
-      );
+      const navigation = this.summary.navigation || [];
+      return [
+        ...getVisibleSections(this.summary.groups).map(
+          (section): SectionNode => ({ type: "section", section }),
+        ),
+        ...(navigation.length
+          ? [{ type: "navigation", contexts: navigation } satisfies NavigationSectionNode]
+          : []),
+      ];
     }
 
+    // Return children for the given node type
     switch (node.type) {
+      case "navigation":
+        return navigationChildren(node.contexts, []);
+      case "navigationAncestor":
+        return navigationChildren(node.contexts, node.ancestors);
+      case "navigationEntry":
+        return [
+          ...(node.context.previous
+            ? [{
+              type: "navigationNeighbor",
+              relation: "Previous",
+              entry: node.context.previous,
+              index: node.index,
+            } satisfies NavigationNeighborNode]
+            : []),
+          ...(node.context.next
+            ? [{
+              type: "navigationNeighbor",
+              relation: "Next",
+              entry: node.context.next,
+              index: node.index,
+            } satisfies NavigationNeighborNode]
+            : []),
+        ];
+      case "navigationNeighbor":
+        return [];
       case "section":
         return (await Promise.all(node.section.groups.map(async (definition) => {
           const group = this.groups.get(definition.kind)!;
@@ -459,6 +542,173 @@ implements vscode.TreeDataProvider<RelationshipNode>, vscode.Disposable {
  * ------------------------------------------------------------------------- */
 
 /**
+ * Return the next visible level of authored navigation context.
+ *
+ * @param contexts - Page occurrences represented below this tree level
+ * @param ancestors - Authored labels leading to this level
+ *
+ * @returns Navigation groups and page occurrences in authored order
+ */
+function navigationChildren(
+  contexts: NavigationContext[],
+  ancestors: string[],
+): RelationshipNode[] {
+  const matching = contexts.filter((context) =>
+    ancestors.every((label, index) => context.ancestors[index] === label)
+  );
+  const groups = new Map<string, NavigationContext[]>();
+  const entries: NavigationEntryNode[] = [];
+
+  for (const context of matching) {
+    const label = context.ancestors[ancestors.length];
+    if (label) {
+      const group = groups.get(label) || [];
+      group.push(context);
+      groups.set(label, group);
+    } else {
+      entries.push({
+        type: "navigationEntry",
+        context,
+        index: entries.length,
+      });
+    }
+  }
+
+  return [
+    ...[...groups.entries()].map(([label, contexts]) => ({
+      type: "navigationAncestor",
+      contexts,
+      ancestors: [...ancestors, label],
+    }) satisfies NavigationAncestorNode),
+    ...entries,
+  ];
+}
+
+/**
+ * Render the root navigation section.
+ *
+ * @param node - Navigation section node
+ *
+ * @returns Navigation tree item
+ */
+function navigationSectionTreeItem(
+  node: NavigationSectionNode,
+): vscode.TreeItem {
+  const item = new vscode.TreeItem(
+    "Navigation",
+    vscode.TreeItemCollapsibleState.Expanded,
+  );
+  item.id = "section:navigation";
+  item.description = formatEntries(node.contexts.length);
+  item.iconPath = new vscode.ThemeIcon("list-tree");
+  item.contextValue = "navigationSection";
+  item.tooltip = "This page's position in project navigation";
+  return item;
+}
+
+/**
+ * Render an authored navigation group label.
+ *
+ * @param node - Navigation ancestor node
+ *
+ * @returns Navigation tree item
+ */
+function navigationAncestorTreeItem(
+  node: NavigationAncestorNode,
+): vscode.TreeItem {
+  const item = new vscode.TreeItem(
+    node.ancestors.at(-1) || "Navigation",
+    vscode.TreeItemCollapsibleState.Expanded,
+  );
+  item.id = `navigation:${node.ancestors.join("\u0000")}`;
+  item.iconPath = new vscode.ThemeIcon("folder");
+  item.contextValue = "navigationAncestor";
+  return item;
+}
+
+/**
+ * Render the active page's authored navigation entry.
+ *
+ * @param node - Navigation page node
+ *
+ * @returns Navigation tree item
+ */
+function navigationEntryTreeItem(node: NavigationEntryNode): vscode.TreeItem {
+  const entry = node.context.current;
+  const item = new vscode.TreeItem(
+    entry.label,
+    node.context.previous || node.context.next
+      ? vscode.TreeItemCollapsibleState.Expanded
+      : vscode.TreeItemCollapsibleState.None,
+  );
+  item.id = navigationEntryId(entry);
+  item.description = navigationLocationDescription(entry);
+  item.iconPath = new vscode.ThemeIcon("markdown");
+  item.contextValue = "navigationCurrent";
+  item.tooltip = `${entry.label}\n${item.description}`;
+  return item;
+}
+
+/**
+ * Render one previous or next navigation page.
+ *
+ * @param node - Navigation neighbor node
+ *
+ * @returns Navigation tree item
+ */
+function navigationNeighborTreeItem(
+  node: NavigationNeighborNode,
+): vscode.TreeItem {
+  const item = new vscode.TreeItem(
+    `${node.relation}: ${node.entry.label}`,
+    vscode.TreeItemCollapsibleState.None,
+  );
+  item.id = `${navigationEntryId(node.entry)}:${node.relation}:${node.index}`;
+  item.description = node.entry.path ||
+    resourceDescription(vscode.Uri.parse(node.entry.uri));
+  item.iconPath = new vscode.ThemeIcon(
+    node.relation === "Previous" ? "arrow-small-left" : "arrow-small-right",
+  );
+  item.contextValue = "navigationNeighbor";
+  item.tooltip = `${node.relation}: ${node.entry.label}\n${item.description}`;
+  item.command = {
+    command: "zensicalStudio.connections.open",
+    title: `Open ${node.relation} Navigation Page`,
+    arguments: [node.entry.uri],
+  };
+  return item;
+}
+
+/**
+ * Return a stable tree ID for an authored navigation entry.
+ *
+ * @param entry - Navigation entry
+ *
+ * @returns Stable tree ID string
+ */
+function navigationEntryId(entry: NavigationEntry): string {
+  const range = entry.configurationRange;
+  return `navigation:entry:${entry.configurationUri}:` +
+    `${range?.start.line ?? 0}:${range?.start.character ?? 0}`;
+}
+
+/**
+ * Return the configuration location for an authored navigation entry.
+ *
+ * @param entry - Navigation entry
+ *
+ * @returns Location description string
+ */
+function navigationLocationDescription(entry: NavigationEntry): string {
+  const uri = vscode.Uri.parse(entry.configurationUri);
+  const location = resourceDescription(uri);
+  const line = entry.configurationRange
+    ? `:${entry.configurationRange.start.line + 1}`
+    : "";
+  return `${location}${line}`;
+}
+
+/**
  * Render a tree item for a relationship section.
  *
  * @param node - Section node
@@ -488,13 +738,41 @@ function groupTreeItem(node: GroupNode): vscode.TreeItem {
     vscode.TreeItemCollapsibleState.Collapsed,
   );
   item.id = `group:${node.group.kind}`;
-  item.description = `${formatEntries(node.group.entries)} · ` +
-    formatOccurrences(node.group.occurrences);
+  item.description = groupDescription(node.group);
   item.iconPath = new vscode.ThemeIcon(node.group.icon);
   item.contextValue = "connectionGroup";
   item.tooltip = `${node.group.entries} related resources, ` +
     `${node.group.occurrences} occurrences`;
   return item;
+}
+
+/**
+ * Return a concise group summary, using media types for assets.
+ *
+ * @param group - Relationship group
+ *
+ * @returns Formatted description string
+ */
+function groupDescription(group: VisibleRelationshipGroup): string {
+  const kinds = group.assetKinds || [];
+  if (!kinds.length) {
+    return `${formatEntries(group.entries)} · ` +
+      formatOccurrences(group.occurrences);
+  }
+  return `${kinds.map(formatAssetKind).join(" · ")} · ` +
+    formatOccurrences(group.occurrences);
+}
+
+/**
+ * Format one media-type count.
+ *
+ * @param asset - Asset kind and count
+ *
+ * @returns Formatted string
+ */
+function formatAssetKind(asset: AssetKindCount): string {
+  const label = asset.kind === "other" ? "asset" : asset.kind;
+  return `${asset.entries} ${label}${asset.entries === 1 ? "" : "s"}`;
 }
 
 /**
