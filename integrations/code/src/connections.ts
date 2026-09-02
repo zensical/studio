@@ -242,7 +242,8 @@ implements vscode.TreeDataProvider<RelationshipNode>, vscode.Disposable {
         if (this.following && editor) void this.setResource(editor.document.uri);
       }),
       vscode.window.tabGroups.onDidChangeTabs((event) => {
-        if (!this.following || !event.changed.some((tab) => tab.isActive)) return;
+        const activated = [...event.opened, ...event.changed];
+        if (!this.following || !activated.some((tab) => tab.isActive)) return;
         const uri = getActiveResource();
         if (uri) void this.setResource(uri);
       }),
