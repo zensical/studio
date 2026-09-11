@@ -24,7 +24,7 @@
  */
 
 import * as vscode from "vscode";
-import type { ExtensionContext, TextDocument } from "vscode";
+import type { Disposable, ExtensionContext, TextDocument } from "vscode";
 import type { ChildProcess } from "node:child_process";
 import type { LanguageClient } from "vscode-languageclient/node";
 
@@ -47,6 +47,11 @@ import { WordCount } from "./word-count";
 let client: LanguageClient | undefined;
 
 /**
+ * Listeners owned by the current language client.
+ */
+let clientDisposables: Disposable[] = [];
+
+/**
  * Editor-side prose statistics controller.
  */
 let wordCount: WordCount | undefined;
@@ -65,6 +70,11 @@ let retryTimer: ReturnType<typeof setTimeout> | undefined;
  * Startup retry delay.
  */
 let retryDelay = 5000;
+
+/**
+ * Timer that resets restart backoff after a stable session.
+ */
+let retryResetTimer: ReturnType<typeof setTimeout> | undefined;
 
 /**
  * Whether startup is already in progress.
@@ -137,9 +147,13 @@ export async function activate(extension: ExtensionContext): Promise<void> {
  */
 export async function deactivate(): Promise<void> {
   clearRetry();
-  if (typeof client !== "undefined") {
-    await client.stop();
-    client = undefined;
+  clearRetryReset();
+  disposeClientDisposables();
+  const previous = client;
+  client = undefined;
+  if (typeof previous !== "undefined") {
+    await previous.stop();
+    previous.dispose();
   }
 }
 
@@ -163,35 +177,53 @@ async function startStudio(
   // Clear any scheduled retry
   clearRetry();
   starting = true;
+  let next: LanguageClient | undefined;
   try {
     // Obtain Zensical studio configuration
     const studio = await getStudio(context);
     if (typeof studio === "undefined") {
-      retryDelay = 5000;
+      scheduleRetry(extension, context, "Studio unavailable");
       return;
     }
 
     // Create and start the language client
-    retryDelay = 5000;
     context.log("Starting Zensical Studio");
-    client = createLanguageClient(context, studio);
-    await client.start();
-    extension.subscriptions.push(
-      ...(await activateProjectMarkdown(
-        context, client, pending,
-      )),
+    next = createLanguageClient(context, studio, () => {
+      setTimeout(() => {
+        recoverStudio(extension, context, next);
+      }, 0);
+    });
+    client = next;
+    await next.start();
+    const disposables = await activateProjectMarkdown(
+      context, next, pending,
     );
-    connections?.attachClient(client);
-    wordCount?.refresh();
-  } catch (error) {
-    if (error instanceof NetworkError) {
-      scheduleRetry(extension, context);
+    if (client !== next) {
+      for (const disposable of disposables) disposable.dispose();
       return;
+    }
+    disposeClientDisposables();
+    clientDisposables = disposables;
+    connections?.attachClient(next);
+    wordCount?.refresh();
+    markStudioStable();
+  } catch (error) {
+    if (typeof next !== "undefined") {
+      if (client === next) client = undefined;
+      disposeClientDisposables();
+      const serverProcess = next.serverProcess;
+      next.dispose();
+      await terminateServerProcess(serverProcess, context);
     }
 
     // Log the error
     const message = error instanceof Error ? error.message : String(error);
     context.log(`Failed to start Zensical Studio: ${message}`);
+    scheduleRetry(
+      extension,
+      context,
+      error instanceof NetworkError ? "Network unavailable" : "Startup failed",
+    );
   } finally {
     starting = false;
   }
@@ -207,6 +239,8 @@ async function restartStudio(
   extension: ExtensionContext, context: Context,
 ): Promise<void> {
   clearRetry();
+  clearRetryReset();
+  retryDelay = 5000;
   const previous = client;
   if (typeof previous === "undefined") {
     await startStudio(extension, context);
@@ -214,6 +248,7 @@ async function restartStudio(
   }
 
   client = undefined;
+  disposeClientDisposables();
   const serverProcess = previous.serverProcess;
   try {
     await previous.stop();
@@ -227,7 +262,35 @@ async function restartStudio(
   await startStudio(extension, context);
 }
 
-/** Terminate a server process that survived client shutdown. */
+/**
+ * Recover from an unexpected server stop through normal startup resolution.
+ *
+ * @param extension - Extension context
+ * @param context - Context
+ * @param stopped - Language client that stopped unexpectedly
+ */
+function recoverStudio(
+  extension: ExtensionContext, context: Context,
+  stopped: LanguageClient | undefined,
+): void {
+  if (typeof stopped === "undefined" || client !== stopped) {
+    return;
+  }
+
+  context.log("Studio stopped; resolving the runtime before restart");
+  client = undefined;
+  clearRetryReset();
+  disposeClientDisposables();
+  stopped.dispose();
+  scheduleRetry(extension, context, "Studio stopped");
+}
+
+/**
+ * Terminate a server process that survived client shutdown.
+ *
+ * @param serverProcess - Server process
+ * @param context - Context
+ */
 async function terminateServerProcess(
   serverProcess: ChildProcess | undefined, context: Context,
 ): Promise<void> {
@@ -248,7 +311,12 @@ async function terminateServerProcess(
   }
 }
 
-/** Wait briefly for a child process to exit. */
+/**
+ * Wait briefly for a child process to exit.
+ *
+ * @param serverProcess - Server process
+ * @param timeout - Timeout in milliseconds
+ */
 function waitForProcessExit(
   serverProcess: ChildProcess, timeout: number,
 ): Promise<void> {
@@ -276,17 +344,38 @@ function waitForProcessExit(
  * @param context - Context
  */
 function scheduleRetry(
-  extension: ExtensionContext, context: Context,
+  extension: ExtensionContext, context: Context, reason: string,
 ): void {
+  if (typeof retryTimer !== "undefined") {
+    return;
+  }
+
+  clearRetryReset();
   const delay = retryDelay;
   const seconds = Math.round(delay / 1000);
-  context.log(`Network unavailable; retrying in ${seconds}s`);
+  context.log(`${reason}; retrying in ${seconds}s`);
 
   // Schedule retry with exponential backoff and jitter
   retryTimer = setTimeout(() => {
+    retryTimer = undefined;
+    if (starting) {
+      scheduleRetry(extension, context, reason);
+      return;
+    }
     void startStudio(extension, context);
   }, jitter(delay));
   retryDelay = Math.min(delay * 2, 5 * 60 * 1000);
+}
+
+/**
+ * Reset restart backoff after the current client remains stable.
+ */
+function markStudioStable(): void {
+  clearRetryReset();
+  retryResetTimer = setTimeout(() => {
+    retryResetTimer = undefined;
+    retryDelay = 5000;
+  }, 3 * 60 * 1000);
 }
 
 /**
@@ -297,6 +386,24 @@ function clearRetry(): void {
     clearTimeout(retryTimer);
     retryTimer = undefined;
   }
+}
+
+/**
+ * Clear the restart-backoff reset timer.
+ */
+function clearRetryReset(): void {
+  if (typeof retryResetTimer !== "undefined") {
+    clearTimeout(retryResetTimer);
+    retryResetTimer = undefined;
+  }
+}
+
+/**
+ * Dispose listeners owned by the current language client.
+ */
+function disposeClientDisposables(): void {
+  for (const disposable of clientDisposables) disposable.dispose();
+  clientDisposables = [];
 }
 
 /**
