@@ -28,6 +28,8 @@ import { readFileSync } from "node:fs";
 import type { ExtensionContext } from "vscode";
 import type { LanguageClient } from "vscode-languageclient/node";
 
+import { isSameUri } from "./extension/project-path";
+
 /* ----------------------------------------------------------------------------
  * Types
  * ------------------------------------------------------------------------- */
@@ -296,12 +298,14 @@ export function registerPreviewCommand(
           // Ignore updates for inactive sessions or older versions
           if (
             update.session !== activeSession ||
-            update.version < latestVersion
+            update.version < latestVersion ||
+            !activeUri
           ) {
             return;
           }
 
           // Debounce updates to avoid excessive DOM rebuilds in the web view
+          const uri = activeUri;
           latestVersion = update.version;
           latestUpdate = update;
           if (updateTimer) clearTimeout(updateTimer);
@@ -312,7 +316,7 @@ export function registerPreviewCommand(
             void panel.webview
               .postMessage({
                 type: "preview/update",
-                update: withPreviewBase(panel.webview, current),
+                update: withPreviewBase(panel.webview, current, uri),
               });
           }, 100);
         },
@@ -396,16 +400,19 @@ export function registerPreviewCommand(
           variant?: string;
         }) => {
           if (message.type === "preview/reveal-source") {
+            const uri = activeUri;
             if (
               !message.uri ||
-              message.uri !== activeUri ||
+              !uri ||
+              !isSameDocumentUri(message.uri, uri) ||
               typeof message.end !== "number"
             ) {
               return;
             }
             try {
-              const uri = vscode.Uri.parse(message.uri);
-              const document = await vscode.workspace.openTextDocument(uri);
+              const document = await vscode.workspace.openTextDocument(
+                vscode.Uri.parse(uri),
+              );
               const editor = await vscode.window.showTextDocument(document, {
                 preview: true,
                 preserveFocus: false,
@@ -662,7 +669,9 @@ export function registerPreviewCommand(
             latestUpdate = result.initialUpdate;
             void panel.webview.postMessage({
               type: "preview/update",
-              update: withPreviewBase(panel.webview, result.initialUpdate),
+              update: withPreviewBase(
+                panel.webview, result.initialUpdate, uri,
+              ),
             });
             postVariants();
             postEditorPosition(vscode.window.activeTextEditor, true);
@@ -837,16 +846,87 @@ function previewPosition(
  *
  * @param webview - The webview instance
  * @param update - The preview update from Zensical Studio
+ * @param activeUri - The active document URI from VS Code
  *
  * @returns The augmented preview update with a base URI
  */
 function withPreviewBase(
-  webview: vscode.Webview, update: PreviewUpdate,
+  webview: vscode.Webview, update: PreviewUpdate, activeUri: string,
 ): PreviewUpdate & { baseUri: string } {
-  const documentUri = vscode.Uri.parse(update.uri);
+  const uri = isSameDocumentUri(update.uri, activeUri)
+    ? activeUri
+    : update.uri;
+  const documentUri = vscode.Uri.parse(uri);
   const directoryUri = vscode.Uri.joinPath(documentUri, "..");
   return {
     ...update,
+    uri,
+    mappings: canonicalizeMappingUris(update.mappings, uri),
     baseUri: `${webview.asWebviewUri(directoryUri)}/`,
   };
+}
+
+/**
+ * Canonicalize mapping URIs that identify the rendered document.
+ *
+ * @param mappings - Preview source mappings
+ * @param documentUri - Canonical URI of the rendered document
+ *
+ * @returns Source mappings with canonical document URIs
+ */
+function canonicalizeMappingUris(
+  mappings: MappingSegment[], documentUri: string,
+): MappingSegment[] {
+  const uris = new Map<string, string>();
+  const canonicalizeSpan = (span: Span): Span => {
+    let uri = uris.get(span.uri);
+    if (typeof uri === "undefined") {
+      uri = isSameDocumentUri(span.uri, documentUri)
+        ? documentUri
+        : span.uri;
+      uris.set(span.uri, uri);
+    }
+    return uri === span.uri ? span : { ...span, uri };
+  };
+
+  return mappings.map((mapping) => {
+    const markdown = mapping.markdown;
+    if (markdown.type === "direct") {
+      const spans = canonicalizeSpan(markdown.spans);
+      if (spans === markdown.spans) return mapping;
+      return {
+        ...mapping,
+        markdown: { ...markdown, spans },
+      };
+    }
+
+    const spans = markdown.spans.map(canonicalizeSpan);
+    if (spans.every((span, index) => span === markdown.spans[index])) {
+      return mapping;
+    }
+    return {
+      ...mapping,
+      markdown: { ...markdown, spans },
+    };
+  });
+}
+
+/**
+ * Check whether two serialized URIs identify the same document.
+ *
+ * Parsing first makes equivalent percent-encoded paths comparable. File paths
+ * are additionally compared case-insensitively on Windows.
+ *
+ * @param uri - First serialized URI
+ * @param other - Second serialized URI
+ *
+ * @returns Whether the URIs identify the same document
+ */
+function isSameDocumentUri(uri: string, other: string): boolean {
+  if (uri === other) return true;
+  try {
+    return isSameUri(vscode.Uri.parse(uri), vscode.Uri.parse(other));
+  } catch {
+    return false;
+  }
 }
