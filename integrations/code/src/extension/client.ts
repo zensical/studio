@@ -24,7 +24,9 @@
  */
 
 import {
+  CloseAction,
   Executable,
+  ErrorAction,
   LanguageClient,
   LanguageClientOptions,
   ServerOptions,
@@ -42,12 +44,14 @@ import type { Studio } from "./studio";
  *
  * @param context - Context
  * @param studio - Zensical Studio configuration
+ * @param onStopped - Called when this client stops unexpectedly
  *
  * @returns Language client
  */
 export function createLanguageClient(
   context: Context,
   studio: Studio,
+  onStopped: () => void,
 ): LanguageClient {
   const run: Executable = {
     command: studio.path,
@@ -61,6 +65,15 @@ export function createLanguageClient(
   };
 
   // Initialize client options
+  // Recreating the client lets the extension resolve the runtime and startup
+  // options again instead of reusing this client's fixed configuration.
+  let stopped = false;
+  const notifyStopped = (): void => {
+    if (!stopped) {
+      stopped = true;
+      onStopped();
+    }
+  };
   const clientOptions: LanguageClientOptions = {
     documentSelector: [
       { scheme: "file", language: "python-markdown" },
@@ -70,6 +83,19 @@ export function createLanguageClient(
     ],
     outputChannel: context.getOutput(),
     initializationOptions: { token: studio.token },
+    errorHandler: {
+      error: (_error, _message, count) => {
+        if (typeof count === "number" && count <= 3) {
+          return { action: ErrorAction.Continue };
+        }
+        notifyStopped();
+        return { action: ErrorAction.Shutdown, handled: true };
+      },
+      closed: () => {
+        notifyStopped();
+        return { action: CloseAction.DoNotRestart, handled: true };
+      },
+    },
   };
 
   // Create and return language client
