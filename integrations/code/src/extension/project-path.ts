@@ -34,6 +34,12 @@ export interface UriPath {
   path: string;
 }
 
+/** URI components needed for identity comparison. */
+export interface UriIdentity extends UriPath {
+  query: string;
+  fragment: string;
+}
+
 /* ----------------------------------------------------------------------------
  * Functions
  * ------------------------------------------------------------------------- */
@@ -70,4 +76,36 @@ export function isUriInside(
   const rootPath = normalize(root.path);
   const prefix = rootPath.endsWith("/") ? rootPath : `${rootPath}/`;
   return path === rootPath || path.startsWith(prefix);
+}
+
+/**
+ * Check whether two URIs identify the same resource.
+ *
+ * @param uri - First URI to compare
+ * @param other - Second URI to compare
+ * @param caseInsensitive - Whether to perform case-insensitive path comparison
+ *
+ * @returns Whether the URIs identify the same resource
+ */
+export function isSameUri(
+  uri: UriIdentity,
+  other: UriIdentity,
+  caseInsensitive = process.platform === "win32" &&
+    uri.scheme.toLowerCase() === "file" &&
+    other.scheme.toLowerCase() === "file",
+): boolean {
+  if (uri.scheme.toLowerCase() !== other.scheme.toLowerCase()) {
+    return false;
+  }
+
+  // File paths and UNC authorities are case-insensitive on Windows
+  const normalize = caseInsensitive
+    ? (value: string) => value.toLowerCase()
+    : (value: string) => value;
+  return (
+    normalize(uri.authority) === normalize(other.authority) &&
+    normalize(uri.path) === normalize(other.path) &&
+    uri.query === other.query &&
+    uri.fragment === other.fragment
+  );
 }
