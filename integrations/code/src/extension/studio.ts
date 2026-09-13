@@ -67,10 +67,6 @@ export async function getStudio(context: Context): Promise<Studio | undefined> {
   const token = await getToken(context);
   if (typeof token === "undefined") {
     context.log("Token not found or expired.");
-    context.showError(
-      "Zensical Studio could not refresh the token. " +
-        "Connect to the internet and reload the window.",
-    );
     return;
   }
 

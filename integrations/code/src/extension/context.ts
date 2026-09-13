@@ -148,6 +148,45 @@ export class Context {
   }
 
   /**
+   * Explain that Studio remains unavailable after several attempts.
+   */
+  public async promptStudioUnavailable(): Promise<void> {
+    const action = "Show Logs";
+    const result = await vscode.window.showWarningMessage(
+      "Zensical Studio is still unavailable. Check your network connection " +
+        "and configured Studio path. Studio will keep retrying.",
+      action,
+    );
+    if (result === action) {
+      this.output.show();
+    }
+  }
+
+  /**
+   * Explain a repeated startup failure and offer a reporting path.
+   */
+  public async promptStudioStartupFailure(): Promise<void> {
+    const logs = "Show Logs";
+    const report = "Report Issue";
+    const result = await vscode.window.showErrorMessage(
+      "Zensical Studio could not be started after several attempts. " +
+        "If the problem persists, report an issue and include the Studio logs.",
+      logs,
+      report,
+    );
+    if (result === logs) {
+      this.output.show();
+    } else if (result === report) {
+      this.output.show();
+      await vscode.env.openExternal(vscode.Uri.parse(
+        "https://github.com/zensical/studio/issues/new" +
+          "?template=01-report-a-bug.yml" +
+          "&title=Studio%20fails%20to%20start",
+      ));
+    }
+  }
+
+  /**
    * Prompt the user to update the extension.
    *
    * @param message - Message
