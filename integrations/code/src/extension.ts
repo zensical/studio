@@ -34,6 +34,7 @@ import { createLanguageClient } from "./extension/client";
 import { Context } from "./extension/context";
 import { activateProjectMarkdown } from "./extension/project";
 import { getStudio } from "./extension/studio";
+import type { Studio } from "./extension/studio";
 import { NetworkError } from "./extension/studio/fetch";
 import { WordCount } from "./word-count";
 
@@ -45,6 +46,11 @@ import { WordCount } from "./word-count";
  * Language client.
  */
 let client: LanguageClient | undefined;
+
+/**
+ * Runtime resolved for the current startup or recovery episode.
+ */
+let studio: Studio | undefined;
 
 /**
  * Listeners owned by the current language client.
@@ -65,6 +71,16 @@ let connections: ConnectionsView | undefined;
  * Startup timer.
  */
 let retryTimer: ReturnType<typeof setTimeout> | undefined;
+
+/**
+ * Whether editor activity may bring the current retry forward.
+ */
+let retryOnActivity = false;
+
+/**
+ * Whether Studio is recovering from an unexpected server stop.
+ */
+let recovering = false;
 
 /**
  * Startup retry delay.
@@ -113,7 +129,11 @@ export async function activate(extension: ExtensionContext): Promise<void> {
     // retry more responsive when the user returns to the window or opens a
     // Python Markdown document after VPN/proxy startup has completed.
     vscode.window.onDidChangeWindowState((state) => {
-      if (state.focused && typeof retryTimer !== "undefined") {
+      if (
+        state.focused &&
+        typeof retryTimer !== "undefined" &&
+        retryOnActivity
+      ) {
         void startStudio(extension, context);
       }
     }),
@@ -123,7 +143,8 @@ export async function activate(extension: ExtensionContext): Promise<void> {
       }
       if (
         document.languageId === "python-markdown" &&
-        typeof retryTimer !== "undefined"
+        typeof retryTimer !== "undefined" &&
+        retryOnActivity
       ) {
         void startStudio(extension, context);
       }
@@ -179,10 +200,10 @@ async function startStudio(
   starting = true;
   let next: LanguageClient | undefined;
   try {
-    // Obtain Zensical studio configuration
-    const studio = await getStudio(context);
+    // Resolve once, then reuse the same runtime throughout this retry episode.
+    studio ??= await getStudio(context);
     if (typeof studio === "undefined") {
-      scheduleRetry(extension, context, "Studio unavailable");
+      scheduleRetry(extension, context, "Studio unavailable", true);
       return;
     }
 
@@ -223,6 +244,7 @@ async function startStudio(
       extension,
       context,
       error instanceof NetworkError ? "Network unavailable" : "Startup failed",
+      error instanceof NetworkError,
     );
   } finally {
     starting = false;
@@ -241,6 +263,8 @@ async function restartStudio(
   clearRetry();
   clearRetryReset();
   retryDelay = 5000;
+  recovering = false;
+  studio = undefined;
   const previous = client;
   if (typeof previous === "undefined") {
     await startStudio(extension, context);
@@ -276,12 +300,15 @@ function recoverStudio(
   if (typeof stopped === "undefined" || client !== stopped) {
     return;
   }
-
-  context.log("Studio stopped; resolving the runtime before restart");
+  context.log("Studio stopped; preparing to restart");
   client = undefined;
   clearRetryReset();
   disposeClientDisposables();
   stopped.dispose();
+  if (!recovering) {
+    recovering = true;
+    studio = undefined;
+  }
   scheduleRetry(extension, context, "Studio stopped");
 }
 
@@ -342,15 +369,19 @@ function waitForProcessExit(
  *
  * @param extension - Extension context
  * @param context - Context
+ * @param reason - Retry reason shown in the output channel
+ * @param onActivity - Whether editor activity may bring the retry forward
  */
 function scheduleRetry(
   extension: ExtensionContext, context: Context, reason: string,
+  onActivity = false,
 ): void {
   if (typeof retryTimer !== "undefined") {
     return;
   }
 
   clearRetryReset();
+  retryOnActivity = onActivity;
   const delay = retryDelay;
   const seconds = Math.round(delay / 1000);
   context.log(`${reason}; retrying in ${seconds}s`);
@@ -375,6 +406,7 @@ function markStudioStable(): void {
   retryResetTimer = setTimeout(() => {
     retryResetTimer = undefined;
     retryDelay = 5000;
+    recovering = false;
   }, 3 * 60 * 1000);
 }
 
@@ -386,6 +418,7 @@ function clearRetry(): void {
     clearTimeout(retryTimer);
     retryTimer = undefined;
   }
+  retryOnActivity = false;
 }
 
 /**
