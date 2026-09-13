@@ -26,6 +26,7 @@
 import * as vscode from "vscode";
 import type { Disposable, ExtensionContext, TextDocument } from "vscode";
 import type { ChildProcess } from "node:child_process";
+import { release as getOsRelease } from "node:os";
 import type { LanguageClient } from "vscode-languageclient/node";
 
 import { registerCommands } from "./commands";
@@ -34,6 +35,7 @@ import { createLanguageClient } from "./extension/client";
 import { Context } from "./extension/context";
 import { activateProjectMarkdown } from "./extension/project";
 import { getStudio } from "./extension/studio";
+import type { Studio } from "./extension/studio";
 import { NetworkError } from "./extension/studio/fetch";
 import { WordCount } from "./word-count";
 
@@ -45,6 +47,11 @@ import { WordCount } from "./word-count";
  * Language client.
  */
 let client: LanguageClient | undefined;
+
+/**
+ * Runtime resolved for the current startup or recovery episode.
+ */
+let studio: Studio | undefined;
 
 /**
  * Listeners owned by the current language client.
@@ -65,6 +72,36 @@ let connections: ConnectionsView | undefined;
  * Startup timer.
  */
 let retryTimer: ReturnType<typeof setTimeout> | undefined;
+
+/**
+ * Whether editor activity may bring the current retry forward.
+ */
+let retryOnActivity = false;
+
+/**
+ * Whether Studio is recovering from an unexpected server stop.
+ */
+let recovering = false;
+
+/**
+ * Number of consecutive runtime availability failures.
+ */
+let availabilityFailures = 0;
+
+/**
+ * Whether the current availability failure has been reported.
+ */
+let availabilityNoticeShown = false;
+
+/**
+ * Number of consecutive process startup or runtime failures.
+ */
+let startupFailures = 0;
+
+/**
+ * Whether the current startup failure has been reported.
+ */
+let startupNoticeShown = false;
 
 /**
  * Startup retry delay.
@@ -113,7 +150,11 @@ export async function activate(extension: ExtensionContext): Promise<void> {
     // retry more responsive when the user returns to the window or opens a
     // Python Markdown document after VPN/proxy startup has completed.
     vscode.window.onDidChangeWindowState((state) => {
-      if (state.focused && typeof retryTimer !== "undefined") {
+      if (
+        state.focused &&
+        typeof retryTimer !== "undefined" &&
+        retryOnActivity
+      ) {
         void startStudio(extension, context);
       }
     }),
@@ -123,7 +164,8 @@ export async function activate(extension: ExtensionContext): Promise<void> {
       }
       if (
         document.languageId === "python-markdown" &&
-        typeof retryTimer !== "undefined"
+        typeof retryTimer !== "undefined" &&
+        retryOnActivity
       ) {
         void startStudio(extension, context);
       }
@@ -179,18 +221,21 @@ async function startStudio(
   starting = true;
   let next: LanguageClient | undefined;
   try {
-    // Obtain Zensical studio configuration
-    const studio = await getStudio(context);
+    // Resolve once, then reuse the same runtime throughout this retry episode.
+    studio ??= await getStudio(context);
     if (typeof studio === "undefined") {
-      scheduleRetry(extension, context, "Studio unavailable");
+      recordAvailabilityFailure(context);
+      scheduleRetry(extension, context, "Studio unavailable", true);
       return;
     }
+    availabilityFailures = 0;
+    availabilityNoticeShown = false;
 
     // Create and start the language client
     context.log("Starting Zensical Studio");
     next = createLanguageClient(context, studio, () => {
       setTimeout(() => {
-        recoverStudio(extension, context, next);
+        void recoverStudio(extension, context, next);
       }, 0);
     });
     client = next;
@@ -219,10 +264,16 @@ async function startStudio(
     // Log the error
     const message = error instanceof Error ? error.message : String(error);
     context.log(`Failed to start Zensical Studio: ${message}`);
+    if (error instanceof NetworkError) {
+      recordAvailabilityFailure(context);
+    } else {
+      recordStartupFailure(context, message);
+    }
     scheduleRetry(
       extension,
       context,
       error instanceof NetworkError ? "Network unavailable" : "Startup failed",
+      error instanceof NetworkError,
     );
   } finally {
     starting = false;
@@ -241,6 +292,9 @@ async function restartStudio(
   clearRetry();
   clearRetryReset();
   retryDelay = 5000;
+  recovering = false;
+  studio = undefined;
+  resetFailureNotices();
   const previous = client;
   if (typeof previous === "undefined") {
     await startStudio(extension, context);
@@ -269,19 +323,27 @@ async function restartStudio(
  * @param context - Context
  * @param stopped - Language client that stopped unexpectedly
  */
-function recoverStudio(
+async function recoverStudio(
   extension: ExtensionContext, context: Context,
   stopped: LanguageClient | undefined,
-): void {
+): Promise<void> {
   if (typeof stopped === "undefined" || client !== stopped) {
     return;
   }
 
-  context.log("Studio stopped; resolving the runtime before restart");
+  const serverProcess = stopped.serverProcess;
+  const reason = describeServerStop(serverProcess);
+  context.log(`Studio stopped unexpectedly: ${reason}`);
+  recordStartupFailure(context, reason);
   client = undefined;
   clearRetryReset();
   disposeClientDisposables();
   stopped.dispose();
+  await terminateServerProcess(serverProcess, context);
+  if (!recovering) {
+    recovering = true;
+    studio = undefined;
+  }
   scheduleRetry(extension, context, "Studio stopped");
 }
 
@@ -342,15 +404,19 @@ function waitForProcessExit(
  *
  * @param extension - Extension context
  * @param context - Context
+ * @param reason - Retry reason shown in the output channel
+ * @param onActivity - Whether editor activity may bring the retry forward
  */
 function scheduleRetry(
   extension: ExtensionContext, context: Context, reason: string,
+  onActivity = false,
 ): void {
   if (typeof retryTimer !== "undefined") {
     return;
   }
 
   clearRetryReset();
+  retryOnActivity = onActivity;
   const delay = retryDelay;
   const seconds = Math.round(delay / 1000);
   context.log(`${reason}; retrying in ${seconds}s`);
@@ -375,7 +441,107 @@ function markStudioStable(): void {
   retryResetTimer = setTimeout(() => {
     retryResetTimer = undefined;
     retryDelay = 5000;
+    recovering = false;
+    resetFailureNotices();
   }, 3 * 60 * 1000);
+}
+
+/**
+ * Record that Studio's runtime could not be resolved.
+ *
+ * @param context - Context
+ */
+function recordAvailabilityFailure(context: Context): void {
+  availabilityFailures += 1;
+  if (availabilityFailures < 3 || availabilityNoticeShown) {
+    return;
+  }
+
+  availabilityNoticeShown = true;
+  logStartupEnvironment(context);
+  void context.promptStudioUnavailable();
+}
+
+/**
+ * Record that Studio failed to start or stopped unexpectedly.
+ *
+ * @param context - Context
+ * @param reason - Failure reason
+ */
+function recordStartupFailure(context: Context, reason: string): void {
+  startupFailures += 1;
+  context.log(
+    `Startup attempt ${startupFailures} failed: ${singleLine(reason)}`,
+  );
+  if (startupFailures < 3 || startupNoticeShown) {
+    return;
+  }
+
+  startupNoticeShown = true;
+  logStartupEnvironment(context);
+  void context.promptStudioStartupFailure();
+}
+
+/**
+ * Log the environment needed for a startup issue report.
+ *
+ * @param context - Context
+ */
+function logStartupEnvironment(context: Context): void {
+  const remote = vscode.env.remoteName ?? "local";
+  const configured = context.getConfiguration().get<string>("path")?.trim();
+  const version = configured
+    ? "custom"
+    : context.getState("version") ?? "unknown";
+  context.log(
+    "Startup environment: " +
+      `extension=${context.getVersion()}, ` +
+      `Studio=${version}, ` +
+      `editor=${vscode.env.appName} ${vscode.version}, ` +
+      `platform=${process.platform} ${getOsRelease()}/${process.arch}, ` +
+      `remote=${remote}`,
+  );
+}
+
+/**
+ * Describe how the server process stopped.
+ *
+ * @param serverProcess - Server process
+ *
+ * @returns Stop reason
+ */
+function describeServerStop(serverProcess: ChildProcess | undefined): string {
+  if (!serverProcess) {
+    return "language server connection closed";
+  }
+  if (serverProcess.signalCode !== null) {
+    return `server process exited with signal ${serverProcess.signalCode}`;
+  }
+  if (serverProcess.exitCode !== null) {
+    return `server process exited with code ${serverProcess.exitCode}`;
+  }
+  return "language server connection closed while the process was running";
+}
+
+/**
+ * Reset failure counters after a manual restart or stable session.
+ */
+function resetFailureNotices(): void {
+  availabilityFailures = 0;
+  availabilityNoticeShown = false;
+  startupFailures = 0;
+  startupNoticeShown = false;
+}
+
+/**
+ * Collapse a failure reason into one log line.
+ *
+ * @param value - Failure reason
+ *
+ * @returns Single-line failure reason
+ */
+function singleLine(value: string): string {
+  return value.replace(/\s+/g, " ").trim();
 }
 
 /**
@@ -386,6 +552,7 @@ function clearRetry(): void {
     clearTimeout(retryTimer);
     retryTimer = undefined;
   }
+  retryOnActivity = false;
 }
 
 /**
