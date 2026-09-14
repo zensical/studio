@@ -23,7 +23,6 @@
  * IN THE SOFTWARE.
  */
 
-import { existsSync } from "node:fs";
 import * as fs from "node:fs/promises";
 import { createHash } from "node:crypto";
 import * as path from "node:path";
@@ -31,7 +30,16 @@ import { coerce, satisfies, validRange } from "semver";
 
 import type { Context } from "../context";
 import { extract } from "./archive";
-import { fetchArchive, fetchRelease, NetworkError, Release } from "./fetch";
+import {
+  type StudioBinary,
+  withStudioBinary
+} from "./binary";
+import {
+  fetchArchive,
+  fetchRelease,
+  NetworkError,
+  Release
+} from "./fetch";
 
 /* ----------------------------------------------------------------------------
  * Functions
@@ -44,85 +52,125 @@ import { fetchArchive, fetchRelease, NetworkError, Release } from "./fetch";
  *
  * @returns Path to Zensical Studio or nothing
  */
-export async function getStudioPathFromInstallation(
+export async function getInstalledStudioPath(
   context: Context,
 ): Promise<string | undefined> {
-  let archive = "";
+  const storage = path.join(context.getStorage(), "studio");
+
+  // Try to fetch the latest release
+  let release: Release | undefined;
+  let networkError: NetworkError | undefined;
   try {
-    // Determine extension storage and ensure it exists
-    const storage = path.join(context.getStorage(), "studio");
-    await fs.mkdir(storage, { recursive: true });
+    release = await fetchRelease(context);
+  } catch (error) {
+    if (!(error instanceof NetworkError)) {
+      throw error;
+    }
+    networkError = error;
+  }
 
-    // Determine platform-specific executable path
-    const executable = path.join(
-      storage,
-      process.platform === "win32" // fmt
-        ? "zensical-studio.exe"
-        : "zensical-studio",
-    );
+  // Check if the release is compatible with the extension
+  if (
+    typeof release !== "undefined" &&
+    !(await checkRelease(context, release))
+  ) {
+    return;
+  }
 
-    // Try to fetch the latest release
-    let release: Release | undefined;
-    try {
-      release = await fetchRelease(context);
-    } catch (error) {
-      if (!existsSync(executable) || !(error instanceof NetworkError)) {
-        throw error;
+  // Get the installed Studio binary and install the release if necessary
+  return withStudioBinary(
+    storage,
+    context.getState("version"),
+    async (binary) => {
+      if (typeof release === "undefined") {
+        if (binary.exists) {
+          if (typeof networkError !== "undefined") {
+            context.log("Using installed Zensical Studio");
+          }
+          return binary.path;
+        }
+        if (typeof networkError !== "undefined") {
+          throw networkError;
+        }
+        return;
       }
-      context.log("Using installed Zensical Studio");
-    }
 
-    // If we don't have a release, just return the installed executable
-    if (typeof release === "undefined") {
-      return existsSync(executable) ? executable : undefined;
-    }
-    if (!(await checkRelease(context, release))) {
-      return;
-    }
+      // Check if we already have the latest version available
+      if (binary.exists && binary.version === release.version) {
+        return binary.path;
+      }
+      if (!(await installRelease(context, storage, binary, release))) {
+        return;
+      }
+      context.setState("version", release.version);
+      context.log("Installation completed");
+      return binary.path;
+    },
+  );
+}
 
-    // Check if we already have the latest version available
-    const version = context.getState("version");
-    if (existsSync(executable) && version === release.version) {
-      return executable;
-    }
+/* ----------------------------------------------------------------------------
+ * Helper functions
+ * ------------------------------------------------------------------------- */
 
-    // Otherwise, determine path to store the archive
+/**
+ * Install a Studio release from its archive.
+ *
+ * @param context - Context
+ * @param storage - Installation directory
+ * @param binary - Installed Studio binary
+ * @param release - Release information
+ *
+ * @returns Whether the release was installed
+ */
+async function installRelease(
+  context: Context, storage: string, binary: StudioBinary, release: Release,
+): Promise<boolean> {
+  let archive = "";
+  let staging = "";
+  try {
+    // Determine path to store the archive
     const { pathname } = new URL(release.url);
     archive = path.join(storage, path.basename(pathname));
 
     // Fetch archive and verify integrity
     const bytes = await fetchArchive(context, release);
     if (typeof bytes === "undefined") {
-      return;
+      return false;
     }
     if (!verify(bytes, release.integrity)) {
       context.log("Checksums don't match");
-      return;
+      return false;
     }
 
     // Write and extract the downloaded archive
     await fs.writeFile(archive, bytes);
-    await extract(archive, storage);
-    if (!existsSync(executable)) {
+    staging = await fs.mkdtemp(path.join(storage, ".install-"));
+    await extract(archive, staging);
+    const staged = path.join(staging, path.basename(binary.path));
+    try {
+      await fs.access(staged);
+    } catch {
       context.log("Zensical Studio not found in archive");
-      return;
+      return false;
     }
     if (process.platform !== "win32") {
-      await fs.chmod(executable, 0o755);
+      await fs.chmod(staged, 0o755);
     }
-
-    // Remember the installed version and return the executable
-    context.setState("version", release.version);
-    context.log("Installation completed");
-    return executable;
+    await binary.replace(staged, release.version);
+    return true;
   } finally {
-    await fs.rm(archive, { force: true });
+    try {
+      if (archive !== "") {
+        await fs.rm(archive, { force: true });
+      }
+    } finally {
+      if (staging !== "") {
+        await fs.rm(staging, { force: true, recursive: true });
+      }
+    }
   }
 }
-
-/* ----------------------------------------------------------------------------
- * Helper functions
- * ------------------------------------------------------------------------- */
 
 /**
  * Check if the release is compatible with the current extension version.
@@ -132,7 +180,7 @@ export async function getStudioPathFromInstallation(
  *
  * @returns Whether the release is compatible
  */
-export async function checkRelease(
+async function checkRelease(
   context: Context,
   release: Release,
 ): Promise<boolean> {

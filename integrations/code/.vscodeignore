@@ -38,4 +38,5 @@ src
 tsconfig.json
 
 # Artifacts
+tmp
 *.vsix
