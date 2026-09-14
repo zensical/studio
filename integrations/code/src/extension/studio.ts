@@ -26,7 +26,7 @@
 import * as fs from "node:fs";
 
 import type { Context } from "./context";
-import { getStudioPathFromInstallation } from "./studio/installer";
+import { getInstalledStudioPath } from "./studio/installer";
 import { getToken } from "./studio/token";
 
 /* ----------------------------------------------------------------------------
@@ -92,7 +92,7 @@ async function getStudioPath(context: Context): Promise<string | undefined> {
   // download and install Zensical Studio - this is the default.
   const path = config.get<string>("path") ?? "";
   if (path.trim() === "") {
-    return getStudioPathFromInstallation(context);
+    return getInstalledStudioPath(context);
   }
 
   // Otherwise, use the configured path and check if it exists
