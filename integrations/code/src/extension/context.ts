@@ -170,6 +170,8 @@ export class Context {
     const report = "Report Issue";
     const result = await vscode.window.showErrorMessage(
       "Zensical Studio could not be started after several attempts. " +
+        "Automatic retries have stopped. Use Zensical Studio: Restart Server " +
+        "to try again. " +
         "If the problem persists, report an issue and include the Studio logs.",
       logs,
       report,

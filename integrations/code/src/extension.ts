@@ -416,6 +416,11 @@ function scheduleRetry(
   }
 
   clearRetryReset();
+  if (!onActivity && startupFailures >= 3) {
+    retryOnActivity = false;
+    context.log(`${reason}; automatic retries stopped after 3 attempts`);
+    return;
+  }
   retryOnActivity = onActivity;
   const delay = retryDelay;
   const seconds = Math.round(delay / 1000);

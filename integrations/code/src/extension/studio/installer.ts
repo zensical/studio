@@ -128,6 +128,7 @@ async function installRelease(
 ): Promise<boolean> {
   let archive = "";
   let staging = "";
+  let stage = "download";
   try {
     // Determine path to store the archive
     const { pathname } = new URL(release.url);
@@ -138,27 +139,41 @@ async function installRelease(
     if (typeof bytes === "undefined") {
       return false;
     }
+    stage = "integrity verification";
+    context.log(`Installation: received ${bytes.byteLength} archive bytes`);
     if (!verify(bytes, release.integrity)) {
-      context.log("Checksums don't match");
-      return false;
+      const digest = createHash("sha256").update(bytes).digest("hex");
+      throw new Error(
+        `Checksum mismatch: expected ${release.integrity}, received sha256-${digest}`,
+      );
     }
 
     // Write and extract the downloaded archive
+    stage = "archive write";
     await fs.writeFile(archive, bytes);
+    stage = "extraction";
     staging = await fs.mkdtemp(path.join(storage, ".install-"));
     await extract(archive, staging);
+    stage = "executable verification";
     const staged = path.join(staging, path.basename(binary.path));
     try {
       await fs.access(staged);
-    } catch {
-      context.log("Zensical Studio not found in archive");
-      return false;
+    } catch (error) {
+      throw new Error("Zensical Studio not found in archive", { cause: error });
     }
+    stage = "executable permissions";
     if (process.platform !== "win32") {
       await fs.chmod(staged, 0o755);
     }
+    stage = "executable replacement";
     await binary.replace(staged, release.version);
     return true;
+  } catch (error) {
+    const reason = error instanceof Error ? error.message : String(error);
+    context.log(
+      `Installation of ${release.version} failed during ${stage}: ${reason}`,
+    );
+    throw error;
   } finally {
     try {
       if (archive !== "") {
