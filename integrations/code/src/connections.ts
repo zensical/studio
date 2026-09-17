@@ -200,6 +200,7 @@ implements vscode.TreeDataProvider<RelationshipNode>, vscode.Disposable {
     if (active) {
       this.resource = active;
     }
+    this.updateDescription();
 
     // Register commands and listeners for the view
     this.disposables.push(
@@ -386,12 +387,12 @@ implements vscode.TreeDataProvider<RelationshipNode>, vscode.Disposable {
       return;
     }
     this.resource = resource;
+    this.updateDescription();
     if (!this.tree.visible) {
       this.generation++;
       this.state = "idle";
       this.summary = undefined;
       this.groups.clear();
-      this.tree.description = undefined;
       this.tree.message = undefined;
       this.changes.fire(undefined);
       return;
@@ -405,7 +406,6 @@ implements vscode.TreeDataProvider<RelationshipNode>, vscode.Disposable {
     this.state = "loading";
     this.summary = undefined;
     this.groups.clear();
-    this.tree.description = undefined;
     this.tree.message = undefined;
     this.changes.fire(undefined);
 
@@ -434,7 +434,6 @@ implements vscode.TreeDataProvider<RelationshipNode>, vscode.Disposable {
       // Render the summary and initialize group states
       this.state = "ready";
       this.summary = summary;
-      this.tree.description = summary.subject.name;
       const sections = getVisibleSections(summary.groups);
       for (const group of sections.flatMap((section) => section.groups)) {
         this.groups.set(group.kind, {
@@ -534,7 +533,16 @@ implements vscode.TreeDataProvider<RelationshipNode>, vscode.Disposable {
   /** Change whether the view follows active editor changes. */
   private async setFollowing(value: boolean): Promise<void> {
     this.following = value;
+    this.updateDescription();
     await vscode.commands.executeCommand("setContext", followContext, value);
+  }
+
+  /** Show the current filename and pin state in the view header. */
+  private updateDescription(): void {
+    const filename = this.resource?.path.split("/").pop();
+    this.tree.description = filename
+      ? `${filename}${this.following ? "" : " · Pinned"}`
+      : undefined;
   }
 }
 
