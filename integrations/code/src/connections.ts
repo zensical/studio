@@ -175,6 +175,7 @@ implements vscode.TreeDataProvider<RelationshipNode>, vscode.Disposable {
   private readonly disposables: vscode.Disposable[] = [];
   private readonly tree: vscode.TreeView<RelationshipNode>;
   private readonly groups = new Map<RelationshipGroupKind, RelationshipGroupState>();
+  private readonly parents = new WeakMap<RelationshipNode, RelationshipNode>();
   private readonly expandedGroups = new Set<RelationshipGroupKind>();
   private clientDisposables: vscode.Disposable[] = [];
   private notificationTimer: ReturnType<typeof setTimeout> | undefined;
@@ -218,6 +219,10 @@ implements vscode.TreeDataProvider<RelationshipNode>, vscode.Disposable {
       vscode.commands.registerCommand(
         "zensicalStudio.connections.refresh",
         () => this.refresh(),
+      ),
+      vscode.commands.registerCommand(
+        "zensicalStudio.connections.expandAll",
+        () => this.expandAll(),
       ),
       vscode.commands.registerCommand(
         "zensicalStudio.connections.follow",
@@ -307,8 +312,44 @@ implements vscode.TreeDataProvider<RelationshipNode>, vscode.Disposable {
     }
   }
 
-  /** Return tree children, loading relationship groups only when expanded. */
+  /**
+   * Return tree children, loading relationship groups only when expanded.
+   *
+   * @param node - Parent node, or nothing for root sections
+   *
+   * @returns Child nodes
+   */
   async getChildren(node?: RelationshipNode): Promise<RelationshipNode[]> {
+    const children = await this.getNodeChildren(node);
+    if (node) {
+      for (const child of children) {
+        this.parents.set(child, node);
+      }
+    }
+    return children;
+  }
+
+  /**
+   * Return the parent required by the tree expansion API.
+   *
+   * @param node - Child node
+   *
+   * @returns Parent node, or nothing for root sections
+   */
+  getParent(node: RelationshipNode): RelationshipNode | undefined {
+    return this.parents.get(node);
+  }
+
+  /**
+   * Return the next level of relationships or navigation.
+   *
+   * @param node - Parent node, or nothing for root sections
+   *
+   * @returns Child nodes
+   */
+  private async getNodeChildren(
+    node?: RelationshipNode,
+  ): Promise<RelationshipNode[]> {
     if (!node) {
       if (this.state !== "ready" || !this.summary) return [];
       const navigation = this.summary.navigation || [];
@@ -369,6 +410,45 @@ implements vscode.TreeDataProvider<RelationshipNode>, vscode.Disposable {
         return [];
       case "occurrence":
         return [];
+    }
+  }
+
+  /**
+   * Expand displayed relationships without advancing pagination.
+   */
+  private async expandAll(): Promise<void> {
+    if (this.state !== "ready") {
+      return;
+    }
+    const generation = this.generation;
+    const pending = (await this.getChildren()).reverse();
+    while (pending.length) {
+      if (generation !== this.generation) {
+        return;
+      }
+      const node = pending.pop()!;
+      if (
+        node.type === "showMore" ||
+        this.getTreeItem(node).collapsibleState === vscode.TreeItemCollapsibleState.None
+      ) {
+        continue;
+      }
+      try {
+        await this.tree.reveal(node, {
+          expand: true,
+          select: false,
+          focus: false,
+        });
+      } catch (error) {
+        if (generation !== this.generation) {
+          return;
+        }
+        throw error;
+      }
+      if (generation !== this.generation) {
+        return;
+      }
+      pending.push(...(await this.getChildren(node)).reverse());
     }
   }
 
@@ -537,7 +617,9 @@ implements vscode.TreeDataProvider<RelationshipNode>, vscode.Disposable {
     await vscode.commands.executeCommand("setContext", followContext, value);
   }
 
-  /** Show the current filename and pin state in the view header. */
+  /**
+   * Show the current filename and pin state in the view header.
+   */
   private updateDescription(): void {
     const filename = this.resource?.path.split("/").pop();
     this.tree.description = filename

@@ -82,6 +82,11 @@
         "icon": "$(refresh)"
       },
       {
+        "command": "zensicalStudio.connections.expandAll",
+        "title": "Expand All",
+        "icon": "$(expand-all)"
+      },
+      {
         "command": "zensicalStudio.connections.follow",
         "title": "Follow Active Editor",
         "icon": "$(eye)"
@@ -100,6 +105,10 @@
         },
         {
           "command": "zensicalStudio.connections.refresh",
+          "when": "false"
+        },
+        {
+          "command": "zensicalStudio.connections.expandAll",
           "when": "false"
         },
         {
@@ -152,6 +161,11 @@
           "command": "zensicalStudio.connections.refresh",
           "when": "view == zensicalStudio.connections",
           "group": "1_actions@1"
+        },
+        {
+          "command": "zensicalStudio.connections.expandAll",
+          "when": "view == zensicalStudio.connections",
+          "group": "navigation@2"
         }
       ]
     },
