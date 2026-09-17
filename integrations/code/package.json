@@ -95,6 +95,27 @@
         "command": "zensicalStudio.connections.pin",
         "title": "Pin Current Resource",
         "icon": "$(pinned)"
+      },
+      {
+        "command": "zensicalStudio.connections.openTarget",
+        "title": "Open Target",
+        "icon": "$(go-to-file)"
+      },
+      {
+        "command": "zensicalStudio.connections.openTargetToSide",
+        "title": "Open to the Side"
+      },
+      {
+        "command": "zensicalStudio.connections.openTargetWith",
+        "title": "Open With..."
+      },
+      {
+        "command": "zensicalStudio.connections.revealTarget",
+        "title": "Reveal in Explorer"
+      },
+      {
+        "command": "zensicalStudio.connections.copyTargetPath",
+        "title": "Copy Path"
       }
     ],
     "menus": {
@@ -117,6 +138,26 @@
         },
         {
           "command": "zensicalStudio.connections.pin",
+          "when": "false"
+        },
+        {
+          "command": "zensicalStudio.connections.openTarget",
+          "when": "false"
+        },
+        {
+          "command": "zensicalStudio.connections.openTargetToSide",
+          "when": "false"
+        },
+        {
+          "command": "zensicalStudio.connections.openTargetWith",
+          "when": "false"
+        },
+        {
+          "command": "zensicalStudio.connections.revealTarget",
+          "when": "false"
+        },
+        {
+          "command": "zensicalStudio.connections.copyTargetPath",
           "when": "false"
         }
       ],
@@ -144,6 +185,38 @@
           "command": "zensicalStudio.connections.show",
           "when": "resourceScheme == file && resourceExtname =~ /\\.(avif|bmp|gif|ico|jpe?g|markdown|md|mp3|mp4|ogg|otf|pdf|png|svg|ttf|wav|webm|webp|woff2?)$/i && !explorerResourceIsFolder",
           "group": "navigation@1"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "zensicalStudio.connections.openTarget",
+          "when": "view == zensicalStudio.connections && viewItem == resolvedConnection",
+          "group": "inline@1"
+        },
+        {
+          "command": "zensicalStudio.connections.openTarget",
+          "when": "view == zensicalStudio.connections && viewItem == resolvedConnection",
+          "group": "1_open@1"
+        },
+        {
+          "command": "zensicalStudio.connections.openTargetToSide",
+          "when": "view == zensicalStudio.connections && viewItem == resolvedConnection",
+          "group": "1_open@2"
+        },
+        {
+          "command": "zensicalStudio.connections.openTargetWith",
+          "when": "view == zensicalStudio.connections && viewItem == resolvedConnection",
+          "group": "1_open@3"
+        },
+        {
+          "command": "zensicalStudio.connections.revealTarget",
+          "when": "view == zensicalStudio.connections && viewItem == resolvedConnection && resourceScheme =~ /^(file|vscode-remote)$/",
+          "group": "2_reveal@1"
+        },
+        {
+          "command": "zensicalStudio.connections.copyTargetPath",
+          "when": "view == zensicalStudio.connections && viewItem == resolvedConnection",
+          "group": "3_copy@1"
         }
       ],
       "view/title": [

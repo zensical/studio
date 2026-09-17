@@ -241,6 +241,52 @@ implements vscode.TreeDataProvider<RelationshipNode>, vscode.Disposable {
         (uri: string, range?: Range) => openLocation(uri, range),
       ),
       vscode.commands.registerCommand(
+        "zensicalStudio.connections.openTarget",
+        (node?: RelationshipNode) => {
+          if (node?.type !== "entry" || !node.entry.related) return;
+          const related = node.entry.related;
+          return openLocation(related.uri, related.selectionRange);
+        },
+      ),
+      vscode.commands.registerCommand(
+        "zensicalStudio.connections.openTargetToSide",
+        (node?: RelationshipNode) => {
+          if (node?.type !== "entry" || !node.entry.related) return;
+          const related = node.entry.related;
+          return openLocation(related.uri, related.selectionRange, vscode.ViewColumn.Beside);
+        },
+      ),
+      vscode.commands.registerCommand(
+        "zensicalStudio.connections.openTargetWith",
+        (node?: RelationshipNode) => {
+          if (node?.type !== "entry" || !node.entry.related) return;
+          return vscode.commands.executeCommand(
+            "explorer.openWith",
+            vscode.Uri.parse(node.entry.related.uri),
+          );
+        },
+      ),
+      vscode.commands.registerCommand(
+        "zensicalStudio.connections.revealTarget",
+        (node?: RelationshipNode) => {
+          if (node?.type !== "entry" || !node.entry.related) return;
+          return vscode.commands.executeCommand(
+            "revealInExplorer",
+            vscode.Uri.parse(node.entry.related.uri),
+          );
+        },
+      ),
+      vscode.commands.registerCommand(
+        "zensicalStudio.connections.copyTargetPath",
+        (node?: RelationshipNode) => {
+          if (node?.type !== "entry" || !node.entry.related) return;
+          return vscode.commands.executeCommand(
+            "copyFilePath",
+            vscode.Uri.parse(node.entry.related.uri),
+          );
+        },
+      ),
+      vscode.commands.registerCommand(
         "zensicalStudio.connections.more",
         (group: RelationshipGroupState) => this.loadMore(group),
       ),
@@ -917,18 +963,14 @@ function entryTreeItem(node: EntryNode): vscode.TreeItem {
     ? `${related.name}\n${subjectDescription(related)}`
     : occurrence?.target;
 
-  // Set the command to open the related resource or the authored occurrence
-  if (related) {
+  if (related) item.resourceUri = vscode.Uri.parse(related.uri);
+
+  // Expand resource rows to inspect occurrences without navigating away
+  if (related && !node.entry.occurrences.length) {
     item.command = {
       command: "zensicalStudio.connections.open",
       title: "Open Related Resource",
       arguments: [related.uri, related.selectionRange],
-    };
-  } else if (occurrence) {
-    item.command = {
-      command: "zensicalStudio.connections.open",
-      title: "Open Authored Occurrence",
-      arguments: [occurrence.uri, occurrence.range],
     };
   }
   return item;
@@ -1072,11 +1114,20 @@ function getActiveResource(): vscode.Uri | undefined {
  *
  * @param uri - Resource URI to open
  * @param range - Optional range to select in the opened document
+ * @param viewColumn - Optional editor column to open in
  */
-async function openLocation(uri: string, range?: Range): Promise<void> {
+async function openLocation(
+  uri: string,
+  range?: Range,
+  viewColumn?: vscode.ViewColumn,
+): Promise<void> {
   const resource = vscode.Uri.parse(uri);
   if (!range) {
-    await vscode.commands.executeCommand("vscode.open", resource);
+    if (viewColumn !== undefined) {
+      await vscode.commands.executeCommand("vscode.open", resource, viewColumn);
+    } else {
+      await vscode.commands.executeCommand("vscode.open", resource);
+    }
     return;
   }
 
@@ -1089,6 +1140,7 @@ async function openLocation(uri: string, range?: Range): Promise<void> {
   const editor = await vscode.window.showTextDocument(resource, {
     preview: true,
     selection,
+    viewColumn,
   });
   editor.revealRange(selection, vscode.TextEditorRevealType.InCenterIfOutsideViewport);
 }
