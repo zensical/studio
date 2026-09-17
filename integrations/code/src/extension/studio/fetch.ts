@@ -136,9 +136,14 @@ export async function fetchArchive(
   // Fetch the archive for the given release
   const res = await request(context, release.url);
   if (typeof res !== "undefined") {
-    return new Uint8Array(await res.arrayBuffer());
+    try {
+      return new Uint8Array(await res.arrayBuffer());
+    } catch (error) {
+      const reason = error instanceof Error ? error.message : String(error);
+      throw new NetworkError(`Archive transfer failed: ${reason}`);
+    }
   } else {
-    return;
+    throw new NetworkError("Archive request failed; see HTTP status in logs");
   }
 }
 
