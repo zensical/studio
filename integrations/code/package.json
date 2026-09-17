@@ -151,7 +151,7 @@
         {
           "command": "zensicalStudio.connections.refresh",
           "when": "view == zensicalStudio.connections",
-          "group": "navigation@2"
+          "group": "1_actions@1"
         }
       ]
     },
