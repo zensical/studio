@@ -242,19 +242,11 @@ implements vscode.TreeDataProvider<RelationshipNode>, vscode.Disposable {
       ),
       vscode.commands.registerCommand(
         "zensicalStudio.connections.openTarget",
-        (node?: RelationshipNode) => {
-          if (node?.type !== "entry" || !node.entry.related) return;
-          const related = node.entry.related;
-          return openLocation(related.uri, related.selectionRange);
-        },
+        (node?: RelationshipNode) => openTarget(node),
       ),
       vscode.commands.registerCommand(
         "zensicalStudio.connections.openTargetToSide",
-        (node?: RelationshipNode) => {
-          if (node?.type !== "entry" || !node.entry.related) return;
-          const related = node.entry.related;
-          return openLocation(related.uri, related.selectionRange, vscode.ViewColumn.Beside);
-        },
+        (node?: RelationshipNode) => openTarget(node, vscode.ViewColumn.Beside),
       ),
       vscode.commands.registerCommand(
         "zensicalStudio.connections.openTargetWith",
@@ -782,7 +774,13 @@ function navigationEntryTreeItem(node: NavigationEntryNode): vscode.TreeItem {
   item.description = navigationLocationDescription(entry);
   item.iconPath = new vscode.ThemeIcon("markdown");
   item.contextValue = "navigationCurrent";
+  item.resourceUri = vscode.Uri.parse(entry.configurationUri);
   item.tooltip = `${entry.label}\n${item.description}`;
+  item.command = {
+    command: "zensicalStudio.connections.open",
+    title: "Open Navigation Entry",
+    arguments: [entry.configurationUri, entry.configurationRange],
+  };
   return item;
 }
 
@@ -807,6 +805,7 @@ function navigationNeighborTreeItem(
     node.relation === "Previous" ? "arrow-small-left" : "arrow-small-right",
   );
   item.contextValue = "navigationNeighbor";
+  item.resourceUri = vscode.Uri.parse(node.entry.uri);
   item.tooltip = `${node.relation}: ${node.entry.label}\n${item.description}`;
   item.command = {
     command: "zensicalStudio.connections.open",
@@ -1107,6 +1106,33 @@ function getActiveResource(): vscode.Uri | undefined {
     if (uri instanceof vscode.Uri) return uri;
   }
   return undefined;
+}
+
+/**
+ * Open the target resource or configuration entry of a connection tree node.
+ *
+ * @param node - Connection tree node
+ * @param viewColumn - Optional editor column to open in
+ */
+async function openTarget(
+  node?: RelationshipNode,
+  viewColumn?: vscode.ViewColumn,
+): Promise<void> {
+  switch (node?.type) {
+    case "entry": {
+      const related = node.entry.related;
+      if (related) await openLocation(related.uri, related.selectionRange, viewColumn);
+      break;
+    }
+    case "navigationEntry": {
+      const entry = node.context.current;
+      await openLocation(entry.configurationUri, entry.configurationRange, viewColumn);
+      break;
+    }
+    case "navigationNeighbor":
+      await openLocation(node.entry.uri, undefined, viewColumn);
+      break;
+  }
 }
 
 /**
