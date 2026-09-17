@@ -114,6 +114,10 @@
         "title": "Reveal in Explorer"
       },
       {
+        "command": "zensicalStudio.connections.revealTargetInFileExplorer",
+        "title": "Reveal in File Explorer"
+      },
+      {
         "command": "zensicalStudio.connections.copyTargetPath",
         "title": "Copy Path"
       }
@@ -154,6 +158,10 @@
         },
         {
           "command": "zensicalStudio.connections.revealTarget",
+          "when": "false"
+        },
+        {
+          "command": "zensicalStudio.connections.revealTargetInFileExplorer",
           "when": "false"
         },
         {
@@ -212,6 +220,11 @@
           "command": "zensicalStudio.connections.revealTarget",
           "when": "view == zensicalStudio.connections && viewItem == resolvedConnection && resourceScheme =~ /^(file|vscode-remote)$/",
           "group": "2_reveal@1"
+        },
+        {
+          "command": "zensicalStudio.connections.revealTargetInFileExplorer",
+          "when": "view == zensicalStudio.connections && viewItem == resolvedConnection && resourceScheme == file && !isWeb",
+          "group": "2_reveal@2"
         },
         {
           "command": "zensicalStudio.connections.copyTargetPath",

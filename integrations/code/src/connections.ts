@@ -269,6 +269,10 @@ implements vscode.TreeDataProvider<RelationshipNode>, vscode.Disposable {
         },
       ),
       vscode.commands.registerCommand(
+        "zensicalStudio.connections.revealTargetInFileExplorer",
+        revealTargetInFileManager,
+      ),
+      vscode.commands.registerCommand(
         "zensicalStudio.connections.copyTargetPath",
         (node?: RelationshipNode) => {
           if (node?.type !== "entry" || !node.entry.related) return;
@@ -1106,6 +1110,18 @@ function getActiveResource(): vscode.Uri | undefined {
     if (uri instanceof vscode.Uri) return uri;
   }
   return undefined;
+}
+
+/**
+ * Reveal a local connection target in the operating system's file manager.
+ *
+ * @param node - Connection tree node
+ */
+async function revealTargetInFileManager(node?: RelationshipNode): Promise<void> {
+  if (node?.type !== "entry" || !node.entry.related) return;
+  const resource = vscode.Uri.parse(node.entry.related.uri);
+  if (resource.scheme !== "file") return;
+  await vscode.commands.executeCommand("revealFileInOS", resource);
 }
 
 /**
