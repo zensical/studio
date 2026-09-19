@@ -59,6 +59,32 @@ interface DocumentState {
  * ------------------------------------------------------------------------- */
 
 /**
+ * Project-root patterns for every VS Code workspace folder.
+ *
+ * @returns Resource-scoped selections for server initialization and reloads
+ */
+export function projectSelections(): {
+  projects: Array<{
+    workspaceUri: string;
+    include: string[];
+    exclude: string[];
+  }>;
+} {
+  return {
+    projects: (vscode.workspace.workspaceFolders ?? []).map((folder) => {
+      const settings = vscode.workspace.getConfiguration(
+        "zensical.studio.projects", folder.uri,
+      );
+      return {
+        workspaceUri: folder.uri.toString(),
+        include: settings.get<string[]>("include", []),
+        exclude: settings.get<string[]>("exclude", []),
+      };
+    }),
+  };
+}
+
+/**
  * Activate project-aware Markdown tagging.
  *
  * @param context - Studio extension context
@@ -72,6 +98,20 @@ export async function activateProjectMarkdown(
   const openDocuments = new Map<string, DocumentState>();
   const changingLanguage = new Set<string>();
   const roots = new Map<string, string[]>();
+  let projectUpdates = Promise.resolve();
+  let projectUpdateQueued = false;
+
+  // Refresh project selections in Studio when the configuration changes
+  const refreshProjects = (): void => {
+    if (projectUpdateQueued) return;
+    projectUpdateQueued = true;
+    projectUpdates = projectUpdates.then(async () => {
+      projectUpdateQueued = false;
+      await client.sendRequest("zensical/workspace/projects", projectSelections());
+    }).catch((error) => {
+      context.log(`Failed to update project selection: ${String(error)}`);
+    });
+  };
 
   // Refresh managed Markdown roots for all workspace folders
   const refreshScopes = async (): Promise<void> => {
@@ -118,6 +158,11 @@ export async function activateProjectMarkdown(
 
   // Register event listeners for workspace changes and document lifecycle
   const subscriptions: Disposable[] = [
+    vscode.workspace.onDidChangeConfiguration((event) => {
+      if (event.affectsConfiguration("zensical.studio.projects")) {
+        refreshProjects();
+      }
+    }),
     client.onNotification("zensical/workspace/scopesChanged", () => {
       void refreshScopes();
     }),
@@ -210,9 +255,25 @@ async function tagDocument(
     return;
   }
 
-  // Skip documents that are not inside a managed root
+  // Restore documents Studio tagged before their project was excluded.
   const folderRoots = roots.get(folder.uri.toString()) ?? [];
   if (!isManaged(document.uri, folderRoots)) {
+    const key = document.uri.toString();
+    const state = openDocuments.get(key);
+    if (
+      state?.automaticallyTagged && !state.userOverride &&
+      !changingLanguage.has(key) &&
+      document.languageId === "python-markdown"
+    ) {
+      changingLanguage.add(key);
+      try {
+        await vscode.languages.setTextDocumentLanguage(document, "markdown");
+        state.languageId = "markdown";
+        state.automaticallyTagged = false;
+      } finally {
+        changingLanguage.delete(key);
+      }
+    }
     return;
   }
 

@@ -492,6 +492,20 @@
           "type": "string",
           "default": "",
           "description": "Path to Zensical Studio, optional"
+        },
+        "zensical.studio.projects.include": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": [],
+          "scope": "resource",
+          "description": "Project-root globs relative to each workspace folder. Empty includes all discovered projects."
+        },
+        "zensical.studio.projects.exclude": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": [],
+          "scope": "resource",
+          "description": "Project-root globs relative to each workspace folder. Excludes take precedence over includes."
         }
       }
     }
