@@ -34,6 +34,7 @@ import {
 
 import type { Context } from "./context";
 import type { Studio } from "./studio";
+import { projectSelections } from "./project";
 
 /* ----------------------------------------------------------------------------
  * Functions
@@ -82,7 +83,7 @@ export function createLanguageClient(
       { scheme: "file", language: "yaml", pattern: "**/mkdocs.yaml" },
     ],
     outputChannel: context.getOutput(),
-    initializationOptions: { token: studio.token },
+    initializationOptions: { token: studio.token, ...projectSelections() },
     errorHandler: {
       error: (_error, _message, count) => {
         if (typeof count === "number" && count <= 3) {
