@@ -1,6 +1,6 @@
 {
   "name": "zensical-studio",
-  "version": "0.2.17",
+  "version": "0.2.18",
   "publisher": "zensical",
   "displayName": "Zensical Studio",
   "description": "Refactor documentation like code",
@@ -495,14 +495,18 @@
         },
         "zensical.studio.projects.include": {
           "type": "array",
-          "items": { "type": "string" },
+          "items": {
+            "type": "string"
+          },
           "default": [],
           "scope": "resource",
           "description": "Project-root globs relative to each workspace folder. Empty includes all discovered projects."
         },
         "zensical.studio.projects.exclude": {
           "type": "array",
-          "items": { "type": "string" },
+          "items": {
+            "type": "string"
+          },
           "default": [],
           "scope": "resource",
           "description": "Project-root globs relative to each workspace folder. Excludes take precedence over includes."
