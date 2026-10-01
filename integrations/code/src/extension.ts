@@ -34,9 +34,16 @@ import { ConnectionsView } from "./connections";
 import { createLanguageClient } from "./extension/client";
 import { Context } from "./extension/context";
 import { activateProjectMarkdown } from "./extension/project";
+import {
+  type RecoveryFailureKind,
+  StudioRecovery,
+} from "./extension/recovery";
 import { getStudio } from "./extension/studio";
 import type { Studio } from "./extension/studio";
-import { NetworkError } from "./extension/studio/fetch";
+import {
+  ArchiveTransferError,
+  NetworkError,
+} from "./extension/studio/fetch";
 import { WordCount } from "./word-count";
 
 /* ----------------------------------------------------------------------------
@@ -74,39 +81,9 @@ let connections: ConnectionsView | undefined;
 let retryTimer: ReturnType<typeof setTimeout> | undefined;
 
 /**
- * Whether editor activity may bring the current retry forward.
+ * Studio recovery state machine.
  */
-let retryOnActivity = false;
-
-/**
- * Whether Studio is recovering from an unexpected server stop.
- */
-let recovering = false;
-
-/**
- * Number of consecutive runtime availability failures.
- */
-let availabilityFailures = 0;
-
-/**
- * Whether the current availability failure has been reported.
- */
-let availabilityNoticeShown = false;
-
-/**
- * Number of consecutive process startup or runtime failures.
- */
-let startupFailures = 0;
-
-/**
- * Whether the current startup failure has been reported.
- */
-let startupNoticeShown = false;
-
-/**
- * Startup retry delay.
- */
-let retryDelay = 5000;
+const recovery = new StudioRecovery();
 
 /**
  * Timer that resets restart backoff after a stable session.
@@ -134,6 +111,7 @@ const pending = new Map<string, TextDocument>();
  */
 export async function activate(extension: ExtensionContext): Promise<void> {
   const context = new Context(extension);
+  recovery.reset();
   wordCount = new WordCount(() => client);
   extension.subscriptions.push(wordCount);
   connections = new ConnectionsView(extension, () => client);
@@ -150,24 +128,16 @@ export async function activate(extension: ExtensionContext): Promise<void> {
     // retry more responsive when the user returns to the window or opens a
     // Python Markdown document after VPN/proxy startup has completed.
     vscode.window.onDidChangeWindowState((state) => {
-      if (
-        state.focused &&
-        typeof retryTimer !== "undefined" &&
-        retryOnActivity
-      ) {
-        void startStudio(extension, context);
+      if (state.focused) {
+        retryStudioOnActivity(extension, context);
       }
     }),
     vscode.workspace.onDidOpenTextDocument((document) => {
       if (document.languageId === "markdown") {
         pending.set(document.uri.toString(), document);
       }
-      if (
-        document.languageId === "python-markdown" &&
-        typeof retryTimer !== "undefined" &&
-        retryOnActivity
-      ) {
-        void startStudio(extension, context);
+      if (document.languageId === "python-markdown") {
+        retryStudioOnActivity(extension, context);
       }
     }),
   );
@@ -190,6 +160,7 @@ export async function activate(extension: ExtensionContext): Promise<void> {
 export async function deactivate(): Promise<void> {
   clearRetry();
   clearRetryReset();
+  recovery.reset();
   disposeClientDisposables();
   const previous = client;
   client = undefined;
@@ -224,12 +195,12 @@ async function startStudio(
     // Resolve once, then reuse the same runtime throughout this retry episode.
     studio ??= await getStudio(context);
     if (typeof studio === "undefined") {
-      recordAvailabilityFailure(context);
-      scheduleRetry(extension, context, "Studio unavailable", true);
+      recoverStudioFailure(
+        extension, context, "availability", "Studio unavailable",
+      );
       return;
     }
-    availabilityFailures = 0;
-    availabilityNoticeShown = false;
+    recovery.resolved();
 
     // Create and start the language client
     context.log("Starting Zensical Studio");
@@ -264,17 +235,19 @@ async function startStudio(
     // Log the error
     const message = error instanceof Error ? error.message : String(error);
     context.log(`Failed to start Zensical Studio: ${message}`);
-    if (error instanceof NetworkError) {
-      recordAvailabilityFailure(context);
+    if (error instanceof ArchiveTransferError) {
+      recoverStudioFailure(
+        extension, context, "download", "Studio download failed", error,
+      );
+    } else if (error instanceof NetworkError) {
+      recoverStudioFailure(
+        extension, context, "availability", "Network unavailable",
+      );
     } else {
-      recordStartupFailure(context, message);
+      recoverStudioFailure(
+        extension, context, "startup", "Startup failed", message,
+      );
     }
-    scheduleRetry(
-      extension,
-      context,
-      error instanceof NetworkError ? "Network unavailable" : "Startup failed",
-      error instanceof NetworkError,
-    );
   } finally {
     starting = false;
   }
@@ -291,10 +264,8 @@ async function restartStudio(
 ): Promise<void> {
   clearRetry();
   clearRetryReset();
-  retryDelay = 5000;
-  recovering = false;
+  recovery.reset();
   studio = undefined;
-  resetFailureNotices();
   const previous = client;
   if (typeof previous === "undefined") {
     await startStudio(extension, context);
@@ -334,17 +305,17 @@ async function recoverStudio(
   const serverProcess = stopped.serverProcess;
   const reason = describeServerStop(serverProcess);
   context.log(`Studio stopped unexpectedly: ${reason}`);
-  recordStartupFailure(context, reason);
   client = undefined;
   clearRetryReset();
   disposeClientDisposables();
   stopped.dispose();
   await terminateServerProcess(serverProcess, context);
-  if (!recovering) {
-    recovering = true;
+  if (recovery.beginRecovery()) {
     studio = undefined;
   }
-  scheduleRetry(extension, context, "Studio stopped");
+  recoverStudioFailure(
+    extension, context, "startup", "Studio stopped", reason,
+  );
 }
 
 /**
@@ -400,42 +371,133 @@ function waitForProcessExit(
 }
 
 /**
- * Schedule startup retry.
+ * Recover from a Studio failure according to its policy.
  *
  * @param extension - Extension context
  * @param context - Context
- * @param reason - Retry reason shown in the output channel
- * @param onActivity - Whether editor activity may bring the retry forward
+ * @param kind - Failure kind
+ * @param reason - Failure reason shown in the output channel
+ * @param detail - Failure detail used for logging and diagnostics
  */
-function scheduleRetry(
-  extension: ExtensionContext, context: Context, reason: string,
-  onActivity = false,
+function recoverStudioFailure(
+  extension: ExtensionContext, context: Context,
+  kind: RecoveryFailureKind, reason: string,
+  detail?: string | ArchiveTransferError,
 ): void {
+  clearRetryReset();
+  const decision = recovery.fail(kind);
+  logStudioFailure(context, kind, decision.attempt, detail);
+  if (decision.notify) {
+    reportStudioFailure(context, kind, decision.attempt, detail);
+  }
+  if (!decision.retry) {
+    context.log(
+      `${reason}; automatic retries stopped after ${decision.attempt} attempts`,
+    );
+    return;
+  }
   if (typeof retryTimer !== "undefined") {
     return;
   }
-
-  clearRetryReset();
-  if (!onActivity && startupFailures >= 3) {
-    retryOnActivity = false;
-    context.log(`${reason}; automatic retries stopped after 3 attempts`);
-    return;
-  }
-  retryOnActivity = onActivity;
-  const delay = retryDelay;
-  const seconds = Math.round(delay / 1000);
+  const seconds = Math.round(decision.delay / 1000);
   context.log(`${reason}; retrying in ${seconds}s`);
 
   // Schedule retry with exponential backoff and jitter
-  retryTimer = setTimeout(() => {
+  const retry = () => {
     retryTimer = undefined;
     if (starting) {
-      scheduleRetry(extension, context, reason);
+      retryTimer = setTimeout(retry, jitter(decision.delay));
       return;
     }
+    if (!recovery.retry()) return;
     void startStudio(extension, context);
-  }, jitter(delay));
-  retryDelay = Math.min(delay * 2, 5 * 60 * 1000);
+  };
+  retryTimer = setTimeout(retry, jitter(decision.delay));
+}
+
+/**
+ * Retry Studio early in response to editor activity.
+ *
+ * @param extension - Extension context
+ * @param context - Context
+ */
+function retryStudioOnActivity(
+  extension: ExtensionContext, context: Context,
+): void {
+  if (
+    starting ||
+    typeof retryTimer === "undefined" ||
+    !recovery.retry(true)
+  ) {
+    return;
+  }
+  clearTimeout(retryTimer);
+  retryTimer = undefined;
+  void startStudio(extension, context);
+}
+
+/**
+ * Log a Studio failure attempt.
+ *
+ * @param context - Context
+ * @param kind - Failure kind
+ * @param attempt - Failure attempt
+ * @param detail - Failure detail
+ */
+function logStudioFailure(
+  context: Context, kind: RecoveryFailureKind, attempt: number,
+  detail?: string | ArchiveTransferError,
+): void {
+  switch (kind) {
+    case "availability":
+      context.log(`Availability attempt ${attempt} failed`);
+      break;
+    case "download":
+      context.log(
+        `Download attempt ${attempt} failed: ${singleLine(
+          detail instanceof Error ? detail.message : String(detail),
+        )}`,
+      );
+      break;
+    case "startup":
+      context.log(
+        `Startup attempt ${attempt} failed: ${singleLine(String(detail))}`,
+      );
+      break;
+  }
+}
+
+/**
+ * Report a repeated Studio failure to the author.
+ *
+ * @param context - Context
+ * @param kind - Failure kind
+ * @param attempt - Failed attempt
+ * @param detail - Failure detail
+ */
+function reportStudioFailure(
+  context: Context, kind: RecoveryFailureKind, attempt: number,
+  detail?: string | ArchiveTransferError,
+): void {
+  switch (kind) {
+    case "availability":
+      logStartupEnvironment(context);
+      void context.promptStudioUnavailable();
+      break;
+    case "download":
+      if (detail instanceof ArchiveTransferError) {
+        const diagnostics = downloadDiagnostics(
+          context, detail, attempt,
+        );
+        context.log(`Download diagnostics:\n${diagnostics}`);
+        void context.promptStudioDownloadFailure(diagnostics);
+      }
+      break;
+    case "startup":
+      logStartupEnvironment(context);
+      void context.promptStudioStartupFailure();
+      break;
+  }
 }
 
 /**
@@ -445,46 +507,8 @@ function markStudioStable(): void {
   clearRetryReset();
   retryResetTimer = setTimeout(() => {
     retryResetTimer = undefined;
-    retryDelay = 5000;
-    recovering = false;
-    resetFailureNotices();
+    recovery.reset();
   }, 3 * 60 * 1000);
-}
-
-/**
- * Record that Studio's runtime could not be resolved.
- *
- * @param context - Context
- */
-function recordAvailabilityFailure(context: Context): void {
-  availabilityFailures += 1;
-  if (availabilityFailures < 3 || availabilityNoticeShown) {
-    return;
-  }
-
-  availabilityNoticeShown = true;
-  logStartupEnvironment(context);
-  void context.promptStudioUnavailable();
-}
-
-/**
- * Record that Studio failed to start or stopped unexpectedly.
- *
- * @param context - Context
- * @param reason - Failure reason
- */
-function recordStartupFailure(context: Context, reason: string): void {
-  startupFailures += 1;
-  context.log(
-    `Startup attempt ${startupFailures} failed: ${singleLine(reason)}`,
-  );
-  if (startupFailures < 3 || startupNoticeShown) {
-    return;
-  }
-
-  startupNoticeShown = true;
-  logStartupEnvironment(context);
-  void context.promptStudioStartupFailure();
 }
 
 /**
@@ -509,6 +533,67 @@ function logStartupEnvironment(context: Context): void {
 }
 
 /**
+ * Collect safe diagnostics for a Studio archive transfer failure.
+ *
+ * @param context - Context
+ * @param error - Archive transfer error
+ * @param attempt - Failed download attempt
+ *
+ * @returns Diagnostics
+ */
+function downloadDiagnostics(
+  context: Context, error: ArchiveTransferError, attempt: number,
+): string {
+  const http = vscode.workspace.getConfiguration("http");
+  const proxy = http.get<string>("proxy")?.trim();
+  const noProxy = http.get<string[]>("noProxy") ?? [];
+  const remote = vscode.env.remoteName ?? "local";
+  const installed = context.getState("version") ?? "none";
+  return [
+    "Zensical Studio download diagnostics",
+    `Timestamp: ${new Date().toISOString()}`,
+    `Attempt: ${attempt}`,
+    `Extension: ${context.getVersion()}`,
+    `Installed Studio: ${installed}`,
+    `Editor: ${vscode.env.appName} ${vscode.version}`,
+    `Platform: ${process.platform} ${getOsRelease()}/${process.arch}`,
+    `Remote: ${remote}`,
+    `Configured proxy: ${Boolean(proxy)}`,
+    `No-proxy entries: ${noProxy.length}`,
+    `Proxy support: ${http.get("proxySupport", "unknown")}`,
+    `Proxy strict SSL: ${http.get("proxyStrictSSL", "unknown")}`,
+    `Fetch support: ${http.get("fetchAdditionalSupport", "unknown")}`,
+    `Electron fetch: ${http.get("electronFetch", "unknown")}`,
+    `System certificates: ${http.get("systemCertificates", "unknown")}`,
+    `Node system certificates: ${http.get(
+      "systemCertificatesNode", "unknown",
+    )}`,
+    `Local proxy configuration: ${http.get(
+      "useLocalProxyConfiguration", "unknown",
+    )}`,
+    `HTTP proxy environment: ${environmentVariablePresent(
+      "HTTP_PROXY", "http_proxy",
+    )}`,
+    `HTTPS proxy environment: ${environmentVariablePresent(
+      "HTTPS_PROXY", "https_proxy",
+    )}`,
+    "",
+    error.diagnostics,
+  ].join("\n");
+}
+
+/**
+ * Check whether any named environment variable has a non-empty value.
+ *
+ * @param names - Environment variable names
+ *
+ * @returns Whether a variable is present
+ */
+function environmentVariablePresent(...names: string[]): boolean {
+  return names.some((name) => Boolean(process.env[name]));
+}
+
+/**
  * Describe how the server process stopped.
  *
  * @param serverProcess - Server process
@@ -526,16 +611,6 @@ function describeServerStop(serverProcess: ChildProcess | undefined): string {
     return `server process exited with code ${serverProcess.exitCode}`;
   }
   return "language server connection closed while the process was running";
-}
-
-/**
- * Reset failure counters after a manual restart or stable session.
- */
-function resetFailureNotices(): void {
-  availabilityFailures = 0;
-  availabilityNoticeShown = false;
-  startupFailures = 0;
-  startupNoticeShown = false;
 }
 
 /**
@@ -557,7 +632,6 @@ function clearRetry(): void {
     clearTimeout(retryTimer);
     retryTimer = undefined;
   }
-  retryOnActivity = false;
 }
 
 /**

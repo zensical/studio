@@ -81,6 +81,29 @@ export class NetworkError extends Error {
   }
 }
 
+/**
+ * Archive transfer failure.
+ */
+export class ArchiveTransferError extends Error {
+  /** Transfer diagnostics safe to include in an issue report. */
+  public readonly diagnostics: string;
+
+  /**
+   * Create error.
+   *
+   * @param message - Message
+   * @param diagnostics - Transfer diagnostics
+   * @param cause - Underlying error
+   */
+  public constructor(
+    message: string, diagnostics: string, cause?: unknown,
+  ) {
+    super(message, { cause });
+    this.name = "ArchiveTransferError";
+    this.diagnostics = diagnostics;
+  }
+}
+
 /* ----------------------------------------------------------------------------
  * Functions
  * ------------------------------------------------------------------------- */
@@ -134,17 +157,59 @@ export async function fetchArchive(
   context.log(`Fetching Zensical Studio ${release.version}`);
 
   // Fetch the archive for the given release
-  const res = await request(context, release.url);
-  if (typeof res !== "undefined") {
-    try {
-      return new Uint8Array(await res.arrayBuffer());
-    } catch (error) {
-      const reason = error instanceof Error ? error.message : String(error);
-      throw new NetworkError(`Archive transfer failed: ${reason}`);
-    }
-  } else {
-    throw new NetworkError("Archive request failed; see HTTP status in logs");
+  const started = Date.now();
+  let res: Response;
+  try {
+    res = await fetchResponse(context, release.url);
+  } catch (error) {
+    throw archiveTransferError(release, started, 0, undefined, error);
   }
+  if (!res.ok) {
+    throw archiveTransferError(release, started, 0, res);
+  }
+  if (!isArchiveContentType(res.headers.get("content-type"))) {
+    throw archiveTransferError(
+      release, started, 0, res,
+      new Error("Unexpected archive content type"),
+    );
+  }
+
+  // Read the response as a stream so interrupted transfers retain their
+  // received byte count in diagnostics.
+  const chunks: Uint8Array[] = [];
+  let received = 0;
+  try {
+    if (res.body === null) {
+      throw new Error("Archive response has no body");
+    }
+    const reader = res.body.getReader();
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      chunks.push(value);
+      received += value.byteLength;
+    }
+  } catch (error) {
+    throw archiveTransferError(release, started, received, res, error);
+  }
+
+  // Check that the received byte count matches the expected content length
+  const expected = contentLength(res);
+  if (typeof expected !== "undefined" && received !== expected) {
+    throw archiveTransferError(
+      release, started, received, res,
+      new Error(`Received ${received} of ${expected} bytes`),
+    );
+  }
+
+  // Combine the received chunks into a single byte array and return it
+  const bytes = new Uint8Array(received);
+  let offset = 0;
+  for (const chunk of chunks) {
+    bytes.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  return bytes;
 }
 
 /**
@@ -197,27 +262,175 @@ async function request(
   url: string,
   init?: RequestInit,
 ): Promise<Response | undefined> {
+  const res = await fetchResponse(context, url, init);
+
+  // In case of a non-OK response, log the error and return nothing
+  if (!res.ok) {
+    context.log(`Fetching failed: ${res.status} ${res.statusText}`);
+    return;
+  } else {
+    return res;
+  }
+}
+
+/**
+ * Fetch a resource and preserve non-OK responses for callers that need them.
+ *
+ * @param context - Context
+ * @param url - Resource URL
+ * @param init - Request initialization
+ *
+ * @returns Response
+ */
+async function fetchResponse(
+  context: Context,
+  url: string,
+  init?: RequestInit,
+): Promise<Response> {
   try {
-    const res = await fetch(url, {
+    return await fetch(url, {
       ...init,
       headers: {
         ...init?.headers,
         "x-zensical-studio-version": context.getVersion(),
       },
     });
-
-    // In case of a non-OK response, log the error and return nothing
-    if (!res.ok) {
-      context.log(`Fetching failed: ${res.status} ${res.statusText}`);
-      return;
-    } else {
-      return res;
-    }
   } catch (error) {
-    const reason = error instanceof Error ? error.message : String(error);
+    const reason = describeError(error);
     context.log(`Fetching failed: ${reason}`);
     throw new NetworkError(reason);
   }
+}
+
+/**
+ * Create an archive transfer error with safe diagnostics.
+ *
+ * @param release - Release
+ * @param started - Transfer start time
+ * @param received - Number of received bytes
+ * @param response - Response, if headers were received
+ * @param cause - Underlying error
+ *
+ * @returns Archive transfer error
+ */
+function archiveTransferError(
+  release: Release, started: number, received: number,
+  response?: Response, cause?: unknown,
+): ArchiveTransferError {
+  const expected = response === undefined ? undefined : contentLength(response);
+  const reason = cause === undefined
+    ? `HTTP ${response?.status ?? "unknown"} ${response?.statusText ?? ""}`.trim()
+    : describeError(cause);
+  const diagnostics = [
+    `Release: ${release.version}`,
+    `Status: ${response?.status ?? "unavailable"}`,
+    `Final URL: ${safeUrl(response?.url || release.url)}`,
+    `Redirected: ${response?.redirected ?? false}`,
+    `Content-Type: ${response?.headers.get("content-type") ?? "unavailable"}`,
+    `Content-Length: ${expected ?? "unavailable"}`,
+    `Content-Encoding: ${response?.headers.get("content-encoding") ?? "none"}`,
+    `ETag: ${response?.headers.get("etag") ?? "unavailable"}`,
+    `CF-Ray: ${response?.headers.get("cf-ray") ?? "unavailable"}`,
+    `Received bytes: ${received}`,
+    `Elapsed milliseconds: ${Date.now() - started}`,
+    `Error: ${reason}`,
+  ].join("\n");
+  return new ArchiveTransferError(
+    `Archive transfer failed: ${reason}`, diagnostics, cause,
+  );
+}
+
+/**
+ * Remove credentials, query parameters, and fragments from a diagnostic URL.
+ *
+ * @param value - URL
+ *
+ * @returns Safe URL
+ */
+function safeUrl(value: string): string {
+  try {
+    const url = new URL(value);
+    url.username = "";
+    url.password = "";
+    url.search = "";
+    url.hash = "";
+    return url.toString();
+  } catch {
+    return "unavailable";
+  }
+}
+
+/**
+ * Check whether a response contains the expected archive media type.
+ *
+ * @param value - Content type
+ *
+ * @returns Whether the content type is valid
+ */
+function isArchiveContentType(value: string | null): boolean {
+  const type = value?.split(";", 1)[0].trim().toLowerCase();
+  return type === "application/octet-stream";
+}
+
+/**
+ * Read a valid content length from a response.
+ *
+ * @param response - Response
+ *
+ * @returns Content length or nothing
+ */
+function contentLength(response: Response): number | undefined {
+  const value = response.headers.get("content-length");
+  if (value === null || !/^\d+$/.test(value)) return;
+  const length = Number(value);
+  return Number.isSafeInteger(length) ? length : undefined;
+}
+
+/**
+ * Describe an error and its immediate cause.
+ *
+ * @param error - Error
+ *
+ * @returns Description
+ */
+function describeError(error: unknown): string {
+  if (!(error instanceof Error)) return String(error);
+  const details = [error.name, sanitizeText(error.message)];
+  const code = errorCode(error);
+  if (typeof code !== "undefined") details.push(`code=${code}`);
+  if (error.cause instanceof Error) {
+    const cause = error.cause;
+    const causeCode = errorCode(cause);
+    details.push(
+      `cause=${cause.name}: ${sanitizeText(cause.message)}` +
+      (typeof causeCode === "undefined" ? "" : ` (code=${causeCode})`),
+    );
+  }
+  return details.join(": ");
+}
+
+/**
+ * Remove credentials and query parameters from URLs in diagnostic text.
+ *
+ * @param value - Diagnostic text
+ *
+ * @returns Safe diagnostic text
+ */
+function sanitizeText(value: string): string {
+  return value.replace(/https?:\/\/[^\s)]+/g, (url) => safeUrl(url));
+}
+
+/**
+ * Get a string error code without assuming a specific error implementation.
+ *
+ * @param error - Error
+ *
+ * @returns Error code or nothing
+ */
+function errorCode(error: Error): string | undefined {
+  if (!("code" in error)) return;
+  const code = error.code;
+  return typeof code === "string" ? code : undefined;
 }
 
 /* ------------------------------------------------------------------------- */

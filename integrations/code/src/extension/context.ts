@@ -189,6 +189,50 @@ export class Context {
   }
 
   /**
+   * Explain a repeated Studio download failure and offer reporting actions.
+   *
+   * @param diagnostics - Diagnostics safe to include in an issue report
+   */
+  public async promptStudioDownloadFailure(
+    diagnostics: string,
+  ): Promise<void> {
+    const report = "Report Issue";
+    const copy = "Copy Diagnostics";
+    const logs = "Show Logs";
+    const retry = "Retry";
+    const result = await vscode.window.showErrorMessage(
+      "Zensical Studio could not be downloaded after several attempts. " +
+        "Automatic retries have stopped. Please report this issue so we can " +
+        "investigate the failed transfer.",
+      report,
+      copy,
+      logs,
+      retry,
+    );
+    if (result === report) {
+      await vscode.env.clipboard.writeText(diagnostics);
+      this.output.show();
+      void vscode.window.showInformationMessage(
+        "Studio download diagnostics copied to the clipboard.",
+      );
+      await vscode.env.openExternal(vscode.Uri.parse(
+        "https://github.com/zensical/studio/issues/new" +
+          "?template=01-report-a-bug.yml" +
+          "&title=Studio%20download%20fails",
+      ));
+    } else if (result === copy) {
+      await vscode.env.clipboard.writeText(diagnostics);
+      void vscode.window.showInformationMessage(
+        "Studio download diagnostics copied to the clipboard.",
+      );
+    } else if (result === logs) {
+      this.output.show();
+    } else if (result === retry) {
+      await vscode.commands.executeCommand("zensicalStudio.restartServer");
+    }
+  }
+
+  /**
    * Prompt the user to update the extension.
    *
    * @param message - Message
