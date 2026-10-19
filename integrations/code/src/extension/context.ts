@@ -30,6 +30,7 @@ import type {
   WorkspaceConfiguration,
 } from "vscode";
 
+import { readLicenseKey } from "./license";
 import { registerNote, showNote } from "./note";
 import type { TransitionMessage } from "./studio/fetch";
 
@@ -76,6 +77,40 @@ export class Context {
    */
   public getVersion(): string {
     return this.context.extension.packageJSON.version;
+  }
+
+  /**
+   * Read the license credential without persisting it in extension state.
+   *
+   * @returns Saved license key, or nothing if none is set
+   */
+  public getLicenseKey(): Thenable<string | undefined> {
+    return readLicenseKey(this.context.secrets);
+  }
+
+  /**
+   * Read an extension-owned secret.
+   *
+   * @param key - Secret key
+   *
+   * @returns Secret value, or nothing
+   */
+  public getSecret(key: string): Thenable<string | undefined> {
+    return this.context.secrets.get(key);
+  }
+
+  /**
+   * Store or remove an extension-owned secret.
+   *
+   * @param key - Secret key
+   * @param value - Secret value, or nothing to remove it
+   *
+   * @returns Storage completion
+   */
+  public setSecret(key: string, value?: string): Thenable<void> {
+    return value === undefined
+      ? this.context.secrets.delete(key)
+      : this.context.secrets.store(key, value);
   }
 
   /**

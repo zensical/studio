@@ -71,6 +71,10 @@
         "title": "Zensical Studio: Show Logs"
       },
       {
+        "command": "zensicalStudio.enterLicenseKey",
+        "title": "Zensical Studio: Enter License Key"
+      },
+      {
         "command": "zensicalStudio.connections.show",
         "title": "Zensical Studio: Show Connections",
         "icon": "$(type-hierarchy)",

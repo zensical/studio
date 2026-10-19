@@ -123,6 +123,11 @@ let startupTask: Promise<void> | undefined;
 let restartTask: Promise<void> | undefined;
 
 /**
+ * Latest customer-license change, including changes during a restart.
+ */
+let licenseRevision = 0;
+
+/**
  * Whether the extension is active.
  */
 let active = false;
@@ -164,6 +169,14 @@ export async function activate(extension: ExtensionContext): Promise<void> {
     getReadyClient,
     () => context.getOutput().show(),
     () => restartStudio(extension, context),
+    // Saving a license leaves Beta running. Free, Pro and Team re-resolve
+    // access so activation, replacement and removal take effect immediately.
+    () => {
+      licenseRevision++;
+      return runtime?.edition === "beta"
+        ? Promise.resolve()
+        : restartStudio(extension, context);
+    },
   );
   extension.subscriptions.push(
     // The timer below is the primary recovery mechanism. These hooks only make
@@ -381,7 +394,15 @@ function restartStudio(
   if (restartTask !== undefined) {
     return restartTask;
   }
-  restartTask = stopAndRestartStudio(extension, context).finally(() => {
+  restartTask = (async () => {
+    let revision: number;
+    do {
+      revision = licenseRevision;
+      await stopAndRestartStudio(extension, context);
+    } while (
+      active && runtime?.edition !== "beta" && revision !== licenseRevision
+    );
+  })().finally(() => {
     restartTask = undefined;
   });
   return restartTask;

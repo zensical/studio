@@ -68,8 +68,8 @@ export function reconcileRuntime(
   const reported: unknown = result.capabilities.experimental?.zensicalStudio;
   let identity: RuntimeIdentity;
   if (reported === undefined) {
-    // Beta may omit edition metadata regardless of its version. Free and paid
-    // runtimes must report their compiled identity.
+    // Beta may omit edition metadata regardless of its version. Other
+    // editions must report their compiled identity.
     if (studio.edition !== "beta") {
       throw new Error("Studio did not report its compiled edition");
     }

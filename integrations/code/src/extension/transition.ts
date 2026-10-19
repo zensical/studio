@@ -56,6 +56,8 @@ export class StudioTransition {
   private retired = false;
   /** Whether a first-Free notification attempt is in progress */
   private notifying = false;
+  /** Whether this activation already reported a failed license check */
+  private licenseWarned = false;
   /** Shared Beta retirement marker */
   private readonly marker: string;
   /** Shared Beta participation marker */
@@ -229,6 +231,15 @@ export class StudioTransition {
       return;
     }
     try {
+      if (studio.edition !== "free" || !studio.license?.error) {
+        this.licenseWarned = false;
+      } else if (!this.licenseWarned) {
+        this.context.showWarning(
+          "Your Studio license could not be verified. " +
+          "You're using Studio Free. Check your license key and try again.",
+        );
+        this.licenseWarned = true;
+      }
       if (studio.edition === "beta") {
         await this.createMarker(this.participant);
       } else if (
@@ -340,6 +351,12 @@ export class StudioTransition {
       await this.rememberPriorBeta();
       try {
         const studio = await getStudio(this.context);
+        if (studio !== undefined && studio.edition !== "beta") {
+          // A successful server selection can retire Beta without an initial
+          // HTTP 410. Keep migration history and the first-Free note intact.
+          await this.retire();
+          return studio;
+        }
         // Another window may record retirement while resolution is pending.
         if (!this.hasEnded()) {
           return this.needsRefresh(studio) ? undefined : studio;

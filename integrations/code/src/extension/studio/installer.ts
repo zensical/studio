@@ -38,8 +38,6 @@ import {
 } from "./binary";
 import {
   fetchArchive,
-  fetchRelease,
-  NetworkError,
   type Release,
   rememberTransitionMessage,
 } from "./fetch";
@@ -52,27 +50,22 @@ import {
  * Get the executable and recorded version, installing it if necessary.
  *
  * @param context - Context
- * @param edition - Studio edition
+ * @param edition - Expected installation edition
+ * @param release - Resolved release, or nothing for offline reuse only
+ * @param identity - Required cached installation identity, if any
  *
  * @returns Installed executable or nothing
  */
 export async function getInstalledStudio(
   context: Context,
-  edition: StudioEdition = "beta",
-): Promise<{ path: string; version?: string } | undefined> {
+  edition: StudioEdition,
+  release: Release | undefined,
+  identity?: StudioInstallation,
+): Promise<{
+  path: string;
+  version?: string;
+} | undefined> {
   const storage = path.join(context.getStorage(), "studio");
-
-  // Try to fetch the latest release
-  let release: Release | undefined;
-  let networkError: NetworkError | undefined;
-  try {
-    release = await fetchRelease(context, edition);
-  } catch (error) {
-    if (!(error instanceof NetworkError)) {
-      throw error;
-    }
-    networkError = error;
-  }
 
   // Check if the release is compatible with the extension
   if (
@@ -85,7 +78,7 @@ export async function getInstalledStudio(
   // Older delivery responses omit edition and describe beta. Reject unknown
   // identities before they can be installed or persisted as a cache hit.
   const installation = release === undefined
-    ? undefined
+    ? identity
     : releaseIdentity(release);
   if (installation !== undefined && installation.edition !== edition) {
     throw new Error(
@@ -103,7 +96,16 @@ export async function getInstalledStudio(
     storage,
     context.getState("version"),
     async (binary) => {
+      const installed = binary.installation;
+      const matches = binary.exists && installed !== undefined &&
+        installation !== undefined &&
+        installed.version === installation.version &&
+        installed.edition === installation.edition &&
+        installed.integrity === installation.integrity;
       if (release === undefined || installation === undefined) {
+        if (installation !== undefined && !matches) {
+          return;
+        }
         const legacyBeta = edition === "beta" &&
           binary.installation === undefined &&
           binary.edition === undefined &&
@@ -117,26 +119,20 @@ export async function getInstalledStudio(
             binary.installation?.edition === edition || legacyBeta
           )
         ) {
-          if (typeof networkError !== "undefined") {
-            context.log("Using installed Zensical Studio");
-          }
-          return { path: binary.path, version: binary.version };
-        }
-        if (typeof networkError !== "undefined") {
-          throw networkError;
+          return {
+            path: binary.path,
+            version: binary.version,
+          };
         }
         return;
       }
 
       // Check if we already have the latest version available
-      const installed = binary.installation;
-      if (
-        binary.exists && installed !== undefined &&
-        installed.version === installation.version &&
-        installed.edition === installation.edition &&
-        installed.integrity === installation.integrity
-      ) {
-        return { path: binary.path, version: binary.version };
+      if (matches) {
+        return {
+          path: binary.path,
+          version: binary.version,
+        };
       }
       if (!(await installRelease(
         context, storage, binary, release, installation,
@@ -146,7 +142,10 @@ export async function getInstalledStudio(
       context.setState("version", release.version);
       context.setState("edition", installation.edition);
       context.log("Installation completed");
-      return { path: binary.path, version: binary.version };
+      return {
+        path: binary.path,
+        version: binary.version,
+      };
     },
   );
 }

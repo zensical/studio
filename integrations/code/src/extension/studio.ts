@@ -28,7 +28,17 @@ import * as fs from "node:fs";
 import type { Context } from "./context";
 import { getInstalledStudio } from "./studio/installer";
 import { getToken } from "./studio/token";
-import type { StudioEdition } from "./studio/binary";
+import {
+  AccessRejectedError,
+  fetchRelease,
+  NetworkError,
+  type Release,
+} from "./studio/fetch";
+import { readAccess, rememberAccess } from "./studio/access";
+import type {
+  StudioEdition,
+  StudioInstallation,
+} from "./studio/binary";
 
 /* ----------------------------------------------------------------------------
  * Types
@@ -44,18 +54,18 @@ export interface Studio {
   edition: StudioEdition;
   /** Expected managed release version; absent for user-owned paths */
   version?: string;
-  /** Startup lease for beta or paid runtimes */
+  /** Startup lease when required by the runtime */
   token?: string;
+  /** Whether public access followed an unsuccessful license check */
+  license?: {
+    error: boolean;
+  };
 }
 
-/**
- * Access selected by the runtime controller.
- *
- * Paid leases are issued separately.
- */
-export type StudioAccess =
-  | { edition: "beta" | "free" }
-  | { edition: "pro" | "team"; token: string };
+/** Legacy public-edition hint; the server selects the actual edition. */
+export interface StudioAccess {
+  edition: "beta" | "free";
+}
 
 /* ----------------------------------------------------------------------------
  * Functions
@@ -65,7 +75,7 @@ export type StudioAccess =
  * Get Zensical Studio configuration.
  *
  * @param context - Context
- * @param access - Selected runtime access, Beta by default
+ * @param access - Legacy public-edition hint, Beta by default
  *
  * @returns Zensical Studio or nothing
  */
@@ -73,36 +83,71 @@ export async function getStudio(
   context: Context,
   access: StudioAccess = { edition: "beta" },
 ): Promise<Studio | undefined> {
+  let release: Release | undefined;
+  let failure: NetworkError | undefined;
+  try {
+    release = await fetchRelease(context, access.edition);
+  } catch (error) {
+    if (!(error instanceof NetworkError)) {
+      throw error;
+    }
+    failure = error;
+  }
+
+  // Offline access is limited to the same license, signed lease and exact
+  // installed release. Explicit license rejection must never revive it.
   if (
-    (access.edition === "pro" || access.edition === "team") &&
-    !access.token?.trim()
+    release === undefined && failure !== undefined && !failure.license.rejected
   ) {
-    context.log("A paid runtime requires a startup lease.");
-    return;
-  }
-  const executable = await getStudioPath(context, access.edition);
-  if (typeof executable === "undefined") {
-    return;
+    const cached = await readAccess(context);
+    if (cached !== undefined) {
+      const executable = await getStudioPath(
+        context, cached.edition, undefined, cached,
+      );
+      if (executable !== undefined) {
+        return {
+          ...executable,
+          edition: cached.edition,
+          token: cached.access.token,
+        };
+      }
+    }
   }
 
-  if (access.edition === "free") {
-    return { ...executable, edition: "free" };
+  const edition = release?.edition ?? (release ? "beta" : access.edition);
+  if (access.edition === "free" && edition === "beta") {
+    throw new AccessRejectedError(410);
   }
-  if (access.edition === "pro" || access.edition === "team") {
-    return { ...executable, edition: access.edition, token: access.token };
+  const executable = await getStudioPath(context, edition, release);
+  if (executable === undefined) {
+    if (failure !== undefined) {
+      throw failure;
+    }
+    return;
+  }
+  if (edition === "free") {
+    return {
+      ...executable,
+      edition,
+      license: {
+        error: release?.license?.error || failure?.license.error || false,
+      },
+    };
+  }
+  if (edition === "pro" || edition === "team") {
+    if (release?.access?.token === undefined) {
+      return;
+    }
+    await rememberAccess(context, release);
+    return { ...executable, edition, token: release.access.token };
   }
 
-  // Fetch a token to start Zensical Studio - the beta is public, but limited
-  // to a specific time window, which requires a periodic refresh of the token.
-  // The token is valid for 7 days and cached in the extension's global state,
-  // as this allows to work offline for up to 7 days.
+  // Keep the existing Beta lease endpoint compatible with older servers.
   const token = await getToken(context);
-  if (typeof token === "undefined") {
+  if (token === undefined) {
     context.log("Token not found or expired.");
     return;
   }
-
-  // Return Zensical Studio configuration
   return { ...executable, edition: "beta", token };
 }
 
@@ -114,21 +159,28 @@ export async function getStudio(
  * Resolve a configured or managed Zensical Studio executable.
  *
  * @param context - Context
- * @param edition - Selected runtime edition
+ * @param edition - Server-selected runtime edition
+ * @param release - Resolved release, or nothing for offline reuse
+ * @param identity - Required cached installation identity, if any
  *
  * @returns Executable path and recorded version, or nothing if unavailable
  */
 async function getStudioPath(
   context: Context,
   edition: StudioEdition,
-): Promise<{ path: string; version?: string } | undefined> {
+  release: Release | undefined,
+  identity?: StudioInstallation,
+): Promise<{
+  path: string;
+  version?: string;
+} | undefined> {
   const config = context.getConfiguration();
 
   // Check for a path override in the configuration. If the path is not set,
   // download and install Zensical Studio - this is the default.
   const path = config.get<string>("path") ?? "";
   if (path.trim() === "") {
-    return getInstalledStudio(context, edition);
+    return getInstalledStudio(context, edition, release, identity);
   }
 
   // Otherwise, use the configured path and check if it exists
