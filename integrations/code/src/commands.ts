@@ -28,6 +28,7 @@ import type { ExtensionContext } from "vscode";
 import type { LanguageClient } from "vscode-languageclient/node";
 import type { Location, Position } from "vscode-languageserver-types";
 
+import { registerLicense } from "./extension/license";
 import { registerPreviewCommand } from "./preview";
 
 /* ----------------------------------------------------------------------------
@@ -37,13 +38,18 @@ import { registerPreviewCommand } from "./preview";
 /**
  * Register commands for the extension.
  *
- * @param context - The extension context
+ * @param context - Extension context
+ * @param getClient - Get the validated running client
+ * @param showLogs - Show the extension output channel
+ * @param restartServer - Restart Studio with fresh access
+ * @param refreshAccess - Refresh access after a license change
  */
 export function registerCommands(
   context: ExtensionContext,
   getClient: () => LanguageClient | undefined,
   showLogs: () => void,
   restartServer: () => Promise<void>,
+  refreshAccess?: () => Promise<void>,
 ): void {
   context.subscriptions.push(
     vscode.commands.registerCommand(
@@ -65,6 +71,7 @@ export function registerCommands(
       showLogs();
     }),
   );
+  registerLicense(context, refreshAccess);
   registerPreviewCommand(context, getClient);
 }
 

@@ -83,7 +83,10 @@ export function createLanguageClient(
       { scheme: "file", language: "yaml", pattern: "**/mkdocs.yaml" },
     ],
     outputChannel: context.getOutput(),
-    initializationOptions: { token: studio.token, ...projectSelections() },
+    initializationOptions: {
+      ...(studio.token === undefined ? {} : { token: studio.token }),
+      ...projectSelections(),
+    },
     errorHandler: {
       error: (_error, _message, count) => {
         if (typeof count === "number" && count <= 3) {

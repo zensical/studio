@@ -57,6 +57,20 @@ const BINARY_LOCK_RETRY_DELAY = 100;
  * ------------------------------------------------------------------------- */
 
 /**
+ * Edition identified by release metadata.
+ */
+export type StudioEdition = "beta" | "free" | "pro" | "team";
+
+/**
+ * Identity of a verified installed release.
+ */
+export interface StudioInstallation {
+  edition: StudioEdition;
+  version: string;
+  integrity: string;
+}
+
+/**
  * Installed Studio binary.
  */
 export interface StudioBinary {
@@ -76,14 +90,24 @@ export interface StudioBinary {
   readonly version?: string;
 
   /**
+   * Edition recorded in installation metadata.
+   */
+  readonly edition?: StudioEdition;
+
+  /**
+   * Verified release identity, absent for legacy installations.
+   */
+  readonly installation?: StudioInstallation;
+
+  /**
    * Replace the binary with a staged version.
    *
    * @param source - Staged binary
-   * @param version - Version of staged binary
+   * @param installation - Verified release identity
    */
   replace(
     source: string,
-    version: string,
+    installation: StudioInstallation,
   ): Promise<void>;
 }
 
@@ -100,6 +124,16 @@ interface BinaryState {
    * Installed version.
    */
   version?: string;
+
+  /**
+   * Edition and archive integrity recorded after verification.
+   */
+  edition?: StudioEdition;
+
+  /**
+   * SHA-256 digest of the verified archive.
+   */
+  integrity?: string;
 }
 
 /**
@@ -145,8 +179,14 @@ export async function withStudioBinary<T>(
     );
     const state = await readBinaryState(storage);
     let changed = false;
-    if (typeof state.version === "undefined" && legacyVersion !== undefined) {
+    if (
+      state.revision === undefined &&
+      state.version === undefined &&
+      legacyVersion !== undefined
+    ) {
       state.version = legacyVersion;
+      delete state.edition;
+      delete state.integrity;
       changed = true;
     }
     if (state.revision !== BINARY_REVISION) {
@@ -169,13 +209,53 @@ export async function withStudioBinary<T>(
       get version() {
         return state.version;
       },
+      get edition() {
+        return state.edition;
+      },
+      get installation() {
+        return state.version && state.edition && state.integrity
+          ? {
+            version: state.version,
+            edition: state.edition,
+            integrity: state.integrity,
+          }
+          : undefined;
+      },
+      /**
+       * Replace the executable and persist its verified identity.
+       *
+       * @param source - Staged executable
+       * @param installation - Verified release identity
+       */
       async replace(
         source: string,
-        version: string,
+        installation: StudioInstallation,
       ) {
-        await replaceExecutable(source, executable);
+        // Adopt a legacy beta only after matching it against verified archive
+        // bytes. Avoid replacing a healthy executable in another editor window.
+        const unchanged = !state.integrity &&
+          (state.edition === undefined || state.edition === "beta") &&
+          installation.edition === "beta" &&
+          state.version === installation.version && existsSync(executable) &&
+          (await fs.readFile(source)).equals(await fs.readFile(executable));
+        if (!unchanged) {
+          await writeBinaryState(storage, { revision: BINARY_REVISION });
+          try {
+            await replaceExecutable(source, executable);
+          } catch (error) {
+            // A Windows backup-cleanup error can occur after new bytes are in
+            // place. Restore the old identity only when replacement never moved
+            // the staged file and the previous executable is still present.
+            if (existsSync(source) && existsSync(executable)) {
+              await writeBinaryState(storage, state);
+            }
+            throw error;
+          }
+        }
         state.revision = BINARY_REVISION;
-        state.version = version;
+        state.version = installation.version;
+        state.edition = installation.edition;
+        state.integrity = installation.integrity;
         await writeBinaryState(storage, state);
       },
     });
@@ -229,6 +309,15 @@ async function readBinaryState(
       ...("version" in value && typeof value.version === "string"
         ? { version: value.version }
         : {}),
+      ...("edition" in value && (
+        value.edition === "beta" ||
+        value.edition === "free" ||
+        value.edition === "pro" ||
+        value.edition === "team"
+      ) ? { edition: value.edition } : {}),
+      ...("integrity" in value && typeof value.integrity === "string" &&
+        /^sha256-[a-f0-9]{64}$/.test(value.integrity)
+        ? { integrity: value.integrity } : {}),
     };
   } catch (error) {
     if (isErrorCode(error, "ENOENT") || error instanceof SyntaxError) {
@@ -248,10 +337,14 @@ async function writeBinaryState(
   storage: string,
   state: BinaryState,
 ): Promise<void> {
-  await fs.writeFile(
-    path.join(storage, ".installation.json"),
-    `${JSON.stringify(state)}\n`,
-  );
+  const target = path.join(storage, ".installation.json");
+  const staged = `${target}.${randomUUID()}.tmp`;
+  try {
+    await fs.writeFile(staged, `${JSON.stringify(state)}\n`);
+    await fs.rename(staged, target);
+  } finally {
+    await fs.rm(staged, { force: true });
+  }
 }
 
 /**

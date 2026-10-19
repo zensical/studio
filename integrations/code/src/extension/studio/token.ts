@@ -24,7 +24,7 @@
  */
 
 import type { Context } from "../context";
-import { fetchToken } from "./fetch";
+import { AccessRejectedError, fetchToken } from "./fetch";
 
 /* ----------------------------------------------------------------------------
  * Functions
@@ -42,11 +42,17 @@ export async function getToken(context: Context): Promise<string | undefined> {
 
   // Always try to fetch a new token, even if we have a prior one, to ensure
   // Zensical Studio works for up to 7 days without interruption.
-  const { token } = (await fetchToken(context, prior)) ?? {};
-  if (typeof token === "undefined") {
-    return prior;
-  } else {
-    context.setState("token", token);
+  try {
+    const { token } = (await fetchToken(context, prior)) ?? {};
+    if (typeof token !== "undefined") {
+      await context.setState("token", token);
+    }
     return token;
+  } catch (error) {
+    if (error instanceof AccessRejectedError) {
+      // Persist invalidation before reporting denial, including across restart.
+      await context.setState("token", undefined);
+    }
+    throw error;
   }
 }
