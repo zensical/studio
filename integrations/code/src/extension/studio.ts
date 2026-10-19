@@ -24,6 +24,8 @@
  */
 
 import * as fs from "node:fs";
+import { execFile } from "node:child_process";
+import { promisify } from "node:util";
 
 import type { Context } from "./context";
 import { getInstalledStudio } from "./studio/installer";
@@ -52,8 +54,10 @@ export interface Studio {
   path: string;
   /** Selected runtime edition */
   edition: StudioEdition;
-  /** Expected managed release version; absent for user-owned paths */
+  /** Expected executable version, when known */
   version?: string;
+  /** Whether Free was selected from a configured executable */
+  local?: boolean;
   /** Startup lease when required by the runtime */
   token?: string;
   /** Whether public access followed an unsuccessful license check */
@@ -83,6 +87,10 @@ export async function getStudio(
   context: Context,
   access: StudioAccess = { edition: "beta" },
 ): Promise<Studio | undefined> {
+  const local = await getLocalStudio(context);
+  if (local !== undefined) {
+    return local;
+  }
   let release: Release | undefined;
   let failure: NetworkError | undefined;
   try {
@@ -154,6 +162,39 @@ export async function getStudio(
 /* ----------------------------------------------------------------------------
  * Helper functions
  * ------------------------------------------------------------------------- */
+
+/**
+ * Resolve a configured Free executable without contacting delivery.
+ *
+ * @param context - Context
+ *
+ * @returns Local Free runtime, or nothing for the normal access flow
+ */
+async function getLocalStudio(context: Context): Promise<Studio | undefined> {
+  const path = context.getConfiguration().get<string>("path") ?? "";
+  if (path.trim() === "") {
+    return;
+  }
+  try {
+    const { stdout } = await promisify(execFile)(path, ["info", "--json"], {
+      timeout: 10_000,
+      maxBuffer: 64 * 1024,
+      windowsHide: true,
+    });
+    const info: unknown = JSON.parse(stdout);
+    if (
+      typeof info === "object" && info !== null &&
+      "edition" in info && info.edition === "free" &&
+      "version" in info && typeof info.version === "string"
+    ) {
+      context.log(`Using Zensical Studio from: ${path}`);
+      return { path, edition: "free", version: info.version, local: true };
+    }
+  } catch {
+    // Older or unavailable executables retain the existing access flow.
+  }
+  return;
+}
 
 /**
  * Resolve a configured or managed Zensical Studio executable.
