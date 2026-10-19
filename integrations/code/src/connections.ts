@@ -197,6 +197,7 @@ implements vscode.TreeDataProvider<RelationshipNode>, vscode.Disposable {
       showCollapseAll: true,
     });
     void vscode.commands.executeCommand("setContext", followContext, true);
+    void vscode.commands.executeCommand("setContext", "zensicalStudio.connections.available", false);
     const active = getActiveResource();
     if (active) {
       this.resource = active;
@@ -210,6 +211,7 @@ implements vscode.TreeDataProvider<RelationshipNode>, vscode.Disposable {
       vscode.commands.registerCommand(
         "zensicalStudio.connections.show",
         async (resource?: vscode.Uri) => {
+          if (!this.getClient()) return;
           const uri = resource instanceof vscode.Uri ? resource : getActiveResource();
           if (!uri) return;
           await this.setResource(uri);
@@ -311,14 +313,19 @@ implements vscode.TreeDataProvider<RelationshipNode>, vscode.Disposable {
   }
 
   /** Attach refresh notifications to the current language client. */
-  attachClient(client: LanguageClient): void {
+  attachClient(client?: LanguageClient): void {
     for (const disposable of this.clientDisposables) disposable.dispose();
-    this.clientDisposables = [
+    this.clientDisposables = client ? [
       client.onNotification("zensical/document/connectionsChanged", () => {
         this.scheduleNotificationRefresh();
       }),
-    ];
-    if (this.tree.visible) void this.refresh();
+    ] : [];
+    void vscode.commands.executeCommand(
+      "setContext",
+      "zensicalStudio.connections.available",
+      client !== undefined
+    );
+    if (this.tree.visible || client === undefined) void this.refresh();
   }
 
   /** Dispose commands, listeners, and the tree view. */

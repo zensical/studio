@@ -32,13 +32,16 @@ import type { Context } from "../context";
 import { extract } from "./archive";
 import {
   type StudioBinary,
+  type StudioInstallation,
+  type StudioEdition,
   withStudioBinary
 } from "./binary";
 import {
   fetchArchive,
   fetchRelease,
   NetworkError,
-  Release
+  Release,
+  rememberTransitionMessage
 } from "./fetch";
 
 /* ----------------------------------------------------------------------------
@@ -46,22 +49,24 @@ import {
  * ------------------------------------------------------------------------- */
 
 /**
- * Get the path to Zensical Studio, installing it if necessary.
+ * Get the executable and recorded version, installing it if necessary.
  *
  * @param context - Context
+ * @param edition - Studio edition
  *
- * @returns Path to Zensical Studio or nothing
+ * @returns Installed executable or nothing
  */
-export async function getInstalledStudioPath(
+export async function getInstalledStudio(
   context: Context,
-): Promise<string | undefined> {
+  edition: StudioEdition = "beta",
+): Promise<{ path: string; version?: string } | undefined> {
   const storage = path.join(context.getStorage(), "studio");
 
   // Try to fetch the latest release
   let release: Release | undefined;
   let networkError: NetworkError | undefined;
   try {
-    release = await fetchRelease(context);
+    release = await fetchRelease(context, edition);
   } catch (error) {
     if (!(error instanceof NetworkError)) {
       throw error;
@@ -77,17 +82,43 @@ export async function getInstalledStudioPath(
     return;
   }
 
+  // Older delivery responses omit edition and describe beta. Reject unknown
+  // identities before they can be installed or persisted as a cache hit.
+  const installation = release === undefined
+    ? undefined
+    : releaseIdentity(release);
+  if (installation !== undefined && installation.edition !== edition) {
+    throw new Error(
+      "Zensical Studio release does not match the selected edition"
+    );
+  }
+
+  // Remember the transition message for the release if available
+  if (release !== undefined)
+    await rememberTransitionMessage(context, release);
+
   // Get the installed Studio binary and install the release if necessary
   return withStudioBinary(
     storage,
     context.getState("version"),
     async (binary) => {
-      if (typeof release === "undefined") {
-        if (binary.exists) {
+      if (release === undefined || installation === undefined) {
+        const legacyBeta = edition === "beta"
+          && binary.installation === undefined
+          && binary.edition === undefined
+          && binary.version !== undefined
+          && (
+            context.getState("edition") === undefined
+            || context.getState("edition") === "beta"
+          );
+        if (binary.exists && (
+          binary.installation?.edition === edition
+          || legacyBeta
+        )) {
           if (typeof networkError !== "undefined") {
             context.log("Using installed Zensical Studio");
           }
-          return binary.path;
+          return { path: binary.path, version: binary.version };
         }
         if (typeof networkError !== "undefined") {
           throw networkError;
@@ -96,15 +127,22 @@ export async function getInstalledStudioPath(
       }
 
       // Check if we already have the latest version available
-      if (binary.exists && binary.version === release.version) {
-        return binary.path;
+      const installed = binary.installation;
+      if (binary.exists && installed !== undefined &&
+          installed.version === installation.version &&
+          installed.edition === installation.edition &&
+          installed.integrity === installation.integrity) {
+        return { path: binary.path, version: binary.version };
       }
-      if (!(await installRelease(context, storage, binary, release))) {
+      if (!(await installRelease(
+        context, storage, binary, release, installation
+      ))) {
         return;
       }
       context.setState("version", release.version);
+      context.setState("edition", installation.edition);
       context.log("Installation completed");
-      return binary.path;
+      return { path: binary.path, version: binary.version };
     },
   );
 }
@@ -124,7 +162,8 @@ export async function getInstalledStudioPath(
  * @returns Whether the release was installed
  */
 async function installRelease(
-  context: Context, storage: string, binary: StudioBinary, release: Release,
+  context: Context, storage: string, binary: StudioBinary,
+  release: Release, installation: StudioInstallation,
 ): Promise<boolean> {
   let archive = "";
   let staging = "";
@@ -141,7 +180,7 @@ async function installRelease(
     }
     stage = "integrity verification";
     context.log(`Installation: received ${bytes.byteLength} archive bytes`);
-    if (!verify(bytes, release.integrity)) {
+    if (!verify(bytes, installation.integrity)) {
       const digest = createHash("sha256").update(bytes).digest("hex");
       throw new Error(
         `Checksum mismatch: expected ${release.integrity}, received sha256-${digest}`,
@@ -166,7 +205,7 @@ async function installRelease(
       await fs.chmod(staged, 0o755);
     }
     stage = "executable replacement";
-    await binary.replace(staged, release.version);
+    await binary.replace(staged, installation);
     return true;
   } catch (error) {
     const reason = error instanceof Error ? error.message : String(error);
@@ -185,6 +224,23 @@ async function installRelease(
       }
     }
   }
+}
+
+/**
+ * Return the complete identity of a release, including legacy beta responses.
+ *
+ * @param release - Release information
+ *
+ * @returns Complete release identity
+ */
+function releaseIdentity(release: Release): StudioInstallation {
+  const edition = release.edition === undefined ? "beta" : release.edition;
+  if (edition !== "beta" && edition !== "free" && edition !== "pro" && edition !== "team" ||
+      typeof release.version !== "string" || !/^[a-zA-Z0-9][a-zA-Z0-9._-]*$/.test(release.version) ||
+      typeof release.integrity !== "string" || !/^sha256-[a-f0-9]{64}$/i.test(release.integrity)) {
+    throw new Error("Invalid Zensical Studio release identity");
+  }
+  return { edition, version: release.version, integrity: release.integrity.toLowerCase() };
 }
 
 /**
@@ -215,7 +271,16 @@ async function checkRelease(
 
   // Show message from the release if available
   const message = release.message;
-  if (typeof message === "undefined") {
+  if (
+    typeof message !== "object"
+    || message === null
+    || typeof message.message !== "string"
+  ) {
+    return true;
+  }
+
+  // Free information belongs to the validated post-startup notice path.
+  if (release.edition === "free" && message.kind === "info") {
     return true;
   }
 

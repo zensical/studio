@@ -26,8 +26,9 @@
 import * as fs from "node:fs";
 
 import type { Context } from "./context";
-import { getInstalledStudioPath } from "./studio/installer";
+import { getInstalledStudio } from "./studio/installer";
 import { getToken } from "./studio/token";
+import type { StudioEdition } from "./studio/binary";
 
 /* ----------------------------------------------------------------------------
  * Types
@@ -39,9 +40,22 @@ import { getToken } from "./studio/token";
 export interface Studio {
   /** Path to Zensical Studio */
   path: string;
-  /** Token */
-  token: string;
+  /** Selected runtime edition */
+  edition: StudioEdition;
+  /** Expected managed release version; absent for user-owned paths */
+  version?: string;
+  /** Startup lease for beta or paid runtimes */
+  token?: string;
 }
+
+/**
+ * Access selected by the runtime controller.
+ *
+ * Paid leases are issued separately.
+ */
+export type StudioAccess =
+  | { edition: "beta" | "free" }
+  | { edition: "pro" | "team"; token: string };
 
 /* ----------------------------------------------------------------------------
  * Functions
@@ -51,13 +65,31 @@ export interface Studio {
  * Get Zensical Studio configuration.
  *
  * @param context - Context
+ * @param access - Selected runtime access, Beta by default
  *
  * @returns Zensical Studio or nothing
  */
-export async function getStudio(context: Context): Promise<Studio | undefined> {
-  const path = await getStudioPath(context);
-  if (typeof path === "undefined") {
+export async function getStudio(
+  context: Context,
+  access: StudioAccess = { edition: "beta" },
+): Promise<Studio | undefined> {
+  if (
+    (access.edition === "pro" || access.edition === "team") &&
+    !access.token?.trim()
+  ) {
+    context.log("A paid runtime requires a startup lease.");
     return;
+  }
+  const executable = await getStudioPath(context, access.edition);
+  if (typeof executable === "undefined") {
+    return;
+  }
+
+  if (access.edition === "free") {
+    return { ...executable, edition: "free" };
+  }
+  if (access.edition === "pro" || access.edition === "team") {
+    return { ...executable, edition: access.edition, token: access.token };
   }
 
   // Fetch a token to start Zensical Studio - the beta is public, but limited
@@ -71,7 +103,7 @@ export async function getStudio(context: Context): Promise<Studio | undefined> {
   }
 
   // Return Zensical Studio configuration
-  return { path, token };
+  return { ...executable, edition: "beta", token };
 }
 
 /* ----------------------------------------------------------------------------
@@ -79,26 +111,30 @@ export async function getStudio(context: Context): Promise<Studio | undefined> {
  * ------------------------------------------------------------------------- */
 
 /**
- * Get path to Zensical Studio.
+ * Resolve a configured or managed Zensical Studio executable.
  *
  * @param context - Context
+ * @param edition - Selected runtime edition
  *
- * @returns Path to Zensical Studio or nothing
+ * @returns Executable path and recorded version, or nothing if unavailable
  */
-async function getStudioPath(context: Context): Promise<string | undefined> {
+async function getStudioPath(
+  context: Context,
+  edition: StudioEdition,
+): Promise<{ path: string; version?: string } | undefined> {
   const config = context.getConfiguration();
 
   // Check for a path override in the configuration. If the path is not set,
   // download and install Zensical Studio - this is the default.
   const path = config.get<string>("path") ?? "";
   if (path.trim() === "") {
-    return getInstalledStudioPath(context);
+    return getInstalledStudio(context, edition);
   }
 
   // Otherwise, use the configured path and check if it exists
   context.log(`Using Zensical Studio from: ${path}`);
   if (fs.existsSync(path)) {
-    return path;
+    return { path };
   } else {
     context.log("Zensical Studio not found.");
     return;

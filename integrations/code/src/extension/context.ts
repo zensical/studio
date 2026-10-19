@@ -30,6 +30,9 @@ import type {
   WorkspaceConfiguration,
 } from "vscode";
 
+import { registerNote, showNote } from "./note";
+import type { TransitionMessage } from "./studio/fetch";
+
 /* ----------------------------------------------------------------------------
  * Class
  * ------------------------------------------------------------------------- */
@@ -52,6 +55,7 @@ export class Context {
       log: true,
     });
     this.context.subscriptions.push(this.output);
+    registerNote(extension);
   }
 
   /**
@@ -107,8 +111,8 @@ export class Context {
    * @param key - Key
    * @param value - Value
    */
-  public setState<T = string>(key: string, value: T) {
-    void this.context.globalState.update(key, value);
+  public setState<T = string>(key: string, value: T | undefined): Thenable<void> {
+    return this.context.globalState.update(key, value);
   }
 
   /**
@@ -148,12 +152,36 @@ export class Context {
   }
 
   /**
+   * Prompt the user to read a note about the beta transition.
+   */
+  public promptBetaTransition(message: TransitionMessage): Thenable<void> {
+    const action = "Read more";
+    return vscode.window.showInformationMessage(
+      message.message,
+      action,
+    ).then(result => {
+      if (result === action) {
+        void showNote(message.markdown).catch(error => {
+          // Opening the note must not invalidate an already-shown notice.
+          try {
+            this.log(`Could not open the Studio note: ${String(error)}`);
+          } catch { /* The window may already be closing. */ }
+        });
+      }
+    });
+  }
+
+  /**
    * Explain that Studio remains unavailable after several attempts.
    */
-  public async promptStudioUnavailable(): Promise<void> {
+  public async promptStudioUnavailable(betaEnded = false): Promise<void> {
     const action = "Show Logs";
     const result = await vscode.window.showWarningMessage(
-      "Zensical Studio is still unavailable. Check your network connection " +
+      betaEnded
+        ? "The Studio beta has ended. Studio Free could not be started. " +
+          "Check your network connection and configured Studio path. " +
+          "Studio will keep retrying."
+        : "Zensical Studio is still unavailable. Check your network connection " +
         "and configured Studio path. Studio will keep retrying.",
       action,
     );

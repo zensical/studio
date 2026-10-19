@@ -74,7 +74,7 @@
         "command": "zensicalStudio.connections.show",
         "title": "Zensical Studio: Show Connections",
         "icon": "$(type-hierarchy)",
-        "enablement": "resourceScheme == file && resourceExtname =~ /\\.(avif|bmp|gif|ico|jpe?g|markdown|md|mp3|mp4|ogg|otf|pdf|png|svg|ttf|wav|webm|webp|woff2?)$/i"
+        "enablement": "zensicalStudio.connections.available && resourceScheme == file && resourceExtname =~ /\\.(avif|bmp|gif|ico|jpe?g|markdown|md|mp3|mp4|ogg|otf|pdf|png|svg|ttf|wav|webm|webp|woff2?)$/i"
       },
       {
         "command": "zensicalStudio.connections.refresh",
@@ -126,7 +126,7 @@
       "commandPalette": [
         {
           "command": "zensicalStudio.connections.show",
-          "when": "resourceScheme == file && resourceExtname =~ /\\.(avif|bmp|gif|ico|jpe?g|markdown|md|mp3|mp4|ogg|otf|pdf|png|svg|ttf|wav|webm|webp|woff2?)$/i"
+          "when": "zensicalStudio.connections.available && resourceScheme == file && resourceExtname =~ /\\.(avif|bmp|gif|ico|jpe?g|markdown|md|mp3|mp4|ogg|otf|pdf|png|svg|ttf|wav|webm|webp|woff2?)$/i"
         },
         {
           "command": "zensicalStudio.connections.refresh",
@@ -177,21 +177,21 @@
         },
         {
           "command": "zensicalStudio.connections.show",
-          "when": "editorLangId == python-markdown && !notebookEditorFocused",
+          "when": "zensicalStudio.connections.available && editorLangId == python-markdown && !notebookEditorFocused",
           "group": "navigation@2"
         }
       ],
       "editor/context": [
         {
           "command": "zensicalStudio.connections.show",
-          "when": "editorLangId == python-markdown",
+          "when": "zensicalStudio.connections.available && editorLangId == python-markdown",
           "group": "navigation@10"
         }
       ],
       "explorer/context": [
         {
           "command": "zensicalStudio.connections.show",
-          "when": "resourceScheme == file && resourceExtname =~ /\\.(avif|bmp|gif|ico|jpe?g|markdown|md|mp3|mp4|ogg|otf|pdf|png|svg|ttf|wav|webm|webp|woff2?)$/i && !explorerResourceIsFolder",
+          "when": "zensicalStudio.connections.available && resourceScheme == file && resourceExtname =~ /\\.(avif|bmp|gif|ico|jpe?g|markdown|md|mp3|mp4|ogg|otf|pdf|png|svg|ttf|wav|webm|webp|woff2?)$/i && !explorerResourceIsFolder",
           "group": "navigation@1"
         }
       ],
@@ -261,7 +261,8 @@
           "id": "zensicalStudio.connections",
           "name": "Connections",
           "contextualTitle": "Connections",
-          "visibility": "collapsed"
+          "visibility": "collapsed",
+          "when": "zensicalStudio.connections.available"
         }
       ]
     },

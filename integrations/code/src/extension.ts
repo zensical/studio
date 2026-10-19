@@ -38,9 +38,11 @@ import {
   type RecoveryFailureKind,
   StudioRecovery,
 } from "./extension/recovery";
-import { getStudio } from "./extension/studio";
 import type { Studio } from "./extension/studio";
+import { reconcileRuntime, type RuntimeIdentity } from "./extension/runtime";
+import { StudioTransition } from "./extension/transition";
 import {
+  AccessRejectedError,
   ArchiveTransferError,
   NetworkError,
 } from "./extension/studio/fetch";
@@ -59,6 +61,11 @@ let client: LanguageClient | undefined;
  * Runtime resolved for the current startup or recovery episode.
  */
 let studio: Studio | undefined;
+
+/**
+ * Identity accepted for the current initialized client.
+ */
+let runtime: RuntimeIdentity | undefined;
 
 /**
  * Listeners owned by the current language client.
@@ -96,6 +103,36 @@ let retryResetTimer: ReturnType<typeof setTimeout> | undefined;
 let starting = false;
 
 /**
+ * Access selection owned by this activation.
+ */
+let transition: StudioTransition;
+
+/**
+ * Timer for the next access check.
+ */
+let transitionTimer: ReturnType<typeof setTimeout> | undefined;
+
+/**
+ * Shared task for the current startup attempt.
+ */
+let startupTask: Promise<void> | undefined;
+
+/**
+ * Shared task for the current restart.
+ */
+let restartTask: Promise<void> | undefined;
+
+/**
+ * Whether the extension is active.
+ */
+let active = false;
+
+/**
+ * Whether the current client is being stopped for a restart.
+ */
+let stopping = false;
+
+/**
  * Markdown documents opened before Studio has provided project scopes.
  */
 const pending = new Map<string, TextDocument>();
@@ -111,15 +148,20 @@ const pending = new Map<string, TextDocument>();
  */
 export async function activate(extension: ExtensionContext): Promise<void> {
   const context = new Context(extension);
+  active = true;
+  transition = new StudioTransition(context);
   recovery.reset();
-  wordCount = new WordCount(() => client);
+  wordCount = new WordCount(getReadyClient);
   extension.subscriptions.push(wordCount);
-  connections = new ConnectionsView(extension, () => client);
+  connections = new ConnectionsView(
+    extension,
+    () => runtime?.edition !== "free" ? getReadyClient() : undefined,
+  );
 
   // Register commands
   registerCommands(
     extension,
-    () => client,
+    getReadyClient,
     () => context.getOutput().show(),
     () => restartStudio(extension, context),
   );
@@ -129,6 +171,7 @@ export async function activate(extension: ExtensionContext): Promise<void> {
     // Python Markdown document after VPN/proxy startup has completed.
     vscode.window.onDidChangeWindowState((state) => {
       if (state.focused) {
+        void checkStudioAccess(extension, context);
         retryStudioOnActivity(extension, context);
       }
     }),
@@ -137,6 +180,7 @@ export async function activate(extension: ExtensionContext): Promise<void> {
         pending.set(document.uri.toString(), document);
       }
       if (document.languageId === "python-markdown") {
+        void checkStudioAccess(extension, context);
         retryStudioOnActivity(extension, context);
       }
     }),
@@ -152,21 +196,32 @@ export async function activate(extension: ExtensionContext): Promise<void> {
 
   // Start Zensical Studio
   void startStudio(extension, context);
+  scheduleAccessCheck(extension, context);
 }
 
 /**
  * Deactivate extension.
  */
 export async function deactivate(): Promise<void> {
+  active = false;
+  clearAccessCheck();
   clearRetry();
   clearRetryReset();
+  await restartTask;
+  await startupTask;
+  studio = undefined;
   recovery.reset();
   disposeClientDisposables();
   const previous = client;
   client = undefined;
   if (typeof previous !== "undefined") {
-    await previous.stop();
-    previous.dispose();
+    const serverProcess = previous.serverProcess;
+    try {
+      await previous.stop();
+    } finally {
+      await terminateServerProcess(serverProcess);
+      previous.dispose();
+    }
   }
 }
 
@@ -180,20 +235,49 @@ export async function deactivate(): Promise<void> {
  * @param extension - Extension context
  * @param context - Context
  */
-async function startStudio(
-  extension: ExtensionContext, context: Context,
+function startStudio(
+  extension: ExtensionContext,
+  context: Context,
 ): Promise<void> {
-  if (typeof client !== "undefined" || starting) {
-    return;
+  if (!active || stopping || typeof client !== "undefined") {
+    return Promise.resolve();
   }
+  if (startupTask !== undefined) {
+    return startupTask;
+  }
+  startupTask = runStudio(extension, context).finally(() => {
+    starting = false;
+    startupTask = undefined;
+  });
+  return startupTask;
+}
 
+/**
+ * Resolve access and initialize the current runtime and editor features.
+ *
+ * @param extension - Extension context
+ * @param context - Context
+ */
+async function runStudio(
+  extension: ExtensionContext,
+  context: Context,
+): Promise<void> {
   // Clear any scheduled retry
   clearRetry();
   starting = true;
   let next: LanguageClient | undefined;
   try {
     // Resolve once, then reuse the same runtime throughout this retry episode.
-    studio ??= await getStudio(context);
+    if (transition.needsRefresh(studio)) {
+      studio = undefined;
+    }
+    studio ??= await transition.resolve();
+    if (transition.needsRefresh(studio)) {
+      studio = await transition.resolve();
+    }
+    if (!active) {
+      return;
+    }
     if (typeof studio === "undefined") {
       recoverStudioFailure(
         extension, context, "availability", "Studio unavailable",
@@ -211,21 +295,38 @@ async function startStudio(
     });
     client = next;
     await next.start();
+    if (!active || client !== next) {
+      return;
+    }
+    const identity = reconcileRuntime(studio, next.initializeResult);
     const disposables = await activateProjectMarkdown(
       context, next, pending,
     );
-    if (client !== next) {
-      for (const disposable of disposables) disposable.dispose();
+    if (!active || client !== next) {
+      for (const disposable of disposables) {
+        disposable.dispose();
+      }
       return;
     }
     disposeClientDisposables();
     clientDisposables = disposables;
-    connections?.attachClient(next);
+    runtime = identity;
+    context.log(`Studio runtime: ${identity.version} (${identity.edition})`);
+    connections?.attachClient(identity.edition === "free" ? undefined : next);
     wordCount?.refresh();
     markStudioStable();
+    const notice = transition.started(
+      studio,
+      () => active && client === next && next?.isRunning() === true,
+    );
+    if (studio.edition !== "free") {
+      await notice;
+    }
   } catch (error) {
     if (typeof next !== "undefined") {
-      if (client === next) client = undefined;
+      if (client === next) {
+        client = undefined;
+      }
       disposeClientDisposables();
       const serverProcess = next.serverProcess;
       next.dispose();
@@ -235,7 +336,15 @@ async function startStudio(
     // Log the error
     const message = error instanceof Error ? error.message : String(error);
     context.log(`Failed to start Zensical Studio: ${message}`);
-    if (error instanceof ArchiveTransferError) {
+    if (!active) {
+      return;
+    }
+    if (transition.hasEnded() || transition.needsRefresh(studio)) {
+      studio = undefined;
+      recoverStudioFailure(
+        extension, context, "availability", "Studio access unavailable",
+      );
+    } else if (error instanceof ArchiveTransferError) {
       recoverStudioFailure(
         extension, context, "download", "Studio download failed", error,
       );
@@ -243,13 +352,19 @@ async function startStudio(
       recoverStudioFailure(
         extension, context, "availability", "Network unavailable",
       );
+    } else if (error instanceof AccessRejectedError) {
+      recoverStudioFailure(
+        extension, context, "availability", error.message,
+      );
     } else {
       recoverStudioFailure(
         extension, context, "startup", "Startup failed", message,
       );
     }
   } finally {
-    starting = false;
+    if (active) {
+      scheduleAccessCheck(extension, context);
+    }
   }
 }
 
@@ -259,9 +374,33 @@ async function startStudio(
  * @param extension - Extension context
  * @param context - Context
  */
-async function restartStudio(
-  extension: ExtensionContext, context: Context,
+function restartStudio(
+  extension: ExtensionContext,
+  context: Context,
 ): Promise<void> {
+  if (restartTask !== undefined) {
+    return restartTask;
+  }
+  restartTask = stopAndRestartStudio(extension, context).finally(() => {
+    restartTask = undefined;
+  });
+  return restartTask;
+}
+
+/**
+ * Finish startup, stop the current process and resolve a fresh runtime.
+ *
+ * @param extension - Extension context
+ * @param context - Context
+ */
+async function stopAndRestartStudio(
+  extension: ExtensionContext,
+  context: Context,
+): Promise<void> {
+  await startupTask;
+  if (!active) {
+    return;
+  }
   clearRetry();
   clearRetryReset();
   recovery.reset();
@@ -273,6 +412,7 @@ async function restartStudio(
   }
 
   client = undefined;
+  stopping = true;
   disposeClientDisposables();
   const serverProcess = previous.serverProcess;
   try {
@@ -282,9 +422,84 @@ async function restartStudio(
     context.log(`Server shutdown failed: ${message}`);
   }
 
-  await terminateServerProcess(serverProcess, context);
-  previous.dispose();
+  try {
+    await terminateServerProcess(serverProcess, context);
+    previous.dispose();
+  } finally {
+    stopping = false;
+  }
   await startStudio(extension, context);
+}
+
+/**
+ * Recheck access after editor activity and coalesce concurrent handoffs.
+ *
+ * @param extension - Extension context
+ * @param context - Context
+ */
+async function checkStudioAccess(
+  extension: ExtensionContext,
+  context: Context,
+): Promise<void> {
+  if (!active) {
+    return;
+  }
+  try {
+    if (transition.needsRefresh(studio)) {
+      await restartStudio(extension, context);
+    } else if (
+      studio?.edition === "free" && client !== undefined &&
+      getReadyClient() === client
+    ) {
+      const current = client;
+      // Existing editor activity retries a pending optional note without
+      // restarting Free or adding another timer or content endpoint.
+      void transition.started(
+        studio,
+        () => active && client === current && current.isRunning(),
+      );
+    }
+  } catch (error) {
+    context.log(`Studio access refresh failed: ${singleLine(String(error))}`);
+    recoverStudioFailure(
+      extension, context, "availability", "Studio access unavailable",
+    );
+  } finally {
+    if (active) {
+      scheduleAccessCheck(extension, context);
+    }
+  }
+}
+
+/**
+ * Bound access checks so a resumed window observes lease expiry.
+ *
+ * @param extension - Extension context
+ * @param context - Context
+ */
+function scheduleAccessCheck(
+  extension: ExtensionContext,
+  context: Context,
+): void {
+  clearAccessCheck();
+  if (!active || (studio?.edition === "free" && client !== undefined)) {
+    return;
+  }
+  const delay = transition.checkDelay(studio);
+  transitionTimer = setTimeout(() => {
+    transitionTimer = undefined;
+    void checkStudioAccess(extension, context);
+  }, delay);
+}
+
+/**
+ * Clear the scheduled access check.
+ */
+function clearAccessCheck(): void {
+  if (transitionTimer !== undefined) {
+    clearTimeout(transitionTimer);
+    transitionTimer = undefined;
+  }
 }
 
 /**
@@ -295,7 +510,8 @@ async function restartStudio(
  * @param stopped - Language client that stopped unexpectedly
  */
 async function recoverStudio(
-  extension: ExtensionContext, context: Context,
+  extension: ExtensionContext,
+  context: Context,
   stopped: LanguageClient | undefined,
 ): Promise<void> {
   if (typeof stopped === "undefined" || client !== stopped) {
@@ -304,17 +520,23 @@ async function recoverStudio(
 
   const serverProcess = stopped.serverProcess;
   const reason = describeServerStop(serverProcess);
-  context.log(`Studio stopped unexpectedly: ${reason}`);
+  const expected = transition.needsRefresh(studio);
+  context.log(
+    expected
+      ? "Studio lease ended; resolving access again"
+      : `Studio stopped unexpectedly: ${reason}`,
+  );
   client = undefined;
   clearRetryReset();
   disposeClientDisposables();
   stopped.dispose();
   await terminateServerProcess(serverProcess, context);
-  if (recovery.beginRecovery()) {
+  if (expected || recovery.beginRecovery()) {
     studio = undefined;
   }
   recoverStudioFailure(
-    extension, context, "startup", "Studio stopped", reason,
+    extension, context, expected ? "availability" : "startup",
+    "Studio stopped", reason,
   );
 }
 
@@ -325,20 +547,21 @@ async function recoverStudio(
  * @param context - Context
  */
 async function terminateServerProcess(
-  serverProcess: ChildProcess | undefined, context: Context,
+  serverProcess: ChildProcess | undefined,
+  context?: Context,
 ): Promise<void> {
   if (!serverProcess || typeof serverProcess.pid !== "number") {
     return;
   }
 
   if (serverProcess.exitCode === null && serverProcess.signalCode === null) {
-    context.log(`Terminating server process ${serverProcess.pid}`);
+    context?.log(`Terminating server process ${serverProcess.pid}`);
     serverProcess.kill();
     await waitForProcessExit(serverProcess, 1000);
   }
 
   if (serverProcess.exitCode === null && serverProcess.signalCode === null) {
-    context.log(`Force terminating server process ${serverProcess.pid}`);
+    context?.log(`Force terminating server process ${serverProcess.pid}`);
     serverProcess.kill("SIGKILL");
     await waitForProcessExit(serverProcess, 1000);
   }
@@ -351,7 +574,8 @@ async function terminateServerProcess(
  * @param timeout - Timeout in milliseconds
  */
 function waitForProcessExit(
-  serverProcess: ChildProcess, timeout: number,
+  serverProcess: ChildProcess,
+  timeout: number,
 ): Promise<void> {
   if (serverProcess.exitCode !== null || serverProcess.signalCode !== null) {
     return Promise.resolve();
@@ -380,10 +604,15 @@ function waitForProcessExit(
  * @param detail - Failure detail used for logging and diagnostics
  */
 function recoverStudioFailure(
-  extension: ExtensionContext, context: Context,
-  kind: RecoveryFailureKind, reason: string,
+  extension: ExtensionContext,
+  context: Context,
+  kind: RecoveryFailureKind,
+  reason: string,
   detail?: string | ArchiveTransferError,
 ): void {
+  if (!active) {
+    return;
+  }
   clearRetryReset();
   const decision = recovery.fail(kind);
   logStudioFailure(context, kind, decision.attempt, detail);
@@ -409,7 +638,9 @@ function recoverStudioFailure(
       retryTimer = setTimeout(retry, jitter(decision.delay));
       return;
     }
-    if (!recovery.retry()) return;
+    if (!recovery.retry()) {
+      return;
+    }
     void startStudio(extension, context);
   };
   retryTimer = setTimeout(retry, jitter(decision.delay));
@@ -422,10 +653,11 @@ function recoverStudioFailure(
  * @param context - Context
  */
 function retryStudioOnActivity(
-  extension: ExtensionContext, context: Context,
+  extension: ExtensionContext,
+  context: Context,
 ): void {
   if (
-    starting ||
+    !active || starting || restartTask !== undefined ||
     typeof retryTimer === "undefined" ||
     !recovery.retry(true)
   ) {
@@ -445,7 +677,9 @@ function retryStudioOnActivity(
  * @param detail - Failure detail
  */
 function logStudioFailure(
-  context: Context, kind: RecoveryFailureKind, attempt: number,
+  context: Context,
+  kind: RecoveryFailureKind,
+  attempt: number,
   detail?: string | ArchiveTransferError,
 ): void {
   switch (kind) {
@@ -476,13 +710,15 @@ function logStudioFailure(
  * @param detail - Failure detail
  */
 function reportStudioFailure(
-  context: Context, kind: RecoveryFailureKind, attempt: number,
+  context: Context,
+  kind: RecoveryFailureKind,
+  attempt: number,
   detail?: string | ArchiveTransferError,
 ): void {
   switch (kind) {
     case "availability":
       logStartupEnvironment(context);
-      void context.promptStudioUnavailable();
+      void context.promptStudioUnavailable(transition.hasEnded());
       break;
     case "download":
       if (detail instanceof ArchiveTransferError) {
@@ -542,7 +778,9 @@ function logStartupEnvironment(context: Context): void {
  * @returns Diagnostics
  */
 function downloadDiagnostics(
-  context: Context, error: ArchiveTransferError, attempt: number,
+  context: Context,
+  error: ArchiveTransferError,
+  attempt: number,
 ): string {
   const http = vscode.workspace.getConfiguration("http");
   const proxy = http.get<string>("proxy")?.trim();
@@ -645,10 +883,24 @@ function clearRetryReset(): void {
 }
 
 /**
- * Dispose listeners owned by the current language client.
+ * Get the running client after its runtime identity has been accepted.
+ *
+ * @returns Validated running client, or nothing if it is unavailable
+ */
+function getReadyClient(): LanguageClient | undefined {
+  return runtime !== undefined && client?.isRunning() ? client : undefined;
+}
+
+/**
+ * Dispose listeners and UI availability owned by the current client.
  */
 function disposeClientDisposables(): void {
-  for (const disposable of clientDisposables) disposable.dispose();
+  runtime = undefined;
+  connections?.attachClient();
+  wordCount?.refresh();
+  for (const disposable of clientDisposables) {
+    disposable.dispose();
+  }
   clientDisposables = [];
 }
 

@@ -24,6 +24,7 @@
  */
 
 import type { Context } from "../context";
+import type { StudioEdition } from "./binary";
 
 /* ----------------------------------------------------------------------------
  * Types
@@ -34,7 +35,7 @@ import type { Context } from "../context";
  */
 export interface Release {
   version: string;
-  edition: "beta";
+  edition?: StudioEdition;
   url: string;
   integrity: string;
   extension?: {
@@ -56,10 +57,34 @@ export interface Token {
  * Message.
  */
 export interface Message {
+  /**
+   * Unique message identifier.
+   */
   id: string;
+  /**
+   * Message kind.
+   */
   kind: "info" | "warning" | "error";
+  /**
+   * Message text, displayed in a dialog.
+   */
   message: string;
-  confirm: boolean;
+  /**
+   * Whether the message requires user confirmation before proceeding.
+   */
+  confirm?: boolean;
+  /**
+   * Optional document
+   */
+  markdown?: string;
+}
+
+/**
+ * Validated presentation for the once-only Beta-to-Free handoff.
+ */
+export interface TransitionMessage extends Message {
+  kind: "info";
+  markdown: string;
 }
 
 /* ----------------------------------------------------------------------------
@@ -78,6 +103,20 @@ export class NetworkError extends Error {
   public constructor(message: string) {
     super(message);
     this.name = "NetworkError";
+  }
+}
+
+/**
+ * Explicit access rejection, distinct from temporary service unavailability.
+ */
+export class AccessRejectedError extends Error {
+  /** Rejection status; 410 identifies the end of beta access. */
+  public readonly status: 401 | 403 | 410;
+
+  public constructor(status: 401 | 403 | 410) {
+    super(status === 410 ? "Beta access has ended" : "Studio access was rejected");
+    this.name = "AccessRejectedError";
+    this.status = status;
   }
 }
 
@@ -117,12 +156,13 @@ export class ArchiveTransferError extends Error {
  */
 export async function fetchRelease(
   context: Context,
+  edition: StudioEdition = "beta",
 ): Promise<Release | undefined> {
   context.log("Checking for updates");
 
   // Resolve the latest release for the underlying platform and architecture
   const url = "https://get.zensical.org/studio/";
-  const res = await request(context, url, {
+  const res = await fetchResponse(context, url, {
     cache: "no-store",
     method: "POST",
     headers: {
@@ -133,13 +173,18 @@ export async function fetchRelease(
     body: JSON.stringify({
       platform: getPlatform(),
       architecture: getArchitecture(),
+      edition,
     }),
   });
-  if (typeof res !== "undefined") {
-    return (await res.json()) as Release;
-  } else {
+  // Server retirement also applies to fresh clients with a slow local clock.
+  if (edition === "beta" && res.status === 410) {
+    throw new AccessRejectedError(410);
+  }
+  if (!res.ok) {
+    context.log(`Fetching failed: ${res.status} ${res.statusText}`);
     return;
   }
+  return (await res.json()) as Release;
 }
 
 /**
@@ -225,16 +270,40 @@ export async function fetchToken(
   context.log("Renewing token for beta access");
   const url = "https://get.zensical.org/studio/token/";
   try {
-    const res = await request(context, url, {
+    const res = await fetchResponse(context, url, {
       ...(token && { headers: { authorization: `Bearer ${token}` } }),
     });
 
-    // Return the new token if available
-    if (typeof res !== "undefined") {
-      return (await res.json()) as Token;
-    } else {
+    if (res.status === 401 || res.status === 403 || res.status === 410) {
+      throw new AccessRejectedError(res.status);
+    }
+    if (!res.ok) {
+      context.log(`Fetching failed: ${res.status} ${res.statusText}`);
+      if (res.status === 408 || res.status === 429 ||
+          (res.status >= 500 && res.status < 600)) {
+        throw new NetworkError("Token service temporarily unavailable");
+      }
       return;
     }
+
+    // Do not replace the cache or revive prior access on a malformed response.
+    let text: string;
+    try {
+      text = await res.text();
+    } catch {
+      throw new NetworkError("Token transfer interrupted");
+    }
+    let body: unknown;
+    try {
+      body = JSON.parse(text);
+    } catch {
+      throw new Error("Invalid token response");
+    }
+    if (typeof body !== "object" || body === null ||
+        !("token" in body) || typeof body.token !== "string" || !body.token.trim()) {
+      throw new Error("Invalid token response");
+    }
+    return { token: body.token };
   } catch (error) {
     if (typeof token !== "undefined" && error instanceof NetworkError) {
       context.log("Using cached token");
@@ -247,31 +316,6 @@ export async function fetchToken(
 /* ----------------------------------------------------------------------------
  * Helper functions
  * ------------------------------------------------------------------------- */
-
-/**
- * Fetch a resource.
- *
- * @param context - Context
- * @param url - Resource URL
- * @param init - Request initialization
- *
- * @returns Response or nothing
- */
-async function request(
-  context: Context,
-  url: string,
-  init?: RequestInit,
-): Promise<Response | undefined> {
-  const res = await fetchResponse(context, url, init);
-
-  // In case of a non-OK response, log the error and return nothing
-  if (!res.ok) {
-    context.log(`Fetching failed: ${res.status} ${res.statusText}`);
-    return;
-  } else {
-    return res;
-  }
-}
 
 /**
  * Fetch a resource and preserve non-OK responses for callers that need them.
@@ -458,4 +502,63 @@ function getPlatform(): string {
  */
 function getArchitecture(): string {
   return process.arch;
+}
+
+/* ------------------------------------------------------------------------- */
+
+/**
+ * Reuse the last valid response when the first Free startup is offline.
+ *
+ * @param context - Context
+ *
+ * @returns Transition message or nothing
+ */
+export function getTransitionMessage(
+  context: Context
+): TransitionMessage | undefined {
+  return transitionMessage(context.getState<unknown>("betaTransitionMessage"));
+}
+
+/**
+ * Optional presentation storage must never prevent installation or startup.
+ *
+ * @param context - Context
+ * @param release - Release
+ */
+export async function rememberTransitionMessage(
+  context: Context, release: Release
+): Promise<void> {
+  if (release.edition !== "free") return;
+  const message = transitionMessage(release.message);
+  if (message === undefined) return;
+  try {
+    await context.setState("betaTransitionMessage", message);
+  } catch (error) {
+    try {
+      context.log(
+        `Could not retain Studio transition note: ${String(error)}`
+      );
+    } catch {
+      /* The window may already be closing. */
+    }
+  }
+}
+
+/**
+ * Validate a transition message.
+ *
+ * @param value - Value to validate
+ *
+ * @returns Transition message or nothing
+ */
+function transitionMessage(value: unknown): TransitionMessage | undefined {
+  if (typeof value !== "object" || value === null) return;
+  const message = value as Partial<Message>;
+  if (message.kind === "info" &&
+      typeof message.id === "string" && message.id.trim() && message.id.length <= 128 &&
+      typeof message.message === "string" && message.message.trim() && message.message.length <= 2048 &&
+      typeof message.markdown === "string" && message.markdown.trim() && message.markdown.length <= 131072) {
+    return message as TransitionMessage;
+  }
+  return;
 }
