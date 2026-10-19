@@ -113,8 +113,15 @@ export class AccessRejectedError extends Error {
   /** Rejection status; 410 identifies the end of beta access. */
   public readonly status: 401 | 403 | 410;
 
+  /**
+   * Create an explicit access rejection.
+   *
+   * @param status - Rejection status
+   */
   public constructor(status: 401 | 403 | 410) {
-    super(status === 410 ? "Beta access has ended" : "Studio access was rejected");
+    super(status === 410
+      ? "Beta access has ended"
+      : "Studio access was rejected");
     this.name = "AccessRejectedError";
     this.status = status;
   }
@@ -135,7 +142,9 @@ export class ArchiveTransferError extends Error {
    * @param cause - Underlying error
    */
   public constructor(
-    message: string, diagnostics: string, cause?: unknown,
+    message: string,
+    diagnostics: string,
+    cause?: unknown,
   ) {
     super(message, { cause });
     this.name = "ArchiveTransferError";
@@ -230,7 +239,9 @@ export async function fetchArchive(
     const reader = res.body.getReader();
     while (true) {
       const { done, value } = await reader.read();
-      if (done) break;
+      if (done) {
+        break;
+      }
       chunks.push(value);
       received += value.byteLength;
     }
@@ -279,8 +290,10 @@ export async function fetchToken(
     }
     if (!res.ok) {
       context.log(`Fetching failed: ${res.status} ${res.statusText}`);
-      if (res.status === 408 || res.status === 429 ||
-          (res.status >= 500 && res.status < 600)) {
+      if (
+        res.status === 408 || res.status === 429 ||
+        (res.status >= 500 && res.status < 600)
+      ) {
         throw new NetworkError("Token service temporarily unavailable");
       }
       return;
@@ -299,8 +312,10 @@ export async function fetchToken(
     } catch {
       throw new Error("Invalid token response");
     }
-    if (typeof body !== "object" || body === null ||
-        !("token" in body) || typeof body.token !== "string" || !body.token.trim()) {
+    if (
+      typeof body !== "object" || body === null ||
+      !("token" in body) || typeof body.token !== "string" || !body.token.trim()
+    ) {
       throw new Error("Invalid token response");
     }
     return { token: body.token };
@@ -358,12 +373,16 @@ async function fetchResponse(
  * @returns Archive transfer error
  */
 function archiveTransferError(
-  release: Release, started: number, received: number,
-  response?: Response, cause?: unknown,
+  release: Release,
+  started: number,
+  received: number,
+  response?: Response,
+  cause?: unknown,
 ): ArchiveTransferError {
   const expected = response === undefined ? undefined : contentLength(response);
   const reason = cause === undefined
-    ? `HTTP ${response?.status ?? "unknown"} ${response?.statusText ?? ""}`.trim()
+    ? `HTTP ${response?.status ?? "unknown"} ${response?.statusText ?? ""}`
+      .trim()
     : describeError(cause);
   const diagnostics = [
     `Release: ${release.version}`,
@@ -425,7 +444,9 @@ function isArchiveContentType(value: string | null): boolean {
  */
 function contentLength(response: Response): number | undefined {
   const value = response.headers.get("content-length");
-  if (value === null || !/^\d+$/.test(value)) return;
+  if (value === null || !/^\d+$/.test(value)) {
+    return;
+  }
   const length = Number(value);
   return Number.isSafeInteger(length) ? length : undefined;
 }
@@ -438,10 +459,14 @@ function contentLength(response: Response): number | undefined {
  * @returns Description
  */
 function describeError(error: unknown): string {
-  if (!(error instanceof Error)) return String(error);
+  if (!(error instanceof Error)) {
+    return String(error);
+  }
   const details = [error.name, sanitizeText(error.message)];
   const code = errorCode(error);
-  if (typeof code !== "undefined") details.push(`code=${code}`);
+  if (typeof code !== "undefined") {
+    details.push(`code=${code}`);
+  }
   if (error.cause instanceof Error) {
     const cause = error.cause;
     const causeCode = errorCode(cause);
@@ -472,7 +497,9 @@ function sanitizeText(value: string): string {
  * @returns Error code or nothing
  */
 function errorCode(error: Error): string | undefined {
-  if (!("code" in error)) return;
+  if (!("code" in error)) {
+    return;
+  }
   const code = error.code;
   return typeof code === "string" ? code : undefined;
 }
@@ -514,7 +541,7 @@ function getArchitecture(): string {
  * @returns Transition message or nothing
  */
 export function getTransitionMessage(
-  context: Context
+  context: Context,
 ): TransitionMessage | undefined {
   return transitionMessage(context.getState<unknown>("betaTransitionMessage"));
 }
@@ -526,20 +553,25 @@ export function getTransitionMessage(
  * @param release - Release
  */
 export async function rememberTransitionMessage(
-  context: Context, release: Release
+  context: Context,
+  release: Release,
 ): Promise<void> {
-  if (release.edition !== "free") return;
+  if (release.edition !== "free") {
+    return;
+  }
   const message = transitionMessage(release.message);
-  if (message === undefined) return;
+  if (message === undefined) {
+    return;
+  }
   try {
     await context.setState("betaTransitionMessage", message);
   } catch (error) {
     try {
       context.log(
-        `Could not retain Studio transition note: ${String(error)}`
+        `Could not retain Studio transition note: ${String(error)}`,
       );
     } catch {
-      /* The window may already be closing. */
+      // The window may already be closing.
     }
   }
 }
@@ -552,12 +584,19 @@ export async function rememberTransitionMessage(
  * @returns Transition message or nothing
  */
 function transitionMessage(value: unknown): TransitionMessage | undefined {
-  if (typeof value !== "object" || value === null) return;
+  if (typeof value !== "object" || value === null) {
+    return;
+  }
   const message = value as Partial<Message>;
-  if (message.kind === "info" &&
-      typeof message.id === "string" && message.id.trim() && message.id.length <= 128 &&
-      typeof message.message === "string" && message.message.trim() && message.message.length <= 2048 &&
-      typeof message.markdown === "string" && message.markdown.trim() && message.markdown.length <= 131072) {
+  if (
+    message.kind === "info" &&
+    typeof message.id === "string" && message.id.trim() &&
+    message.id.length <= 128 &&
+    typeof message.message === "string" && message.message.trim() &&
+    message.message.length <= 2048 &&
+    typeof message.markdown === "string" && message.markdown.trim() &&
+    message.markdown.length <= 131072
+  ) {
     return message as TransitionMessage;
   }
   return;

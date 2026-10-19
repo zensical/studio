@@ -214,9 +214,19 @@ export async function withStudioBinary<T>(
       },
       get installation() {
         return state.version && state.edition && state.integrity
-          ? { version: state.version, edition: state.edition, integrity: state.integrity }
+          ? {
+            version: state.version,
+            edition: state.edition,
+            integrity: state.integrity,
+          }
           : undefined;
       },
+      /**
+       * Replace the executable and persist its verified identity.
+       *
+       * @param source - Staged executable
+       * @param installation - Verified release identity
+       */
       async replace(
         source: string,
         installation: StudioInstallation,

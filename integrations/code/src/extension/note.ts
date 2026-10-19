@@ -32,7 +32,15 @@ import type { ExtensionContext } from "vscode";
 
 /** Read-only Markdown notes, separate from project documents and the LSP. */
 const uri = vscode.Uri.parse("zensical-studio-note:/studio.md");
+
+/* ----------------------------------------------------------------------------
+ * State
+ * ------------------------------------------------------------------------- */
+
+/** Current document content. */
 let markdown = "";
+
+/** Changes to the read-only virtual document. */
 let changes: vscode.EventEmitter<vscode.Uri> | undefined;
 
 /* ----------------------------------------------------------------------------
@@ -46,7 +54,8 @@ let changes: vscode.EventEmitter<vscode.Uri> | undefined;
  */
 export function registerNote(extension: ExtensionContext): void {
   changes = new vscode.EventEmitter<vscode.Uri>();
-  extension.subscriptions.push(changes,
+  extension.subscriptions.push(
+    changes,
     vscode.workspace.registerTextDocumentContentProvider(uri.scheme, {
       onDidChange: changes.event,
       provideTextDocumentContent: resource => {

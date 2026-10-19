@@ -159,9 +159,13 @@ type ViewState = "idle" | "loading" | "ready" | "unavailable" | "error";
  * Constants
  * ------------------------------------------------------------------------- */
 
-/**  */
+/** Connections view identifier. */
 const viewId = "zensicalStudio.connections";
+
+/** Context key for following the active editor. */
 const followContext = "zensicalStudio.connections.followActiveEditor";
+
+/** Maximum entries requested per group page. */
 const pageSize = 100;
 
 /* ----------------------------------------------------------------------------
@@ -169,12 +173,16 @@ const pageSize = 100;
  * ------------------------------------------------------------------------- */
 
 /** Sticky, lazily loaded document relationships tree. */
-export class ConnectionsView
-implements vscode.TreeDataProvider<RelationshipNode>, vscode.Disposable {
-  private readonly changes = new vscode.EventEmitter<RelationshipNode | undefined>();
+export class ConnectionsView implements
+  vscode.TreeDataProvider<RelationshipNode>,
+  vscode.Disposable
+{
+  private readonly changes =
+    new vscode.EventEmitter<RelationshipNode | undefined>();
   private readonly disposables: vscode.Disposable[] = [];
   private readonly tree: vscode.TreeView<RelationshipNode>;
-  private readonly groups = new Map<RelationshipGroupKind, RelationshipGroupState>();
+  private readonly groups =
+    new Map<RelationshipGroupKind, RelationshipGroupState>();
   private readonly parents = new WeakMap<RelationshipNode, RelationshipNode>();
   private readonly expandedGroups = new Set<RelationshipGroupKind>();
   private clientDisposables: vscode.Disposable[] = [];
@@ -197,7 +205,11 @@ implements vscode.TreeDataProvider<RelationshipNode>, vscode.Disposable {
       showCollapseAll: true,
     });
     void vscode.commands.executeCommand("setContext", followContext, true);
-    void vscode.commands.executeCommand("setContext", "zensicalStudio.connections.available", false);
+    void vscode.commands.executeCommand(
+      "setContext",
+      "zensicalStudio.connections.available",
+      false,
+    );
     const active = getActiveResource();
     if (active) {
       this.resource = active;
@@ -211,8 +223,12 @@ implements vscode.TreeDataProvider<RelationshipNode>, vscode.Disposable {
       vscode.commands.registerCommand(
         "zensicalStudio.connections.show",
         async (resource?: vscode.Uri) => {
-          if (!this.getClient()) return;
-          const uri = resource instanceof vscode.Uri ? resource : getActiveResource();
+          if (!this.getClient()) {
+            return;
+          }
+          const uri = resource instanceof vscode.Uri
+            ? resource
+            : getActiveResource();
           if (!uri) return;
           await this.setResource(uri);
           await vscode.commands.executeCommand(`${viewId}.focus`);
@@ -289,7 +305,9 @@ implements vscode.TreeDataProvider<RelationshipNode>, vscode.Disposable {
         (group: RelationshipGroupState) => this.loadMore(group),
       ),
       vscode.window.onDidChangeActiveTextEditor((editor) => {
-        if (this.following && editor) void this.setResource(editor.document.uri);
+        if (this.following && editor) {
+          void this.setResource(editor.document.uri);
+        }
       }),
       vscode.window.tabGroups.onDidChangeTabs((event) => {
         const activated = [...event.opened, ...event.changed];
@@ -298,10 +316,14 @@ implements vscode.TreeDataProvider<RelationshipNode>, vscode.Disposable {
         if (uri) void this.setResource(uri);
       }),
       this.tree.onDidExpandElement(({ element }) => {
-        if (element.type === "group") this.expandedGroups.add(element.group.kind);
+        if (element.type === "group") {
+          this.expandedGroups.add(element.group.kind);
+        }
       }),
       this.tree.onDidCollapseElement(({ element }) => {
-        if (element.type === "group") this.expandedGroups.delete(element.group.kind);
+        if (element.type === "group") {
+          this.expandedGroups.delete(element.group.kind);
+        }
       }),
       this.tree.onDidChangeVisibility(({ visible }) => {
         if (visible && this.resource && this.state === "idle") {
@@ -312,20 +334,28 @@ implements vscode.TreeDataProvider<RelationshipNode>, vscode.Disposable {
     context.subscriptions.push(this);
   }
 
-  /** Attach refresh notifications to the current language client. */
+  /**
+   * Attach refresh notifications to the current language client.
+   *
+   * @param client - Current language client, or nothing while unavailable
+   */
   attachClient(client?: LanguageClient): void {
-    for (const disposable of this.clientDisposables) disposable.dispose();
-    this.clientDisposables = client ? [
-      client.onNotification("zensical/document/connectionsChanged", () => {
+    for (const disposable of this.clientDisposables) {
+      disposable.dispose();
+    }
+    this.clientDisposables = client
+      ? [client.onNotification("zensical/document/connectionsChanged", () => {
         this.scheduleNotificationRefresh();
-      }),
-    ] : [];
+      })]
+      : [];
     void vscode.commands.executeCommand(
       "setContext",
       "zensicalStudio.connections.available",
-      client !== undefined
+      client !== undefined,
     );
-    if (this.tree.visible || client === undefined) void this.refresh();
+    if (this.tree.visible || client === undefined) {
+      void this.refresh();
+    }
   }
 
   /** Dispose commands, listeners, and the tree view. */
@@ -407,7 +437,10 @@ implements vscode.TreeDataProvider<RelationshipNode>, vscode.Disposable {
           (section): SectionNode => ({ type: "section", section }),
         ),
         ...(navigation.length
-          ? [{ type: "navigation", contexts: navigation } satisfies NavigationSectionNode]
+          ? [{
+            type: "navigation",
+            contexts: navigation,
+          } satisfies NavigationSectionNode]
           : []),
       ];
     }
@@ -440,20 +473,25 @@ implements vscode.TreeDataProvider<RelationshipNode>, vscode.Disposable {
       case "navigationNeighbor":
         return [];
       case "section":
-        return (await Promise.all(node.section.groups.map(async (definition) => {
-          const group = this.groups.get(definition.kind)!;
-          if (!group.flat)
-            return [{ type: "group", group } satisfies GroupNode];
-          await this.loadInitial(group);
-          return groupChildren(group);
-        }))).flat();
+        return (await Promise.all(
+          node.section.groups.map(async (definition) => {
+            const group = this.groups.get(definition.kind)!;
+            if (!group.flat) {
+              return [{ type: "group", group } satisfies GroupNode];
+            }
+            await this.loadInitial(group);
+            return groupChildren(group);
+          }),
+        )).flat();
       case "group":
         await this.loadInitial(node.group);
         return groupChildren(node.group);
       case "entry":
-        return node.entry.occurrences.map((occurrence, index): OccurrenceNode => ({
-          type: "occurrence", occurrence, index,
-        }));
+        return node.entry.occurrences.map(
+          (occurrence, index): OccurrenceNode => ({
+            type: "occurrence", occurrence, index,
+          }),
+        );
       case "showMore":
         await this.loadMore(node.group);
         return [];
@@ -478,7 +516,8 @@ implements vscode.TreeDataProvider<RelationshipNode>, vscode.Disposable {
       const node = pending.pop()!;
       if (
         node.type === "showMore" ||
-        this.getTreeItem(node).collapsibleState === vscode.TreeItemCollapsibleState.None
+        this.getTreeItem(node).collapsibleState ===
+          vscode.TreeItemCollapsibleState.None
       ) {
         continue;
       }
@@ -1000,7 +1039,8 @@ function occurrenceTreeItem(node: OccurrenceNode): vscode.TreeItem {
     vscode.TreeItemCollapsibleState.None,
   );
   item.id = `occurrence:${node.index}:${node.occurrence.uri}:` +
-    `${node.occurrence.range.start.line}:${node.occurrence.range.start.character}`;
+    `${node.occurrence.range.start.line}:${
+      node.occurrence.range.start.character}`;
   item.description = `${vscode.workspace.asRelativePath(uri, false)}:` +
     `${node.occurrence.range.start.line + 1}`;
   item.iconPath = new vscode.ThemeIcon("location");
@@ -1124,7 +1164,9 @@ function getActiveResource(): vscode.Uri | undefined {
  *
  * @param node - Connection tree node
  */
-async function revealTargetInFileManager(node?: RelationshipNode): Promise<void> {
+async function revealTargetInFileManager(
+  node?: RelationshipNode,
+): Promise<void> {
   if (node?.type !== "entry" || !node.entry.related) return;
   const resource = vscode.Uri.parse(node.entry.related.uri);
   if (resource.scheme !== "file") return;
@@ -1144,12 +1186,18 @@ async function openTarget(
   switch (node?.type) {
     case "entry": {
       const related = node.entry.related;
-      if (related) await openLocation(related.uri, related.selectionRange, viewColumn);
+      if (related) {
+        await openLocation(related.uri, related.selectionRange, viewColumn);
+      }
       break;
     }
     case "navigationEntry": {
       const entry = node.context.current;
-      await openLocation(entry.configurationUri, entry.configurationRange, viewColumn);
+      await openLocation(
+        entry.configurationUri,
+        entry.configurationRange,
+        viewColumn,
+      );
       break;
     }
     case "navigationNeighbor":
@@ -1191,5 +1239,8 @@ async function openLocation(
     selection,
     viewColumn,
   });
-  editor.revealRange(selection, vscode.TextEditorRevealType.InCenterIfOutsideViewport);
+  editor.revealRange(
+    selection,
+    vscode.TextEditorRevealType.InCenterIfOutsideViewport,
+  );
 }

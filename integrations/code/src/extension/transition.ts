@@ -199,11 +199,14 @@ export class StudioTransition {
           ? "zensical-studio.exe"
           : "zensical-studio",
       );
-      const legacy = this.context.getState("edition") === "beta" ||
-        (this.context.getState("edition") === undefined &&
-         (this.context.getState("token") !== undefined ||
-          (this.context.getState("version") !== undefined &&
-           fs.existsSync(executable))));
+      const legacy = this.context.getState("edition") === "beta" || (
+        this.context.getState("edition") === undefined && (
+          this.context.getState("token") !== undefined || (
+            this.context.getState("version") !== undefined &&
+            fs.existsSync(executable)
+          )
+        )
+      );
       if ((edition === "beta" && fs.existsSync(executable)) || legacy) {
         await this.createMarker(this.participant);
       }

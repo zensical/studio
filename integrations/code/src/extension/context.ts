@@ -48,6 +48,8 @@ export class Context {
 
   /**
    * Create context.
+   *
+   * @param extension - Extension context
    */
   public constructor(extension: ExtensionContext) {
     this.context = extension;
@@ -111,7 +113,10 @@ export class Context {
    * @param key - Key
    * @param value - Value
    */
-  public setState<T = string>(key: string, value: T | undefined): Thenable<void> {
+  public setState<T = string>(
+    key: string,
+    value: T | undefined,
+  ): Thenable<void> {
     return this.context.globalState.update(key, value);
   }
 
@@ -120,7 +125,7 @@ export class Context {
    *
    * @param message - Message
    */
-  public log(message: string) {
+  public log(message: string): void {
     this.output.appendLine(message);
   }
 
@@ -129,7 +134,7 @@ export class Context {
    *
    * @param message - Message
    */
-  public showError(message: string) {
+  public showError(message: string): void {
     void show("error", message);
   }
 
@@ -138,7 +143,7 @@ export class Context {
    *
    * @param message - Message
    */
-  public showWarning(message: string) {
+  public showWarning(message: string): void {
     void show("warning", message);
   }
 
@@ -147,12 +152,14 @@ export class Context {
    *
    * @param message - Message
    */
-  public showInfo(message: string) {
+  public showInfo(message: string): void {
     void show("info", message);
   }
 
   /**
    * Prompt the user to read a note about the beta transition.
+   *
+   * @param message - Server-provided notification and document
    */
   public promptBetaTransition(message: TransitionMessage): Thenable<void> {
     const action = "Read more";
@@ -165,7 +172,9 @@ export class Context {
           // Opening the note must not invalidate an already-shown notice.
           try {
             this.log(`Could not open the Studio note: ${String(error)}`);
-          } catch { /* The window may already be closing. */ }
+          } catch {
+            // The window may already be closing.
+          }
         });
       }
     });
@@ -173,6 +182,8 @@ export class Context {
 
   /**
    * Explain that Studio remains unavailable after several attempts.
+   *
+   * @param betaEnded - Whether the server has retired Beta
    */
   public async promptStudioUnavailable(betaEnded = false): Promise<void> {
     const action = "Show Logs";
@@ -181,8 +192,9 @@ export class Context {
         ? "The Studio beta has ended. Studio Free could not be started. " +
           "Check your network connection and configured Studio path. " +
           "Studio will keep retrying."
-        : "Zensical Studio is still unavailable. Check your network connection " +
-        "and configured Studio path. Studio will keep retrying.",
+        : "Zensical Studio is still unavailable. " +
+          "Check your network connection " +
+          "and configured Studio path. Studio will keep retrying.",
       action,
     );
     if (result === action) {

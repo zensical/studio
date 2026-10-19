@@ -37,7 +37,10 @@ import { registerPreviewCommand } from "./preview";
 /**
  * Register commands for the extension.
  *
- * @param context - The extension context
+ * @param context - Extension context
+ * @param getClient - Get the validated running client
+ * @param showLogs - Show the extension output channel
+ * @param restartServer - Restart Studio with fresh access
  */
 export function registerCommands(
   context: ExtensionContext,
