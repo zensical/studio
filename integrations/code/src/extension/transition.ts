@@ -227,7 +227,7 @@ export class StudioTransition {
     studio: Studio,
     isCurrent: () => boolean = () => true,
   ): Promise<void> {
-    if (!isCurrent()) {
+    if (studio.local || !isCurrent()) {
       return;
     }
     try {
@@ -351,6 +351,9 @@ export class StudioTransition {
       await this.rememberPriorBeta();
       try {
         const studio = await getStudio(this.context);
+        if (studio?.local) {
+          return studio;
+        }
         if (studio !== undefined && studio.edition !== "beta") {
           // A successful server selection can retire Beta without an initial
           // HTTP 410. Keep migration history and the first-Free note intact.
