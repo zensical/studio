@@ -57,7 +57,20 @@ export function registerLicense(
     extension.subscriptions.push(
       extension.secrets.onDidChange(event => {
         if (event.key === key) {
-          void refreshAccess().catch(() => {
+          void (async () => {
+            const license = await extension.secrets.get(key);
+            if (!license) {
+              await refreshAccess();
+              return;
+            }
+            const normalized = license.replace(/-/g, "").toUpperCase();
+            const edition = normalized.startsWith("ZSP") ? "Studio Pro"
+              : normalized.startsWith("ZST") ? "Studio Team" : "Studio";
+            await vscode.window.withProgress({
+              location: vscode.ProgressLocation.Notification,
+              title: `${edition}: Activating…`,
+            }, () => refreshAccess());
+          })().catch(() => {
             void vscode.window.showWarningMessage(
               "Studio access could not be refreshed. " +
               "Use Zensical Studio: Restart Server to try again.",
@@ -106,6 +119,12 @@ async function enterLicenseKey(secrets: SecretStorage): Promise<void> {
     }
     value = value.trim();
     if (value.length > 0) {
+      if (await secrets.get(key) === value) {
+        void vscode.window.showInformationMessage(
+          "This license key is already saved.",
+        );
+        return;
+      }
       await secrets.store(key, value);
     } else {
       await secrets.delete(key);
@@ -118,7 +137,7 @@ async function enterLicenseKey(secrets: SecretStorage): Promise<void> {
   }
   void vscode.window.showInformationMessage(
     value.length > 0
-      ? "License key saved securely."
+      ? "License key saved."
       : "License key removed.",
   );
 }

@@ -43,6 +43,7 @@ import {
  * Native verifier allowance after a signed lease expires, in milliseconds.
  */
 const CLOCK_ALLOWANCE = 60_000;
+const RENEWAL_INTERVAL = 24 * 60 * 60 * 1000;
 
 /* ----------------------------------------------------------------------------
  * Class
@@ -58,6 +59,10 @@ export class StudioTransition {
   private notifying = false;
   /** Whether this activation already reported a failed license check */
   private licenseWarned = false;
+  /**
+   * License change awaiting a successful paid runtime.
+   */
+  private readyNoticeRevision: number | undefined;
   /** Shared Beta retirement marker */
   private readonly marker: string;
   /** Shared Beta participation marker */
@@ -83,6 +88,22 @@ export class StudioTransition {
    */
   public hasEnded(): boolean {
     return this.retired || fs.existsSync(this.marker);
+  }
+
+  /**
+   * Notify once when this license change starts a paid runtime.
+   *
+   * @param revision - License revision awaiting confirmation
+   */
+  public expectLicenseReady(revision: number): void {
+    this.readyNoticeRevision = revision;
+  }
+
+  /**
+   * Allow a fresh warning after an explicit user retry or license change.
+   */
+  public resetLicenseWarning(): void {
+    this.licenseWarned = false;
   }
 
   /**
@@ -130,6 +151,26 @@ export class StudioTransition {
     return (
       studio !== undefined && deadline !== undefined && Date.now() >= deadline
     );
+  }
+
+  /**
+   * Check whether a paid runtime is due for an online renewal.
+   *
+   * @param studio - Selected runtime, if one is running
+   *
+   * @returns Whether the runtime is due for renewal
+   */
+  public needsRenewal(studio?: Studio): boolean {
+    if ((studio?.edition !== "pro" && studio?.edition !== "team") || !studio.token) {
+      return false;
+    }
+    try {
+      const payload = JSON.parse(Buffer.from(studio.token.split(".")[1], "base64url").toString());
+      return typeof payload.iat === "number" && Number.isFinite(payload.iat) &&
+        Date.now() >= payload.iat * 1000 + RENEWAL_INTERVAL;
+    } catch {
+      return false;
+    }
   }
 
   /**
@@ -226,18 +267,29 @@ export class StudioTransition {
   public async started(
     studio: Studio,
     isCurrent: () => boolean = () => true,
+    licenseRevision?: number,
   ): Promise<void> {
     if (studio.local || !isCurrent()) {
       return;
     }
     try {
-      if (studio.edition !== "free" || !studio.license?.error) {
+      if ((studio.edition === "pro" || studio.edition === "team") &&
+          (studio.license?.reactivated ||
+            (licenseRevision !== undefined && this.readyNoticeRevision === licenseRevision))) {
+        this.readyNoticeRevision = undefined;
+        if (studio.license) studio.license.reactivated = false;
+        this.context.showInfo(`Studio ${studio.edition === "pro" ? "Pro" : "Team"}: Activated.`);
+      }
+      if (!studio.license?.error) {
         this.licenseWarned = false;
       } else if (!this.licenseWarned) {
-        this.context.showWarning(
-          "Your Studio license could not be verified. " +
-          "You're using Studio Free. Check your license key and try again.",
-        );
+        if (studio.license.reason === "activation_limit") {
+          this.context.showActivationLimit();
+        } else if (studio.license.reason === "inactive") {
+          this.context.showInactiveLicense();
+        } else {
+          this.context.showLicenseUnavailable();
+        }
         this.licenseWarned = true;
       }
       if (studio.edition === "beta") {
@@ -345,12 +397,12 @@ export class StudioTransition {
    *
    * @returns Selected runtime, or nothing if it is unavailable
    */
-  public async resolve(): Promise<Studio | undefined> {
+  public async resolve(background = false): Promise<Studio | undefined> {
     if (!this.hasEnded()) {
       // A renewal denial may clear the last legacy participation evidence.
       await this.rememberPriorBeta();
       try {
-        const studio = await getStudio(this.context);
+        const studio = await getStudio(this.context, { edition: "beta", background });
         if (studio?.local) {
           return studio;
         }
@@ -371,6 +423,6 @@ export class StudioTransition {
       }
     }
     await this.retire();
-    return getStudio(this.context, { edition: "free" });
+    return getStudio(this.context, { edition: "free", background });
   }
 }

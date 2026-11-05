@@ -63,12 +63,15 @@ export interface Studio {
   /** Whether public access followed an unsuccessful license check */
   license?: {
     error: boolean;
+    reason?: "activation_limit" | "inactive" | "unavailable";
+    reactivated?: boolean;
   };
 }
 
 /** Legacy public-edition hint; the server selects the actual edition. */
 export interface StudioAccess {
   edition: "beta" | "free";
+  background?: boolean;
 }
 
 /* ----------------------------------------------------------------------------
@@ -94,7 +97,35 @@ export async function getStudio(
   let release: Release | undefined;
   let failure: NetworkError | undefined;
   try {
-    release = await fetchRelease(context, access.edition);
+    let license: string | undefined;
+    try {
+      license = (await context.getLicenseKey())?.trim();
+    } catch {
+      throw new NetworkError("Studio activation is temporarily unavailable", { error: true, rejected: false });
+    }
+    let identity: string | undefined;
+    if (license) {
+      try {
+        const bootstrapRelease = await fetchRelease(context, "free", { publicOnly: true });
+        if (!bootstrapRelease || bootstrapRelease.edition !== "free") {
+          throw new Error("Free bootstrap is unavailable");
+        }
+        const bootstrap = await getInstalledStudio(context, "free", bootstrapRelease, undefined, "studio-bootstrap");
+        if (!bootstrap) throw new Error("Free bootstrap is unavailable");
+        const { stdout } = await promisify(execFile)(bootstrap.path, ["license", "identity"], {
+          timeout: 10_000, maxBuffer: 1024, windowsHide: true,
+        });
+        identity = stdout.trim();
+        if (!/^v1-[0-9a-f]{64}$/.test(identity)) throw new Error("Invalid identity");
+      } catch {
+        // Existing beta delivery remains available if the optional Free
+        // bootstrap has not yet been published or is temporarily unavailable.
+        if (access.edition !== "beta") {
+          throw new NetworkError("Studio activation is temporarily unavailable", { error: true, rejected: false });
+        }
+      }
+    }
+    release = await fetchRelease(context, access.edition, { identity, background: access.background });
   } catch (error) {
     if (!(error instanceof NetworkError)) {
       throw error;
@@ -139,6 +170,7 @@ export async function getStudio(
       edition,
       license: {
         error: release?.license?.error || failure?.license.error || false,
+        reason: release?.license?.reason ?? (failure?.license.error ? (failure.license.rejected ? "inactive" : "unavailable") : undefined),
       },
     };
   }
@@ -147,7 +179,10 @@ export async function getStudio(
       return;
     }
     await rememberAccess(context, release);
-    return { ...executable, edition, token: release.access.token };
+    return {
+      ...executable, edition, token: release.access.token,
+      license: release.license,
+    };
   }
 
   // Keep the existing Beta lease endpoint compatible with older servers.
@@ -156,7 +191,7 @@ export async function getStudio(
     context.log("Token not found or expired.");
     return;
   }
-  return { ...executable, edition: "beta", token };
+  return { ...executable, edition: "beta", token, license: release?.license };
 }
 
 /* ----------------------------------------------------------------------------

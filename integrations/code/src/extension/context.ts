@@ -46,6 +46,10 @@ export class Context {
   private readonly output: LogOutputChannel;
   /** Extension context */
   private readonly context: ExtensionContext;
+  /**
+   * Close the progress notification for a confirmed reactivation.
+   */
+  private finishReactivationProgress?: () => void;
 
   /**
    * Create context.
@@ -183,6 +187,51 @@ export class Context {
   }
 
   /**
+   * Explain that a license could not be activated and link to its account.
+   */
+  public showInactiveLicense(): void {
+    const action = "Visit Zensical Hub";
+    void vscode.window.showWarningMessage(
+      "This license key couldn’t be activated. You can check your key and " +
+        "subscription in Zensical Hub. Studio Free is available while you " +
+        "resolve the issue.",
+      action,
+    ).then(result => {
+      if (result === action) void vscode.env.openExternal(vscode.Uri.parse("https://hub.zensical.org/account"));
+    });
+  }
+
+  /**
+   * Offer a retry when the license service cannot be reached.
+   */
+  public showLicenseUnavailable(): void {
+    const action = "Try again";
+    void vscode.window.showWarningMessage(
+      "Your Studio license could not be verified right now. You're using Studio Free. Try again when the service is available.",
+      action,
+    ).then(result => {
+      if (result === action) void vscode.commands.executeCommand("zensicalStudio.restartServer");
+    });
+  }
+
+  /**
+   * Explain how to free an installation when the activation limit is reached.
+   */
+  public showActivationLimit(): void {
+    const action = "Manage installations";
+    void vscode.window.showWarningMessage(
+      "Your Studio activation limit has been reached. " +
+        "Deactivate an installation in your account, then run " +
+        "Zensical Studio: Restart Server.",
+      action,
+    ).then(result => {
+      if (result === action) {
+        void vscode.env.openExternal(vscode.Uri.parse("https://hub.zensical.org/account"));
+      }
+    });
+  }
+
+  /**
    * Show an info message to the user.
    *
    * @param message - Message
@@ -213,6 +262,47 @@ export class Context {
         });
       }
     });
+  }
+
+  /**
+   * Show progress until a confirmed reactivation finishes starting.
+   *
+   * @param license - License key used to identify the Studio edition
+   */
+  public startReactivationProgress(license: string): void {
+    this.stopReactivationProgress();
+    const normalized = license.replace(/-/g, "").toUpperCase();
+    const edition = normalized.startsWith("ZSP") ? "Studio Pro"
+      : normalized.startsWith("ZST") ? "Studio Team" : "Studio";
+    const finished = new Promise<void>(resolve => {
+      this.finishReactivationProgress = resolve;
+    });
+    void vscode.window.withProgress({
+      location: vscode.ProgressLocation.Notification,
+      title: `${edition}: Activating…`,
+    }, () => finished);
+  }
+
+  /**
+   * Close reactivation progress after startup, failure or cancellation.
+   */
+  public stopReactivationProgress(): void {
+    this.finishReactivationProgress?.();
+    this.finishReactivationProgress = undefined;
+  }
+
+  /**
+   * Ask before restoring an activation removed from the account.
+   *
+   * @returns Whether the user confirmed reactivation
+   */
+  public async promptReactivateStudio(): Promise<boolean> {
+    const action = "Activate";
+    const result = await vscode.window.showWarningMessage(
+      "This Studio activation was removed. Activate this installation again?",
+      { modal: true }, action,
+    );
+    return result === action;
   }
 
   /**
