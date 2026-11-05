@@ -46,10 +46,13 @@ export interface Release {
   access?: {
     token: string;
     download?: string;
+    activation?: string;
   };
   license?: {
     error: boolean;
+    reason?: "activation_limit" | "inactive" | "unavailable";
     fingerprint?: string;
+    reactivated?: boolean;
   };
 }
 
@@ -180,6 +183,7 @@ export class ArchiveTransferError extends Error {
 export async function fetchRelease(
   context: Context,
   edition: StudioEdition = "beta",
+  options: { publicOnly?: boolean; identity?: string; background?: boolean } = {},
 ): Promise<Release | undefined> {
   context.log("Checking for updates");
 
@@ -187,13 +191,18 @@ export async function fetchRelease(
   let license: string | undefined;
   let licenseError = false;
   let licenseRejected = false;
+  let reactivated = false;
+  let licenseReason: "activation_limit" | "inactive" | "unavailable" | undefined;
   try {
-    license = (await context.getLicenseKey())?.trim() || undefined;
+    license = options.publicOnly ? undefined : (await context.getLicenseKey())?.trim() || undefined;
   } catch {
     licenseError = true;
     context.log("Could not read the Studio license key.");
   }
-  const request = async (credential?: string): Promise<Response> => {
+  const fingerprint = license ? licenseFingerprint(license) : undefined;
+  const activationKey = fingerprint ? `studio.activation.${fingerprint}` : undefined;
+  const activation = activationKey ? context.getState<string>(activationKey) : undefined;
+  const request = async (credential?: string, previous?: string): Promise<Response> => {
     try {
       return await fetchResponse(context, "https://get.zensical.org/studio/", {
         cache: "no-store",
@@ -204,6 +213,9 @@ export async function fetchRelease(
           "cache-control": "no-cache",
           pragma: "no-cache",
           ...(credential && { authorization: `Bearer ${credential}` }),
+          ...(credential && options.identity && { "x-zensical-studio-identity": options.identity }),
+          ...(credential && options.identity && activation && !previous && { "x-zensical-studio-activation": activation }),
+          ...(credential && options.identity && previous && { "x-zensical-studio-previous-activation": previous }),
         },
         body: JSON.stringify({
           platform: getPlatform(),
@@ -212,7 +224,7 @@ export async function fetchRelease(
         }),
       }, license !== undefined);
     } catch (error) {
-      if (licenseError) {
+      if (credential || licenseError) {
         throw new NetworkError(
           "Studio access request failed",
           { error: true, rejected: licenseRejected },
@@ -221,15 +233,30 @@ export async function fetchRelease(
       throw error;
     }
   };
-  let res: Response;
-  try {
-    res = await request(license);
-  } catch (error) {
-    if (license === undefined) {
-      throw error;
+  let res = await request(license);
+  if (license && (res.status === 408 || res.status === 429 || res.status >= 500)) {
+    throw new NetworkError("Studio license service is temporarily unavailable", { error: true, rejected: false });
+  }
+  if (license && res.status === 409) {
+    let conflict: unknown;
+    try {
+      conflict = await res.clone().json();
+    } catch {
+      // An invalid conflict response is treated as a rejection.
     }
-    licenseError = true;
-    res = await request();
+    if (typeof conflict === "object" && conflict !== null &&
+        "code" in conflict && conflict.code === "reactivation_required" &&
+        "previous_id" in conflict && typeof conflict.previous_id === "string" &&
+        /^[1-9][0-9]*$/.test(conflict.previous_id)) {
+      if (!options.background && await context.promptReactivateStudio()) {
+        context.startReactivationProgress(license);
+        res = await request(license, conflict.previous_id);
+        reactivated = res.ok;
+      }
+    } else if (typeof conflict === "object" && conflict !== null &&
+        "code" in conflict && conflict.code === "activation_limit") {
+      licenseReason = "activation_limit";
+    }
   }
   // A rejected license must not block public access. Beta retirement is a
   // separate server decision and must still reach the transition controller.
@@ -238,7 +265,8 @@ export async function fetchRelease(
     !(edition === "beta" && res.status === 410)
   ) {
     licenseError = true;
-    licenseRejected = res.status === 401 || res.status === 403;
+    licenseRejected = res.status === 401 || res.status === 403 || res.status === 409;
+    licenseReason ??= res.status === 401 || res.status === 403 ? "inactive" : "unavailable";
     if (licenseRejected) {
       await forgetAccess(context, licenseFingerprint(license));
     }
@@ -282,10 +310,12 @@ export async function fetchRelease(
       typeof access.download !== "string" ||
       !/^[A-Za-z0-9._~+/-]+=*$/.test(access.download) ||
       access.token === license || access.download === license ||
-      access.download === access.token
+      access.download === access.token ||
+      (options.identity !== undefined && (typeof access.activation !== "string" || !/^[1-9][0-9]*$/.test(access.activation)))
     ) {
       throw new Error("Invalid Studio runtime or download grant");
     }
+    if (activationKey && access.activation) await context.setState(activationKey, access.activation);
   } else if (license !== undefined) {
     // An authoritative public selection supersedes older offline access.
     await forgetAccess(context, licenseFingerprint(license));
@@ -295,6 +325,8 @@ export async function fetchRelease(
     access: access && { token: access.token, download: access.download },
     license: {
       error: licenseError,
+      reason: licenseReason,
+      reactivated: licensed && reactivated,
       fingerprint: licensed && license !== undefined
         ? licenseFingerprint(license)
         : undefined,

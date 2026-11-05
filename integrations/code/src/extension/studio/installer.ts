@@ -61,11 +61,12 @@ export async function getInstalledStudio(
   edition: StudioEdition,
   release: Release | undefined,
   identity?: StudioInstallation,
+  storageName = "studio",
 ): Promise<{
   path: string;
   version?: string;
 } | undefined> {
-  const storage = path.join(context.getStorage(), "studio");
+  const storage = path.join(context.getStorage(), storageName);
 
   // Check if the release is compatible with the extension
   if (

@@ -113,6 +113,11 @@ let transition: StudioTransition;
 let transitionTimer: ReturnType<typeof setTimeout> | undefined;
 
 /**
+ * Earliest retry after a background renewal attempt.
+ */
+let renewalRetryAt = 0;
+
+/**
  * Shared task for the current startup attempt.
  */
 let startupTask: Promise<void> | undefined;
@@ -168,14 +173,16 @@ export async function activate(extension: ExtensionContext): Promise<void> {
     extension,
     getReadyClient,
     () => context.getOutput().show(),
-    () => restartStudio(extension, context),
-    // Saving a license leaves Beta running. Free, Pro and Team re-resolve
-    // access so activation, replacement and removal take effect immediately.
+    () => {
+      transition.resetLicenseWarning();
+      return restartStudio(extension, context);
+    },
+    // Re-resolve access whenever a license is added, changed or removed.
     () => {
       licenseRevision++;
-      return runtime?.edition === "beta"
-        ? Promise.resolve()
-        : restartStudio(extension, context);
+      transition.expectLicenseReady(licenseRevision);
+      transition.resetLicenseWarning();
+      return restartStudio(extension, context);
     },
   );
   extension.subscriptions.push(
@@ -251,6 +258,7 @@ export async function deactivate(): Promise<void> {
 function startStudio(
   extension: ExtensionContext,
   context: Context,
+  background = false,
 ): Promise<void> {
   if (!active || stopping || typeof client !== "undefined") {
     return Promise.resolve();
@@ -258,7 +266,7 @@ function startStudio(
   if (startupTask !== undefined) {
     return startupTask;
   }
-  startupTask = runStudio(extension, context).finally(() => {
+  startupTask = runStudio(extension, context, background).finally(() => {
     starting = false;
     startupTask = undefined;
   });
@@ -274,19 +282,21 @@ function startStudio(
 async function runStudio(
   extension: ExtensionContext,
   context: Context,
+  background = false,
 ): Promise<void> {
   // Clear any scheduled retry
   clearRetry();
   starting = true;
   let next: LanguageClient | undefined;
+  const startupLicenseRevision = licenseRevision;
   try {
     // Resolve once, then reuse the same runtime throughout this retry episode.
     if (transition.needsRefresh(studio)) {
       studio = undefined;
     }
-    studio ??= await transition.resolve();
+    studio ??= await transition.resolve(background);
     if (transition.needsRefresh(studio)) {
-      studio = await transition.resolve();
+      studio = await transition.resolve(background);
     }
     if (!active) {
       return;
@@ -330,7 +340,8 @@ async function runStudio(
     markStudioStable();
     const notice = transition.started(
       studio,
-      () => active && client === next && next?.isRunning() === true,
+      () => active && client === next && next?.isRunning() === true && licenseRevision === startupLicenseRevision,
+      startupLicenseRevision,
     );
     if (studio.edition !== "free") {
       await notice;
@@ -375,6 +386,7 @@ async function runStudio(
       );
     }
   } finally {
+    context.stopReactivationProgress();
     if (active) {
       scheduleAccessCheck(extension, context);
     }
@@ -390,6 +402,7 @@ async function runStudio(
 function restartStudio(
   extension: ExtensionContext,
   context: Context,
+  background = false,
 ): Promise<void> {
   if (restartTask !== undefined) {
     return restartTask;
@@ -398,7 +411,8 @@ function restartStudio(
     let revision: number;
     do {
       revision = licenseRevision;
-      await stopAndRestartStudio(extension, context);
+      await stopAndRestartStudio(extension, context, background);
+      background = false;
     } while (
       active && runtime?.edition !== "beta" && revision !== licenseRevision
     );
@@ -417,6 +431,7 @@ function restartStudio(
 async function stopAndRestartStudio(
   extension: ExtensionContext,
   context: Context,
+  background = false,
 ): Promise<void> {
   await startupTask;
   if (!active) {
@@ -428,7 +443,7 @@ async function stopAndRestartStudio(
   studio = undefined;
   const previous = client;
   if (typeof previous === "undefined") {
-    await startStudio(extension, context);
+    await startStudio(extension, context, background);
     return;
   }
 
@@ -449,7 +464,7 @@ async function stopAndRestartStudio(
   } finally {
     stopping = false;
   }
-  await startStudio(extension, context);
+  await startStudio(extension, context, background);
 }
 
 /**
@@ -467,7 +482,12 @@ async function checkStudioAccess(
   }
   try {
     if (transition.needsRefresh(studio)) {
-      await restartStudio(extension, context);
+      await restartStudio(extension, context, true);
+    } else if (transition.needsRenewal(studio) && Date.now() >= renewalRetryAt) {
+      // An offline lease stays valid; avoid restarting every 30 seconds while
+      // waiting for the service to become reachable again.
+      renewalRetryAt = Date.now() + 60 * 60 * 1000;
+      await restartStudio(extension, context, true);
     } else if (
       studio?.edition === "free" && client !== undefined &&
       getReadyClient() === client

@@ -7,7 +7,7 @@
 </p>
 
 <h3 align="center">
-  <strong>Refactor documentation like code.</strong>
+  <strong>Refactor documentation like code</strong>
 </h3>
 
 <p align="center">
@@ -21,7 +21,7 @@
 </p>
 
 <p align="center">
-  Catch [broken links] instantly. Zensical Studio keeps links, headings, and references up to date when you rename, move, or restructure content. Blazing fast and reliable, integrated with your editor.
+  Catch broken links instantly. Zensical Studio keeps links, headings, and references up to date when you rename, move, or restructure content. Blazing fast and reliable, integrated with your editor.
 </p>
 <p align="center">
   Works with all <a href="https://zensical.org/">Zensical</a> and MkDocs projects.
@@ -42,12 +42,19 @@
   </em>
 </p>
 
-Studio will retain a free edition for everyday authoring. During the public beta,
-advanced features are also free to try. From
-[November 5, 2026](https://zensical.org/upcoming-changes/), project-wide refactoring
-and other advanced features will require Studio Pro. This allows us to keep
-developing Studio and Zensical
-[sustainably and independently](https://zensical.org/about/sustainability/).
+Studio comes in three editions:
+
+- **Studio Free** supports everyday authoring, preview, and diagnostics. It is
+  free to use and does not require an account or subscription.
+- **Studio Pro** adds project-wide refactoring, including automatic link updates
+  when you move or rename content.
+- **Studio Team** includes Studio Pro features with organization-owned,
+  reassignable seats.
+
+[Compare features](https://zensical.org/studio/features/) or
+[view pricing](https://hub.zensical.org/pricing/studio). Subscriptions help
+support Zensical and our other Open Source projects, and allow us to keep
+Zensical [independent](https://zensical.org/about/sustainability/).
 
 ## Features
 
@@ -60,10 +67,10 @@ tools into your editor. Features include:
 - **Project navigation:** [navigate your content](https://zensical.org/docs/studio/write/navigation/), search workspace symbols, and [find references](https://zensical.org/docs/studio/workflows/link-intelligence/) across your project.
 - **Live preview:** [see your changes as you write](https://zensical.org/docs/studio/write/preview/), including reused content.
 
-Studio also handles project-wide refactoring, automatic link updates when you
-[move or rename files](https://zensical.org/docs/studio/write/moving-files/), and
-[managed redirects](https://zensical.org/docs/setup/redirects/)
-that preserve incoming links when content changes.
+Studio Pro and Team add project-wide refactoring, automatic link updates when
+you [move or rename files](https://zensical.org/docs/studio/write/moving-files/),
+and [managed redirects](https://zensical.org/docs/setup/redirects/) that
+preserve incoming links when content changes.
 [See all features](https://zensical.org/studio/features/).
 
 ## Installation
@@ -72,6 +79,10 @@ Install [Zensical Studio in Visual Studio Code](https://marketplace.visualstudio
 and open your Zensical or MkDocs project. Studio automatically detects
 `zensical.toml` or `mkdocs.yml` and activates Python Markdown support for your
 documentation files.
+
+Studio Free works without signing in. To activate Studio Pro or Team, obtain
+your license key in [Zensical Hub](https://hub.zensical.org/) and run
+**Zensical Studio: Enter License Key** from the VS Code Command Palette.
 
 For setup details and other editor integrations, see the
 [installation guide](https://zensical.org/docs/studio/get-started/install/).
@@ -93,5 +104,5 @@ technical writers and documentation teams want to use.
 
 This repository contains the editor integrations for Zensical Studio, which are
 licensed under MIT. Zensical Studio is licensed separately under the
-[EULA](https://github.com/zensical/studio/blob/master/EULA.md). By using Zensical
+[EULA](https://zensical.org/studio/license/eula/). By using Zensical
 Studio, you agree to the terms of the EULA.
