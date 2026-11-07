@@ -173,7 +173,7 @@
         attributeFilter: ["class"],
       });
 
-      function sanitizeHtml(html) {
+      function sanitizeHtml(html, update) {
         const parsed = new DOMParser().parseFromString(html, "text/html");
         for (const node of parsed.querySelectorAll(
           "script,iframe,object,embed,base,form",
@@ -197,6 +197,45 @@
           const href = link.getAttribute("href")?.trim() ?? "";
           if (/^(?:https?:|mailto:|tel:|\/\/)/i.test(href)) {
             link.classList.add("preview-external-link");
+          }
+        }
+        const resources = new Map(Object.entries(update.resourceMap || {}).map(
+          ([logical, physical]) => {
+            const url = new URL(logical);
+            url.search = "";
+            url.hash = "";
+            return [url.href, physical];
+          },
+        ));
+        for (const image of parsed.querySelectorAll("img[src]")) {
+          const src = image.getAttribute("src")?.trim();
+          if (!src || src.startsWith("//")) continue;
+          try {
+            const base = src.startsWith("/") && update.siteRoot
+              ? update.siteRoot : update.baseUri;
+            const url = new URL(src.startsWith("/") ? src.slice(1) : src, base);
+            const search = url.search;
+            const hash = url.hash;
+            url.search = "";
+            url.hash = "";
+            const physical = resources.get(url.href);
+            if (physical) {
+              const resolved = new URL(physical);
+              if (search) {
+                resolved.search = resolved.search
+                  ? `${resolved.search}&${search.slice(1)}`
+                  : search;
+              }
+              if (typeof update.resourceRevision === "number") {
+                resolved.searchParams.append(
+                  "_studioResourceRevision", `${update.session}-${update.resourceRevision}`,
+                );
+              }
+              resolved.hash = hash;
+              image.setAttribute("src", resolved.href);
+            }
+          } catch {
+            // Leave malformed and unsupported URLs for the browser to handle.
           }
         }
         return parsed.body.childNodes;
@@ -628,7 +667,7 @@
         activeRange = null;
         renderedUri = update.uri;
         preview.replaceChildren(
-          ...sanitizeHtml(decorateHtml(update.html, update.mappings || [])),
+          ...sanitizeHtml(decorateHtml(update.html, update.mappings || []), update),
         );
         typesetMath();
         void renderMermaid();

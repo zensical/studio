@@ -65,6 +65,9 @@ interface PreviewUpdate {
   words: number;
   cjkUnits: number;
   readingSeconds: number;
+  resources?: Array<{ logicalUri: string; physicalUri: string }>;
+  resourceBase?: string | null;
+  resourceRevision?: number;
 };
 
 /**
@@ -316,7 +319,9 @@ export function registerPreviewCommand(
             void panel.webview
               .postMessage({
                 type: "preview/update",
-                update: withPreviewBase(panel.webview, current, uri),
+                update: withPreviewBase(
+                  panel.webview, current, uri, context.extensionUri,
+                ),
               });
           }, 100);
         },
@@ -670,7 +675,7 @@ export function registerPreviewCommand(
             void panel.webview.postMessage({
               type: "preview/update",
               update: withPreviewBase(
-                panel.webview, result.initialUpdate, uri,
+                panel.webview, result.initialUpdate, uri, context.extensionUri,
               ),
             });
             postVariants();
@@ -852,17 +857,51 @@ function previewPosition(
  */
 function withPreviewBase(
   webview: vscode.Webview, update: PreviewUpdate, activeUri: string,
-): PreviewUpdate & { baseUri: string } {
+  extensionUri: vscode.Uri,
+): PreviewUpdate & {
+  baseUri: string;
+  resourceMap: Record<string, string>;
+  siteRoot?: string;
+} {
   const uri = isSameDocumentUri(update.uri, activeUri)
     ? activeUri
     : update.uri;
   const documentUri = vscode.Uri.parse(uri);
   const directoryUri = vscode.Uri.joinPath(documentUri, "..");
+  const resources = (update.resources ?? []).map((resource) => ({
+    logical: vscode.Uri.parse(resource.logicalUri),
+    physical: vscode.Uri.parse(resource.physicalUri),
+  }));
+  const resourceRoots = new Map(resources.map(({ physical }) => {
+    const parent = vscode.Uri.joinPath(physical, "..");
+    return [parent.toString(), parent];
+  }));
+  webview.options = {
+    ...webview.options,
+    localResourceRoots: [
+      extensionUri,
+      ...(vscode.workspace.workspaceFolders?.map(
+        (folder) => folder.uri,
+      ) ?? []),
+      ...resourceRoots.values(),
+    ],
+  };
+  const resourceMap = Object.fromEntries(resources.map(
+    ({ logical, physical }) => [
+      webview.asWebviewUri(logical).toString(),
+      webview.asWebviewUri(physical).toString(),
+    ],
+  ));
+  const siteRoot = update.resourceBase
+    ? webview.asWebviewUri(vscode.Uri.parse(update.resourceBase)).toString()
+    : undefined;
   return {
     ...update,
     uri,
     mappings: canonicalizeMappingUris(update.mappings, uri),
     baseUri: `${webview.asWebviewUri(directoryUri)}/`,
+    resourceMap,
+    siteRoot: siteRoot ? `${siteRoot.replace(/\/+$/, "")}/` : undefined,
   };
 }
 
