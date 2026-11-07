@@ -164,7 +164,6 @@
           document.body.classList.contains("vscode-high-contrast")
             ? "slate"
             : "default";
-        void renderMermaid();
       }
 
       updateColorScheme();
@@ -406,13 +405,17 @@
         const nodes = [...preview.querySelectorAll(".mermaid")];
         if (!window.mermaid || !nodes.length) return;
 
-        const dark =
-          document.body.classList.contains("vscode-dark") ||
-          document.body.classList.contains("vscode-high-contrast");
         window.mermaid.initialize({
           startOnLoad: false,
           securityLevel: "strict",
-          theme: dark ? "dark" : "default",
+          theme: "default",
+          themeCSS: window.mermaidThemeCSS,
+          themeVariables: { dropShadow: "none" },
+          sequence: {
+            actorFontSize: "16px",
+            messageFontSize: "16px",
+            noteFontSize: "16px",
+          },
         });
 
         for (const node of nodes) {
@@ -430,6 +433,7 @@
             result.bindFunctions?.(node);
           } catch {
             // Keep the source visible when Mermaid cannot parse a diagram.
+            node.textContent = source;
           }
         }
       }

@@ -40,8 +40,8 @@
     "@types/semver": "^7.7.1",
     "@types/vscode": "^1.100.0",
     "esbuild": "^0.28.1",
-    "katex": "0.16.22",
-    "mermaid": "^11.17.0",
+    "katex": "0.19.1",
+    "mermaid": "^12.3.0",
     "typescript": "^6.0.3"
   },
   "allowScripts": {
@@ -517,6 +517,11 @@
           "description": "Project-root globs relative to each workspace folder. Excludes take precedence over includes."
         }
       }
+    }
+  },
+  "overrides": {
+    "vscode-languageclient": {
+      "minimatch": "^11.0.1"
     }
   }
 }

@@ -1,0 +1,532 @@
+/*
+ * Copyright (c) 2025-2026 Zensical and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ * Third-party contributions licensed under DCO
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+ * IN THE SOFTWARE.
+ */
+
+/* ----------------------------------------------------------------------------
+ * Rules: general
+ * ------------------------------------------------------------------------- */
+
+/* Disable SVG shadows that bypass themeVariables.dropShadow */
+[filter*="drop-shadow"],
+[style*="drop-shadow"] {
+  filter: none !important;
+}
+
+/* General node - match neo specificity while retaining classic look support */
+.node circle,
+.node ellipse,
+.node path,
+.node polygon,
+.node rect,
+.node[data-look="neo"] circle,
+.node[data-look="neo"] ellipse,
+.node[data-look="neo"] path,
+.node[data-look="neo"] polygon,
+.node[data-look="neo"] rect,
+.node[data-look="neo"] .neo-line path {
+  fill: var(--md-mermaid-node-bg-color);
+  stroke: var(--md-mermaid-node-fg-color);
+}
+
+/* Separate outlines and fills used by compound and hand-drawn shapes */
+.node path[fill="none"],
+.node[data-look="neo"] path[fill="none"] {
+  fill: none;
+}
+
+.node [stroke="none"],
+.node[data-look="neo"] [stroke="none"] {
+  stroke: none;
+}
+
+/* General marker */
+.marker,
+.marker path,
+.marker polygon {
+  fill: var(--md-mermaid-edge-color);
+  stroke: var(--md-mermaid-edge-color);
+}
+
+/* Hollow and crossed markers */
+.marker circle {
+  fill: var(--md-mermaid-label-bg-color);
+  stroke: var(--md-mermaid-edge-color);
+}
+
+.marker.cross path {
+  fill: none;
+}
+
+/* Open marker outlines */
+.marker path[fill="none"] {
+  fill: none;
+}
+
+/* General edge label */
+.edgeLabel .label rect {
+  fill: transparent;
+}
+
+/* ----------------------------------------------------------------------------
+ * Rules: flowcharts
+ * ------------------------------------------------------------------------- */
+
+/* Flowchart title */
+.flowchartTitleText {
+  fill: var(--md-mermaid-label-fg-color);
+}
+
+/* Flowchart node label */
+.label {
+  color: var(--md-mermaid-label-fg-color);
+  font-family: var(--md-mermaid-font-family);
+}
+
+/* Flowchart node label container */
+.label foreignObject {
+  overflow: visible;
+  line-height: initial;
+}
+
+/* Flowchart edge label in node label */
+.label div .edgeLabel {
+  color: var(--md-mermaid-label-fg-color);
+  background-color: var(--md-mermaid-label-bg-color);
+}
+
+/* Flowchart edge label */
+.edgeLabel,
+.edgeLabel p {
+  color: var(--md-mermaid-edge-color);
+  background-color: var(--md-mermaid-label-bg-color);
+  fill: var(--md-mermaid-label-bg-color);
+}
+
+/* Flowchart edge path */
+.edgePath .path,
+.flowchart-link {
+  stroke: var(--md-mermaid-edge-color);
+}
+
+/* Flowchart arrow head */
+.edgePath .arrowheadPath {
+  fill: var(--md-mermaid-edge-color);
+  stroke: none;
+}
+
+/* Flowchart subgraph */
+.cluster rect,
+.cluster[data-look="neo"] rect {
+  fill: var(--md-default-fg-color--lightest);
+  stroke: var(--md-default-fg-color--lighter);
+}
+
+/* Flowchart subgraph labels */
+.cluster span {
+  color: var(--md-mermaid-label-fg-color);
+  font-family: var(--md-mermaid-font-family);
+}
+
+/* Flowchart markers */
+g #flowchart-circleStart,
+g #flowchart-circleEnd,
+g #flowchart-crossStart,
+g #flowchart-crossEnd,
+g #flowchart-pointStart,
+g #flowchart-pointEnd {
+  stroke: none;
+}
+
+/* ----------------------------------------------------------------------------
+ * Rules: class diagrams
+ * ------------------------------------------------------------------------- */
+
+/* Class diagram title */
+.classDiagramTitleText {
+  fill: var(--md-mermaid-label-fg-color);
+}
+
+/* Class group node */
+g.classGroup line,
+g.classGroup rect {
+  fill: var(--md-mermaid-node-bg-color);
+  stroke: var(--md-mermaid-node-fg-color);
+}
+
+/* Class group node text */
+g.classGroup text {
+  font-family: var(--md-mermaid-font-family);
+  fill: var(--md-mermaid-label-fg-color);
+}
+
+/* Class label box */
+.classLabel .box {
+  background-color: var(--md-mermaid-label-bg-color);
+  opacity: 1;
+  fill: var(--md-mermaid-label-bg-color);
+}
+
+/* Class label text */
+.classLabel .label {
+  font-family: var(--md-mermaid-font-family);
+  fill: var(--md-mermaid-label-fg-color);
+}
+
+/* Class group divider */
+.node .divider {
+  stroke: var(--md-mermaid-node-fg-color);
+}
+
+/* Class relation */
+.relation {
+  stroke: var(--md-mermaid-edge-color);
+}
+
+/* Class relation cardinality */
+.cardinality {
+  font-family: var(--md-mermaid-font-family);
+  fill: var(--md-mermaid-label-fg-color);
+}
+
+/* Class relation cardinality text */
+.cardinality text {
+  fill: inherit !important;
+}
+
+/* Class extension, composition and dependency marker */
+defs marker.marker.extension.class path,
+defs marker.marker.composition.class path,
+defs marker.marker.dependency.class path,
+defs marker.marker.composition.classDiagram path {
+  fill: var(--md-mermaid-edge-color) !important;
+  stroke: var(--md-mermaid-edge-color) !important;
+}
+
+/* Class aggregation and extension markers */
+defs marker.marker.aggregation.class path,
+defs marker.marker.aggregation.classDiagram path,
+defs marker.marker.extension.classDiagram path,
+defs marker.marker.extension.classDiagram polygon {
+  fill: var(--md-mermaid-label-bg-color) !important;
+  stroke: var(--md-mermaid-edge-color) !important;
+}
+
+/* Class dependency marker */
+defs marker.marker.dependency.classDiagram path {
+  fill: none !important;
+  stroke: var(--md-mermaid-edge-color) !important;
+}
+
+/* ----------------------------------------------------------------------------
+ * Rules: state diagrams
+ * ------------------------------------------------------------------------- */
+
+/* State diagram title */
+.statediagramTitleText {
+  fill: var(--md-mermaid-label-fg-color);
+}
+
+/* State group node */
+g.stateGroup rect {
+  fill: var(--md-mermaid-node-bg-color);
+  stroke: var(--md-mermaid-node-fg-color);
+}
+
+/* State group title */
+g.stateGroup .state-title {
+  font-family: var(--md-mermaid-font-family);
+  fill: var(--md-mermaid-label-fg-color) !important;
+}
+
+/* State group background */
+g.stateGroup .composit {
+  fill: var(--md-mermaid-label-bg-color);
+}
+
+/* State node label */
+.nodeLabel {
+  color: var(--md-mermaid-label-fg-color);
+  font-family: var(--md-mermaid-font-family);
+}
+
+/* State node label link */
+a .nodeLabel {
+  text-decoration: underline;
+}
+
+/* State start and end marker */
+.start-state,
+.node circle.state-start,
+.node circle.state-end,
+.node[data-look="neo"] circle.state-start,
+.node[data-look="neo"] circle.state-end {
+  fill: var(--md-mermaid-edge-color);
+  stroke: none;
+}
+
+/* State end marker */
+.end-state-outer,
+.end-state-inner {
+  fill: var(--md-mermaid-edge-color);
+}
+
+/* State end marker */
+.end-state-inner,
+.node circle.state-end,
+.node[data-look="neo"] circle.state-end {
+  stroke: var(--md-mermaid-label-bg-color);
+}
+
+/* State transition */
+.transition {
+  stroke: var(--md-mermaid-edge-color);
+}
+
+/* State fork and join - neo draws paths in an unclassed shape group */
+[id^="state-fork"] rect,
+[id^="state-join"] rect,
+.statediagram-state > g:not([class]) > path {
+  fill: var(--md-mermaid-edge-color) !important;
+  stroke: none !important;
+}
+
+/* Repeat the class to override Mermaid's composite-state background */
+.statediagram-cluster.statediagram-cluster .inner {
+  fill: var(--md-default-bg-color);
+}
+
+/* State cluster node */
+.statediagram-cluster rect,
+.statediagram-cluster[data-look="neo"] rect {
+  fill: var(--md-mermaid-node-bg-color);
+  stroke: var(--md-mermaid-node-fg-color);
+}
+
+/* State cluster divider */
+.statediagram-state rect.divider,
+.statediagram-state[data-look="neo"] rect.divider {
+  fill: var(--md-default-fg-color--lightest);
+  stroke: var(--md-default-fg-color--lighter);
+}
+
+/* State note text */
+.statediagram-note text {
+  fill: var(--md-mermaid-label-fg-color);
+}
+
+/* State note label */
+.statediagram-note .nodeLabel {
+  color: var(--md-mermaid-label-fg-color);
+}
+
+/* State diagram markers */
+defs [id$="-barbEnd"],
+defs [id$="-barbEnd"] path,
+defs [id$="-barbEnd-margin"] path {
+  fill: var(--md-mermaid-edge-color);
+  stroke: var(--md-mermaid-edge-color);
+}
+
+/* ----------------------------------------------------------------------------
+ * Rules: entity-relationship diagrams
+ * ------------------------------------------------------------------------- */
+
+/* Entity node and path - override color or markers will shine through */
+[id^="entity"] rect,
+[id^="entity"] path,
+.node[id*="-entity-"] rect,
+.node[id*="-entity-"] path {
+  fill: var(--md-default-bg-color);
+}
+
+/* Entity outlines */
+.node[id*="-entity-"] path[fill="none"] {
+  fill: none;
+}
+
+/* Entity relationship line */
+.relationshipLine {
+  stroke: var(--md-mermaid-edge-color);
+}
+
+/* Entity relationship line markers */
+defs .marker.onlyOne.er *,
+defs .marker.zeroOrOne.er *,
+defs .marker.oneOrMore.er *,
+defs .marker.zeroOrMore.er * {
+  stroke: var(--md-mermaid-edge-color) !important;
+}
+
+/* Hollow entity relationship markers */
+defs .marker.er path {
+  fill: none;
+}
+
+defs .marker.er circle {
+  fill: var(--md-default-bg-color);
+}
+
+/* ----------------------------------------------------------------------------
+ * Rules: sequence diagrams
+ * ------------------------------------------------------------------------- */
+
+/* Sequence diagram title */
+text:not([class]):last-child {
+  fill: var(--md-mermaid-label-fg-color);
+}
+
+/* Sequence actor and participant shapes */
+.actor,
+rect.actor[data-look="neo"],
+.actor circle,
+.actor line,
+.actor path,
+.actor rect {
+  fill: var(--md-mermaid-sequence-actor-bg-color);
+  stroke: var(--md-mermaid-sequence-actor-border-color);
+}
+
+/* Sequence actor text */
+text.actor,
+text.actor > tspan {
+  font-family: var(--md-mermaid-font-family);
+  fill: var(--md-mermaid-sequence-actor-fg-color);
+}
+
+/* Sequence actor line */
+.actor-line {
+  stroke: var(--md-mermaid-sequence-actor-line-color);
+}
+
+/* Sequence actor */
+.actor-man circle,
+.actor-man line,
+.actor-man path {
+  fill: var(--md-mermaid-sequence-actorman-bg-color);
+  stroke: var(--md-mermaid-sequence-actorman-line-color);
+}
+
+/* Sequence message line */
+.messageLine0,
+.messageLine1 {
+  stroke: var(--md-mermaid-sequence-message-line-color);
+}
+
+/* Sequence note */
+.note,
+rect.note[data-look="neo"] {
+  fill: var(--md-mermaid-sequence-note-bg-color);
+  stroke: var(--md-mermaid-sequence-note-border-color);
+}
+
+/* Sequence message, loop and note text */
+.messageText,
+.loopText,
+.loopText > tspan,
+.noteText > tspan {
+  font-family: var(--md-mermaid-font-family) !important;
+  stroke: none;
+}
+
+/* Sequence message text */
+.messageText {
+  fill: var(--md-mermaid-sequence-message-fg-color);
+}
+
+/* Sequence loop text */
+.loopText,
+.loopText > tspan,
+.sectionTitle {
+  fill: var(--md-mermaid-sequence-loop-fg-color);
+}
+
+/* Sequence note text */
+.noteText > tspan {
+  fill: var(--md-mermaid-sequence-note-fg-color);
+}
+
+/* Sequence arrow head */
+[id$="-arrowhead"] path,
+[id$="-filled-head"] path,
+[id$="-solidTopArrowHead"] path,
+[id$="-solidBottomArrowHead"] path {
+  fill: var(--md-mermaid-sequence-message-line-color);
+  stroke: none;
+}
+
+/* Sequence open arrow heads */
+[id$="-crosshead"] path,
+[id$="-stickTopArrowHead"] path,
+[id$="-stickBottomArrowHead"] path {
+  fill: none;
+  stroke: var(--md-mermaid-sequence-message-line-color);
+}
+
+/* Sequence loop line */
+.loopLine {
+  fill: var(--md-mermaid-sequence-loop-bg-color);
+  stroke: var(--md-mermaid-sequence-loop-border-color);
+}
+
+/* Sequence label box */
+.labelBox {
+  fill: var(--md-mermaid-sequence-label-bg-color);
+  stroke: none;
+}
+
+/* Sequence label text */
+.labelText,
+.labelText > span {
+  font-family: var(--md-mermaid-font-family);
+  fill: var(--md-mermaid-sequence-label-fg-color);
+}
+
+/* Sequence number */
+.sequenceNumber {
+  fill: var(--md-mermaid-sequence-number-fg-color);
+}
+
+/* Sequence rectangle */
+rect.rect {
+  fill: var(--md-mermaid-sequence-box-bg-color);
+  stroke: none;
+}
+
+/* Sequence rectangle text */
+rect.rect + text.text {
+  fill: var(--md-mermaid-sequence-box-fg-color);
+}
+
+/* Sequence diagram markers */
+defs #sequencenumber,
+[id$="-sequencenumber"] {
+  fill: var(--md-mermaid-sequence-number-bg-color) !important;
+}
+
+/* Sequence activation */
+[class^="activation"] {
+  fill: var(--md-mermaid-label-bg-color);
+  stroke: var(--md-mermaid-label-fg-color);
+  stroke-width: 1.5px;
+}
