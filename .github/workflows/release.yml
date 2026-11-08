@@ -147,10 +147,10 @@ jobs:
         run: npm ci
 
       - name: Build artifact
-        run: npm run build && npx vsce package
+        run: npm run vsix
 
       - name: Publish to marketplace.visualstudio.com
-        run: npx vsce publish -p ${{ secrets.VSCE_PAT }}
+        run: npx --no-install vsce publish -p ${{ secrets.VSCE_PAT }}
 
       - name: Publish to open-vsx.org
         run: npx ovsx publish -p ${{ secrets.OVSX_PAT }}
