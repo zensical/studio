@@ -518,10 +518,5 @@
         }
       }
     }
-  },
-  "overrides": {
-    "vscode-languageclient": {
-      "minimatch": "^11.0.1"
-    }
   }
 }
