@@ -228,7 +228,11 @@
             const hash = url.hash;
             url.search = "";
             url.hash = "";
-            const physical = resources.get(url.href);
+            // Workspace images also need revision keys when the mount stays
+            // stable across updates and ready-message replay.
+            const physical = resources.get(url.href) ?? (
+              url.origin === new URL(update.baseUri).origin ? url.href : undefined
+            );
             if (physical) {
               const resolved = new URL(physical);
               if (search) {
@@ -703,6 +707,7 @@
           );
         }
       });
+      vscode.postMessage({ type: "preview/ready" });
     </script>
   </body>
 </html>

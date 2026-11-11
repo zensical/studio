@@ -410,6 +410,22 @@ export function registerPreviewCommand(
           end?: number;
           variant?: string;
         }) => {
+          if (message.type === "preview/ready") {
+            // A fast native response may precede the webview's listener.
+            // Replay the retained current render after the page is ready.
+            if (!disposed && activeUri && latestUpdate &&
+                latestUpdate.session === activeSession) {
+              void panel.webview.postMessage({
+                type: "preview/update",
+                update: withPreviewBase(
+                  panel.webview, latestUpdate, activeUri, context.extensionUri, resources,
+                ),
+              });
+              postVariants();
+              postEditorPosition(vscode.window.activeTextEditor, true);
+            }
+            return;
+          }
           if (message.type === "preview/reveal-source") {
             const uri = activeUri;
             if (
