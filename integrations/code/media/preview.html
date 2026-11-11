@@ -78,6 +78,11 @@
         font-weight: 600;
       }
 
+      #preview-resource-status {
+        color: var(--vscode-descriptionForeground);
+        font-size: 0.85em;
+      }
+
       #preview-variant-control {
         align-items: center;
         display: none;
@@ -106,6 +111,7 @@
   >
     <div id="preview-toolbar">
       <strong>Preview</strong>
+      <span id="preview-resource-status" hidden></span>
       <label id="preview-variant-control" for="preview-variant">
         <span>Variant:</span>
         <select id="preview-variant"></select>
@@ -119,6 +125,7 @@
       let latestVersion = -1;
       let latestSession = null;
       const preview = document.getElementById("preview");
+      const resourceStatus = document.getElementById("preview-resource-status");
       const variantControl = document.getElementById("preview-variant-control");
       const variantSelect = document.getElementById("preview-variant");
       const vscode = acquireVsCodeApi();
@@ -154,8 +161,12 @@
         );
         const hasVariants = variants.length > 1;
         variantControl.style.display = hasVariants ? "flex" : "none";
+        updateToolbar();
+      }
+
+      function updateToolbar() {
         document.getElementById("preview-toolbar").style.display =
-          hasVariants ? "flex" : "none";
+          variantControl.style.display === "flex" || !resourceStatus.hidden ? "flex" : "none";
       }
 
       function updateColorScheme() {
@@ -663,6 +674,13 @@
           activeLineEnd = null;
         }
         if (update.version < latestVersion) return;
+
+        const external = update.externalResources || [];
+        resourceStatus.hidden = external.length === 0;
+        resourceStatus.textContent = external.length
+          ? `${external.length} external ${external.length === 1 ? "resource" : "resources"} (read-only)` : "";
+        resourceStatus.title = external.join("\n");
+        updateToolbar();
 
         document.getElementById("preview-base").href = update.baseUri;
         if (renderedUri) captureUiState(renderedUri);

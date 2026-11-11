@@ -29,6 +29,7 @@ import type { ExtensionContext } from "vscode";
 import type { LanguageClient } from "vscode-languageclient/node";
 
 import { isSameUri } from "./extension/project-path";
+import { PreviewResources } from "./preview-resources";
 
 /* ----------------------------------------------------------------------------
  * Types
@@ -173,6 +174,13 @@ let notificationDisposable: vscode.Disposable | undefined;
 export function registerPreviewCommand(
   context: ExtensionContext, getClient: () => LanguageClient | undefined,
 ) {
+  const resources = new PreviewResources();
+  context.subscriptions.push(
+    resources,
+    vscode.workspace.registerFileSystemProvider(PreviewResources.scheme, resources, {
+      isReadonly: true, isCaseSensitive: process.platform !== "win32",
+    }),
+  );
   context.subscriptions.push(
     vscode.commands.registerCommand("zensical.preview.open", async () => {
       const editor = vscode.window.activeTextEditor;
@@ -194,10 +202,7 @@ export function registerPreviewCommand(
           enableScripts: true,
           retainContextWhenHidden: true,
           localResourceRoots: [
-            context.extensionUri,
-            ...(vscode.workspace.workspaceFolders?.map(
-              (folder) => folder.uri,
-            ) ?? []),
+            vscode.Uri.joinPath(context.extensionUri, "media"),
           ],
         },
       );
@@ -320,7 +325,7 @@ export function registerPreviewCommand(
               .postMessage({
                 type: "preview/update",
                 update: withPreviewBase(
-                  panel.webview, current, uri, context.extensionUri,
+                  panel.webview, current, uri, context.extensionUri, resources,
                 ),
               });
           }, 100);
@@ -351,6 +356,7 @@ export function registerPreviewCommand(
       // Dispose of the panel and clean up resources when it is closed
       panel.onDidDispose(() => {
         disposed = true;
+        resources.clear();
         switchGeneration += 1;
         pendingDocument = undefined;
         const session = activeSession;
@@ -589,6 +595,7 @@ export function registerPreviewCommand(
             }
 
             // Stop the old session before re-rendering
+            resources.clear();
             const previousSession = activeSession;
             activeSession = undefined;
             activeUri = undefined;
@@ -675,7 +682,7 @@ export function registerPreviewCommand(
             void panel.webview.postMessage({
               type: "preview/update",
               update: withPreviewBase(
-                panel.webview, result.initialUpdate, uri, context.extensionUri,
+                panel.webview, result.initialUpdate, uri, context.extensionUri, resources,
               ),
             });
             postVariants();
@@ -852,15 +859,17 @@ function previewPosition(
  * @param webview - The webview instance
  * @param update - The preview update from Zensical Studio
  * @param activeUri - The active document URI from VS Code
+ * @param provider - Read-only resource delivery for this preview
  *
  * @returns The augmented preview update with a base URI
  */
 function withPreviewBase(
   webview: vscode.Webview, update: PreviewUpdate, activeUri: string,
-  extensionUri: vscode.Uri,
+  extensionUri: vscode.Uri, provider: PreviewResources,
 ): PreviewUpdate & {
   baseUri: string;
   resourceMap: Record<string, string>;
+  externalResources: string[];
   siteRoot?: string;
 } {
   const uri = isSameDocumentUri(update.uri, activeUri)
@@ -868,39 +877,30 @@ function withPreviewBase(
     : update.uri;
   const documentUri = vscode.Uri.parse(uri);
   const directoryUri = vscode.Uri.joinPath(documentUri, "..");
-  const resources = (update.resources ?? []).map((resource) => ({
-    logical: vscode.Uri.parse(resource.logicalUri),
-    physical: vscode.Uri.parse(resource.physicalUri),
-  }));
-  const resourceRoots = new Map(resources.map(({ physical }) => {
-    const parent = vscode.Uri.joinPath(physical, "..");
-    return [parent.toString(), parent];
-  }));
+  const resources = provider.update(documentUri, update.resources);
   webview.options = {
     ...webview.options,
     localResourceRoots: [
-      extensionUri,
-      ...(vscode.workspace.workspaceFolders?.map(
-        (folder) => folder.uri,
-      ) ?? []),
-      ...resourceRoots.values(),
+      vscode.Uri.joinPath(extensionUri, "media"),
+      provider.root,
     ],
   };
   const resourceMap = Object.fromEntries(resources.map(
     ({ logical, physical }) => [
-      webview.asWebviewUri(logical).toString(),
-      webview.asWebviewUri(physical).toString(),
+      webview.asWebviewUri(provider.uri(logical)).toString(),
+      webview.asWebviewUri(provider.uri(physical)).toString(),
     ],
   ));
   const siteRoot = update.resourceBase
-    ? webview.asWebviewUri(vscode.Uri.parse(update.resourceBase)).toString()
+    ? webview.asWebviewUri(provider.uri(vscode.Uri.parse(update.resourceBase))).toString()
     : undefined;
   return {
     ...update,
     uri,
     mappings: canonicalizeMappingUris(update.mappings, uri),
-    baseUri: `${webview.asWebviewUri(directoryUri)}/`,
+    baseUri: `${webview.asWebviewUri(provider.uri(directoryUri))}/`,
     resourceMap,
+    externalResources: provider.externalPaths,
     siteRoot: siteRoot ? `${siteRoot.replace(/\/+$/, "")}/` : undefined,
   };
 }
