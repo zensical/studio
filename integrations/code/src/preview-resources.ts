@@ -52,19 +52,8 @@ export class PreviewResources implements vscode.FileSystemProvider, vscode.Dispo
     this.owner = undefined;
     this.workspaceRoots();
     try {
-      let source: string;
-      try {
-        source = realpathSync.native(document.fsPath);
-      } catch {
-        // New editor buffers may have no saved leaf. Resolve their existing
-        // parent, but never treat a dangling symlink as an unsaved document.
-        try { lstatSync(document.fsPath); throw this.denied(); }
-        catch (error) {
-          if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
-        }
-        source = join(realpathSync.native(dirname(document.fsPath)), basename(document.fsPath));
-      }
-      this.owner = [...this.roots].find(([, root]) => this.inside(source, root))?.[0];
+      const source = this.resolveLocalFile(document);
+      if (source) this.owner = [...this.roots].find(([, root]) => this.inside(source.fsPath, root))?.[0];
     } catch { /* An unresolved source cannot authorize external resources. */ }
     const accepted: Array<{ logical: vscode.Uri; physical: vscode.Uri }> = [];
     if (!Array.isArray(resources)) return accepted;
@@ -95,6 +84,28 @@ export class PreviewResources implements vscode.FileSystemProvider, vscode.Dispo
   }
 
   get externalPaths(): string[] { return [...this.external.keys()]; }
+
+  /** Resolve explicit navigation without granting its directory any access. */
+  resolveLocalFile(uri: vscode.Uri): vscode.Uri | undefined {
+    if (uri.scheme !== "file") return undefined;
+    try { return vscode.Uri.file(realpathSync.native(uri.fsPath)); }
+    catch {
+      // Preserve ordinary missing-file errors, but never follow a dangling
+      // symlink as though it were a new editor buffer.
+      try {
+        try { lstatSync(uri.fsPath); return undefined; }
+        catch (error) {
+          if ((error as NodeJS.ErrnoException).code !== "ENOENT") return undefined;
+        }
+        return vscode.Uri.file(join(realpathSync.native(dirname(uri.fsPath)), basename(uri.fsPath)));
+      } catch { return undefined; }
+    }
+  }
+
+  isWorkspaceUri(uri: vscode.Uri): boolean {
+    const physical = this.resolveLocalFile(uri);
+    return !!physical && this.inWorkspace(physical.fsPath);
+  }
 
   /** Mirror file paths so ordinary relative and site-root URLs still resolve. */
   uri(file: vscode.Uri): vscode.Uri {

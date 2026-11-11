@@ -25,11 +25,14 @@
 
 import * as vscode from "vscode";
 import { readFileSync } from "node:fs";
+import { randomBytes, randomUUID } from "node:crypto";
 import type { ExtensionContext } from "vscode";
 import type { LanguageClient } from "vscode-languageclient/node";
 
 import { isSameUri } from "./extension/project-path";
 import { PreviewResources } from "./preview-resources";
+import { decodePreviewMessage } from "./preview-messages";
+import type { PreviewActionContext } from "./preview-messages";
 
 /* ----------------------------------------------------------------------------
  * Types
@@ -224,6 +227,36 @@ export function registerPreviewCommand(
       let selectedVariant: string | undefined;
       let availableVariants: string[] = [];
       let variantUpdateGeneration = 0;
+      let actionContext: PreviewActionContext | undefined;
+
+      const isCurrentAction = (candidate: PreviewActionContext): boolean =>
+        !disposed && !!actionContext && candidate.session === activeSession &&
+        candidate.uri === activeUri && candidate.session === actionContext.session &&
+        candidate.uri === actionContext.uri && candidate.generation === actionContext.generation;
+
+      const publishUpdate = (update: PreviewUpdate, uri: string): void => {
+        if (disposed || uri !== activeUri || update.session !== activeSession ||
+            !isSameDocumentUri(update.uri, uri) || !Number.isSafeInteger(update.version) ||
+            update.version < latestVersion) return;
+        const document = vscode.workspace.textDocuments.find(document =>
+          isSameDocumentUri(document.uri.toString(), uri));
+        if (document && update.version < document.version) return;
+        actionContext = { session: update.session, uri, generation: randomUUID() };
+        void panel.webview.postMessage({
+          type: "preview/update",
+          update: {
+            ...withPreviewBase(panel.webview, update, uri, context.extensionUri, resources),
+            context: actionContext,
+          },
+        });
+      };
+
+      const sourceChanges = vscode.workspace.onDidChangeTextDocument(event => {
+        if (activeUri && isSameDocumentUri(event.document.uri.toString(), activeUri)) {
+          actionContext = undefined;
+        }
+      });
+      context.subscriptions.push(sourceChanges);
 
       // Generate a unique key for storing the selected variant
       const variantStateKey = (uri: string) => `preview.variant.${uri}`;
@@ -307,7 +340,8 @@ export function registerPreviewCommand(
           if (
             update.session !== activeSession ||
             update.version < latestVersion ||
-            !activeUri
+            !activeUri ||
+            !isSameDocumentUri(update.uri, activeUri)
           ) {
             return;
           }
@@ -321,13 +355,7 @@ export function registerPreviewCommand(
             updateTimer = undefined;
             const current = latestUpdate;
             if (!current || current.version < latestVersion) return;
-            void panel.webview
-              .postMessage({
-                type: "preview/update",
-                update: withPreviewBase(
-                  panel.webview, current, uri, context.extensionUri, resources,
-                ),
-              });
+            publishUpdate(current, uri);
           }, 100);
         },
       );
@@ -356,6 +384,8 @@ export function registerPreviewCommand(
       // Dispose of the panel and clean up resources when it is closed
       panel.onDidDispose(() => {
         disposed = true;
+        actionContext = undefined;
+        sourceChanges.dispose();
         resources.clear();
         switchGeneration += 1;
         pendingDocument = undefined;
@@ -403,43 +433,39 @@ export function registerPreviewCommand(
 
       // Handle messages from the web view, such as link clicks
       panel.webview.onDidReceiveMessage(
-        async (message: {
-          type?: string;
-          href?: string;
-          uri?: string;
-          end?: number;
-          variant?: string;
-        }) => {
+        async (value: unknown) => {
+          const message = decodePreviewMessage(value);
+          if (!message) return;
           if (message.type === "preview/ready") {
             // A fast native response may precede the webview's listener.
             // Replay the retained current render after the page is ready.
             if (!disposed && activeUri && latestUpdate &&
                 latestUpdate.session === activeSession) {
-              void panel.webview.postMessage({
-                type: "preview/update",
-                update: withPreviewBase(
-                  panel.webview, latestUpdate, activeUri, context.extensionUri, resources,
-                ),
-              });
+              publishUpdate(latestUpdate, activeUri);
               postVariants();
               postEditorPosition(vscode.window.activeTextEditor, true);
             }
             return;
           }
+          if (!isCurrentAction(message.context)) return;
           if (message.type === "preview/reveal-source") {
             const uri = activeUri;
             if (
               !message.uri ||
               !uri ||
-              !isSameDocumentUri(message.uri, uri) ||
-              typeof message.end !== "number"
+              !isSameDocumentUri(message.uri, uri)
             ) {
               return;
             }
+            const known = vscode.workspace.textDocuments.find(document =>
+              isSameDocumentUri(document.uri.toString(), uri));
+            if (!known || message.end > Buffer.byteLength(known.getText(), "utf8")) return;
             try {
               const document = await vscode.workspace.openTextDocument(
                 vscode.Uri.parse(uri),
               );
+              if (!isCurrentAction(message.context) ||
+                  message.end > Buffer.byteLength(document.getText(), "utf8")) return;
               const editor = await vscode.window.showTextDocument(document, {
                 preview: true,
                 preserveFocus: false,
@@ -447,6 +473,7 @@ export function registerPreviewCommand(
                   vscode.window.activeTextEditor?.viewColumn ??
                   vscode.ViewColumn.One,
               });
+              if (!isCurrentAction(message.context)) return;
               const position = document.positionAt(
                 utf16OffsetAtByteOffset(document.getText(), message.end),
               );
@@ -513,7 +540,20 @@ export function registerPreviewCommand(
           const link = resolveLocalLink(activeUri, message.href);
           if (!link) return;
           try {
-            const document = await vscode.workspace.openTextDocument(link.uri);
+            const target = resources.resolveLocalFile(link.uri);
+            if (!target) return;
+            if (!resources.isWorkspaceUri(target)) {
+              const choice = await vscode.window.showWarningMessage(
+                "Open this file outside the workspace?",
+                { modal: true, detail: `${target.fsPath}\nOnly this file will open. Its folder will not gain workspace access.` },
+                "Open File",
+              );
+              if (choice !== "Open File" || !isCurrentAction(message.context)) return;
+            }
+            const current = resources.resolveLocalFile(target);
+            if (!current || !isSameUri(target, current) || !isCurrentAction(message.context)) return;
+            const document = await vscode.workspace.openTextDocument(target);
+            if (!isCurrentAction(message.context)) return;
             await vscode.window.showTextDocument(document, {
               preview: true,
               preserveFocus: false,
@@ -525,7 +565,7 @@ export function registerPreviewCommand(
               void panel.webview.postMessage({
                 type: "preview/reveal-fragment",
                 fragment: link.fragment,
-                uri: link.uri.toString(),
+                uri: target.toString(),
               });
             }
           } catch (error) {
@@ -611,6 +651,7 @@ export function registerPreviewCommand(
             }
 
             // Stop the old session before re-rendering
+            actionContext = undefined;
             resources.clear();
             const previousSession = activeSession;
             activeSession = undefined;
@@ -695,12 +736,7 @@ export function registerPreviewCommand(
             startingUri = undefined;
             latestVersion = result.initialUpdate.version;
             latestUpdate = result.initialUpdate;
-            void panel.webview.postMessage({
-              type: "preview/update",
-              update: withPreviewBase(
-                panel.webview, result.initialUpdate, uri, context.extensionUri, resources,
-              ),
-            });
+            publishUpdate(result.initialUpdate, uri);
             postVariants();
             postEditorPosition(vscode.window.activeTextEditor, true);
           }
@@ -765,9 +801,7 @@ export function getActivePreviewContext(
 function previewHtml(
   webview: vscode.Webview, extensionUri: vscode.Uri,
 ): string {
-  const nonce = [...Array(32)]
-    .map(() => Math.random().toString(36)[2])
-    .join("");
+  const nonce = randomBytes(24).toString("base64");
   const stylesheet = webview.asWebviewUri(
     vscode.Uri.joinPath(extensionUri, "media", "preview.css"),
   );
