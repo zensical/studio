@@ -230,22 +230,13 @@
             const hash = url.hash;
             url.search = "";
             url.hash = "";
-            // Workspace images also need revision keys when the mount stays
-            // stable across updates and ready-message replay.
-            const physical = resources.get(url.href) ?? (
-              url.origin === new URL(update.baseUri).origin ? url.href : undefined
-            );
+            const physical = resources.get(url.href);
             if (physical) {
               const resolved = new URL(physical);
               if (search) {
                 resolved.search = resolved.search
                   ? `${resolved.search}&${search.slice(1)}`
                   : search;
-              }
-              if (typeof update.resourceRevision === "number") {
-                resolved.searchParams.append(
-                  "_studioResourceRevision", `${update.session}-${update.resourceRevision}`,
-                );
               }
               resolved.hash = hash;
               image.setAttribute("src", resolved.href);
