@@ -24,11 +24,15 @@
  */
 
 import * as vscode from "vscode";
-import { readFileSync } from "node:fs";
+import { lstatSync, readFileSync, realpathSync } from "node:fs";
+import { basename, dirname, isAbsolute, join, relative, sep } from "node:path";
+import { randomBytes, randomUUID } from "node:crypto";
 import type { ExtensionContext } from "vscode";
 import type { LanguageClient } from "vscode-languageclient/node";
 
 import { isSameUri } from "./extension/project-path";
+import { decodePreviewMessage } from "./preview-messages";
+import type { PreviewActionContext } from "./preview-messages";
 
 /* ----------------------------------------------------------------------------
  * Types
@@ -37,12 +41,12 @@ import { isSameUri } from "./extension/project-path";
 /**
  * Mapping kind.
  */
-type MappingKind  =
+type MappingKind =
   | "text"
   | "escapedText"
   | "rawHtmlText"
   | "attributeValue"
-  | "whitespace"
+  | "whitespace";
 
 /**
  * Mapping target for a rendered HTML range.
@@ -68,6 +72,7 @@ interface PreviewUpdate {
   resources?: Array<{ logicalUri: string; physicalUri: string }>;
   resourceBase?: string | null;
   resourceRevision?: number;
+  externalResources?: string[];
 };
 
 /**
@@ -102,6 +107,7 @@ interface Position {
  * Response returned when a preview session is started.
  */
 interface PreviewStartResult {
+  webviewCsp: string;
   session: string;
   url: string;
   initialUpdate: PreviewUpdate;
@@ -194,17 +200,14 @@ export function registerPreviewCommand(
           enableScripts: true,
           retainContextWhenHidden: true,
           localResourceRoots: [
-            context.extensionUri,
-            ...(vscode.workspace.workspaceFolders?.map(
-              (folder) => folder.uri,
-            ) ?? []),
+            vscode.Uri.joinPath(context.extensionUri, "media"),
           ],
         },
       );
 
-      // Set the active panel and initialize the webview content
+      // Keep the page empty until Studio supplies its security policy.
       activePanel = panel;
-      panel.webview.html = previewHtml(panel.webview, context.extensionUri);
+      let installedWebviewCsp: string | undefined;
 
       // Handle preview updates and editor interactions
       let disposed = false;
@@ -219,6 +222,58 @@ export function registerPreviewCommand(
       let selectedVariant: string | undefined;
       let availableVariants: string[] = [];
       let variantUpdateGeneration = 0;
+      let actionContext: PreviewActionContext | undefined;
+
+      const isCurrentAction = (candidate: PreviewActionContext): boolean => (
+        !disposed &&
+        !!actionContext &&
+        candidate.session === activeSession &&
+        candidate.uri === activeUri &&
+        candidate.session === actionContext.session &&
+        candidate.uri === actionContext.uri &&
+        candidate.generation === actionContext.generation
+      );
+
+      const publishUpdate = (update: PreviewUpdate, uri: string): void => {
+        if (
+          disposed ||
+          uri !== activeUri ||
+          update.session !== activeSession ||
+          !isSameDocumentUri(update.uri, uri) ||
+          !Number.isSafeInteger(update.version) ||
+          update.version < latestVersion
+        ) {
+          return;
+        }
+        const document = vscode.workspace.textDocuments.find(document =>
+          isSameDocumentUri(document.uri.toString(), uri),
+        );
+        if (document && update.version < document.version) return;
+        actionContext = {
+          session: update.session,
+          uri,
+          generation: randomUUID(),
+        };
+        void panel.webview.postMessage({
+          type: "preview/update",
+          update: {
+            ...withPreviewBase(
+              panel.webview, update, uri, context.extensionUri,
+            ),
+            context: actionContext,
+          },
+        });
+      };
+
+      const sourceChanges = vscode.workspace.onDidChangeTextDocument(event => {
+        if (
+          activeUri &&
+          isSameDocumentUri(event.document.uri.toString(), activeUri)
+        ) {
+          actionContext = undefined;
+        }
+      });
+      context.subscriptions.push(sourceChanges);
 
       // Generate a unique key for storing the selected variant
       const variantStateKey = (uri: string) => `preview.variant.${uri}`;
@@ -255,7 +310,11 @@ export function registerPreviewCommand(
         const uri = document.uri.toString();
         const generation = ++variantUpdateGeneration;
         const result = await queryVariants(document);
-        if (disposed || generation !== variantUpdateGeneration || uri !== activeUri) {
+        if (
+          disposed ||
+          generation !== variantUpdateGeneration ||
+          uri !== activeUri
+        ) {
           return;
         }
 
@@ -302,7 +361,8 @@ export function registerPreviewCommand(
           if (
             update.session !== activeSession ||
             update.version < latestVersion ||
-            !activeUri
+            !activeUri ||
+            !isSameDocumentUri(update.uri, activeUri)
           ) {
             return;
           }
@@ -316,13 +376,7 @@ export function registerPreviewCommand(
             updateTimer = undefined;
             const current = latestUpdate;
             if (!current || current.version < latestVersion) return;
-            void panel.webview
-              .postMessage({
-                type: "preview/update",
-                update: withPreviewBase(
-                  panel.webview, current, uri, context.extensionUri,
-                ),
-              });
+            publishUpdate(current, uri);
           }, 100);
         },
       );
@@ -339,7 +393,9 @@ export function registerPreviewCommand(
             await setVariants(document, true);
           } catch (error) {
             if (!disposed) {
-              const detail = error instanceof Error ? error.message : String(error);
+              const detail = error instanceof Error
+                ? error.message
+                : String(error);
               void vscode.window.showErrorMessage(
                 `Unable to update Zensical Preview variants: ${detail}`,
               );
@@ -351,6 +407,8 @@ export function registerPreviewCommand(
       // Dispose of the panel and clean up resources when it is closed
       panel.onDidDispose(() => {
         disposed = true;
+        actionContext = undefined;
+        sourceChanges.dispose();
         switchGeneration += 1;
         pendingDocument = undefined;
         const session = activeSession;
@@ -397,20 +455,40 @@ export function registerPreviewCommand(
 
       // Handle messages from the web view, such as link clicks
       panel.webview.onDidReceiveMessage(
-        async (message: {
-          type?: string;
-          href?: string;
-          uri?: string;
-          end?: number;
-          variant?: string;
-        }) => {
+        async (value: unknown) => {
+          const message = decodePreviewMessage(value);
+          if (!message) return;
+          if (message.type === "preview/ready") {
+            // A fast native response may precede the webview's listener.
+            // Replay the retained current render after the page is ready.
+            if (
+              !disposed &&
+              activeUri &&
+              latestUpdate &&
+              latestUpdate.session === activeSession
+            ) {
+              publishUpdate(latestUpdate, activeUri);
+              postVariants();
+              postEditorPosition(vscode.window.activeTextEditor, true);
+            }
+            return;
+          }
+          if (!isCurrentAction(message.context)) return;
           if (message.type === "preview/reveal-source") {
             const uri = activeUri;
             if (
               !message.uri ||
               !uri ||
-              !isSameDocumentUri(message.uri, uri) ||
-              typeof message.end !== "number"
+              !isSameDocumentUri(message.uri, uri)
+            ) {
+              return;
+            }
+            const known = vscode.workspace.textDocuments.find(document =>
+              isSameDocumentUri(document.uri.toString(), uri),
+            );
+            if (
+              !known ||
+              message.end > Buffer.byteLength(known.getText(), "utf8")
             ) {
               return;
             }
@@ -418,6 +496,12 @@ export function registerPreviewCommand(
               const document = await vscode.workspace.openTextDocument(
                 vscode.Uri.parse(uri),
               );
+              if (
+                !isCurrentAction(message.context) ||
+                message.end > Buffer.byteLength(document.getText(), "utf8")
+              ) {
+                return;
+              }
               const editor = await vscode.window.showTextDocument(document, {
                 preview: true,
                 preserveFocus: false,
@@ -425,6 +509,7 @@ export function registerPreviewCommand(
                   vscode.window.activeTextEditor?.viewColumn ??
                   vscode.ViewColumn.One,
               });
+              if (!isCurrentAction(message.context)) return;
               const position = document.positionAt(
                 utf16OffsetAtByteOffset(document.getText(), message.end),
               );
@@ -435,7 +520,9 @@ export function registerPreviewCommand(
               );
               postEditorPosition(editor, true);
             } catch (error) {
-              const detail = error instanceof Error ? error.message : String(error);
+              const detail = error instanceof Error
+                ? error.message
+                : String(error);
               void vscode.window.showErrorMessage(
                 `Unable to reveal preview source: ${detail}`,
               );
@@ -472,7 +559,9 @@ export function registerPreviewCommand(
               });
             } catch (error) {
               if (session === activeSession && uri === activeUri) {
-                const detail = error instanceof Error ? error.message : String(error);
+                const detail = error instanceof Error
+                  ? error.message
+                  : String(error);
                 void vscode.window.showErrorMessage(
                   `Unable to update Zensical Preview: ${detail}`,
                 );
@@ -491,7 +580,35 @@ export function registerPreviewCommand(
           const link = resolveLocalLink(activeUri, message.href);
           if (!link) return;
           try {
-            const document = await vscode.workspace.openTextDocument(link.uri);
+            const target = resolveLocalFile(link.uri);
+            if (!target) return;
+            if (!isWorkspaceUri(target)) {
+              const choice = await vscode.window.showWarningMessage(
+                "Open this file outside the workspace?",
+                {
+                  modal: true,
+                  detail: `${target.fsPath}\nOnly this file will open. ` +
+                    "Its folder will not gain workspace access.",
+                },
+                "Open File",
+              );
+              if (
+                choice !== "Open File" ||
+                !isCurrentAction(message.context)
+              ) {
+                return;
+              }
+            }
+            const current = resolveLocalFile(target);
+            if (
+              !current ||
+              !isSameUri(target, current) ||
+              !isCurrentAction(message.context)
+            ) {
+              return;
+            }
+            const document = await vscode.workspace.openTextDocument(target);
+            if (!isCurrentAction(message.context)) return;
             await vscode.window.showTextDocument(document, {
               preview: true,
               preserveFocus: false,
@@ -503,11 +620,13 @@ export function registerPreviewCommand(
               void panel.webview.postMessage({
                 type: "preview/reveal-fragment",
                 fragment: link.fragment,
-                uri: link.uri.toString(),
+                uri: target.toString(),
               });
             }
           } catch (error) {
-            const detail = error instanceof Error ? error.message : String(error);
+            const detail = error instanceof Error
+              ? error.message
+              : String(error);
             void vscode.window.showErrorMessage(
               `Unable to open preview link: ${detail}`,
             );
@@ -557,7 +676,7 @@ export function registerPreviewCommand(
           activeSession &&
           !pendingDocument
         ) {
-          // Re-apply the current cursor position when returning to the active document.
+          // Re-apply the cursor position when returning to this document.
           postEditorPosition(vscode.window.activeTextEditor, true);
           return;
         }
@@ -589,6 +708,7 @@ export function registerPreviewCommand(
             }
 
             // Stop the old session before re-rendering
+            actionContext = undefined;
             const previousSession = activeSession;
             activeSession = undefined;
             activeUri = undefined;
@@ -624,7 +744,10 @@ export function registerPreviewCommand(
                 variant: selectedVariant,
                 projections: {},
               };
-              if (selectedVariant && availableVariants.includes(selectedVariant)) {
+              if (
+                selectedVariant &&
+                availableVariants.includes(selectedVariant)
+              ) {
                 void context.workspaceState.update(
                   variantStateKey(uri), selectedVariant,
                 );
@@ -637,10 +760,29 @@ export function registerPreviewCommand(
                   ...(selectedVariant ? { variant: selectedVariant } : {}),
                 },
               );
+              if (
+                typeof result.webviewCsp !== "string" ||
+                !result.webviewCsp.trim()
+              ) {
+                void client.sendNotification(previewStop, {
+                  session: result.session,
+                });
+                if (!disposed && generation === switchGeneration) {
+                  activePreviewContext = undefined;
+                  panel.webview.html = "";
+                  installedWebviewCsp = undefined;
+                }
+                throw new Error(
+                  "Studio did not provide a preview security policy. " +
+                  "Update the Studio runtime.",
+                );
+              }
             } catch (error) {
               startingUri = undefined;
               if (!disposed && generation === switchGeneration) {
-                const message = error instanceof Error ? error.message : String(error);
+                const message = error instanceof Error
+                  ? error.message
+                  : String(error);
                 void vscode.window.showErrorMessage(
                   `Unable to start Zensical Preview: ${message}`,
                 );
@@ -661,6 +803,14 @@ export function registerPreviewCommand(
               continue;
             }
 
+            // Install native policy before document content reaches the page.
+            if (installedWebviewCsp !== result.webviewCsp) {
+              panel.webview.html = previewHtml(
+                panel.webview, context.extensionUri, result.webviewCsp,
+              );
+              installedWebviewCsp = result.webviewCsp;
+            }
+
             // Update the active session and send the initial preview update
             activeSession = result.session;
             activeUri = uri;
@@ -672,12 +822,7 @@ export function registerPreviewCommand(
             startingUri = undefined;
             latestVersion = result.initialUpdate.version;
             latestUpdate = result.initialUpdate;
-            void panel.webview.postMessage({
-              type: "preview/update",
-              update: withPreviewBase(
-                panel.webview, result.initialUpdate, uri, context.extensionUri,
-              ),
-            });
+            publishUpdate(result.initialUpdate, uri);
             postVariants();
             postEditorPosition(vscode.window.activeTextEditor, true);
           }
@@ -736,15 +881,15 @@ export function getActivePreviewContext(
  *
  * @param webview - The webview instance
  * @param extensionUri - The URI of the extension
+ * @param contentSecurityPolicy - Complete native policy with host placeholders
  *
  * @returns The HTML content as a string
  */
 function previewHtml(
   webview: vscode.Webview, extensionUri: vscode.Uri,
+  contentSecurityPolicy: string,
 ): string {
-  const nonce = [...Array(32)]
-    .map(() => Math.random().toString(36)[2])
-    .join("");
+  const nonce = randomBytes(24).toString("base64");
   const stylesheet = webview.asWebviewUri(
     vscode.Uri.joinPath(extensionUri, "media", "preview.css"),
   );
@@ -760,15 +905,10 @@ function previewHtml(
   const mermaid = webview.asWebviewUri(
     vscode.Uri.joinPath(extensionUri, "media", "mermaid.js"),
   );
-  const csp = [
-    "default-src 'none'",
-    `img-src ${webview.cspSource} data: https:`,
-    `style-src ${webview.cspSource} 'unsafe-inline'`,
-    `font-src ${webview.cspSource} data:`,
-    `script-src 'nonce-${nonce}' ${webview.cspSource}`,
-    `base-uri ${webview.cspSource}`,
-    "form-action 'none'",
-  ].join("; ");
+  const csp = contentSecurityPolicy
+    .replaceAll("__CSP_SOURCE__", webview.cspSource)
+    .replaceAll("&", "&amp;")
+    .replaceAll('"', "&quot;");
   const template = readFileSync(
     vscode.Uri.joinPath(extensionUri, "media", "preview.html").fsPath,
     "utf8",
@@ -792,7 +932,7 @@ function previewHtml(
  * @returns The resolved VS Code URI, or undefined
  */
 function resolveLocalLink(
-  baseUri: string, href: string
+  baseUri: string, href: string,
 ): ResolvedLocalLink | undefined {
   try {
     const url = new URL(href, baseUri);
@@ -861,6 +1001,7 @@ function withPreviewBase(
 ): PreviewUpdate & {
   baseUri: string;
   resourceMap: Record<string, string>;
+  externalResources: string[];
   siteRoot?: string;
 } {
   const uri = isSameDocumentUri(update.uri, activeUri)
@@ -868,22 +1009,14 @@ function withPreviewBase(
     : update.uri;
   const documentUri = vscode.Uri.parse(uri);
   const directoryUri = vscode.Uri.joinPath(documentUri, "..");
-  const resources = (update.resources ?? []).map((resource) => ({
+  const resources = (update.resources ?? []).map(resource => ({
     logical: vscode.Uri.parse(resource.logicalUri),
     physical: vscode.Uri.parse(resource.physicalUri),
-  }));
-  const resourceRoots = new Map(resources.map(({ physical }) => {
-    const parent = vscode.Uri.joinPath(physical, "..");
-    return [parent.toString(), parent];
   }));
   webview.options = {
     ...webview.options,
     localResourceRoots: [
-      extensionUri,
-      ...(vscode.workspace.workspaceFolders?.map(
-        (folder) => folder.uri,
-      ) ?? []),
-      ...resourceRoots.values(),
+      vscode.Uri.joinPath(extensionUri, "media"),
     ],
   };
   const resourceMap = Object.fromEntries(resources.map(
@@ -901,6 +1034,7 @@ function withPreviewBase(
     mappings: canonicalizeMappingUris(update.mappings, uri),
     baseUri: `${webview.asWebviewUri(directoryUri)}/`,
     resourceMap,
+    externalResources: update.externalResources ?? [],
     siteRoot: siteRoot ? `${siteRoot.replace(/\/+$/, "")}/` : undefined,
   };
 }
@@ -968,4 +1102,57 @@ function isSameDocumentUri(uri: string, other: string): boolean {
   } catch {
     return false;
   }
+}
+
+/**
+ * Resolve an explicit navigation target without granting resource access.
+ *
+ * @param uri - Target file URI
+ *
+ * @returns Resolved target URI, or undefined
+ */
+function resolveLocalFile(uri: vscode.Uri): vscode.Uri | undefined {
+  if (uri.scheme !== "file") return undefined;
+  try {
+    return vscode.Uri.file(realpathSync.native(uri.fsPath));
+  } catch {
+    try {
+      try {
+        lstatSync(uri.fsPath);
+        return undefined;
+      } catch (error) {
+        if ((error as NodeJS.ErrnoException).code !== "ENOENT") {
+          return undefined;
+        }
+      }
+      return vscode.Uri.file(join(
+        realpathSync.native(dirname(uri.fsPath)), basename(uri.fsPath),
+      ));
+    } catch {
+      return undefined;
+    }
+  }
+}
+
+/**
+ * Check whether a resolved file belongs to a workspace folder.
+ *
+ * @param uri - Resolved file URI
+ *
+ * @returns Whether the target belongs to the workspace
+ */
+function isWorkspaceUri(uri: vscode.Uri): boolean {
+  return (vscode.workspace.workspaceFolders ?? []).some(({ uri: root }) => {
+    if (root.scheme !== "file") return false;
+    try {
+      const difference = relative(realpathSync.native(root.fsPath), uri.fsPath);
+      return difference === "" || (
+        difference !== ".." &&
+        !difference.startsWith(`..${sep}`) &&
+        !isAbsolute(difference)
+      );
+    } catch {
+      return false;
+    }
+  });
 }
