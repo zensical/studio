@@ -1,0 +1,23 @@
+{
+  "$schema": "https://github.com/IBM/audit-ci/raw/main/docs/schema.json",
+  "low": true,
+  "package-manager": "npm",
+  "extra-args": ["--package-lock-only", "--ignore-scripts"],
+  "allowlist": [
+    {
+      // https://github.com/advisories/GHSA-g3hv-75wg-m249
+      // Reviewed with vscode-languageclient 10.1.0 and minimatch 10.2.6.
+      // Both client call sites use optimizationLevel's default of 1:
+      // lib/common/fileOperations.js and lib/common/utils/globPattern.js.
+      // The vulnerable preprocessing requires optimizationLevel >= 2.
+      // Minimatch 11 removes makeRe(), breaking client glob registration.
+      // Local registration tests pass with 10.2.6 and fail with 11.0.9.
+      // Reassess client options on updates; remove after a compatible fix.
+      "GHSA-g3hv-75wg-m249|vscode-languageclient>minimatch": {
+        "active": true,
+        "expiry": "2026-12-17T00:00:00Z",
+        "notes": "Vulnerable optimization is unused; retain rename support."
+      }
+    }
+  ]
+}

@@ -43,6 +43,7 @@
     "esbuild": "^0.28.1",
     "katex": "0.19.1",
     "mermaid": "^12.3.0",
+    "ovsx": "1.4.0",
     "typescript": "^6.0.3"
   },
   "allowScripts": {
@@ -518,6 +519,11 @@
           "description": "Project-root globs relative to each workspace folder. Excludes take precedence over includes."
         }
       }
+    }
+  },
+  "overrides": {
+    "@vscode/vsce": {
+      "minimatch": "^11.0.2"
     }
   }
 }
