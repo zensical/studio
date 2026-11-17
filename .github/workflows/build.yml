@@ -39,73 +39,171 @@ on:
         required: true
         type: boolean
 
-permissions:
-  contents: read # Required for checkout
-  attestations: write # Required for attestations
-  id-token: write # Required for OIDC
+permissions: {}
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: >-
+    ${{ github.workflow }}-build-${{
+        github.event_name == 'pull_request' &&
+        github.event.action != 'closed' &&
+        github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: >-
+    ${{ github.event_name == 'pull_request' &&
+        github.event.action != 'closed' }}
 
 jobs:
   grammar-textmate:
     name: Grammar (TextMate)
-    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    runs-on: ubuntu-26.04
+    timeout-minutes: 60
     defaults:
       run:
         working-directory: grammars/textmate/python-markdown
-
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           ref: ${{ inputs.ref || github.sha }}
+          persist-credentials: false
 
-      - name: Set up Node
-        uses: actions/setup-node@v6
+      - name: Set up Node.js runtime
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
-          node-version: 22
-          cache: npm
-          cache-dependency-path: grammars/textmate/python-markdown/package-lock.json
+          node-version: 24.x
+          package-manager-cache: false
 
-      - name: Install dependencies
-        run: npm install
+      - name: Restore npm cache
+        id: npm-cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: ${{ runner.temp }}/npm-cache
+          key: >-
+            npm-${{ runner.os }}-${{ runner.arch }}-node24-grammar-${{
+                hashFiles('grammars/textmate/python-markdown/package-lock.json') }}
+          restore-keys: |
+            npm-${{ runner.os }}-${{ runner.arch }}-node24-grammar-
+
+      - name: Set up Node.js dependencies
+        env:
+          NPM_CONFIG_CACHE: ${{ runner.temp }}/npm-cache
+        run: npm ci --prefer-offline --ignore-scripts --no-audit
+
+      - name: Save npm cache
+        if: >-
+          ${{ steps.npm-cache.outputs.cache-hit != 'true' &&
+              github.event_name == 'push' &&
+              github.ref == 'refs/heads/master' }}
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: ${{ runner.temp }}/npm-cache
+          key: ${{ steps.npm-cache.outputs.cache-primary-key }}
 
       - name: Run tests
         run: npm test
 
   integration-code:
     name: Integration (Code)
-    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    runs-on: ubuntu-26.04
+    timeout-minutes: 60
     defaults:
       run:
         working-directory: integrations/code
-
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           ref: ${{ inputs.ref || github.sha }}
+          persist-credentials: false
 
-      - name: Set up Node
-        uses: actions/setup-node@v6
+      - name: Set up Node.js runtime
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
-          node-version: 22
-          cache: npm
-          cache-dependency-path: integrations/code/package-lock.json
+          node-version: 24.x
+          package-manager-cache: false
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Restore npm cache
+        id: npm-cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: ${{ runner.temp }}/npm-cache
+          key: >-
+            npm-${{ runner.os }}-${{ runner.arch }}-node24-code-${{
+                hashFiles('integrations/code/package-lock.json') }}
+          restore-keys: |
+            npm-${{ runner.os }}-${{ runner.arch }}-node24-code-
+
+      - name: Set up Node.js dependencies
+        env:
+          NPM_CONFIG_CACHE: ${{ runner.temp }}/npm-cache
+        run: npm ci --prefer-offline --ignore-scripts --no-audit
+
+      - name: Save npm cache
+        if: >-
+          ${{ steps.npm-cache.outputs.cache-hit != 'true' &&
+              github.event_name == 'push' &&
+              github.ref == 'refs/heads/master' }}
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: ${{ runner.temp }}/npm-cache
+          key: ${{ steps.npm-cache.outputs.cache-primary-key }}
 
       - name: Build artifact
         run: npm run vsix
 
-      - name: Create artifact attestation
-        if: inputs.attestations == true
-        uses: actions/attest@v4
-        with:
-          show-summary: false
-          subject-path: integrations/code/*.vsix
-
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v7
+      - name: Upload artifact
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: integration-code
           path: integrations/code/*.vsix
+          if-no-files-found: error
+
+  release:
+    name: Release
+    if: |
+      always() &&
+      github.event.action != 'closed' &&
+      startsWith(github.head_ref, 'release/')
+    needs:
+      - grammar-textmate
+      - integration-code
+    runs-on: ubuntu-26.04
+    timeout-minutes: 60
+    steps:
+      - name: Check required jobs
+        env:
+          RESULTS: ${{ toJSON(needs) }}
+        run: >-
+          jq -e 'length > 0 and all(.[]; .result == "success")'
+          <<< "$RESULTS"
+
+  attestations:
+    name: Attestations
+    if: inputs.attestations == true
+    needs:
+      - grammar-textmate
+      - integration-code
+    permissions:
+      contents: read
+      attestations: write
+      id-token: write
+    runs-on: ubuntu-26.04
+    timeout-minutes: 60
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
+        with:
+          name: integration-code
+          path: artifacts
+
+      - name: Create artifact attestation
+        uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4
+        with:
+          show-summary: false
+          subject-path: artifacts/*.vsix

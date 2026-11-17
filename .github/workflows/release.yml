@@ -30,10 +30,14 @@ on:
     branches:
       - master
 
-permissions:
-  contents: write # Required for tags and releases
-  attestations: write # Required for attestations
-  id-token: write # Required for OIDC
+permissions: {}
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: release-${{ github.event.pull_request.head.ref }}
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -41,116 +45,211 @@ jobs:
     if: |
       github.event.pull_request.merged == true &&
       startsWith(github.event.pull_request.head.ref, 'release/')
-    uses: ./.github/workflows/build.yml
+    permissions:
+      contents: read
+      attestations: write
+      id-token: write
+    uses: ./.github/workflows/build.yml # zizmor: ignore[self-repository]
     with:
       ref: ${{ github.event.pull_request.merge_commit_sha }}
       attestations: true
 
   tag:
     name: Create tag
-    runs-on: ubuntu-latest
     needs: build
+    permissions:
+      contents: write
+    runs-on: ubuntu-26.04
+    timeout-minutes: 60
     outputs:
       version: ${{ steps.version.outputs.version }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v6
+      - name: Checkout repository # zizmor: ignore[artipacked]
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           ref: ${{ github.event.pull_request.merge_commit_sha }}
           fetch-depth: 0
 
       - name: Determine version
         id: version
+        env:
+          RELEASE_BRANCH: ${{ github.event.pull_request.head.ref }}
         run: |
-          BRANCH="${{ github.event.pull_request.head.ref }}"
-          VERSION=${BRANCH#release/}
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          version=${RELEASE_BRANCH#release/}
+          git check-ref-format "refs/tags/$version"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
 
       - name: Create and push tag
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
         run: |
-          VERSION="${{ steps.version.outputs.version }}"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git tag -a $VERSION -m "Release $VERSION"
-          git push origin $VERSION
+          if git show-ref --verify --quiet "refs/tags/$VERSION"; then
+            test "$(git rev-parse "$VERSION^{commit}")" = \
+              "$(git rev-parse 'HEAD^{commit}')"
+          else
+            git tag -a -m "Release $VERSION" -- "$VERSION"
+          fi
+          git push origin "refs/tags/$VERSION"
 
   release:
     name: Create release
-    runs-on: ubuntu-latest
     needs: tag
+    permissions:
+      contents: write
+    runs-on: ubuntu-26.04
+    timeout-minutes: 60
     env:
       VERSION: ${{ needs.tag.outputs.version }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           ref: ${{ github.event.pull_request.merge_commit_sha }}
+          persist-credentials: false
           fetch-depth: 0
           fetch-tags: true
 
       - name: Set up mono
-        uses: zensical/mono@v0
+        uses: zensical/mono@c6ece01fa0d0b2f46300e5998b1f07a5b77be616
 
-      - name: Download artifacts
-        uses: actions/download-artifact@v8
+      - name: Download artifact
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
+          name: integration-code
           path: artifacts
-          merge-multiple: true
 
       - name: Create release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          mono version changelog -s $VERSION > notes.txt
-          gh release create $VERSION \
-            --title ${VERSION#v} \
-            --notes-file notes.txt \
-            --draft
+          error="$RUNNER_TEMP/release-error.txt"
+          if gh api "repos/$GITHUB_REPOSITORY/releases/tags/$VERSION" \
+            > /dev/null 2> "$error"; then
+            echo "Release $VERSION already exists"
+          elif grep -q 'HTTP 404' "$error"; then
+            mono version changelog -s "$VERSION" > notes.txt
+            gh release create "$VERSION" \
+              --verify-tag \
+              --title "${VERSION#v}" \
+              --notes-file notes.txt \
+              --draft
+          else
+            cat "$error" >&2
+            exit 1
+          fi
 
       - name: Upload release artifacts
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release upload $VERSION artifacts/*
-
-      - name: Publish release
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh release edit $VERSION --draft=false
+        run: |
+          shopt -s nullglob
+          files=(artifacts/*)
+          if [ "${#files[@]}" -eq 0 ]; then
+            echo "No release artifacts found" >&2
+            exit 1
+          fi
+          assets=$(gh release view "$VERSION" --json assets \
+            --jq '.assets[].name')
+          draft=$(gh release view "$VERSION" --json isDraft \
+            --jq '.isDraft')
+          mkdir -p "$RUNNER_TEMP/release-assets"
+          for file in "${files[@]}"; do
+            name=$(basename "$file")
+            if grep -Fxq -- "$name" <<< "$assets"; then
+              gh release download "$VERSION" --pattern "$name" \
+                --dir "$RUNNER_TEMP/release-assets" --clobber
+              if ! cmp -s "$file" "$RUNNER_TEMP/release-assets/$name"; then
+                echo "Existing asset $name differs from the build" >&2
+                exit 1
+              fi
+            elif [ "$draft" = true ]; then
+              gh release upload "$VERSION" "$file"
+            else
+              echo "Published release is missing asset $name" >&2
+              exit 1
+            fi
+          done
 
   publish:
     name: Publish
-    runs-on: ubuntu-latest
     needs:
       - tag
       - release
+    permissions:
+      contents: read
+      id-token: write
+    runs-on: ubuntu-26.04
+    timeout-minutes: 60
     environment: publish
     defaults:
       run:
         working-directory: integrations/code
-
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           ref: ${{ github.event.pull_request.merge_commit_sha }}
-          fetch-depth: 0
-          fetch-tags: true
+          persist-credentials: false
 
-      - name: Set up Node
-        uses: actions/setup-node@v6
+      - name: Set up Node.js runtime
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
-          node-version: 22
-          cache: npm
-          cache-dependency-path: integrations/code/package-lock.json
+          node-version: 24.x
+          package-manager-cache: false
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Restore npm cache
+        id: npm-cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: ${{ runner.temp }}/npm-cache
+          key: >-
+            npm-${{ runner.os }}-${{ runner.arch }}-node24-code-${{
+                hashFiles('integrations/code/package-lock.json') }}
+          restore-keys: |
+            npm-${{ runner.os }}-${{ runner.arch }}-node24-code-
 
-      - name: Build artifact
-        run: npm run vsix
+      - name: Set up Node.js dependencies
+        env:
+          NPM_CONFIG_CACHE: ${{ runner.temp }}/npm-cache
+        run: npm ci --prefer-offline --ignore-scripts --no-audit
+
+      - name: Download artifact
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
+        with:
+          name: integration-code
+          path: artifacts
 
       - name: Publish to marketplace.visualstudio.com
-        run: npx --no-install vsce publish -p ${{ secrets.VSCE_PAT }}
+        run: |
+          shopt -s nullglob
+          packages=("$GITHUB_WORKSPACE"/artifacts/*.vsix)
+          test "${#packages[@]}" -eq 1
+          npm exec --no -- vsce publish \
+            --packagePath "${packages[0]}" --oidc --skip-duplicate
 
       - name: Publish to open-vsx.org
-        run: npx ovsx publish -p ${{ secrets.OVSX_PAT }}
+        run: |
+          shopt -s nullglob
+          packages=("$GITHUB_WORKSPACE"/artifacts/*.vsix)
+          test "${#packages[@]}" -eq 1
+          npm exec --no -- ovsx publish "${packages[0]}" \
+            --trusted-publishing --skip-duplicate
+
+  publish-release:
+    name: Publish release
+    needs:
+      - tag
+      - publish
+    permissions:
+      contents: write
+    runs-on: ubuntu-26.04
+    timeout-minutes: 60
+    env:
+      GH_REPO: ${{ github.repository }}
+      GH_TOKEN: ${{ github.token }}
+      VERSION: ${{ needs.tag.outputs.version }}
+    steps:
+      - name: Publish release
+        run: gh release edit "$VERSION" --draft=false
