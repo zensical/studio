@@ -18,6 +18,26 @@
         "expiry": "2026-12-17T00:00:00Z",
         "notes": "Vulnerable optimization is unused; retain rename support."
       }
+    },
+    {
+      // https://github.com/advisories/GHSA-fc5q-39xc-vjpf
+      // Picomatch 4.0.7 has no patched release as of November 18, 2026.
+      // It is used by reviewed VSIX packaging globs and is not bundled in
+      // the extension. The workflow rejects runtime Picomatch dependencies.
+      "GHSA-fc5q-39xc-vjpf|ovsx>@vscode/vsce>tinyglobby>fdir>picomatch": {
+        "active": true,
+        "expiry": "2026-12-02T00:00:00Z",
+        "notes": "Packaging-only dependency; remove when a patch is available."
+      }
+    },
+    {
+      // audit-ci 7.1.0 also reports this truncated duplicate path when
+      // tinyglobby and fdir share Picomatch. Keep the workflow's runtime check.
+      "GHSA-fc5q-39xc-vjpf|picomatch>": {
+        "active": true,
+        "expiry": "2026-12-02T00:00:00Z",
+        "notes": "Duplicate packaging path; runtime use remains blocked."
+      }
     }
   ]
 }

@@ -73,6 +73,15 @@ jobs:
         working-directory: grammars/textmate/python-markdown
         run: npm audit --package-lock-only --ignore-scripts --audit-level=low
 
+      - name: Check Picomatch remains build-only
+        working-directory: integrations/code
+        run: |
+          jq -e 'all(
+            .packages | to_entries[] |
+              select(.key | endswith("node_modules/picomatch"));
+            .value.dev == true
+          )' package-lock.json
+
       - name: Audit extension dependencies
         working-directory: integrations/code
         run: >-
