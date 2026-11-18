@@ -198,12 +198,23 @@
         }
         for (const node of parsed.querySelectorAll("*")) {
           for (const attr of [...node.attributes]) {
-            const value = attr.value.trim().toLowerCase();
+            const name = attr.localName.toLowerCase();
+            let scheme = "";
+            if (name === "href" || name === "src") {
+              try {
+                // Match browser parsing of tabs, newlines and controls.
+                const url = new URL(attr.value, "https://preview.invalid/");
+                scheme = url.protocol;
+              } catch {
+                // Preserve malformed URLs for the browser to handle.
+              }
+            }
             if (
-              attr.name.toLowerCase().startsWith("on") ||
-              ((attr.name.toLowerCase() === "href" ||
-                attr.name.toLowerCase() === "src") &&
-                value.startsWith("javascript:"))
+              name.startsWith("on") ||
+              scheme === "javascript:" ||
+              scheme === "vbscript:" ||
+              (name === "href" && scheme === "data:" &&
+                ["a", "area"].includes(node.localName.toLowerCase()))
             ) {
               node.removeAttribute(attr.name);
             }
