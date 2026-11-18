@@ -138,7 +138,6 @@
       let renderedContext = null;
       let fragmentTarget = null;
       let pendingFragment = null;
-      let mermaidId = 0;
       const uiStateByUri = new Map();
 
       variantSelect.addEventListener("change", () => {
@@ -460,13 +459,9 @@
           node.dataset.mermaidSource = source;
 
           try {
-            const result = await window.mermaid.render(
-              `preview-mermaid-${++mermaidId}`,
-              source,
-              node,
-            );
-            node.innerHTML = result.svg;
-            result.bindFunctions?.(node);
+            node.textContent = source;
+            node.removeAttribute("data-processed");
+            await window.mermaid.run({ nodes: [node] });
           } catch {
             // Keep the source visible when Mermaid cannot parse a diagram.
             node.textContent = source;
