@@ -153,6 +153,20 @@ export async function getStudio(
     }
   }
 
+  // Licensed startup already installs a verified Free bootstrap. Reuse it
+  // offline after a lease expires; Pro must not keep running while waiting
+  // for delivery, and selecting Free requires no entitlement.
+  if (release === undefined && failure?.license.error) {
+    const free = await getInstalledStudio(context, "free", undefined)
+      ?? await getInstalledStudio(context, "free", undefined, undefined, "studio-bootstrap");
+    if (free !== undefined) {
+      return {
+        ...free, edition: "free",
+        license: { error: true, reason: failure.license.rejected ? "inactive" : "unavailable" },
+      };
+    }
+  }
+
   const edition = release?.edition ?? (release ? "beta" : access.edition);
   if (access.edition === "free" && edition === "beta") {
     throw new AccessRejectedError(410);
