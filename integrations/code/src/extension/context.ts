@@ -187,8 +187,19 @@ export class Context {
   }
 
   /**
-   * Explain that a license could not be activated and link to its account.
+   * Explain expected trial expiry after Studio Free has started.
    */
+  public showTrialExpired(): void {
+    const action = "Get Studio Pro";
+    void vscode.window.showInformationMessage(
+      "Your Studio Pro trial has ended. You’re now using Studio Free.",
+      action,
+    ).then(result => {
+      if (result === action) void vscode.env.openExternal(vscode.Uri.parse("https://hub.zensical.org/account"));
+    });
+  }
+
+  /** Explain an activation failure separately from an expected trial expiry. */
   public showInactiveLicense(): void {
     const action = "Visit Zensical Hub";
     void vscode.window.showWarningMessage(

@@ -34,6 +34,7 @@ import {
   AccessRejectedError,
   fetchRelease,
   NetworkError,
+  type LicenseReason,
   type Release,
 } from "./studio/fetch";
 import { readAccess, rememberAccess } from "./studio/access";
@@ -63,7 +64,7 @@ export interface Studio {
   /** Whether public access followed an unsuccessful license check */
   license?: {
     error: boolean;
-    reason?: "activation_limit" | "inactive" | "unavailable";
+    reason?: LicenseReason;
     reactivated?: boolean;
   };
 }
@@ -162,7 +163,8 @@ export async function getStudio(
     if (free !== undefined) {
       return {
         ...free, edition: "free",
-        license: { error: true, reason: failure.license.rejected ? "inactive" : "unavailable" },
+        license: { error: true, reason: failure.license.reason
+          ?? (failure.license.rejected ? "inactive" : "unavailable") },
       };
     }
   }
@@ -184,7 +186,8 @@ export async function getStudio(
       edition,
       license: {
         error: release?.license?.error || failure?.license.error || false,
-        reason: release?.license?.reason ?? (failure?.license.error ? (failure.license.rejected ? "inactive" : "unavailable") : undefined),
+        reason: release?.license?.reason ?? failure?.license.reason
+          ?? (failure?.license.error ? (failure.license.rejected ? "inactive" : "unavailable") : undefined),
       },
     };
   }

@@ -283,7 +283,9 @@ export class StudioTransition {
       if (!studio.license?.error) {
         this.licenseWarned = false;
       } else if (!this.licenseWarned) {
-        if (studio.license.reason === "activation_limit") {
+        if (studio.edition === "free" && studio.license.reason === "trial_expired") {
+          this.context.showTrialExpired();
+        } else if (studio.license.reason === "activation_limit") {
           this.context.showActivationLimit();
         } else if (studio.license.reason === "inactive") {
           this.context.showInactiveLicense();
