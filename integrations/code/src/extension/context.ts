@@ -190,9 +190,9 @@ export class Context {
    * Explain expected trial expiry after Studio Free has started.
    */
   public showTrialExpired(): void {
-    const action = "Get Studio Pro";
+    const action = "Visit Zensical Hub";
     void vscode.window.showInformationMessage(
-      "Your Studio Pro trial has ended. You’re now using Studio Free.",
+      "Your Studio trial has ended. You’re now using Studio Free.",
       action,
     ).then(result => {
       if (result === action) void vscode.env.openExternal(vscode.Uri.parse("https://hub.zensical.org/account"));
