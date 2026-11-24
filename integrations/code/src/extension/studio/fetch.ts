@@ -32,8 +32,11 @@ import { forgetAccess, licenseFingerprint } from "./access";
  * ------------------------------------------------------------------------- */
 
 /**
- * Zensical Studio release.
+ * License outcome supplied by an authoritative response.
  */
+export type LicenseReason = "activation_limit" | "inactive" | "unavailable" | "trial_expired";
+
+/** Zensical Studio release. */
 export interface Release {
   version: string;
   edition?: StudioEdition;
@@ -50,7 +53,7 @@ export interface Release {
   };
   license?: {
     error: boolean;
-    reason?: "activation_limit" | "inactive" | "unavailable";
+    reason?: LicenseReason;
     fingerprint?: string;
     reactivated?: boolean;
   };
@@ -115,7 +118,8 @@ export class NetworkError extends Error {
    */
   public constructor(
     message: string,
-    public readonly license = { error: false, rejected: false },
+    public readonly license: { error: boolean; rejected: boolean; reason?: LicenseReason }
+      = { error: false, rejected: false },
   ) {
     super(message);
     this.name = "NetworkError";
@@ -192,7 +196,7 @@ export async function fetchRelease(
   let licenseError = false;
   let licenseRejected = false;
   let reactivated = false;
-  let licenseReason: "activation_limit" | "inactive" | "unavailable" | undefined;
+  let licenseReason: LicenseReason | undefined;
   try {
     license = options.publicOnly ? undefined : (await context.getLicenseKey())?.trim() || undefined;
   } catch {
@@ -227,7 +231,7 @@ export async function fetchRelease(
       if (credential || licenseError) {
         throw new NetworkError(
           "Studio access request failed",
-          { error: true, rejected: licenseRejected },
+          { error: true, rejected: licenseRejected, reason: licenseReason },
         );
       }
       throw error;
@@ -264,6 +268,13 @@ export async function fetchRelease(
     license !== undefined && !licenseError && !res.ok &&
     !(edition === "beta" && res.status === 410)
   ) {
+    if (res.status === 401) {
+      try {
+        const denial: unknown = await res.clone().json();
+        if (denial && typeof denial === "object" && "code" in denial
+          && denial.code === "studio_trial_expired") licenseReason = "trial_expired";
+      } catch { /* Older services send a generic rejection. */ }
+    }
     licenseError = true;
     licenseRejected = res.status === 401 || res.status === 403 || res.status === 409;
     licenseReason ??= res.status === 401 || res.status === 403 ? "inactive" : "unavailable";
@@ -280,7 +291,7 @@ export async function fetchRelease(
     if (licenseError) {
       throw new NetworkError(
         "Studio license could not be verified",
-        { error: true, rejected: licenseRejected },
+        { error: true, rejected: licenseRejected, reason: licenseReason },
       );
     }
     return;

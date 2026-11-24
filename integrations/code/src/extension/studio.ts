@@ -34,6 +34,7 @@ import {
   AccessRejectedError,
   fetchRelease,
   NetworkError,
+  type LicenseReason,
   type Release,
 } from "./studio/fetch";
 import { readAccess, rememberAccess } from "./studio/access";
@@ -63,7 +64,7 @@ export interface Studio {
   /** Whether public access followed an unsuccessful license check */
   license?: {
     error: boolean;
-    reason?: "activation_limit" | "inactive" | "unavailable";
+    reason?: LicenseReason;
     reactivated?: boolean;
   };
 }
@@ -153,6 +154,21 @@ export async function getStudio(
     }
   }
 
+  // Licensed startup already installs a verified Free bootstrap. Reuse it
+  // offline after a lease expires; Pro must not keep running while waiting
+  // for delivery, and selecting Free requires no entitlement.
+  if (release === undefined && failure?.license.error) {
+    const free = await getInstalledStudio(context, "free", undefined)
+      ?? await getInstalledStudio(context, "free", undefined, undefined, "studio-bootstrap");
+    if (free !== undefined) {
+      return {
+        ...free, edition: "free",
+        license: { error: true, reason: failure.license.reason
+          ?? (failure.license.rejected ? "inactive" : "unavailable") },
+      };
+    }
+  }
+
   const edition = release?.edition ?? (release ? "beta" : access.edition);
   if (access.edition === "free" && edition === "beta") {
     throw new AccessRejectedError(410);
@@ -170,7 +186,8 @@ export async function getStudio(
       edition,
       license: {
         error: release?.license?.error || failure?.license.error || false,
-        reason: release?.license?.reason ?? (failure?.license.error ? (failure.license.rejected ? "inactive" : "unavailable") : undefined),
+        reason: release?.license?.reason ?? failure?.license.reason
+          ?? (failure?.license.error ? (failure.license.rejected ? "inactive" : "unavailable") : undefined),
       },
     };
   }
